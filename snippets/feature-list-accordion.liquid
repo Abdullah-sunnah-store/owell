@@ -1,0 +1,55 @@
+{% comment %}
+  Variable used:
+  block : {{Object}} Block object
+{% endcomment %}
+{% liquid
+  case section.settings.icon_style
+    when 'tick'
+      assign icon = 'icon-tick'
+    when 'arrow'
+      assign icon = 'icon-arrow'
+    when 'star'
+      assign icon = 'icon-star'
+    when 'counter'
+      assign icon = 'icon-counter'
+    when 'star-2'
+      assign icon = 'icon-star-2'
+  endcase
+%}
+<main-thumb-accordion breakpoint_match="768px">
+  <details
+    accordionTab
+    aria-expanded="false"
+    class="accordion__item d-block {% if block.settings.content == blank %} hide-collape-icon {% endif %}"
+    {{ block.shopify_attributes }}
+  >
+    <summary aria-label="{{ block.settings.heading }}">
+      <div class="accordion__item__head">
+        {% if block.settings.custom_image == blank %}
+          <span
+            class="accordion-icon"
+            style="--icon-line-color: {{ section.settings.icon_line_color }}; --icon-bg-color: {{ section.settings.icon_bg_color }}"
+          >
+            {%- render 'icon' with icon, index: index -%}
+          </span>
+        {% else %}
+          {{
+            block.settings.custom_image
+            | image_url: width: 32, height: 32
+            | image_tag: widths: '32,64,96,128', sizes: '32px', class: 'accordion-icon'
+          }}
+        {% endif %}
+        <p>{{ block.settings.heading }}</p>
+      </div>
+    </summary>
+    {% if block.settings.content != blank %}
+      <div accordionBody class="accordion__item__body">
+        <div class="accordion__item__body-content">
+          <div class="RTE-content">
+            {{ block.settings.content }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </details>
+</main-thumb-accordion>

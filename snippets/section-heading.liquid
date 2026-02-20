@@ -1,0 +1,69 @@
+{% comment %}
+  Renders Section heading
+
+  Accepts:
+  - section: {Object} section object in which it render
+  - View all: {string:href} Url for view all link
+  -  accessibiity_label: accessibility label text
+
+  Usage:
+  {% render 'section-heading', section: section, viewall_url: '/link' %}
+{% endcomment %}
+
+{% liquid
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign content = section.settings.content
+  assign show_view_all_button = section.settings.show_view_all_button
+  assign show_header_section = false
+  if heading != blank or subheading != blank or content != blank or show_view_all_button
+    assign show_header_section = true
+  endif
+%}
+{% if show_header_section %}
+  <div class="section-header">
+    {% if subheading != blank %}
+      <p class="mb-2">{{ subheading }}</p>
+    {% endif %}
+    <div class="section-heading {% if section.settings.view_all_link_position == 'end' -%} link_position-end {%- else -%} link_position-start {%- endif -%}">
+      {% if heading != blank %}
+        <h2 class="{{ heading_style | default : "h2" }}">{{ heading }}</h2>
+      {% endif %}
+      {% if show_view_all_button and viewall_url != blank %}
+        <a
+          aria-label="{{ accessibiity_label | default: "view all" }}"
+          class="link text-upper section-viewall-text desktop-only"
+          href="{{ viewall_url }}"
+          target="{{ section.settings.link_target | default: '_top'}}"
+        >
+          {% if section.settings.view_all_link_style == 'text' %}
+            <span>{{ section.settings.view_all_link_text }}</span>
+          {% else %}
+            {%- render 'icon' with 'view-all' -%}
+          {% endif %}
+        </a>
+      {% endif %}
+    </div>
+    {% if content != blank %}
+      <div class="section__subContent">
+        <div class="RTE-content">
+          {{ content }}
+        </div>
+      </div>
+    {% endif %}
+    {% if show_view_all_button and viewall_url != blank %}
+      <a
+        aria-label="{{ accessibiity_label | default: "view all" }}"
+        class="link text-upper section-viewall-text mobile-only"
+        href="{{ viewall_url }}"
+        target="{{ section.settings.link_target }}"
+      >
+        {% if section.settings.view_all_link_style == 'text' %}
+          <span>{{ section.settings.view_all_link_text }}</span>
+        {% else %}
+          {%- render 'icon' with 'view-all' -%}
+        {% endif %}
+      </a>
+    {% endif %}
+  </div>
+{% endif %}

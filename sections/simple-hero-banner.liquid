@@ -1,0 +1,312 @@
+{% comment %}
+  Simple Hero Banner Section
+  Background image with title, subtitle and CTA button
+{% endcomment %}
+
+<section class="simple-hero-banner">
+  <div class="simple-hero-overlay"></div>
+  
+  {% if section.settings.background_image %}
+    <div class="simple-hero-background" style="background-image: url('{{ section.settings.background_image | image_url: width: 2000 }}');"></div>
+  {% else %}
+    <div class="simple-hero-background" style="background-color: #3a3a3a;"></div>
+  {% endif %}
+
+  <div class="simple-hero-container">
+    <div class="simple-hero-content">
+      
+      <h1 class="simple-hero-title">{{ section.settings.title }}</h1>
+      
+      {% if section.settings.subtitle != blank %}
+        <p class="simple-hero-subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
+
+      {% if section.settings.show_button and section.settings.button_text != blank %}
+        <a href="{{ section.settings.button_link }}" class="simple-hero-button">
+          {{ section.settings.button_text }}
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .simple-hero-banner {
+    position: relative;
+    min-height: {{ section.settings.section_height }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: {{ section.settings.border_radius }}px;
+    margin: {{ section.settings.section_margin }}px;
+  }
+
+  .simple-hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .simple-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
+    z-index: 1;
+  }
+
+  .simple-hero-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: {{ section.settings.container_width }}px;
+    padding: 60px 20px;
+  }
+
+  .simple-hero-content {
+    text-align: center;
+    max-width: {{ section.settings.content_width }}px;
+    margin: 0 auto;
+  }
+
+  .simple-hero-title {
+    font-size: 56px;
+    font-weight: 400;
+    color: white;
+    margin-bottom: 24px;
+    line-height: 1.2;
+    font-family: Georgia, serif;
+  }
+
+  .simple-hero-subtitle {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 40px;
+    line-height: 1.6;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .simple-hero-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background: #d4a574;
+    color: #2c2c2c;
+  }
+
+  .simple-hero-button:hover {
+    background: #c69564;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 165, 116, 0.4);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .simple-hero-banner {
+      min-height: {{ section.settings.mobile_height }}px;
+      border-radius: {{ section.settings.mobile_border_radius }}px;
+      margin: {{ section.settings.mobile_margin }}px;
+    }
+
+    .simple-hero-container {
+      padding: 40px 16px;
+    }
+
+    .simple-hero-title {
+      font-size: 36px;
+    }
+
+    .simple-hero-subtitle {
+      font-size: 16px;
+      margin-bottom: 32px;
+    }
+
+    .simple-hero-button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .simple-hero-title {
+      font-size: 28px;
+    }
+
+    .simple-hero-subtitle {
+      font-size: 14px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Simple Hero Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 800,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Container Max Width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "min": 600,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Content Max Width",
+      "default": 900
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "min": 400,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "label": "Desktop Height",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "min": 400,
+      "max": 700,
+      "step": 50,
+      "unit": "px",
+      "label": "Mobile Height",
+      "default": 550
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Border Radius (Desktop)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mobile_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Border Radius (Mobile)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "section_margin",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Section Margin (Desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_margin",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Section Margin (Mobile)",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Darkness",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Why Wholesale with Owell"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Partner with Owell for premium, professional-grade health and safety products that your customers trust. Owell offers high-quality essentials like disposable gloves, disinfecting wipes, and more — all made with rigorous quality control and backed by a commitment to reliability, ethical sourcing, and satisfaction. Enjoy bulk pricing, dependable supply, and products built to perform across healthcare, food service, janitorial, and industrial settings."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Show Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Family Bundles"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Simple Hero Banner"
+    }
+  ]
+}
+{% endschema %}

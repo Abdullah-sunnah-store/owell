@@ -1,0 +1,611 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }}
+      ;
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }}
+      ;
+    }
+  }
+{%- endstyle -%}
+
+{{ 'section-feature-list.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  assign intersection = ''
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign loading = 'lazy'
+    assign intersection = 'intersection-element'
+  endif
+  assign widths = '1440,1024,800,500'
+-%}
+{% capture sizes %}
+  (min-width: {{ settings.page_width | append: 'px' }}) {{ settings.page_width | divided_by: 2 | minus: 50 | append: 'px' }},calc(100vw - 30px)
+{% endcapture %}
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'top' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-top"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+<div
+  class="feature-list {% if section.settings.full_width  -%} section-fullwidth {%- endif %} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}"
+>
+  {%- unless section.settings.full_width -%}
+    <div class="container">
+  {%- endunless -%}
+  <main-and-thumbnail-slider
+    slide-autoplay-delay="{{ section.settings.autoplay_delay }}"
+    slide-autoplay="{{ section.settings.slider_autoplay }}"
+    slide-layout-type="carousel"
+    slide-pagination-type="bullets"
+    slide-layout-type="carousel"
+    slide-per-view="1"
+    slide-responsive-breakpoints='{"320":{"slidesPerView":"1"},"768":{"slidesPerView":"1"}}'
+    slide-speed="{{ settings.slide_duration }}"
+    animate-on-slide-change
+    {% if section.index == 1 %}
+      animate-on-load
+    {% endif %}
+    {{ intersection }}
+    slide-animation="fade"
+    class="swiper "
+    aria-label="Slider"
+  >
+    <div class="feature-list__wrapper ">
+      <div class="feature-list__imageSlider  ">
+        <div class="feature-list__imageSliderWrapper">
+          <div
+            class="swiper-container swiper js-element {%  unless section.settings.full_width  -%} border-radius--block {%- endunless -%}"
+            main-slider
+          >
+            <div class="swiper-wrapper">
+              {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                <div class="swiper-slide">
+                  <div class="feature-list__image">
+                    {% if block.settings.image != blank %}
+                      {% assign imagealt = block.settings.image.alt | default: 'Feature list image' %}
+                      {{
+                        block.settings.image
+                        | image_url: width: block.settings.image.width
+                        | image_tag:
+                          loading: loading,
+                          fetchpriority: fetchpriority,
+                          alt: imagealt,
+                          sizes: sizes,
+                          widths: widths,
+                          class: 'feature-image'
+                      }}
+                    {% else %}
+                      {{ 'hero-apparel-2' | placeholder_svg_tag: 'slideshow__svg desktop-image' }}
+                    {% endif %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          <noscript>
+            <div class="grid-layout grid-layout--1-desktop grid-layout--1-mobile {%  unless section.settings.full_width  -%}  border-radius border-radius--block {%- endunless -%}">
+              {% for block in section.blocks limit: 1 %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                <div class="feature-list__image">
+                  {% if block.settings.image != blank %}
+                    {{
+                      block.settings.image
+                      | image_url: width: block.settings.image.width
+                      | image_tag:
+                        loading: 'eager',
+                        fetchpriority: 'auto',
+                        alt: block.settings.image.alt,
+                        sizes: sizes,
+                        widths: widths,
+                        class: 'feature-image'
+                    }}
+                  {% else %}
+                    {{ 'hero-apparel-2' | placeholder_svg_tag: 'slideshow__svg desktop-image' }}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </noscript>
+        </div>
+      </div>
+      <div class="feature-list__content">
+        <div class="feature-list__content-wrapper">
+          <h2 class="h2 text-{{ section.settings.text_aligment }}">{{ section.settings.heading }}</h2>
+          {% liquid
+            if section.settings.content_desktop_style == 'collapsable' and section.settings.content_mobile_style == 'collapsable'
+              assign show_only = ''
+            elsif section.settings.content_desktop_style == 'collapsable'
+              assign show_only = 'tab-only'
+            elsif section.settings.content_mobile_style == 'collapsable'
+              assign show_only = 'mobile-sm-only'
+            endif
+
+            if section.settings.content_desktop_style == 'two_column' and section.settings.content_mobile_style == 'carousel'
+              assign grid_show_only = ''
+            elsif section.settings.content_desktop_style == 'two_column'
+              assign grid_show_only = 'tab-only'
+            elsif section.settings.content_mobile_style == 'carousel'
+              assign grid_show_only = 'mobile-sm-only'
+            endif
+          %}
+          <div
+            class="swiper-container swiper js-element"
+            thumbnail-slider
+            content-slider
+            activate-toggle-accordion
+            {% if section.settings.change_slide_on == 'click' %}
+              slide-on-click
+            {% else %}
+              slide-on-hover
+            {% endif %}
+          >
+            <div class="swiper-wrapper {% if section.settings.content_mobile_style == 'collapsable' %} slider-mobile-collapsable {% else %} slider-mobile-slider {% endif %} {% if section.settings.content_desktop_style == 'collapsable' %} slider-collapsable {% else %} slider-grid {% endif %}">
+              {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                <div class="swiper-slide" data-slide-index="{{ forloop.index0 }}">
+                  {% comment %} Accordion layout  {% endcomment %}
+                  {% if section.settings.content_mobile_style == 'collapsable'
+                    or section.settings.content_desktop_style == 'collapsable'
+                  %}
+                    <div
+                      class=" {{ show_only }} "
+                      style="--icon-width:{{ section.settings.icon_width | append: "px" }};--icon-width-mobile:{{ section.settings.icon_width_mobile | append: "px" }}"
+                    >
+                      {% render 'feature-list-accordion', block: block, index: forloop.index %}
+                    </div>
+                  {% endif %}
+                  {% comment %} Grid and carousal layout  {% endcomment %}
+                  {% if section.settings.content_desktop_style == 'two_column'
+                    or section.settings.content_mobile_style == 'carousel'
+                  %}
+                    <div class="{{ grid_show_only }}">
+                      {% render 'feature-list-grid-item', block: block, index: forloop.index %}
+                    </div>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+            <div class="sliderControl mobile-sm-only">
+              <div class="sliderProgressBar mt-0" slide-progress></div>
+            </div>
+          </div>
+          <noscript>
+            {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+              <div class="swiper-slide">
+                {% comment %} Accordion layout  {% endcomment %}
+                {% if section.settings.content_mobile_style == 'collapsable'
+                  or section.settings.content_desktop_style == 'collapsable'
+                %}
+                  <div
+                    class=" {{ show_only }} "
+                    style="--icon-width:{{ section.settings.icon_width | append: "px" }}"
+                  >
+                    {% render 'feature-list-accordion', block: block, index: forloop.index %}
+                  </div>
+                {% endif %}
+                {% comment %} Grid and carousal layout  {% endcomment %}
+                {% if section.settings.content_desktop_style == 'two_column'
+                  or section.settings.content_mobile_style == 'carousel'
+                %}
+                  <div class="{{ grid_show_only }}">
+                    {% render 'feature-list-grid-item', block: block, index: forloop.index %}
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </noscript>
+          {% unless section.settings.button_text == blank %}
+            <div class="btn--wrap d-flex justify-content-{{ section.settings.button_aligment }}">
+              <a
+                class="btn btn--fill"
+                href="{{ section.settings.link }}"
+                target="{{ section.settings.link_target }}"
+              >
+                {{- section.settings.button_text -}}
+              </a>
+            </div>
+          {% endunless %}
+        </div>
+      </div>
+    </div>
+  </main-and-thumbnail-slider>
+  {%- unless section.settings.full_width -%}
+    </div>
+  {%- endunless -%}
+</div>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'bottom' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-bottom"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+{% schema %}
+{
+  "name": "Feature list",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "label": "Full width",
+      "id": "full_width",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Icon"
+    },
+    {
+      "type": "select",
+      "id": "icon_style",
+      "label": "Style",
+      "options": [
+        {
+          "label": "Tick",
+          "value": "tick"
+        },
+        {
+          "label": "Arrow",
+          "value": "arrow"
+        },
+        {
+          "label": "Star",
+          "value": "star"
+        },
+        {
+          "label": "Count",
+          "value": "counter"
+        },
+        {
+          "label": "Diamond",
+          "value": "star-2"
+        }
+      ],
+      "default": "tick"
+    },
+    {
+      "type": "range",
+      "id": "icon_width",
+      "label": "Desktop icon width",
+      "min": 32,
+      "max": 60,
+      "unit": "px",
+      "step": 1,
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "icon_width_mobile",
+      "label": "Mobile icon width ",
+      "min": 24,
+      "max": 40,
+      "unit": "px",
+      "step": 1,
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "icon_bg_color",
+      "label": "Fill",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "icon_line_color",
+      "label": "Outline",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Behaviour"
+    },
+    {
+      "type": "checkbox",
+      "label": "Enable auto-rotate",
+      "id": "slider_autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_delay",
+      "label": "Change slide every",
+      "min": 1,
+      "max": 15,
+      "unit": "s",
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "change_slide_on",
+      "label": "Change slide on",
+      "info": "Hover will only work on desktop devices.",
+      "options": [
+        {
+          "label": "Click",
+          "value": "click"
+        },
+        {
+          "label": "Hover",
+          "value": "hover"
+        }
+      ],
+      "default": "click"
+    },
+    {
+      "type": "header",
+      "content": "Section content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Feature list"
+    },
+    {
+      "type": "text_alignment",
+      "id": "text_aligment",
+      "label": "Heading aligment"
+    },
+    {
+      "type": "header",
+      "content": "Block settings"
+    },
+    {
+      "type": "select",
+      "id": "content_desktop_style",
+      "label": "Content desktop style",
+      "info": "Only applicable when content is added ",
+      "options": [
+        {
+          "label": "Collapsable",
+          "value": "collapsable"
+        },
+        {
+          "label": "Grid",
+          "value": "two_column"
+        }
+      ],
+      "default": "collapsable"
+    },
+    {
+      "type": "select",
+      "id": "content_mobile_style",
+      "label": "Content mobile style",
+      "info": "Only applicable when content is added ",
+      "options": [
+        {
+          "label": "Collapsable",
+          "value": "collapsable"
+        },
+        {
+          "label": "Carousel",
+          "value": "carousel"
+        }
+      ],
+      "default": "collapsable"
+    },
+    {
+      "type": "header",
+      "content": "Button settings"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Label",
+      "default": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link URL"
+    },
+    {
+      "type": "select",
+      "id": "link_target",
+      "label": "Open link in",
+      "options": [
+        {
+          "label": "New tab",
+          "value": "_blank"
+        },
+        {
+          "label": "Same tab",
+          "value": "_top"
+        }
+      ],
+      "default": "_blank"
+    },
+    {
+      "type": "text_alignment",
+      "id": "button_aligment",
+      "label": "Button aligment"
+    },
+
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 36
+    },
+    {
+      "type": "select",
+      "id": "border_size",
+      "label": "Border",
+      "options": [
+        {
+          "label": "Hide",
+          "value": "hide"
+        },
+        {
+          "label": "Full width",
+          "value": "full_width"
+        },
+        {
+          "label": "Fixed width",
+          "value": "fixed_width"
+        }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "select",
+      "id": "border_position",
+      "label": "Border position",
+      "options": [
+        {
+          "label": "Both",
+          "value": "both"
+        },
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "both"
+    },
+
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "1200 x 1200px .jpg recommended"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "FEATURE NAME"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom icon",
+          "info": "Replaces the default icon style"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature list",
+      "blocks": [
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["*"]
+  }
+}
+{% endschema %}

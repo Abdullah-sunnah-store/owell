@@ -1,0 +1,23 @@
+{% comment %} 
+
+  Variable used:
+  block : {{Object}} Block object
+
+{% endcomment %}
+<accordion-tab>
+  <details  accordionTab aria-expanded="false" class="accordion__item d-block" {{ block.shopify_attributes }} {% if block.settings.block_bottom_spacing %} style="margin-bottom: {{ block.settings.block_bottom_spacing | append: 'px' }}" {% endif %}>
+    <summary aria-label="{{ block.settings.heading | default: block.settings.page.title }}">
+      <div class="accordion__item__head">
+        <p>{{ block.settings.heading | default: block.settings.page.title }}</p>
+      </div>
+    </summary>
+    <div accordionBody class="accordion__item__body">
+      <div class="accordion__item__body-content">
+        <div class="RTE-content">
+          {{ block.settings.content }}
+          {{ block.settings.page.content }}
+        </div>
+      </div>
+    </div>
+  </details>
+</accordion-tab>

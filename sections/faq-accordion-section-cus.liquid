@@ -1,0 +1,235 @@
+
+<style>
+  .faq-section {
+    padding: 60px 20px;
+  }
+
+  .faq-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .faq-title {
+    color: #000000;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 500;
+    margin: 0 0 40px 0;
+    letter-spacing: -0.5px;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .faq-item {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #efecec;
+  }
+
+  .faq-question {
+    width: 100%;
+    padding: 24px 28px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 1.125rem;
+    font-weight: 400;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s;
+  }
+
+  .faq-question:hover {
+    background-color: #f9f9f9;
+  }
+
+  .faq-question-text {
+    color: #1a1a1a;
+  }
+
+  .faq-icon {
+    font-size: 1.5rem;
+    color: #1a5f5f;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  .faq-item.active .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+
+  .faq-answer-content {
+    padding: 0 28px 24px 28px;
+    color: #4a4a4a;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .faq-item.active .faq-answer {
+    max-height: 500px;
+  }
+
+  @media (max-width: 768px) {
+    .faq-title {
+      font-size: 1.8rem;
+    }
+    .faq-container {
+    padding: 0;
+  }
+    .faq-question {
+      padding: 20px;
+      font-size: 1rem;
+    }
+
+    .faq-answer-content {
+      padding: 0 20px 20px 20px;
+      font-size: 0.938rem;
+    }
+  }
+</style>
+
+<section class="faq-section">
+  <div class="faq-container">
+    <h2 class="faq-title">{{ section.settings.title }}</h2>
+    
+    <div class="faq-list">
+      {% for block in section.blocks %}
+        <div class="faq-item" {{ block.shopify_attributes }}>
+          <button class="faq-question" aria-expanded="false">
+            <span class="faq-question-text">{{ block.settings.question }}</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              {{ block.settings.answer }}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      
+      question.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        
+        // Close all items
+        faqItems.forEach(otherItem => {
+          otherItem.classList.remove('active');
+          otherItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
+        
+        // Open clicked item if it wasn't active
+        if (!isActive) {
+          item.classList.add('active');
+          question.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "FAQ Accordion",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Frequently Asked Questions"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What is Resilia®?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Add your answer here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Accordion",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What types of gloves do you offer?",
+            "answer": "<p>We offer a wide range of disposable gloves including nitrile, latex, and vinyl gloves in various thicknesses (3.5 mil to 7 mil). Our gloves are suitable for medical, food service, janitorial, and general use. We carry both powder-free and textured options for better grip and comfort.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you offer bulk or wholesale pricing?",
+            "answer": "<p>Yes! We specialize in bulk orders for businesses and institutions. Contact our team for custom quotes on large quantities. We offer competitive wholesale pricing and can accommodate orders of any size to meet your facility's needs.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How fast is shipping?",
+            "answer": "<p>We offer FREE and FAST nationwide shipping on all orders. Our promise is to ship on time, every time. Most orders are processed and shipped within 1-2 business days, with delivery typically within 3-5 business days depending on your location.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Are your gloves food safe?",
+            "answer": "<p>Yes! Many of our gloves, including our black nitrile gloves, are food safe and meet FDA requirements for food handling. They're perfect for restaurants, cafes, food processing, and any food service application.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is your satisfaction guarantee?",
+            "answer": "<p>We stand behind our products with a 100% satisfaction guarantee. All our products undergo strict quality control protocols and randomized testing. If you're not completely satisfied with your purchase, contact us and we'll make it right.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Are your products ethically sourced?",
+            "answer": "<p>Absolutely. We are committed to ethical sourcing practices. All our products are made from the highest-grade materials and come from suppliers who meet our strict ethical standards. Quality and integrity are at the core of everything we do.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

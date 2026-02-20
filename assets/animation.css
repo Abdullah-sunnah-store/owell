@@ -1,0 +1,15 @@
+html:not(.no-js) [aoi-type=fade-up] > *,
+html:not(.no-js) [aoi-type=slide-right] > *,
+html:not(.no-js) [aoi-type=scale] > *,
+html:not(.no-js) .swiper-slide-prev [aoi-type=scale] > *,
+html:not(.no-js) .swiper-slide-next [aoi-type=scale] > *,
+html:not(.no-js) [aoi-type=stagger] > *,
+html:not(.no-js) .swiper-slide-prev [aoi-type=stagger] > *,
+html:not(.no-js) .swiper-slide-next [aoi-type=stagger] > *,
+html:not(.no-js) [aoi-type=fade-in] > * {
+  opacity: 0;
+}
+
+animation-reveal {
+  display: block;
+}

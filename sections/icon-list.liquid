@@ -1,0 +1,517 @@
+{{ 'section-icon-list.css' | asset_url | stylesheet_tag }}
+<style>
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }}
+      ;
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }}
+      ;
+    }
+  }
+</style>
+
+{%- liquid
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  assign intersection = ''
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign loading = 'lazy'
+    assign intersection = 'intersection-element'
+  endif
+-%}
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'top' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-top"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+<div
+  aria-label="{{ section.settings.heading }}"
+  class="iconType section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}"
+  style="background-color: {{ section.settings.background_color }}"
+>
+  <div class="container">
+    {% render 'section-only-heading', section: section %}
+
+    <carousel-component
+      {{ intersection }}
+      class="iconType__container js-element {% if section.settings.stack_in_mobile %} tab-only {% endif %}"
+      slide-layout-type="carousel"
+      slide-pagination-type="bullets"
+      slide-per-view="1"
+      {%- if section.settings.auto_rotate_mobile_only -%}
+        slide-loop
+        slide-autoplay-delay="{{ section.settings.autoplay_delay }}"
+        slide-autoplay="{{ section.settings.auto_rotate_mobile_only }}"
+      {%- endif -%}
+      slide-responsive-breakpoints='
+        {
+          "320":{"slidesPerView":"1","pagination":{
+            "type":"bullets"
+          }},
+          "768":{"slidesPerView":"3"{%- if section.settings.auto_rotate_mobile_only -%},"autoplay": false,"loop":false {% endif %},"pagination":{
+            "type":"progressbar"
+          } },
+          "980":{"slidesPerView": "{%- if section.blocks.size > 4 -%} 4 {%- else -%} {{ section.blocks.size }} {%- endif -%}"{%- if section.settings.auto_rotate_mobile_only -%},"autoplay": false,"loop":false {% endif %},"pagination":{
+            "type":"progressbar"
+          }},
+          "1336":{"slidesPerView": "{%- if section.blocks.size > 4 -%} 4 {%- else -%} {{ section.blocks.size }} {%- endif -%}"{%- if section.settings.auto_rotate_mobile_only -%},"autoplay": false,"loop":false {% endif %},"pagination":{
+            "type":"progressbar"
+          }}
+        }
+      '
+      slide-speed="{{ settings.slide_duration }}"
+    >
+      <div class="iconType__wrp {% if section.settings.show_title %} title-active {% endif %}">
+        <div
+          class="swiper-container iconType__slider {% if section.settings.show_title %} with-title {% endif %}"
+          main-slider
+        >
+          <div class="swiper-wrapper">
+            {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+              <div class="swiper-slide" {{ block.shopify_attributes }}>
+                {% if block.settings.icon_link != blank %}
+                  <a href="{{ block.settings.icon_link }}" class="d-inline-block text-decoration-none" >
+                {% endif %}
+                <div class="iconType__item text-center {% if  block.settings.title != blank -%} d-flex d-flex-dir-c justify-content-center align-item-center {%- endif -%}">
+                  {% if block.settings.icon != blank %}
+                    {%- capture widths -%}
+                        {{ block.settings.icon_width }},{{ block.settings.icon_width | times: 2 | at_most: block.settings.icon.width }}
+                      {%- endcapture -%}
+                    {%- capture style -%}
+                        --logo-max-width:{{ block.settings.icon_width | append: 'px' }}
+                      {%- endcapture -%}
+                    {%- capture sizes -%}
+                        {{ block.settings.icon_width | append: 'px' }}
+                      {%- endcapture -%}
+                    {%- capture alt_text -%}
+                        {{ block.settings.icon.alt | default: 'image' }}
+                      {%- endcapture -%}
+                    <div
+                      class="iconType__icon {% if block.settings.title != blank or block.settings.content != blank -%} mb-20 {%- endif -%}"
+                      id="icon--{{ forloop.index }}"
+                    >
+                      {{-
+                        block.settings.icon
+                        | image_url: width: block.settings.icon.width
+                        | image_tag:
+                          loading: loading,
+                          fetchpriority: fetchpriority,
+                          widths: widths,
+                          sizes: sizes,
+                          alt: alt_text,
+                          style: style
+                      -}}
+                    </div>
+                  {% else %}
+                    <div class="iconType__icon {% if block.settings.title != blank or block.settings.content != blank -%} mb-20 {%- endif -%}">
+                      {{ 'image' | placeholder_svg_tag }}
+                    </div>
+                  {% endif %}
+                  {%- if block.settings.title != blank -%}
+                    <h3 class="iconType__descption {{ section.settings.icon_label_size }} {% if block.settings.content != blank -%}mb-16{%- endif  -%}">
+                      {{ block.settings.title }}
+                    </h3>
+                  {%- endif -%}
+                  {% if block.settings.content != blank %}
+                    <div class="iconType__rte">
+                      {{ block.settings.content }}
+                    </div>
+                  {% endif %}
+                </div>
+                {% if block.settings.icon_link != blank %}
+                  </a>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- next / prev arrows -->
+      <div
+        aria-label="{{ 'accessibility.next_slide_label' | t }}"
+        class="iconType__next sliderPagination__next show--only--desktop"
+        role="button"
+        slide-next
+        tabindex="0"
+      >
+        {% render 'slider-arrow-icon', arrow_direction: 'right' %}
+      </div>
+      <div
+        aria-label="{{ 'accessibility.prev_slide_label' | t }}"
+        class="iconType__prev sliderPagination__prev show--only--desktop"
+        role="button"
+        slide-prev
+        tabindex="0"
+      >
+        {% render 'slider-arrow-icon', arrow_direction: 'left' %}
+      </div>
+      <div class="sliderControl">
+        <div
+          aria-hidden="true"
+          class="sliderProgressBar"
+          slide-progress
+        ></div>
+      </div>
+    </carousel-component>
+    {% if section.settings.stack_in_mobile %}
+      <div class="mobile-sm-only">
+        <div class="grid-layout grid-layout--{{ section.settings.number_of_columns_on_mobile }}-mobile">
+          {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+            <div class="d-flex justify-content-center" {{ block.shopify_attributes }}>
+              {% if block.settings.icon_link != blank %}
+                <a href="{{ block.settings.icon_link }}" class="d-inline-block text-decoration-none">
+              {% endif %}
+              <div class="iconType__item text-center">
+                {% if block.settings.icon != blank %}
+                  {%- capture widths -%}
+                      {{ block.settings.icon_width }},{{ block.settings.icon_width | times: 2 | at_most: block.settings.icon.width }}
+                    {%- endcapture -%}
+                  {%- capture style -%}
+                      --logo-max-width:{{ block.settings.icon_width | append: 'px' }}
+                    {%- endcapture -%}
+                  {%- capture sizes -%}
+                      {{ block.settings.icon_width | append: 'px' }}
+                    {%- endcapture -%}
+                  {%- capture alt_text -%}
+                      {{ block.settings.icon.alt | default: 'image' }}
+                    {%- endcapture -%}
+                  <div
+                    class="iconType__icon {% if block.settings.title != blank or block.settings.content != blank -%} mb-20 {%- endif -%}"
+                    id="icon--{{ forloop.index }}"
+                  >
+                    {{-
+                      block.settings.icon
+                      | image_url: width: block.settings.icon.width
+                      | image_tag:
+                        loading: loading,
+                        fetchpriority: fetchpriority,
+                        widths: widths,
+                        sizes: sizes,
+                        alt: alt_text,
+                        style: style
+                    -}}
+                  </div>
+                {% else %}
+                  <div class="iconType__icon {% if block.settings.title != blank or block.settings.content != blank -%} mb-20 {%- endif -%}">
+                    {{ 'image' | placeholder_svg_tag }}
+                  </div>
+                {% endif %}
+                {%- if block.settings.title != blank -%}
+                  <h3 class="iconType__descption {{ section.settings.icon_label_size }} {% if block.settings.content != blank -%}mb-16{%- endif  -%}">
+                    {{ block.settings.title }}
+                  </h3>
+                {% endif %}
+                {% if block.settings.content != blank %}
+                  {{ block.settings.content }}
+                {% endif %}
+              </div>
+              {% if block.settings.icon_link != blank %}
+                </a>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'bottom' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-bottom"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+
+{% schema %}
+{
+  "name": "Logo list",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section content"
+    },
+    {
+      "type": "text_alignment",
+      "id": "heading_content_alignment",
+      "label": "Content alignment",
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Logo List"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "header",
+      "content": "Block settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "stack_in_mobile",
+      "label": "Stack in mobile",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "number_of_columns_on_mobile",
+      "label": "Number of columns on mobile",
+      "info": "2 Column layout is recommended when there is only the logo/Icon present  ",
+      "options": [
+        {
+          "label": "1",
+          "value": "1"
+        },
+        {
+          "label": "2",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate_mobile_only",
+      "default": false,
+      "label": "Auto-rotate logos in mobile"
+    },
+    {
+      "type": "range",
+      "id": "autoplay_delay",
+      "label": "Change logo every",
+      "info": "Auto rotate works only when stack option is disabled",
+      "min": 1,
+      "max": 15,
+      "unit": "s",
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "icon_label_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "label": "H1",
+          "value": "h1"
+        },
+        {
+          "label": "H2",
+          "value": "h2"
+        },
+        {
+          "label": "H3",
+          "value": "h3"
+        },
+        {
+          "label": "H4",
+          "value": "h4"
+        },
+        {
+          "label": "H5",
+          "value": "h5"
+        },
+        {
+          "label": "H6",
+          "value": "h6"
+        }
+      ],
+      "default": "h6"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 52
+    },
+    {
+      "type": "select",
+      "id": "border_size",
+      "label": "Border",
+      "options": [
+        {
+          "label": "Hide",
+          "value": "hide"
+        },
+        {
+          "label": "Full width",
+          "value": "full_width"
+        },
+        {
+          "label": "Fixed width",
+          "value": "fixed_width"
+        }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "select",
+      "id": "border_position",
+      "label": "Border position",
+      "options": [
+        {
+          "label": "Both",
+          "value": "both"
+        },
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "both"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-3",
+      "label": "Color scheme"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Logo",
+          "info": "900 x 430px recommended"
+        },
+        {
+          "type": "range",
+          "id": "icon_width",
+          "label": "Width",
+          "min": 50,
+          "max": 240,
+          "unit": "px",
+          "step": 5,
+          "default": 100
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "url",
+          "id": "icon_link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo list",
+      "blocks": [
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["*"],
+    "groups": ["footer"]
+  }
+}
+{% endschema %}

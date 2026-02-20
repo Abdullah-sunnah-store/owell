@@ -1,0 +1,27 @@
+.scroll__to__top--parent {
+  height: 60px;
+  position: fixed;
+  z-index: 97;
+  bottom: 16px;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: all 0.5s ease-in;
+}
+.scroll__to__top--parent.active {
+  transition: all 0.5s ease-in;
+  transform: translateY(0%);
+  opacity: 1;
+}
+.scroll__to__top--parent.pos-left {
+  left: 0;
+  right: auto;
+}
+.scroll__to__top--parent.pos-right {
+  left: auto;
+  right: 0;
+}
+.scroll__to__top--button {
+  cursor: pointer;
+  border: 0;
+  background-color: transparent;
+}

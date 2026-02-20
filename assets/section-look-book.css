@@ -1,0 +1,118 @@
+@media screen and (max-width: 767px) {
+  .lookBook__section .right-container .lookBook__lookWrp {
+    margin-right: 15px;
+  }
+  .lookBook__section .right-container .lookBook__contentWrp {
+    margin-left: -15px;
+  }
+}
+.lookBook__container {
+  column-gap: 50px;
+  row-gap: 25px;
+  position: relative;
+}
+.lookBook__headingWrp:not(.container) {
+  margin-right: 15px;
+}
+.lookBook__lookWrp {
+  width: 100%;
+  aspect-ratio: 1;
+}
+@media screen and (min-width: 768px) {
+  .lookBook__lookWrp {
+    position: sticky;
+    top: calc(var(--header-height, 0px) + var(--announcement-height, 0px));
+    width: var(--media-width);
+  }
+}
+.lookBook__contentWrp {
+  min-width: 0;
+}
+.lookBook__contentWrp .swiper {
+  transition: all 0.15s;
+  padding: 0 15px;
+}
+@media screen and (min-width: 768px) {
+  .lookBook__contentWrp .swiper {
+    padding: 0 15px 0 0;
+  }
+}
+.lookBook__contentWrp .swiper .sliderControl {
+  margin-right: 3rem;
+  margin-bottom: 3px;
+}
+.lookBook__contentWrp .product-card-item {
+  height: 100%;
+}
+.lookBook__contentWrp .product-card-item .product-price__wrapper {
+  margin-bottom: 24px;
+  line-height: 24px;
+  margin-right: 12px;
+  flex: 1;
+}
+.lookBook__contentWrp .product-card-item .product-card-item__body {
+  margin-top: 15px;
+  flex: 1;
+}
+.lookBook__backgroundWrp {
+  inset: 0;
+}
+.lookBook__backgroundContainer {
+  transition: all 0.3s;
+  line-height: 0;
+  inset: 0;
+  overflow: hidden;
+}
+.lookBook__foreground-imageWrp:has(img.aspect-ratio-portrait) {
+  padding: 0 15px;
+}
+.lookBook .image_overlay {
+  inset: 0;
+  z-index: 1;
+}
+.lookBook__foregroundWrp .swiper {
+  margin: 0 20%;
+  z-index: 3;
+}
+@media screen and (min-width: 768px) {
+  .lookBook__foregroundWrp .swiper {
+    margin: 0 22%;
+  }
+}
+.lookBook__foregroundWrp .sliderControl {
+  display: flex;
+  z-index: 2;
+  right: calc(15% - 36px);
+  left: calc(15% - 36px);
+  bottom: 5%;
+}
+@media screen and (min-width: 768px) {
+  .lookBook__foregroundWrp .sliderControl {
+    right: calc(18% - 36px);
+    left: calc(18% - 36px);
+  }
+}
+.lookBook__foregroundWrp.ratio-square .swiper {
+  margin: 0 18%;
+}
+.lookBook__foregroundWrp.ratio-auto .swiper {
+  margin: 0 17%;
+}
+@media screen and (min-width: 768px) {
+  .lookBook__foregroundWrp.ratio-auto .swiper {
+    margin: 0 18%;
+  }
+}
+.lookBook__foregroundHeading {
+  padding-inline: 16px;
+  bottom: 5%;
+  margin: 0 !important;
+  min-height: 36px;
+}
+.lookBook__foregroundHeading a.link,
+.lookBook__foregroundHeading .h3 {
+  display: inline-block;
+}
+.lookBook__foregroundHeading .h3::after {
+  background-color: var(--color-text);
+}

@@ -1,0 +1,125 @@
+{% liquid
+  assign ratio = 1
+
+  if article.image and media_aspect_ratio == 'adapt'
+    assign ratio = article.image.aspect_ratio
+  endif
+
+  assign widths = '400,600,900,1200,1600'
+%}
+
+{%- capture sizes -%}
+(min-width: {{ settings.page_width | append: "px" }}) {{ settings.page_width | minus: 30 | divided_by: 3 }},(min-width: 768px) calc(100vw / 3 - 50px),calc(100vw - 50px)
+{%- endcapture -%}
+
+{%- unless onboarding -%}
+  <div class="blogs__card">
+    {%- if show_image and article.image -%}
+      <div
+        class="blogs__cardImage aspect-ratio-{{ media_aspect_ratio }}"
+        {% if media_aspect_ratio == 'adapt' %}
+          style="--aspect-ratio: {{ ratio }} "
+        {% endif %}
+      >
+        {%- unless article_navigation -%}
+          <a href="{{ article.url }}">
+        {%- endunless -%}
+        {{
+          article.image
+          | image_url: width: article.image.width
+          | image_tag:
+            widths: widths,
+            sizes: sizes,
+            alt: article.image.alt,
+            loading: article_image_loading,
+            fetchpriority: article_image_fetchpriority,
+            class: ''
+        }}
+        {%- unless article_navigation -%}
+          </a>
+        {%- endunless -%}
+      </div>
+    {%- endif -%}
+    <div class="blogs__body">
+      <div class="blogs__head fnt-14">
+        {%- if show_author -%}
+          <span>{{ article.author }}</span>
+        {%- endif -%}
+        {%- if show_date -%}
+          <span class="date">{{ article.published_at | time_tag: format: 'date' }}</span>
+        {%- endif -%}
+      </div>
+
+      {% if show_title %}
+        {%- unless article_navigation -%}
+          <a href="{{ article.url }}">
+        {%- endunless -%}
+        <h3 class="h3">{{ article.title }}</h3>
+        {%- unless article_navigation -%}
+          </a>
+        {%- endunless -%}
+      {% endif %}
+      {%- if show_excerpt -%}
+        {%- if article.excerpt_or_content.size > 0 -%}
+          <p class="blogs__descpt">
+            {{ article.excerpt_or_content | strip_html | truncatewords: 30 }}
+          </p>
+        {%- endif -%}
+      {% endif %}
+      {%- if show_tags and article.tags.size > 0 -%}
+        <ul class="tags">
+          {%- for tag in article.tags -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: tag %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+            <li class="tags__item fnt-14">
+              <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      {% if show_comments %}
+        <div class="blogs__footer">
+          <div class="blogs__comments">
+            {%- if article.comments_count > 0 -%}
+              <div class="comment-img">
+                {% render 'icon' with 'comment' %}
+              </div>
+              <p class="p-text">
+                <span>{{ 'blogs.article.comments' | t: count: article.comments_count }}</span>
+              </p>
+            {%- endif -%}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{%- else -%}
+  <!-- Default content for onboarding -->
+  <div class="blogs__card">
+    {% if show_image %}
+      <div
+        class="blogs__cardImage aspect-ratio-{{ media_aspect_ratio }}"
+        {% if media_aspect_ratio == 'adapt' %}
+          style="--aspect-ratio: {{ ratio }} "
+        {% endif %}
+      >
+        {%- assign placeholder_image_index = index | modulo: 3 | plus: 1 -%}
+        {%- assign placeholder_image = 'blog-apparel-' | append: placeholder_image_index -%}
+        {{ placeholder_image | placeholder_svg_tag }}
+      </div>
+    {% endif %}
+    <div class="blogs__body">
+      {% if show_title %}
+        <h3 class="h3">{{- 'general.on_boarding.featured_blog_post.featured_blog_post_title' | t -}}</h3>
+      {% endif %}
+      {%- if show_excerpt -%}
+        <p class="blogs__descpt">{{- 'general.on_boarding.featured_blog_post.featured_blog_post_excerpt' | t -}}</p>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endunless -%}

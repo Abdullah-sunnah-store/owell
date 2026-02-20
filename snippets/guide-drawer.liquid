@@ -1,0 +1,104 @@
+{% liquid
+  assign guide_image = block.settings.guide_image
+  assign guide_page = block.settings.guide_content
+%}
+
+{% if guide_image != blank or guide_page != blank %}
+  {% unless quick_view_drawer %}
+    <drawer-component
+      aria-live="polite"
+      aria-modal="true"
+      class="d-block drawer guide-drawer badge-drawer  color-{{ settings.drawer_color_scheme }} bottom-up-in-mobile"
+      drawer-type="guide-drawer"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="drawer__container">
+        <div class="drawer__overlay" drawer-overlay></div>
+
+        <div class="drawer__wrapper drawer__wrapper--animation-position-right">
+          {% comment %} Drawer Header Area {% endcomment %}
+          <div class="drawer__header">
+            <button
+              aria-label="{{ 'accessibility.close_drawer' | t }}"
+              class="drawer__close__btn"
+              close-drawer
+              tabindex="0"
+            >
+              {%- render 'icon' with 'close-drawer' -%}
+            </button>
+
+            <h2 aria-label="{{ block.settings.guide_heading }}" class="drawer__head">
+              {{ block.settings.guide_heading }}
+            </h2>
+          </div>
+
+          {% comment %} Drawer Content/Body area {% endcomment %}
+          <div class="drawer__body">
+            <div class="drawer__body__wrapper">
+              <div class="guide-drawer-container">
+                {% if guide_page != blank %}
+                  <div class="guide-drawer-page-content mb-2 RTE-content">
+                    {{ guide_page.content }}
+                  </div>
+                {% endif %}
+
+                {% if guide_image != blank %}
+                  {{
+                    guide_image
+                    | image_url: width: guide_image.width
+                    | image_tag:
+                      alt: guide_image.alt,
+                      class: 'guide-image',
+                      loading: 'lazy',
+                      sizes: '300,400,500,600,700,800'
+                  }}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </drawer-component>
+  {% else %}
+    <div class="guide-popup" guide-popup>
+      <div class="guide-popup__header">
+        <button
+          aria-label="{{ 'accessibility.close_drawer' | t }}"
+          class="drawer__close__btn desktop-only"
+          close-guide-popup
+        >
+          {%- render 'icon' with 'close-drawer' -%}
+        </button>
+
+        <h2 aria-label="{{ block.settings.guide_heading }}" class="drawer__head">
+          {{ block.settings.guide_heading }}
+        </h2>
+        <button
+          aria-label="{{ 'accessibility.close_drawer' | t }}"
+          class="drawer__close__btn mobile-only"
+          close-guide-popup
+        >
+          <span class="guide-popup__close-icon"></span>
+        </button>
+      </div>
+      <div class="guide-popup__body">
+        <div class="guide-popup__container">
+          {% if guide_page != blank %}
+            <div class="guide-drawer-page-content mb-2 RTE-content">
+              {{ guide_page.content }}
+            </div>
+          {% endif %}
+
+          {% if guide_image != blank %}
+            {{
+              guide_image
+              | image_url: width: guide_image.width
+              | image_tag: alt: guide_image.alt, class: 'guide-image', loading: 'lazy', sizes: '300,400,500,600,700,800'
+            }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endunless %}
+{% endif %}

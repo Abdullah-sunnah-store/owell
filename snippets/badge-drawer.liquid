@@ -1,0 +1,35 @@
+<drawer-component
+  aria-live="polite"
+  aria-modal="true"
+  class="d-block drawer badge-drawer  color-{{ settings.drawer_color_scheme }} bottom-up-in-mobile"
+  drawer-type="badge-drawer"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="drawer__container">
+    <div class="drawer__overlay" drawer-overlay></div>
+
+    <div class="drawer__wrapper drawer__wrapper--animation-position-right">
+      {% comment %} Drawer Header Area {% endcomment %}
+      <div class="drawer__header">
+        <button
+          aria-label="{{ 'accessibility.close_drawer' | t }}"
+          class="drawer__close__btn"
+          close-drawer
+          tabindex="0"
+        >
+          {%- render 'icon' with 'close-drawer' -%}
+        </button>
+      </div>
+
+      {% comment %} Drawer Content/Body area {% endcomment %}
+      <div class="drawer__body">
+        <div class="drawer__body__wrapper">
+          <badge-content>
+            <div content-wrapper></div>
+          </badge-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</drawer-component>

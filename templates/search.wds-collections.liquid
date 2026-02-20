@@ -1,0 +1,57 @@
+{% layout none %}
+{% assign wdsLoginTag = 'wdsLogin' %}
+{% assign wdsNonLoginTag = 'wdsNonLogin' %}
+{% assign customer_tags = customer.tags | downcase  %}
+{% assign product_limit = 2000 %}
+ {% assign wds_custom_customer_tag = wdsNonLoginTag | downcase %}
+    {% if customer %} 
+    	{% assign wds_custom_customer_tag = wdsLoginTag | downcase %}
+   {% endif %} 
+{% paginate collections by product_limit  %}
+{% capture collect %}
+{
+"collections":[
+{% for collection in collections %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: collection %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+{
+"id":{{collection.id}},
+"handle":{{collection.handle | json}},
+"title":{{collection.title | json}}
+}
+{% unless forloop.last %},{% endunless %}
+{% endfor %}
+], 
+"active_discount_data":[ {% assign wds_validator = false %}
+{% for wds_discount_value in shop.metafields.wds.wds_enable_groups.value %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: wds_discount_value %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+  {% assign wds_discount_value_tag = wds_discount_value.tag | downcase  %}
+  {% if customer_tags contains wds_discount_value_tag  or wds_custom_customer_tag == wds_discount_value_tag %}
+    {% if wds_validator == true %},{% endif %}{{ shop.metafields.wds[wds_discount_value.key].value | json}}{% assign wds_validator = true %}
+  {% endif %}
+{% endfor %}
+],
+"settings":{{shop.metafields.wds.settings.value | json}},
+"translations":{{shop.metafields.wds.translations.value | json}}
+,"save_cart":{{ shop.metafields.wds.saveCartTranslations.value | json }}  
+,"net_btn_label":{{ shop.metafields.wds.net_terms.value.btn_label  | json}}
+{% if customer and  customer_tags contains 'wds-net-terms'  and  shop.metafields.wds.net_terms.value.is_enabled == 1 %}
+,"net_terms":true
+{%else%}
+,"net_terms":false
+{%endif%}
+}
+{% endcapture %}
+{% endpaginate %}
+{{ collect | strip_newlines }}

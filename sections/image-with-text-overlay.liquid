@@ -1,0 +1,535 @@
+{{ 'section-image-with-text.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }}
+      ;
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }}
+      ;
+    }
+  }
+{%- endstyle -%}
+
+{% liquid
+  assign overlay_opacity = section.settings.overlay_opacity | times: 1.0 | divided_by: 100
+  assign overlay_rgba_color = section.settings.overlay_color.rgb | append: ' / ' | append: overlay_opacity
+
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign loading = 'lazy'
+  endif
+  assign widths = '2000,1440,1024,800,500'
+
+  assign desktop_image_uploaded = section.settings.image | default: false
+  assign mobile_image_uploaded = section.settings.mobile_image | default: false
+%}
+{% capture sizes %}
+  (min-width: {{ settings.page_width | append: 'px' }}) {{ settings.page_width | minus: 50 | append: 'px' }},calc(100vw - 30px)
+{% endcapture %}
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'top' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-top"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+<div
+  aria-label="Image with text overlay"
+  class="section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}"
+  role="region"
+>
+  <div class="imageWithText ">
+    {% unless section.settings.full_width %}<div class="container">{% endunless %}
+    <div
+      class="
+        imageWithText__container image-full image-height
+        {%- if desktop_image_uploaded == false or mobile_image_uploaded == false -%}
+          {%- if section.settings.image_aspect_ratio == "auto" %}
+            image-height--auto
+          {%- else %}
+            image-height--{{ section.settings.image_aspect_ratio }}
+          {%- endif -%}
+        {%- else %}
+          image-height--{{ section.settings.image_aspect_ratio }}
+        {%- endif %}
+        {%- unless section.settings.full_width -%} border-radius border-radius--block {%- endunless -%}
+      "
+    >
+      <div
+        aria-label="Text Content"
+        class="imageWithText__content {% if section.settings.full_width %} container {% endif %} desktop-content-position-{{ section.settings.desktop_content_position }} mobile-content-position-{{ section.settings.mobile_content_position }}"
+        role="region"
+      >
+        <div
+          class="imageWithText__wrp text-{{ section.settings.text_aligment }} text-mobile-{{ section.settings.mobile_text_aligment }} content-width "
+          style="--content-width:{{ section.settings.content_width }}px"
+        >
+          <animation-reveal aoi-type="stagger" aoi-delay="0.13" aoi-duration="0.5" aoi-amount="0.5">
+            {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+              {% case block.type %}
+                {% when 'heading' %}
+                  <h2 class="{{ block.settings.style }} text-color" {{ block.shopify_attributes }}>
+                    {{ block.settings.heading }}
+                  </h2>
+                {% when 'subheading' %}
+                  <p class="mb-2" {{ block.shopify_attributes }}>{{ block.settings.subheading }}</p>
+                {% when 'paragraph' %}
+                  <div class="imageWithText__desc RTE-content" {{ block.shopify_attributes }}>
+                    {{ block.settings.content }}
+                  </div>
+
+                {% when 'button' %}
+                  {% unless block.settings.button_text == blank %}
+                    <div class="btn--wrap">
+                      <a
+                        class="btn btn--fill"
+                        href="{{ block.settings.link }}"
+                        target="{{ block.settings.link_target }}"
+                        {{ block.shopify_attributes }}
+                      >
+                        {{- block.settings.button_text -}}
+                      </a>
+                    </div>
+                  {% endunless %}
+              {% endcase %}
+            {% endfor %}
+          </animation-reveal>
+        </div>
+      </div>
+      <div
+        aria-label="Image with text media"
+        class="imageWithText__media image-with-text-overlay-media"
+        role="region"
+      >
+        <animation-reveal class="imageWithTextImageContainer" aoi-type="scale" aoi-duration="0.5" aoi-amount="0.3">
+          <div
+            class="image_overlay position-absolute"
+            style="background-color:rgba({{ overlay_rgba_color }})"
+            video-overlay-elements
+          ></div>
+          {%- capture showMobileImage -%}
+              {%- if section.settings.mobile_image != blank -%}
+                set-100-percentage-size-media tab-only
+              {%- else -%}
+                set-100-percentage-size-media
+              {%- endif -%}
+            {%- endcapture -%}
+          {% if section.settings.image != blank %}
+            {% assign imagealt = section.settings.image.alt | default: '' %}
+            {{
+              section.settings.image
+              | image_url: width: section.settings.image.width
+              | image_tag:
+                loading: loading,
+                fetchpriority: fetchpriority,
+                class: showMobileImage,
+                widths: widths,
+                sizes: sizes,
+                alt: imagealt
+            }}
+
+          {% else %}
+            {{ 'detailed-apparel-1' | placeholder_svg_tag: showMobileImage }}
+          {% endif %}
+
+          {% if section.settings.mobile_image != blank %}
+            {% assign imagealtmobile = section.settings.mobile_image.alt | default: '' %}
+            {{
+              section.settings.mobile_image
+              | image_url: width: section.settings.mobile_image.width
+              | image_tag:
+                loading: loading,
+                fetchpriority: fetchpriority,
+                class: 'set-100-percentage-size-media mobile-sm-only',
+                widths: '512,992,1024',
+                sizes: '(min-width:1024px) 1024px,(min-width:992px) 992px,512px',
+                alt: imagealtmobile
+            }}
+          {% endif %}
+        </animation-reveal>
+      </div>
+    </div>
+    {% unless section.settings.full_width %}
+      </div>
+    {% endunless %}
+  </div>
+</div>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'bottom' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-bottom"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+{% schema %}
+{
+  "name": "Image with text overlay",
+  "class": "image-with-text-overlay",
+  "tag": "section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image size",
+      "options": [
+        {
+          "label": "Adapt to image",
+          "value": "auto"
+        },
+        {
+          "label": "Small",
+          "value": "sm"
+        },
+        {
+          "label": "Medium",
+          "value": "md"
+        },
+        {
+          "label": "Large",
+          "value": "lg"
+        },
+        {
+          "label": "Fill screen",
+          "value": "fill"
+        }
+      ],
+      "default": "lg"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "2880 x 1280px (large) .jpg recommended"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image",
+      "info": "740 x 1100px (large) .jpg recommended. Default to desktop image."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "range",
+      "label": "Content width",
+      "id": "content_width",
+      "min": 400,
+      "max": 1200,
+      "unit": "px",
+      "step": 20,
+      "default": 560
+    },
+    {
+      "type": "header",
+      "content": "Desktop"
+    },
+    {
+      "type": "text_alignment",
+      "id": "text_aligment",
+      "label": "Content aligment",
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "desktop_content_position",
+      "label": "Content position",
+      "options": [
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text_alignment",
+      "id": "mobile_text_aligment",
+      "label": "Content aligment",
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "mobile_content_position",
+      "label": "Content position",
+      "options": [
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 36
+    },
+    {
+      "type": "select",
+      "id": "border_size",
+      "label": "Border",
+      "options": [
+        {
+          "label": "Hide",
+          "value": "hide"
+        },
+        {
+          "label": "Full width",
+          "value": "full_width"
+        },
+        {
+          "label": "Fixed width",
+          "value": "fixed_width"
+        }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "select",
+      "id": "border_position",
+      "label": "Border position",
+      "options": [
+        {
+          "label": "Both",
+          "value": "both"
+        },
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "both"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 0
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Heading",
+      "type": "heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Size",
+          "options": [
+            {
+              "label": "H1",
+              "value": "h1"
+            },
+            {
+              "label": "H2",
+              "value": "h2"
+            },
+            {
+              "label": "H3",
+              "value": "h3"
+            },
+            {
+              "label": "H4",
+              "value": "h4"
+            },
+            {
+              "label": "H5",
+              "value": "h5"
+            },
+            {
+              "label": "H6",
+              "value": "h6"
+            }
+          ],
+          "default": "h2"
+        }
+      ]
+    },
+    {
+      "name": "Subheading",
+      "type": "subheading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Subheading"
+        }
+      ]
+    },
+    {
+      "name": "Paragraph",
+      "type": "paragraph",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Briefly describe what this heading is about</p>"
+        }
+      ]
+    },
+    {
+      "name": "Button",
+      "type": "button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Label",
+          "default": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "link_target",
+          "label": "Open link in",
+          "options": [
+            {
+              "label": "New tab",
+              "value": "_blank"
+            },
+            {
+              "label": "Same tab",
+              "value": "_top"
+            }
+          ],
+          "default": "_top"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image with text overlay",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "paragraph"
+        },
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["*"]
+  }
+}
+{% endschema %}

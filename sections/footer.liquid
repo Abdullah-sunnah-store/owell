@@ -1,0 +1,889 @@
+{% comment %} <div class="bottomains--mains">
+      <p>  <a href="https://owell.com/pages/owell-wholesale-bulk-purchasing">Bulk Discount Available</a> </p>
+</div> {% endcomment %}
+<script defer="defer" src="{{ 'localization.js' | asset_url }}"></script>
+
+{% liquid
+  assign enable_follow_on_shop = section.settings.enable_follow_on_shop
+  assign show_sublinks = false
+
+  if section.settings.enable_sublinks and section.settings.custom_link_1_heading != blank or section.settings.custom_link_2_heading != blank or section.settings.custom_link_3_heading != blank
+    assign show_sublinks = true
+  endif
+%}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+  }
+  .newsletterForm__input {
+    border: 1px solid rgb(255, 255, 255);
+}
+
+  /* Footer Slogan Styles */
+  .footer__slogan {
+    flex: 1;
+    text-align: center;
+    padding: 0 20px;
+  }
+  
+  .footer__slogan-text {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.5;
+    color: inherit;
+    font-weight: 500;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .footer__slogan {
+      padding: 15px 10px;
+      order: 3;
+      width: 100%;
+    }
+    
+    .footer__slogan-text {
+      font-size: 18px;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }}
+      ;
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }}
+      ;
+    }
+  }
+{% endstyle %}
+
+<footer class="footer  section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
+  <div class="container">
+    <div class="footer__content">
+      <div class="footer__wrapper">
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+            {% case block.type %}
+              {% when 'brand' %}
+                <div
+                  class="footer__logoWrp {% unless forloop.first %} not-first-block {% endunless %}"
+                  {{ block.shopify_attributes }}
+                >
+                  {%- assign company_logo = 'accessibility.company_logo' | t -%}
+                  {%- if block.settings.footer_logo -%}
+                    {%- capture widths -%}
+                    {{ block.settings.image_width }},{{ block.settings.image_width | times: 2 | at_most: block.settings.footer_logo.width }}
+                    {%- endcapture -%}
+                    <div
+                      class="footer__logo"
+                      style="--footer-logo-width: {{ block.settings.image_width | append: 'px' }}"
+                    >
+                      <a href="{{ routes.root_url }}">
+                        {{
+                          block.settings.footer_logo
+                          | image_url: width: block.settings.footer_logo.width
+                          | image_tag: loading: 'lazy', widths: widths, class: 'image', aria-label: company_logo
+                        }}
+                      </a>
+                    </div>
+                  {%- endif -%}
+
+                  {% if block.settings.heading != blank %}
+                    <h2 class="footerlink-head">
+                      {{ block.settings.heading }}
+                    </h2>
+                  {% endif %}
+
+                  {% if block.settings.content %}
+                    <div class="fnt-14 text-color RTE-content footer__logoContent">
+                      {{ block.settings.content }}
+                    </div>
+                  {% endif %}
+
+                  {% if block.settings.brand_social_media_icons %}
+                    {% render 'social-media-icons' %}
+                  {% endif %}
+                </div>
+
+              {% when 'menu' %}
+                <div class="footer__link-list" {{ block.shopify_attributes }}>
+                  {% if block.settings.show_menu_title and block.settings.menu.title %}
+                    <h2 class="footerlink-head tab-only">
+                      {{ block.settings.menu.title }}
+                    </h2>
+                  {% elsif block.settings.heading != blank %}
+                    <h2 class="footerlink-head tab-only">
+                      {{ block.settings.heading }}
+                    </h2>
+                  {% endif %}
+                  {% if block.settings.menu != blank %}
+                    <ul
+                      aria-labelledby="block-{{ block.id }}-label"
+                      class="footers-linkList tab-only"
+                      role="list"
+                    >
+                      {%- for link in block.settings.menu.links -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: link %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                        <li class="footerlink-link">
+                          <a
+                            aria-label="{{ link.title }}"
+                            class="fnt-14 text-color {% if link.active %} active-link {% endif %}"
+                            href="{{ link.url }}"
+                          >
+                            {{ link.title }}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {% endif %}
+                  <div class="mobile-sm-only">
+                    <accordion-tab breakpoint_match="768px">
+                      <details
+                        accordionTab
+                        aria-expanded="false"
+                        class="accordion__item d-block"
+                        {{ block.shopify_attributes }}
+                      >
+                        <summary class="accordion__item__head">
+                          {% if block.settings.show_menu_title and block.settings.menu.title %}
+                            <h2 class="footerlink-head">
+                              {{ block.settings.menu.title }}
+                            </h2>
+                          {% elsif block.settings.heading != blank %}
+                            <h2 class="footerlink-head">
+                              {{ block.settings.heading }}
+                            </h2>
+                          {% endif %}
+                        </summary>
+                        <div accordionBody class="accordion__item__body">
+                          <ul>
+                            {%- for link in block.settings.menu.links -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: link %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                              <li class="footerlink-link">
+                                <a
+                                  class="fnt-14 text-color {% if link.active %} active-link {% endif %}"
+                                  href="{{ link.url }} "
+                                >
+                                  {{- link.title -}}
+                                </a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+                      </details>
+                    </accordion-tab>
+                  </div>
+                </div>
+
+              {% when 'text' %}
+                <div class="footer__text-content" {{ block.shopify_attributes }}>
+                  {% if block.settings.heading != blank %}
+                    <h2 class="footerlink-head">
+                      {{ block.settings.heading }}
+                    </h2>
+                  {% endif %}
+
+                  {% if block.settings.subText %}
+                    <div class="RTE-content">
+                      {{ block.settings.subText }}
+                    </div>
+                  {% endif %}
+                </div>
+
+              {% when 'newsletter' %}
+                <div class="new-letter" {{ block.shopify_attributes }}>
+                  {% if block.settings.heading != blank %}
+                    <h2 class="footerlink-head">
+                      {{ block.settings.heading }}
+                    </h2>
+                  {% endif %}
+
+                  <div>
+                    {% if block.settings.newsletter_header %}
+                      <h2 class="footerlink-head">
+                        {{ block.settings.newsletter_header }}
+                      </h2>
+                    {% endif %}
+
+                    {% if block.settings.newsletter_subtext %}
+                      <div
+                        class="footerlink-link RTE-content fnt-14 text-color"
+                      >
+                        {{ block.settings.newsletter_subtext }}
+                      </div>
+                    {% endif %}
+
+                    {%- form 'customer', id: 'ContactFooter' -%}
+                      <div class="newsletterForm ">
+                        <input
+                          name="contact[tags]"
+                          type="hidden"
+                          value="newsletter"
+                        >
+                        <div class="newsletter__email-input">
+                          <label for="newsletterForm--{{ section.id }}" class="visually-hidden">
+                            {{ 'newsletter.label' | t }}
+                          </label>
+                          <input
+                            placeholder="{{ 'newsletter.label' | t }}"
+                            id="newsletterForm--{{ section.id }}"
+                            type="email"
+                            name="contact[email]"
+                            class="newsletterForm__input"
+                            value="{{ form.email }}"
+                            aria-label="{{ 'Email Address' }}"
+                            aria-required="true"
+                            autocorrect="off"
+                            autocapitalize="off"
+                            autocomplete="email"
+                            {% if form.errors %}
+                              autofocus aria-invalid="true"aria-describedby="ContactFooter-error"
+                              aria-describedby="ContactFooter-success"
+                            {% endif -%}
+                            required
+                          >
+                        </div>
+                        <div>
+                          <button
+                            aria-label="{{ 'newsletter.button_label' | t }}"
+                            class="btn btn--fill btn--sm"
+                            id="SubscribeFooter"
+                            name="commit"
+                            type="submit"
+                          >
+                            {{ 'newsletter.button_label' | t }}
+                          </button>
+                        </div>
+                      </div>
+                      {% if form.posted_successfully? %}
+                        <section class="success-ms mt-24">
+                          <div class="container">
+                            <div class="d-v-center justify-content-center">
+                              {% render 'icon' with 'success' %}
+                              <span aria-label="{{ 'newsletter.success' | t }}" class="success-text">
+                                {{ 'newsletter.success' | t }}
+                              </span>
+                            </div>
+                          </div>
+                        </section>
+                      {% endif %}
+                    {%- endform -%}
+                  </div>
+                </div>
+            {% endcase %}
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="footer__default-wrapper d-flex justify-content-space-btw align-item-center">
+      <div class="footer__language-currency {% if enable_follow_on_shop -%} add__bottom-spacing{%- endif -%}">
+        {% if section.settings.show_country_selector and localization.available_countries.size > 1 %}
+          <div aria-label="Country Selector" class="footer__country localization-dropdown country-selector">
+            <localization-component>
+              {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
+                <button
+                  class="localization-dropdown__btn"
+                  localization-btn-label
+                  aria-expanded="false"
+                  type="button"
+                >
+                  {%- if section.settings.show_country_flag -%}
+                    <link
+                      href="{{ 'section-country-selector.css' | asset_url }}"
+                      rel="stylesheet"
+                      media="print"
+                      onload="this.media='all'"
+                    >
+
+                    <span class="country-flags country-flags--{{ localization.country.iso_code }} "></span>
+                  {%- endif -%}
+                  {% if section.settings.show_country_name %}
+                    <span>{{ localization.country.name }} </span>
+                  {% endif %}
+                  ({{ localization.country.currency.iso_code }}
+                  {{ localization.country.currency.symbol }})
+                  {% render 'icon' with 'caret' %}
+                </button>
+                <ul
+                  class="localization-dropdown__list"
+                  hidden
+                  localization-dropdown-panel
+                >
+                  {% for country in localization.available_countries %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: country %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                    <li class="localization-dropdown__item">
+                      <a
+                        class="localization-dropdown__item-link"
+                        data-value="{{ country.iso_code }}"
+                        href="#"
+                        {% if country.iso_code == localization.country.iso_code %}
+                          active-link
+                        {% endif %}
+                        localization-link
+                      >
+                        {%- if section.settings.show_country_flag -%}
+                          <span class="country-flags country-flags--{{ country.iso_code }} "></span>
+                        {%- endif -%}
+                        <span>
+                          {{- country.name }} ({{ country.currency.iso_code }}
+                          {{ country.currency.symbol }})</span
+                        >
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+                <input
+                  name="country_code"
+                  type="hidden"
+                  value="{{ localization.country.iso_code }}"
+                >
+              {%- endform -%}
+            </localization-component>
+          </div>
+        {% endif %}
+        {% if section.settings.show_locale_selector and localization.available_languages.size > 1 %}
+          <div aria-label="Language Selector" class="footer__language localization-dropdown">
+            <localization-component>
+              {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
+                <button
+                  class="localization-dropdown__btn"
+                  localization-btn-label
+                  aria-expanded="false"
+                  type="button"
+                >
+                  {{ localization.language.endonym_name | capitalize }}
+                  {% render 'icon' with 'caret' %}
+                </button>
+                <ul
+                  class="localization-dropdown__list"
+                  hidden
+                  localization-dropdown-panel
+                >
+                  {% for language in localization.available_languages %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: language %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                    <li class="localization-dropdown__item">
+                      <a
+                        class="localization-dropdown__item-link"
+                        data-value="{{ language.iso_code }}"
+                        {% if language.iso_code == localization.language.iso_code %}
+                          active-link
+                        {% endif %}
+                        href="#"
+                        localization-link
+                      >
+                        {{ language.endonym_name | capitalize -}}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+                <input
+                  name="locale_code"
+                  type="hidden"
+                  value="{{ localization.language.iso_code }}"
+                >
+              {%- endform -%}
+            </localization-component>
+          </div>
+        {% endif %}
+      </div>
+      <div class="footer__slogan">
+        <p class="footer__slogan-text">OWELL® — Quality & Reliability You Can Count On — Over 1M Orders Delivered — Trusted by Professionals Since 2016</p>
+      </div>
+      {% if section.settings.pno_info_tag or section.settings.email_info_tag or enable_follow_on_shop %}
+        <div class="footer__info-tags">
+          {% if section.settings.pno_info_tag != blank %}
+            <a
+              href="tel:{{ section.settings.pno_info_tag }}"
+              class="
+                footer__info-tags--item footer__info-tags__email btn
+                {% if section.settings.use_outline_button_styles %}btn--border{% else %}btn--fill{% endif %}
+              "
+            >
+              {{ section.settings.pno_info_tag }}
+            </a>
+          {% endif %}
+          {% if section.settings.email_info_tag != blank %}
+            <a
+              href="mailto:{{ section.settings.email_info_tag }}"
+              class="
+                footer__info-tags--item footer__info-tags__pno btn
+                {% if section.settings.use_outline_button_styles %}btn--border{% else %}btn--fill{% endif %}
+              "
+            >
+              {{ section.settings.email_info_tag }}
+            </a>
+          {% endif %}
+
+          {%- if enable_follow_on_shop -%}
+            <div aria-label="Follow Our Shop" class="footer__followShop">
+              {{ shop | login_button: action: 'follow' }}
+            </div>
+          {%- endif -%}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="footer__bottom" role="contentinfo">
+    <div class="container">
+      <div class="footer__bottomWrp">
+        {% if show_sublinks %}
+          <div class="footer__sublinks footer__bottomWrp--item">
+            {% if section.settings.custom_link_1_heading != blank %}
+              <a
+                {% if section.settings.custom_link_1_url %}
+                  href="{{ section.settings.custom_link_1_url }}"
+                {% endif %}
+                target="{{  section.settings.link_target }}"
+                class="link fnt-12 footer__sublinks--item"
+              >
+                {{ section.settings.custom_link_1_heading }}
+              </a>
+            {% endif %}
+
+            {% if section.settings.custom_link_2_heading != blank %}
+              <a
+                {% if section.settings.custom_link_2_url %}
+                  href="{{ section.settings.custom_link_2_url }}"
+                {% endif %}
+                target="{{  section.settings.link_target }}"
+                class="link fnt-12 footer__sublinks--item"
+              >
+                {{ section.settings.custom_link_2_heading }}
+              </a>
+            {% endif %}
+
+            {% if section.settings.custom_link_3_heading != blank %}
+              <a
+                {% if section.settings.custom_link_3_url %}
+                  href="{{ section.settings.custom_link_3_url }}"
+                {% endif %}
+                target="{{  section.settings.link_target }}"
+                class="link fnt-12 footer__sublinks--item"
+              >
+                {{ section.settings.custom_link_3_heading }}
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+        {% capture aligment_text %}
+      
+            {% if section.settings.payment_enable and show_sublinks == false %}
+            text-left
+            {% elsif show_sublinks and section.settings.payment_enable == false %}
+            text-right
+            {% else %}
+            text-center
+            {% endif %}
+        
+        {% endcapture %}
+        <p class="m-0 paragraph-item {{ aligment_text }} footer__bottomWrp--item">
+          <small class="fnt-14 text-color"
+            >&copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url, class: 'fnt-14 text-color' -}}
+          </small>
+          <small aria-label="Powered by Shopify" class="fnt-14 text-color">{{ powered_by_link }}</small>
+        </p>
+        {%- if section.settings.payment_enable -%}
+          <div class="footer__payment footer__bottomWrp--item">
+            <ul
+              aria-label="Accepted Payment Methods"
+              class="list list-payment"
+              role="list"
+            >
+              {%- for type in shop.enabled_payment_types -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: type %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                <li class="list-payment__item">
+                  {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.bottom_image != blank %}
+    <div
+      class="footer__ending half-crop "
+      style="
+        --footer__image--width: {{ section.settings.bottom_image_width }}%;
+        --bottom__image--margin__bottom: {{ section.settings.bottom_image_margin_bottom }};
+      "
+    >
+      <div class="container">
+        <height-calc class="d-block" variable="footer">
+          <div class="footer__ending--image__container">
+            <div class="footer__ending--image">
+              {{ section.settings.bottom_image }}
+            </div>
+          </div>
+        </height-calc>
+      </div>
+    </div>
+  {% endif %}
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Links",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_menu_title",
+          "label": "Show heading",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Heading",
+          "info": "Replaces default menu name"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "info": "This menu won't show dropdown items."
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "subText",
+          "label": "Content",
+          "default": "<p>text related to heading</p>"
+        }
+      ]
+    },
+    {
+      "type": "brand",
+      "name": "Logo and social",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "footer_logo",
+          "label": "Logo",
+          "info": "600 x 600px .png recommended"
+        },
+        {
+          "type": "range",
+          "id": "image_width",
+          "min": 50,
+          "max": 200,
+          "step": 5,
+          "unit": "px",
+          "label": "Image width",
+          "default": 105
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Write information about your brand and vision with your customers.</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "brand_social_media_icons",
+          "label": "Show social media",
+          "default": true,
+          "info": "To configure social media, go to your social media settings [theme settings](/editor?context=theme&category=social%20media)"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "settings": [
+        {
+          "type": "text",
+          "id": "newsletter_header",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "newsletter_subtext",
+          "label": "Content",
+          "default": "<p>Subscribe to get notified about product launches, special offers and company news</p>"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Language selector",
+      "info": "To add a language, go to your [language settings.](/admin/settings/languages)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_locale_selector",
+      "label": "Show language selector",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Country/region selector",
+      "info": "To add a country/region, go to your [markets settings.](/admin/settings/markets)."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_selector",
+      "label": "Enable country/region selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_flag",
+      "label": "Show country flag",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_name",
+      "label": "Show country name",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Payment types"
+    },
+    {
+      "type": "checkbox",
+      "id": "payment_enable",
+      "default": true,
+      "label": "Show payment icons",
+      "info": "By default your theme shows the icons that are associated with the payment gateway you have enabled in the [payment settings.](/admin/settings/payments)"
+    },
+    {
+      "type": "header",
+      "content": "Follow on shop",
+      "info": "Allow customers to follow your store on the [Shop app](https://shop.app/)"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_follow_on_shop",
+      "default": true,
+      "label": "Show Follow on Shop ",
+      "info": "To allow customers to follow your store on the Shop app from your storefront, Shop Pay must be enabled. [Learn more](https://help.shopify.com/en/manual/online-store/themes/customizing-themes/follow-on-shop)"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 0
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-4",
+      "label": "Color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Info tags"
+    },
+    {
+      "type": "text",
+      "id": "pno_info_tag",
+      "label": "Phone number"
+    },
+    {
+      "type": "text",
+      "id": "email_info_tag",
+      "label": "E-mail address"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_outline_button_styles",
+      "label": "Use outline button style"
+    },
+    {
+      "type": "header",
+      "content": "Sublinks"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sublinks",
+      "label": "Enable sublinks",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Custom link 1"
+    },
+    {
+      "type": "text",
+      "id": "custom_link_1_heading",
+      "label": "Heading"
+    },
+    {
+      "type": "url",
+      "id": "custom_link_1_url",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Custom link 2"
+    },
+    {
+      "type": "text",
+      "id": "custom_link_2_heading",
+      "label": "Heading"
+    },
+    {
+      "type": "url",
+      "id": "custom_link_2_url",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Custom link 3"
+    },
+    {
+      "type": "text",
+      "id": "custom_link_3_heading",
+      "label": "Heading"
+    },
+    {
+      "type": "url",
+      "id": "custom_link_3_url",
+      "label": "Link"
+    },
+
+    {
+      "type": "header",
+      "content": "Bottom image"
+    },
+    {
+      "type": "html",
+      "id": "bottom_image",
+      "label": "Logo",
+      "info": "Paste logo in form of <svg> code"
+    },
+    {
+      "type": "range",
+      "id": "bottom_image_width",
+      "min": 50,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Image width",
+      "default": 100
+    },
+
+    {
+      "type": "range",
+      "id": "bottom_image_margin_bottom",
+      "min": 0,
+      "max": 75,
+      "step": 1,
+      "unit": "%",
+      "label": "Amount of image crop ",
+      "default": 0,
+      "info": "Works with 'crop' style"
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "brand"
+      },
+      {
+        "type": "menu"
+      },
+      {
+        "type": "menu"
+      },
+      {
+        "type": "menu"
+      },
+      {
+        "type": "newsletter"
+      }
+    ]
+  }
+}
+{% endschema %}

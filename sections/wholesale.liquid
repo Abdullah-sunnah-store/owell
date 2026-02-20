@@ -1,0 +1,535 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }};
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }};
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }};
+    }
+  }
+
+  @media (max-width: 768px) {
+  .bigmains--consmin--flipping {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+{%- endstyle -%}
+<div class="bigmains--consmin--flipping">
+  <div class="nice--goodocnmin22">
+<section class="section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} section">
+  <section class="color-{{ section.settings.color_scheme }}" id="recover">
+    {%- form 'recover_customer_password' -%}
+      <div class="container">
+        <div class="account-form" role="region" aria-label="{{ 'customer.recover_password.heading' | t }}">
+          <h2 class="h2">
+            {{ 'customer.recover_password.heading' | t }}
+          </h2>
+          {%- if form.errors -%}
+            <section class="error-ms">
+              <div class="container">
+                <div class="d-v-center justify-content-center">
+                  {% render 'icon' with 'error' %}
+                  <span class="error-text" aria-label="Error Message">
+                    {{ form.errors.messages.form }}
+                  </span>
+                </div>
+              </div>
+            </section>
+          {%- endif -%}
+          <p class="text-color mb-24" aria-label="{{ 'customer.recover_password.subtext' | t }}">
+            {{ 'customer.recover_password.subtext' | t }}
+          </p>
+          {% assign recover_success = form.posted_successfully? %}
+          <div class="form-group mb-24">
+            <label for="RecoverEmail" aria-label="{{ 'customer.login_page.email' | t }}">
+              {{ 'customer.login_page.email' | t }}
+            </label>
+            <input
+              type="email"
+              value=""
+              name="email"
+              id="RecoverEmail"
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+              {% if form.errors %}
+                aria-invalid="true"
+                aria-describedby="RecoverEmail-email-error"
+                autofocus
+              {% endif %}
+            >
+          </div>
+          <button
+            class="btn btn--fill w-100 mb-16"
+            type="submit"
+            aria-label="{{ 'customer.login_page.button_label' | t }}"
+          >
+            {{ 'customer.login_page.button_label' | t }}
+          </button>
+        </div>
+      </div>
+    {%- endform -%}
+  </section>
+
+  <section class="loginForm " id="login">
+    {%- form 'customer_login', novalidate: 'novalidate' -%}
+      <div class="container">
+        <div class="account-form" role="region" aria-label=" {{ 'customer.login_page.heading' | t }}">
+          <h1 class="h2">
+            {{ 'customer.login_page.heading' | t }}
+          </h1>
+          {% if section.settings.enable_sign_in_with_shop %}
+            <div class="sign-with-shop">
+              {{ shop | login_button }}
+            </div>
+            <span>Or</span>
+          {% endif %}
+          {%- if recover_success == true -%}
+            <section class="success-ms">
+              <div class="container">
+                <div class="d-v-center justify-content-center">
+                  {% render 'icon' with 'success' %}
+                  <span class="success-text" aria-label="{{ 'customer.recover_password.success' | t }}">
+                    {{ 'customer.recover_password.success' | t }}
+                  </span>
+                </div>
+              </div>
+            </section>
+          {%- endif -%}
+          {%- if form.posted_successfully? -%}
+            <section class="success-ms">
+              <div class="container">
+                <div class="d-v-center justify-content-center">
+                  {% render 'icon' with 'success' %}
+                  <span class="success-text" aria-label="{{ 'customer.reset_password.reset_message' | t }}">
+                    {{ 'customer.reset_password.reset_message' | t }}
+                  </span>
+                </div>
+              </div>
+            </section>
+          {%- elsif form.errors -%}
+            <section class="error-ms">
+              <div class="container">
+                <div class="d-v-center justify-content-center">
+                  {% render 'icon' with 'error' %}
+                  <span class="error-text" aria-label="Error Message">
+                    {{ form.errors | default_errors }}
+                  </span>
+                </div>
+              </div>
+            </section>
+          {%- endif -%}
+          <div class="form-group">
+            <label for="CustomerEmail" aria-label="{{ 'customer.login_page.email' | t }}">
+              {{ 'customer.login_page.email' | t }}
+            </label>
+            <input
+              type="email"
+              name="customer[email]"
+              id="CustomerEmail"
+              autocomplete="email"
+              autocorrect="off"
+              autocapitalize="off"
+              {% if form.errors contains 'form' %}
+                aria-invalid="true"
+              {% endif %}
+            >
+          </div>
+          {%- if form.password_needed -%}
+            <div class="form-group">
+              <label for="CustomerPassword" aria-label="{{ 'customer.login_page.password' | t }}">
+                {{ 'customer.login_page.password' | t }}
+              </label>
+              <input
+                type="password"
+                value=""
+                name="customer[password]"
+                id="CustomerPassword"
+                autocomplete="current-password"
+                {% if form.errors contains 'form' %}
+                  aria-invalid="true"
+                {% endif %}
+              >
+            </div>
+          {%- endif -%}
+          <button class="btn btn--fill w-100 mb-16 mt-24" type="submit" aria-label="{{ 'customer.log_in' | t }}">
+            {{ 'customer.log_in' | t }}
+          </button>
+
+          <a class="account-link " href="#recover" aria-label="{{ 'customer.login_page.forgot_password' | t }}">
+            {{ 'customer.login_page.forgot_password' | t }}
+          </a>
+        </div>
+      </div>
+    {%- endform -%}
+    {%- if shop.checkout.guest_login -%}
+      <div>
+        <hr>
+        <h2 aria-label="{{ 'customer.login_page.guest_title' | t }}">
+          {{ 'customer.login_page.guest_title' | t }}
+        </h2>
+        {%- form 'guest_login' -%}
+          <button class="btn btn--fill" aria-label="{{ 'customer.login_page.guest_continue' | t }}">
+            {{ 'customer.login_page.guest_continue' | t }}
+          </button>
+        {%- endform -%}
+      </div>
+    {%- endif -%}
+  </section>
+</section>
+  </div>
+  <div class="gmains--min22">
+            <h3>Get Access to Exclusive Business Pricing & Perks.</h3>
+    <p>Sign up to unlock wholesale discounts, priority shipping, and flexible payment terms — all tailored to your business needs.</p>
+  <button class="btn btn--fill w-100 mb-16 mt-24" data-fancybox data-src="#ContactForm">Register</button>
+<div id="ContactForm" style="display:none;max-width:500px;">
+<div class="mainconsmin22">
+<div class="container">
+      {%- form 'create_customer', novalidate: 'novalidate' -%}
+         <input type="hidden" name="return_to" value="/pages/thank-you" />
+    <div class="account-form" role="region" aria-label="{{ 'customer.register.heading' | t }}">
+
+      {%- if form.errors -%}
+        <section class="error-ms" aria-live="polite">
+          <div class="container">
+            <div class="d-v-center justify-content-center d-flex-dir-c">
+              {% render 'icon' with 'error' %}
+              <span class="error-text" aria-label="{{ 'contact.form.error_message' | t }}">
+                {{ 'contact.form.error_message' | t }}
+              </span>
+              <ul>
+                {%- for field in form.errors -%}
+                  {%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+                  {%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: field %}{%- endcapture -%}
+                  {%- if hide_resource == "true" -%}
+                    {% continue %}
+                  {%- endif -%}
+                  <li class="text-center">
+                    {%- if field == 'form' -%}
+                      {{ form.errors.messages[field] }}
+                    {%- else -%}
+                      <a
+                        class="link link--green"
+                        href="#RegisterForm-{{ field }}"
+                        aria-label="{{ form.errors.translated_fields[field] | capitalize }} - {{ form.errors.messages[field] }}"
+                      >
+                        {{ form.errors.translated_fields[field] | capitalize }}
+                        {{ form.errors.messages[field] }}
+                      </a>
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          </div>
+        </section>
+      {%- endif -%}
+
+      <div class="form-group">
+        <label for="RegisterForm-FirstName" aria-label="{{ 'customer.register.first_name' | t }}">
+          {{ 'customer.register.first_name' | t }}
+        </label>
+        <input
+          type="text"
+          name="customer[first_name]"
+          id="RegisterForm-FirstName"
+          {% if form.first_name %}
+            value="{{ form.first_name }}"
+          {% endif %}
+          autocomplete="given-name"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="RegisterForm-LastName" aria-label="{{ 'customer.register.last_name' | t }}">
+          {{ 'customer.register.last_name' | t }}
+        </label>
+        <input
+          type="text"
+          name="customer[last_name]"
+          id="RegisterForm-LastName"
+          {% if form.last_name %}
+            value="{{ form.last_name }}"
+          {% endif %}
+          autocomplete="family-name"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="RegisterForm-email" aria-label="{{ 'customer.register.email' | t }}">
+          {{ 'customer.register.email' | t }}
+        </label>
+        <input
+          type="email"
+          name="customer[email]"
+          id="RegisterForm-email"
+          {% if form.email %}
+            value="{{ form.email }}"
+          {% endif %}
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="email"
+          aria-required="true"
+          {% if form.errors contains 'email' %}
+            aria-invalid="true"
+            aria-describedby="RegisterForm-email-error"
+          {% endif %}
+        >
+      </div>
+
+      <div class="form-group mb-24">
+        <label for="RegisterForm-password" aria-label="{{ 'customer.register.password' | t }}">
+          {{ 'customer.register.password' | t }}
+        </label>
+        <input
+          type="password"
+          name="customer[password]"
+          id="RegisterForm-password"
+          aria-required="true"
+          autocomplete="new-password"
+          {% if form.errors contains 'password' %}
+            aria-invalid="true"
+            aria-describedby="RegisterForm-password-error"
+          {% endif %}
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="RegisterForm-business-name" aria-label="{{ 'customer.register.business_name' | t | default: 'Business/Institution Name' }}">
+          Business/Institution Name
+        </label>
+        <input
+          type="text"
+          name="customer[note][business_name]"
+          id="RegisterForm-business-name"
+          {% if form.note.business_name %}
+            value="{{ form.note.business_name }}"
+          {% endif %}
+        >
+      </div>
+
+      <!-- <div class="form-group">
+        <label for="RegisterForm-title" aria-label="{{ 'customer.register.title' | t | default: 'Title' }}">
+          Title
+        </label>
+        <input
+          type="text"
+          name="customer[note][title]"
+          id="RegisterForm-title"
+          {% if form.note.title %}
+            value="{{ form.note.title }}"
+          {% endif %}
+        >
+      </div> -->
+
+      <div class="form-group">
+        <label for="RegisterForm-phone" aria-label="{{ 'customer.register.phone' | t | default: 'Phone Number' }}">
+          Phone Number
+        </label>
+        <input
+          type="tel"
+          name="customer[phone]"
+          id="RegisterForm-phone"
+          {% if form.phone %}
+            value="{{ form.phone }}"
+          {% endif %}
+          autocomplete="tel"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="RegisterForm-preferred-email" aria-label="{{ 'customer.register.preferred_email' | t | default: 'Preferred Email (Login)' }}">
+          Preferred Email (Login)
+        </label>
+        <input
+          type="email"
+          name="customer[note][preferred_email]"
+          id="RegisterForm-preferred-email"
+          {% if form.note.preferred_email %}
+            value="{{ form.note.preferred_email }}"
+          {% endif %}
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="email"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="RegisterForm-address" aria-label="{{ 'customer.register.address' | t | default: 'Address' }}">
+          Address
+        </label>
+        <input
+          type="text"
+          name="customer[default_address][address1]"
+          id="RegisterForm-address"
+          {% if form.default_address.address1 %}
+            value="{{ form.default_address.address1 }}"
+          {% endif %}
+          autocomplete="street-address"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="RegisterForm-city" aria-label="{{ 'customer.register.city' | t | default: 'City' }}">
+          City
+        </label>
+        <input
+          type="text"
+          name="customer[default_address][city]"
+          id="RegisterForm-city"
+          {% if form.default_address.city %}
+            value="{{ form.default_address.city }}"
+          {% endif %}
+          autocomplete="address-level2"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="RegisterForm-state" aria-label="{{ 'customer.register.state' | t | default: 'State/Province' }}">
+          State/Province
+        </label>
+        <input
+          type="text"
+          name="customer[default_address][province]"
+          id="RegisterForm-state"
+          {% if form.default_address.province %}
+            value="{{ form.default_address.province }}"
+          {% endif %}
+          autocomplete="address-level1"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="RegisterForm-zip" aria-label="{{ 'customer.register.zip' | t | default: 'ZIP/Postal Code' }}">
+          ZIP/Postal Code
+        </label>
+        <input
+          type="text"
+          name="customer[default_address][zip]"
+          id="RegisterForm-zip"
+          {% if form.default_address.zip %}
+            value="{{ form.default_address.zip }}"
+          {% endif %}
+          autocomplete="postal-code"
+        >
+      </div>
+
+      <!-- <div class="form-group">
+        <label for="RegisterForm-website" aria-label="{{ 'customer.register.website' | t | default: 'Website' }}">
+          Website
+        </label>
+        <input
+          type="url"
+          name="customer[note][website]"
+          id="RegisterForm-website"
+          {% if form.note.website %}
+            value="{{ form.note.website }}"
+          {% endif %}
+          autocomplete="url"
+        >
+      </div> -->
+
+      <!-- <div class="form-group">
+        <label for="RegisterForm-tax-id" aria-label="{{ 'customer.register.tax_id' | t | default: 'Tax ID' }}">
+          Tax ID
+        </label>
+        <input
+          type="text"
+          name="customer[note][tax_id]"
+          id="RegisterForm-tax-id"
+          {% if form.note.tax_id %}
+            value="{{ form.note.tax_id }}"
+          {% endif %}
+        >
+      </div> -->
+
+      <div class="form-group">
+        <label for="RegisterForm-hear-about" aria-label="{{ 'customer.register.hear_about' | t | default: 'How did you hear about us?' }}">
+          How did you hear about us?
+        </label>
+        <input
+          type="text"
+          name="customer[note][hear_about]"
+          id="RegisterForm-hear-about"
+          {% if form.note.hear_about %}
+            value="{{ form.note.hear_about }}"
+          {% endif %}
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="RegisterForm-comments" aria-label="{{ 'customer.register.comments' | t | default: 'Comment or Additional Information' }}">
+          Comment or Additional Information
+        </label>
+        <textarea
+          name="customer[note][comments]"
+          id="RegisterForm-comments"
+          rows="4"
+        >{% if form.note.comments %}{{ form.note.comments }}{% endif %}</textarea>
+      </div>
+
+      <button class="btn btn--fill w-100" aria-label="{{ 'customer.register.submit' | t }}">
+        {{ 'customer.register.submit' | t }}
+      </button>
+    </div>
+               {%- endform -%}
+  </div>
+</div>
+</div>
+  </div>
+  
+</div>
+{% schema %}
+{
+  "name": "Customer login",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sign_in_with_shop",
+      "label": "Enable Sign in with Shop",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 36
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Color scheme"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Login",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+

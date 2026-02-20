@@ -1,0 +1,348 @@
+<drawer-component
+  aria-hidden="true"
+  class="d-block drawer hamberger-drawer color-{{ settings.drawer_color_scheme }}"
+  drawer-type="header"
+>
+  <div class="drawer__container">
+    <div class="drawer__overlay" drawer-overlay></div>
+
+    <div class="drawer__wrapper drawer__wrapper--animation-position-left">
+      {% comment %} Drawer Header Area {% endcomment %}
+      <div class="drawer__header">
+        <button
+          aria-label="{{ 'accessibility.close_drawer' | t }}"
+          class="drawer__close__btn"
+          close-drawer
+        >
+          {% render 'icon' with 'close-drawer' %}
+        </button>
+
+        {% comment %}
+          <h4 class="drawer__head">{{ 'general.drawer.option.drawer_text' | t }}</h4>
+        {% endcomment %}
+      </div>
+
+      {% comment %} Drawer Content/Body area {% endcomment %}
+      <div
+        aria-label="Menu Navigation"
+        class="drawer__body"
+        role="region"
+      >
+        <div class="drawer__body__wrappe h-100">
+          <hamburger-menu>
+            <div
+              aria-label="Header Menu Navigation"
+              class="header__links h-100"
+              drawer-transparent
+              id="navbarSupportedContent"
+              role="region"
+            >
+              <div class="header__menu-wrp h-100" role="navigation">
+                <ul class="navbar-nav header__nav-list d-flex hamberger-accordion h-100" role="list">
+                  <!-- Liquid Code to Generate Menu Links -->
+                  {% liquid
+                    if section.settings.hamberger_menu != blank
+                      assign link_list_hamberger = section.settings.hamberger_menu
+                    else
+                      assign link_list_hamberger = section.settings.menu
+                    endif
+                  %}
+                  {% for link in link_list_hamberger.links %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: link %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                    <li class="hamberger-accordion__item" role="listitem">
+                      {% if link.links != blank %}
+                        <div
+                          class="accordion__item d-block"
+                          role="group"
+                        >
+                          <button
+                            class="accordion__item__head hamberger-menu-item interactions-enabled"
+                            aria-expanded="false"
+                            hamberger-menu-item
+                          >
+                            <p class="hamberger-accordion__head fnt-16">{{ link.title | escape }}</p>
+                            <div class="caret-icon">
+                              {% render 'icon' with 'caret-back' %}
+                            </div>
+                          </button>
+                          <div class="accordion__item__body" hamberger-menu-content>
+                            <button
+                              aria-label="Back to {{ link.title | escape }}"
+                              backToMenu
+                              class="back-to-menu fnt-16 fnt-body-weight-bold"
+                            >
+                              <span class="caret-icon">
+                                {% render 'icon' with 'caret-back' %}
+                              </span>
+                              {{ link.title | escape }}
+                            </button>
+                            <ul class="hamberger-accordion--childElement" role="list">
+                              <!-- Liquid Code to Generate Submenu Links -->
+                              {%- for childlink in link.links -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: childlink %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                                <li role="listitem">
+                                  {%- if childlink.links == blank -%}
+                                    <div>
+                                      <a
+                                        href="{{ childlink.url }}"
+                                        class="{% if childlink.current %} active{% endif %} hamberger-accordion__link fnt-16"
+                                        {% if childlink.current %}
+                                          aria-current="page"
+                                        {% endif %}
+                                      >
+                                        {{ childlink.title | escape }}
+                                      </a>
+                                    </div>
+                                  {% else %}
+                                    <div
+                                      class="accordion__item d-block hamberger-accordion--innerAccordion"
+                                      role="group"
+                                    >
+                                      <button
+                                        class="accordion__item__head interactions-enabled"
+                                        aria-expanded="false"
+                                        hamberger-menu-item
+                                      >
+                                        <span class="hamberger-accordion__link-black fnt-16">
+                                          {{- childlink.title | escape -}}
+                                        </span>
+                                        <div class="caret-icon">
+                                          {% render 'icon' with 'caret-back' %}
+                                        </div>
+                                      </button>
+                                      <div class="accordion__item__body" hamberger-menu-content>
+                                        <button
+                                          aria-label="Back to {{ childlink.title | escape }}"
+                                          backToMenu
+                                          class="back-to-menu fnt-16 fnt-body-weight-bold"
+                                        >
+                                          <span class="caret-icon">
+                                            {% render 'icon' with 'caret-back' %}
+                                          </span>
+                                          {{ childlink.title | escape }}
+                                        </button>
+                                        <ul class="hamberger-accordion--childElement" role="list">
+                                          {%- for grandchildlink in childlink.links -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: grandchildlink %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                                            <li role="listitem">
+                                              <a
+                                                href="{{ grandchildlink.url }}"
+                                                class="{% if grandchildlink.current %} active{% endif %} hamberger-accordion__link fnt-16"
+                                                {% if grandchildlink.current %}
+                                                  aria-current="page"
+                                                {% endif %}
+                                              >
+                                                {{ grandchildlink.title | escape }}
+                                              </a>
+                                            </li>
+                                          {%- endfor %}
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  {%- endif -%}
+                                </li>
+                              {%- endfor %}
+                            </ul>
+                          </div>
+                        </div>
+                      {%- else -%}
+                        <a class="hamberger-accordion__link-black" href="{{ link.url }}">
+                          {{ link.title | escape }}
+                        </a>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </hamburger-menu>
+        </div>
+      </div>
+
+      <ul
+        aria-label="Footer Menu"
+        class="drawer__footer"
+        role="list"
+      >
+        {% if shop.customer_accounts_enabled %}
+          <li role="listitem">
+            <a
+              data-no-instant
+              class="login-btn link link--green"
+              href="{%- if customer -%}{{ routes.account_logout_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+            >
+              {%- liquid
+                if customer
+                  echo 'general.drawer.hamberger.logout_button_text' | t
+                else
+                  echo 'general.drawer.hamberger.login_button_text' | t
+                endif
+              -%}
+            </a>
+          </li>
+        {% endif %}
+
+        {% if section.settings.show_country_selector %}
+          <li class="mobile-only" role="listitem">
+            <div
+              aria-label="Localization Dropdown"
+              class="localization-dropdown"
+              role="group"
+            >
+              <localization-component>
+                {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
+                  <button
+                    aria-label="Open Country Selector"
+                    class="localization-dropdown__btn"
+                    localization-btn-label
+                    aria-expanded="false"
+                    type="button"
+                  >
+                    {%- if section.settings.show_country_flag -%}
+                      <link
+                        href="{{ 'section-country-selector.css' | asset_url }}"
+                        rel="stylesheet"
+                        media="print"
+                        onload="this.media='all'"
+                      >
+                      <span class="country-flags country-flags--{{ localization.country.iso_code }}"></span>
+                    {%- endif -%}
+                    {% if section.settings.show_country_name %}
+                      <span>{{ localization.country.name }}</span>
+                    {% endif %}
+                    <span class="localization-dropdown__currency"
+                      >({{ localization.country.currency.iso_code }}
+                      {{ localization.country.currency.symbol }})</span
+                    >
+                    {% render 'icon' with 'caret' %}
+                  </button>
+                  <ul
+                    aria-label="Country Selector"
+                    class="localization-dropdown__list"
+                    hidden
+                    localization-dropdown-panel
+                    role="list"
+                  >
+                    {% for country in localization.available_countries %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: country %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                      <li class="localization-dropdown__item" role="listitem">
+                        <a
+                          class="localization-dropdown__item-link"
+                          data-value="{{ country.iso_code }}"
+                          href="#"
+                          {% if country.iso_code == localization.country.iso_code %}
+                            active-link
+                          {% endif %}
+                          localization-link
+                        >
+                          {%- if section.settings.show_country_flag -%}
+                            <span class="country-flags country-flags--{{ country.iso_code }}"></span>
+                          {%- endif -%}
+                          <span>
+                            {{- country.name }} ({{ country.currency.iso_code }}
+                            {{ country.currency.symbol }})</span
+                          >
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                  <input
+                    aria-hidden="true"
+                    name="country_code"
+                    type="hidden"
+                    value="{{ localization.country.iso_code }}"
+                  >
+                {%- endform -%}
+              </localization-component>
+            </div>
+          </li>
+        {% endif %}
+
+        {% if section.settings.show_locale_selector and localization.available_languages.size > 1 %}
+          <li class="mobile-only" role="listitem">
+            <div
+              aria-label="Localization Dropdown"
+              class="localization-dropdown"
+              role="group"
+            >
+              <localization-component>
+                {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
+                  <button
+                    aria-label="Open Language Selector"
+                    class="localization-dropdown__btn"
+                    localization-btn-label
+                    aria-expanded="false"
+                    type="button"
+                  >
+                    {{ localization.language.endonym_name | capitalize }}
+                    {% render 'icon' with 'caret' %}
+                  </button>
+                  <ul
+                    aria-label="Language Selector"
+                    class="localization-dropdown__list"
+                    hidden
+                    localization-dropdown-panel
+                    role="list"
+                  >
+                    {% for language in localization.available_languages %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: language %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                      <li class="localization-dropdown__item" role="listitem">
+                        <a
+                          class="localization-dropdown__item-link"
+                          href="#"
+                          data-value="{{ language.iso_code }}"
+                          {% if language.iso_code == localization.language.iso_code %}
+                            active-link
+                          {% endif %}
+                          localization-link
+                        >
+                          {{ language.endonym_name | capitalize }}
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                  <input
+                    aria-hidden="true"
+                    name="locale_code"
+                    type="hidden"
+                    value="{{ localization.language.iso_code }}"
+                  >
+                {%- endform -%}
+              </localization-component>
+            </div>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</drawer-component>

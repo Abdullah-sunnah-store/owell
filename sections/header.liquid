@@ -1,0 +1,1851 @@
+{% liquid
+  assign style_transparent_Header = false
+  if section.settings.show_on_only_homepage and request.page_type != 'index'
+    assign style_transparent_Header = false
+
+  elsif section.settings.enable_transparent_header
+    assign style_transparent_Header = true
+  endif
+%}
+{% style %}
+  :root  {
+    --sticky-header-enabled: {%- if section.settings.enable_sticky -%}
+      1{% else %}
+      0{% endif %};
+  }
+
+  #shopify-section-{{ section.id }} {
+    position:
+
+    {%- if section.settings.enable_sticky  -%}
+        sticky
+    {% else %}
+        relative
+    {% endif %};
+    z-index: 6;
+    top: 0;
+    left:0;
+    right:0;
+  }
+
+  {%- if section.settings.enable_sticky  -%}
+    .section-annoucement-bar ~ #shopify-section-{{ section.id }} {
+      top: calc(var(--sticky-announcement-enabled, 0) * var(--announcement-height, 0px));
+      z-index: 6;
+    }
+  {%- endif -%}
+
+  .logo {
+    height: auto;
+    width: {{ section.settings.logo_width | append: "px" }}
+    ;
+    object-fit: contain;
+  }
+  .header__nav-list>.nav-item {
+    font-size: 18px;
+}
+  @media(max-width:767px) {
+    .logo {
+      width: {{ section.settings.logo_mobile_width | append: "px" }}
+    }
+  }
+
+  /* Always visible search bar styles */
+  .header-search-form {
+    width: 100%;
+  }
+
+  .header-search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 650px;
+    min-width: 200px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    background: white;
+    overflow: visible;
+  }
+
+  .header-search-input {
+    flex: 1;
+    border: none;
+    padding: 10px 45px 10px 15px;
+    font-size: 14px;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .header-search-input::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  .header-search-submit {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: transparent;
+    border: none;
+    padding: 0 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .header-search-submit:hover {
+    opacity: 0.7;
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+    flex: 1;
+    max-width: 650px;
+  }
+.header-search-form {
+    width: 600px;
+}
+
+@media(min-width:1600px ) and (max-width:1900px){
+.header-search-form {
+    width: 650px;
+}
+}
+  /* Mobile responsive - hide desktop search bar completely on mobile */
+  @media(max-width:991px) {
+    .header__iconGroup .search-bar {
+      display: none !important;
+    }
+    .header-search-form {
+    width: 100%;
+}
+  }
+
+  /* Mobile search bar - positioned BELOW menu/logo/cart */
+  .mobile-search-container {
+    display: none;
+    padding: 12px 15px;
+    background: var(--color-background, #fff);
+  }
+
+  @media(max-width:991px) {
+    .mobile-search-container {
+      display: block;
+    }
+
+    .mobile-search-container .header-search-wrapper {
+      max-width: 100%;
+      min-width: auto;
+    }
+
+    .mobile-search-container .header-search-input {
+      font-size: 14px;
+      padding: 10px 45px 10px 15px;
+    }
+  }
+
+  /* Responsive width adjustments for desktop */
+  @media(min-width:768px) and (max-width:1024px) {
+    .search-bar {
+      max-width: 350px;
+    }
+    
+    .header-search-wrapper {
+      max-width: 350px;
+    }
+  }
+
+  @media(min-width:1025px) and (max-width:1200px) {
+    .search-bar {
+      max-width: 450px;
+    }
+    
+    .header-search-wrapper {
+      max-width: 450px;
+    }
+  }
+
+  @media(min-width:1201px) {
+    .search-bar {
+      max-width: 650px;
+    }
+    
+    .header-search-wrapper {
+      max-width: 650px;
+    }
+  }
+
+  /* ── Predictive Search Dropdown ── */
+  .predictive-search-results {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+    z-index: 9999;
+    max-height: 420px;
+    overflow-y: auto;
+  }
+
+  .predictive-search-results.is-visible {
+    display: block;
+  }
+
+  .predictive-search__section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.4);
+    padding: 12px 14px 6px;
+    margin: 0;
+  }
+
+  .predictive-search__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 14px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .predictive-search__item:hover,
+  .predictive-search__item.is-selected {
+    background: rgba(0,0,0,0.05);
+  }
+
+  .predictive-search__item-image {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    border-radius: 3px;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .predictive-search__item-image-placeholder {
+    width: 44px;
+    height: 44px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    background: rgba(0,0,0,0.06);
+  }
+
+  .predictive-search__item-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .predictive-search__item-title {
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0 0 2px;
+  }
+
+  .predictive-search__item-meta {
+    font-size: 12px;
+    color: rgba(0,0,0,0.5);
+    margin: 0;
+  }
+
+  .predictive-search__query-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.15s;
+  }
+
+  .predictive-search__query-item:hover,
+  .predictive-search__query-item.is-selected {
+    background: rgba(0,0,0,0.05);
+  }
+
+  .predictive-search__query-icon {
+    opacity: 0.4;
+    flex-shrink: 0;
+  }
+
+  .predictive-search__divider {
+    height: 1px;
+    background: rgba(0,0,0,0.08);
+    margin: 4px 0;
+  }
+
+  .predictive-search__no-results {
+    padding: 16px 14px;
+    font-size: 14px;
+    color: rgba(0,0,0,0.5);
+    text-align: center;
+  }
+
+  .predictive-search__loading {
+    padding: 16px 14px;
+    font-size: 14px;
+    color: rgba(0,0,0,0.4);
+    text-align: center;
+  }
+
+  .predictive-search__view-all {
+    display: block;
+    text-align: center;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: inherit;
+    text-decoration: none;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    transition: background 0.15s;
+  }
+
+  .predictive-search__view-all:hover {
+    background: rgba(0,0,0,0.04);
+  }
+{% endstyle %}
+
+{%- if section.settings.menu != blank -%}
+  <height-calc class="d-block" variable="header">
+    <header-component
+      {% if style_transparent_Header %}
+        transparent-header
+        style="--header-text-color: {{ section.settings.transparent_header_text_color }}"
+      {% endif %}
+      data-index="{{ section.index }}"
+    >
+      <nav
+        class="navbar  color-{{ section.settings.color_scheme }} {% if section.settings.bottom_box_shadow %} bottom_box_shadow{% endif %}"
+        {% if section.settings.enable_sticky and section.settings.sticky_header_style == 'on_scroll_up' %}
+          hide-on-scroll
+        {% endif %}
+
+        aria-label="Main Navigation"
+      >
+        <div class="container">
+          <div class="header-container {% if section.settings.logo_position != 'drawer' %} {{ section.settings.logo_position }} {% endif %}">
+            {% comment %} Header drawer Desktop  {% endcomment %}
+            <div class="header-drawer {% if section.settings.logo_position == 'drawer' %} header-drawer--desktop {% endif %}">
+              <div>
+                <button
+                  aria-label="Open Hamburger Drawer"
+                  class="d-flex p-0 header__hamberger"
+                  drawer-to-open="header"
+                  is="open-drawer"
+                  type="button"
+                  target-portal-element="#portal"
+                  section-id="{{ section.id | prepend: 'shopify-section-' }}"
+                >
+                  {% render 'icon' with 'hamburger' %}
+                </button>
+              </div>
+            </div>
+
+            {% unless section.settings.logo_position == 'logo-left-menu-left'
+              or section.settings.logo_position == 'logo-center-menu-bottom'
+            %}
+              <div
+                class="header__menu-wrp {% if section.settings.logo_position == 'drawer' %} hide-nav {% endif %}"
+              >
+                <ul
+                  class="navbar-nav header__nav-list mega-menu dropdown-menu__list-item d-flex"
+                  aria-label="Main Navigation"
+                >
+                  {% for link in section.settings.menu.links %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: link %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                    <li class="nav-item fnt-14">
+                      {% if link.links != blank %}
+                        {% liquid
+                          unless section.blocks == blank
+                            assign linkItem = link.title | capitalize
+                            assign megamenu = false
+                            for block in section.blocks
+                              assign menuItem = block.settings.mega_menu_trigger | capitalize
+                              if menuItem contains linkItem
+                                assign megamenu = true
+                              endif
+                            endfor
+                          endunless
+                        %}
+                        <header-menu-trigger
+                          data-identefier="parent-element"
+                          data-trigger="{{ section.settings.dropdown_trigger_type }}"
+                        >
+                          <details
+                            {% unless megamenu %}
+                              class="dropdown-nav-item"
+                            {% endunless %}
+                            aria-label="{{ link.title }}"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            <summary menu-item class="parent-menu__link" role="button">
+                              <span class="menu-main-link fnt-14">
+                                {{ link.title | escape }}
+                                {% render 'icon' with 'caret' %}
+                              </span>
+                            
+                            </summary>
+                            {% unless section.blocks == blank %}
+                              {% assign showDropdown = true %}
+                              {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                                {% liquid
+                                  assign blockTrigger = block.settings.mega_menu_trigger | capitalize
+                                  assign linkText = link.title | capitalize
+                                %}
+
+                                {% if blockTrigger contains linkText %}
+                                  {% case block.type %}
+                                    {% when 'mega_menu_promotion' %}
+                                      {% render 'mega-menu-promotion',
+                                        link: link,
+                                        block: block,
+                                        colorScheme: section.settings['color_scheme-menu']
+                                      %}
+                                    {% when 'mega_menu_products' %}
+                                      {% render 'mega-menu-products',
+                                        link: link,
+                                        block: block,
+                                        colorScheme: section.settings['color_scheme-menu'],
+                                        dropdown_trigger_type: section.settings.dropdown_trigger_type
+                                      %}
+
+                                    {% when 'mega_menu_collections' %}
+                                      {% render 'mega-menu-collections',
+                                        link: link,
+                                        block: block,
+                                        colorScheme: section.settings['color_scheme-menu']
+                                      %}
+                                  {% endcase %}
+                                  {% assign showDropdown = false %}
+                                  {% break %}
+                                {% endif %}
+                              {% endfor %}
+
+                              {% if showDropdown %}
+                                {% render 'dropdown-nav',
+                                  link: link,
+                                  colorScheme: section.settings['color_scheme-menu'],
+                                  dropdown_trigger_type: section.settings.dropdown_trigger_type
+                                %}
+                              {% endif %}
+                            {% else %}
+                              {% render 'dropdown-nav',
+                                link: link,
+                                colorScheme: section.settings['color_scheme-menu'],
+                                dropdown_trigger_type: section.settings.dropdown_trigger_type
+                              %}
+                            {% endunless %}
+                          </details>
+                        </header-menu-trigger>
+                      {%- else -%}
+                        <a
+                          href="{{ link.url }}"
+                          class="{% if link.current %} active{% endif %} menu-main-link"
+                          {% if link.current %}
+                            aria-current="page"
+                          {% endif %}
+                        >
+                          {{ link.title | escape }}
+                        </a>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endunless %}
+
+            {% comment %} Header Logo {% endcomment %}
+            <div
+              class="
+                logo-container {% if section.settings.logo_position != 'drawer' and section.settings.logo_position != "logo-center-menu-bottom" and section.settings.logo_position != "logo-center-menu-left" %}  align-logo-{{ section.settings.logo_position }}{% endif %}
+                {% if section.settings.logo_position != 'drawer' and section.settings.logo_position == "logo-center-menu-bottom" %}
+                  align-logo-cente-grid-item
+                {% endif %}
+              "
+            >
+              {%- if request.page_type == 'index' -%}
+                <h1 class="heading-brand-logo-text h3 m-0">
+              {%- endif -%}
+              <a class="navbar-brand" href="{{ routes.root_url }}">
+                {%- capture size -%}
+                  {{ '(min-width: 780px) ' | append: section.settings.logo_width | append: 'px' }},{{ section.settings.logo_mobile_width | append: 'px' }}
+                  {%- endcapture -%}
+                {%- capture widths -%}
+                  {{ section.settings.logo_mobile_width | times: 2 | at_most: section.settings.header_logo.width }},{{ section.settings.logo_width | times: 2 | at_most: section.settings.header_logo.width }}
+                  {%- endcapture -%}
+                {% assign logo_alt = section.settings.logo.alt | default: shop.name | escape %}
+                {% if section.settings.header_logo != blank %}
+                  <span class="visually-hidden">{{ shop.name | escape }} </span>
+                  {% if section.settings.enable_transparent_header
+                    and section.settings.transparent_header_logo != blank
+                    and style_transparent_Header
+                  %}
+                    {{
+                      section.settings.transparent_header_logo
+                      | image_url: width: section.settings.transparent_header_logo.width
+                      | image_tag:
+                        alt: logo_alt,
+                        widths: widths,
+                        sizes: size,
+                        loading: 'eager',
+                        class: 'transparent-logo logo'
+                    }}
+                  {% endif %}
+                  {{
+                    section.settings.header_logo
+                    | image_url: width: section.settings.header_logo.width
+                    | image_tag: alt: logo_alt, widths: widths, sizes: size, loading: 'eager', class: 'main-logo logo'
+                  }}
+                {% else %}
+                  <span class="logo-text h3">{{ shop.name | escape }}</span>
+                {% endif %}
+              </a>
+              {%- if request.page_type == 'index' -%}
+                </h1>
+              {%- endif -%}
+              {% if section.settings.logo_position != 'drawer'
+                and section.settings.logo_position == 'logo-left-menu-left'
+              %}
+                <div
+                  aria-label="Menu"
+                  class="header__menu-wrp menu-left "
+                >
+                  <ul class="navbar-nav header__nav-list mega-menu dropdown-menu__list-item d-flex ">
+                    {% for link in section.settings.menu.links %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: link %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                      <li class="nav-item ">
+                        {% if link.links != blank %}
+                          {% liquid
+                            unless section.blocks == blank
+                              assign linkItem = link.title | capitalize
+                              assign megamenu = false
+                              for block in section.blocks
+                                assign menuItem = block.settings.mega_menu_trigger | capitalize
+                                if menuItem contains linkItem
+                                  assign megamenu = true
+                                endif
+                              endfor
+                            endunless
+                          %}
+                          <header-menu-trigger
+                            data-identefier="parent-element"
+                           data-trigger="{{ section.settings.dropdown_trigger_type }}"
+                          >
+                            <details
+                              {% unless megamenu %}
+                                class="dropdown-nav-item"
+                              {% endunless %}
+                              aria-label="{{ link.title }}"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                            >
+                              <summary menu-item class="parent-menu__link" role="button">
+                                <span class="menu-main-link fnt-14">
+                                  {{ link.title | escape }}
+                                  {% render 'icon' with 'caret' %}
+                                </span>
+                              </summary>
+                              {% unless section.blocks == blank %}
+                                {% assign showDropdown = true %}
+                                {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                                  {% liquid
+                                    assign blockTrigger = block.settings.mega_menu_trigger | capitalize
+                                    assign linkText = link.title | capitalize
+                                  %}
+
+                                  {% if blockTrigger contains linkText %}
+                                    {% case block.type %}
+                                      {% when 'mega_menu_promotion' %}
+                                        {% render 'mega-menu-promotion',
+                                          link: link,
+                                          block: block,
+                                          colorScheme: section.settings['color_scheme-menu'],
+                                          dropdown_trigger_type: section.settings.dropdown_trigger_type
+                                        %}
+                                      {% when 'mega_menu_products' %}
+                                        {% render 'mega-menu-products',
+                                          link: link,
+                                          block: block,
+                                          colorScheme: section.settings['color_scheme-menu'],
+                                          dropdown_trigger_type: section.settings.dropdown_trigger_type
+                                        %}
+
+                                      {% when 'mega_menu_collections' %}
+                                        {% render 'mega-menu-collections',
+                                          link: link,
+                                          block: block,
+                                          colorScheme: section.settings['color_scheme-menu'],
+                                          dropdown_trigger_type: section.settings.dropdown_trigger_type
+                                        %}
+                                    {% endcase %}
+                                    {% assign showDropdown = false %}
+                                    {% break %}
+                                  {% endif %}
+                                {% endfor %}
+                                {% if showDropdown %}
+                                  {% render 'dropdown-nav',
+                                    link: link,
+                                    colorScheme: section.settings['color_scheme-menu'],
+                                    dropdown_trigger_type: section.settings.dropdown_trigger_type
+                                  %}
+                                {% endif %}
+                              {% else %}
+                                {% render 'dropdown-nav',
+                                  link: link,
+                                  colorScheme: section.settings['color_scheme-menu'],
+                                  dropdown_trigger_type: section.settings.dropdown_trigger_type
+                                %}
+                              {% endunless %}
+                            </details>
+                          </header-menu-trigger>
+                        {%- else -%}
+                          <a
+                            href="{{ link.url }}"
+                            class="{% if link.current %} active{% endif %} menu-main-link"
+                            {% if link.current %}
+                              aria-current="page"
+                            {% endif %}
+                            aria-label="{{ link.title }}"
+                            menu-item
+                          >
+                            {{ link.title | escape }}
+                          </a>
+                        {% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+            </div>
+
+            {% comment %} Header right icons {% endcomment %}
+            <div class="d-flex order-3 header__iconGroup">
+              <ul class="d-flex">
+                {% liquid
+                  assign show_highlight_button = false
+                  if section.settings.highlight_heading != blank
+                    assign show_highlight_button = true
+                  endif
+                  if section.settings.use_outline_button_style
+                    assign button_style = 'border'
+                  else
+                    assign button_style = 'fill'
+                  endif
+                %}
+                {% if show_highlight_button %}
+                  <li class="desktop-only">
+                    <a
+                      class="btn btn--{{ button_style }} btn--small"
+                      href="{{ section.settings.highlight_link }}"
+                    >
+                      {{ section.settings.highlight_heading }}
+                    </a>
+                  </li>
+                {% endif %}
+                <li class="search-bar mb-0">
+                  <form action="{{ routes.search_url }}" method="get" role="search" class="header-search-form predictive-search-form">
+                    <div class="header-search-wrapper">
+                      <input 
+                        type="search" 
+                        name="q" 
+                        placeholder="Search..." 
+                        class="header-search-input predictive-search-input"
+                        aria-label="Search"
+                        autocomplete="off"
+                        aria-autocomplete="list"
+                        aria-controls="predictive-search-desktop"
+                        aria-expanded="false"
+                        role="combobox"
+                      >
+                      <button type="submit" class="header-search-submit" aria-label="Submit search">
+                        {% render 'icon' with 'search' %}
+                      </button>
+                      <div
+                        id="predictive-search-desktop"
+                        class="predictive-search-results"
+                        role="listbox"
+                        aria-label="Search suggestions"
+                      ></div>
+                    </div>
+                  </form>
+                </li>
+                {% if shop.customer_accounts_enabled %}
+                  <li class="desktop-only mb-0">
+                    <a
+                      aria-label="Account"
+                      class="d-v-center icon-label header__icon"
+                      href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+                    >
+                      {% render 'icon' with 'account' %}
+                    </a>
+                  </li>
+                {% endif %}
+                <li class="mb-0">
+                  {% unless settings.cart_type == 'page' %}
+                    <button
+                      aria-label="{{ 'general.header.cart_count' | t : count : cart.item_count }}"
+                      class="header__icon btn--transparent js-element"
+                      drawer-to-open="cart-drawer"
+                      is="open-drawer"
+                    >
+                      {% render 'icon' with 'cart' %}
+                      <div header-cart-bubble>
+                        {%- if cart.item_count > 0 -%}
+                          <span class="header__cart__icon-count">{{ cart.item_count }}</span>
+                          <span class="visually-hidden" aria-hidden="true">
+                            {{- 'general.header.cart_count' | t: count: cart.item_count -}}
+                          </span>
+                        {%- endif -%}
+                      </div>
+                    </button>
+                  {% else %}
+                    <a
+                      aria-label="Cart"
+                      class="header__icon js-element"
+                      href="{{ routes.cart_url }}"
+                    >
+                      {% render 'icon' with 'cart' %}
+                      <div header-cart-bubble>
+                        {%- if cart.item_count > 0 -%}
+                          <span class="header__cart__icon-count">{{ cart.item_count }}</span>
+                          <span class="visually-hidden">{{ cart.item_count }} items</span>
+                        {%- endif -%}
+                      </div>
+                    </a>
+                  {% endunless %}
+                  <noscript>
+                    <a
+                      aria-label="Cart"
+                      class="header__icon"
+                      href="{{ routes.cart_url }}"
+                    >
+                      {% render 'icon' with 'cart' %}
+                      <div>
+                        {%- if cart.item_count > 0 -%}
+                          <span class="header__cart__icon-count">{{ cart.item_count }}</span>
+                          <span class="visually-hidden">{{ cart.item_count }} items</span>
+                        {%- endif -%}
+                      </div>
+                    </a>
+                  </noscript>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {% comment %} Menu at the bottom  {% endcomment %}
+          {% if section.settings.logo_position == 'logo-center-menu-bottom'
+            and section.settings.logo_position != 'drawer'
+          %}
+            <div class="menu-bottom">
+              <div
+                aria-label="Menu"
+                class="header__menu-wrp "
+                role="navigation"
+              >
+                <ul class="navbar-nav header__nav-list mega-menu dropdown-menu__list-item d-flex justify-content-center">
+                  {% for link in section.settings.menu.links %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: link %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                    <li class="nav-item ">
+                      {% if link.links != blank %}
+                        {% liquid
+                          unless section.blocks == blank
+                            assign linkItem = link.title | capitalize
+                            assign megamenu = false
+                            for block in section.blocks
+                              assign menuItem = block.settings.mega_menu_trigger | capitalize
+                              if menuItem contains linkItem
+                                assign megamenu = true
+                              endif
+                            endfor
+                          endunless
+                        %}
+                        <header-menu-trigger
+                          data-identefier="parent-element"
+                          data-trigger="{{ section.settings.dropdown_trigger_type }}"
+                        >
+                          <details
+                            {% unless megamenu %}
+                              class="dropdown-nav-item"
+                            {% endunless %}
+                            aria-label="{{ link.title }}"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            <summary menu-item class="parent-menu__link" role="button">
+                              <span class="menu-main-link fnt-14">
+                                {{ link.title | escape }}
+                                {% render 'icon' with 'caret' %}
+                              </span>
+                            </summary>
+                            {% unless section.blocks == blank %}
+                              {% assign showDropdown = true %}
+                              {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                                {% liquid
+                                  assign blockTrigger = block.settings.mega_menu_trigger | capitalize
+                                  assign linkText = link.title | capitalize
+                                %}
+
+                                {% if blockTrigger contains linkText %}
+                                  {% case block.type %}
+                                    {% when 'mega_menu_promotion' %}
+                                      {% render 'mega-menu-promotion',
+                                        link: link,
+                                        block: block,
+                                        colorScheme: section.settings['color_scheme-menu']
+                                      %}
+                                    {% when 'mega_menu_products' %}
+                                      {% render 'mega-menu-products',
+                                        link: link,
+                                        block: block,
+                                        colorScheme: section.settings['color_scheme-menu']
+                                      %}
+
+                                    {% when 'mega_menu_collections' %}
+                                      {% render 'mega-menu-collections',
+                                        link: link,
+                                        block: block,
+                                        colorScheme: section.settings['color_scheme-menu']
+                                      %}
+                                  {% endcase %}
+                                  {% assign showDropdown = false %}
+                                  {% break %}
+                                {% endif %}
+                              {% endfor %}
+                              {% if showDropdown %}
+                                {% render 'dropdown-nav',
+                                  link: link,
+                                  colorScheme: section.settings['color_scheme-menu'],
+                                  dropdown_trigger_type: section.settings.dropdown_trigger_type
+                                %}
+                              {% endif %}
+                            {% else %}
+                              {% render 'dropdown-nav',
+                                link: link,
+                                colorScheme: section.settings['color_scheme-menu'],
+                                dropdown_trigger_type: section.settings.dropdown_trigger_type
+                              %}
+                            {% endunless %}
+                          </details>
+                        </header-menu-trigger>
+                      {%- else -%}
+                        <a
+                          role="menuitem"
+                          href="{{ link.url }}"
+                          class="{% if link.current %} active{% endif %} menu-main-link"
+                          {% if link.current %}
+                            aria-current="page"
+                          {% endif %}
+                        >
+                          {{ link.title | escape }}
+                        </a>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
+        {% comment %} Mobile Search Bar - MOVED TO BOTTOM (below menu/logo/cart) {% endcomment %}
+        <div class="mobile-search-container">
+          <form action="{{ routes.search_url }}" method="get" role="search" class="header-search-form predictive-search-form">
+            <div class="header-search-wrapper">
+              <input 
+                type="search" 
+                name="q" 
+                placeholder="Search..." 
+                class="header-search-input predictive-search-input"
+                aria-label="Search"
+                autocomplete="off"
+                aria-autocomplete="list"
+                aria-controls="predictive-search-mobile"
+                aria-expanded="false"
+                role="combobox"
+              >
+              <button type="submit" class="header-search-submit" aria-label="Submit search">
+                {% render 'icon' with 'search' %}
+              </button>
+              <div
+                id="predictive-search-mobile"
+                class="predictive-search-results"
+                role="listbox"
+                aria-label="Search suggestions"
+              ></div>
+            </div>
+          </form>
+        </div>
+      </nav>
+    </header-component>
+  </height-calc>
+{% endif %}
+
+{%- if section.settings.hamberger_menu != blank or section.settings.menu != blank -%}
+  {% comment %} Hamberger Drawer  {% endcomment %}
+  {% render 'hamberger-drawer', section: section %}
+{% endif %}
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    {% if settings.logo %}
+      "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
+    {% endif %}
+    "sameAs": [
+      {{ settings.social_linkedin | json }},
+      {{ settings.social_twitter | json }},
+      {{ settings.social_facebook | json }},
+      {{ settings.social_pinterest | json }},
+      {{ settings.social_instagram | json }},
+      {{ settings.social_tiktok | json }},
+      {{ settings.social_tumblr | json }},
+      {{ settings.social_snapchat | json }},
+      {{ settings.social_youtube | json }},
+      {{ settings.social_vimeo | json }}
+    ],
+    "url": {{ request.origin | append: page.url | json }}
+  }
+</script>
+
+{%- if request.page_type == 'index' -%}
+  {% assign potential_action_target = request.origin | append: routes.search_url | append: '?q={search_term_string}' %}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ potential_action_target | json }},
+        "query-input": "required name=search_term_string"
+      },
+      "url": {{ request.origin | append: page.url | json }}
+    }
+  </script>
+{%- endif -%}
+
+<script>
+(function () {
+  'use strict';
+
+  // ── Configuration ──────────────────────────────────────────────
+  const DEBOUNCE_MS   = 200;   // ms to wait after last keystroke
+  const MIN_CHARS     = 2;     // minimum characters before searching
+  const MAX_PRODUCTS  = 4;     // max product results to show
+  const MAX_QUERIES   = 4;     // max query suggestions to show
+  const SEARCH_URL    = '{{ routes.search_url }}';
+
+  // ── Money formatter ────────────────────────────────────────────
+  const moneyFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: '{{ cart.currency.iso_code | default: "USD" }}'
+  });
+
+  function formatMoney(cents) {
+    return moneyFormatter.format(cents / 100);
+  }
+
+  // ── SVG icons ──────────────────────────────────────────────────
+  const searchIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`;
+
+  // ── Debounce helper ────────────────────────────────────────────
+  function debounce(fn, delay) {
+    let timer;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn.apply(this, args), delay);
+    };
+  }
+
+  // ── Fetch predictive search results from Shopify API ──────────
+  async function fetchPredictiveResults(query) {
+    const params = new URLSearchParams({
+      q: query,
+      resources: JSON.stringify({
+        type:    ['product', 'query'],
+        limit:   Math.max(MAX_PRODUCTS, MAX_QUERIES),
+        options: { unavailable_products: 'last', fields: 'title,product_type,variants.title,vendor' }
+      }),
+      section_id: 'predictive-search'  // not used but required by some versions
+    });
+
+    // Shopify Predictive Search API endpoint
+    const url = `/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product,query&resources[limit]=${Math.max(MAX_PRODUCTS, MAX_QUERIES)}&resources[options][unavailable_products]=last`;
+
+    const response = await fetch(url, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (!response.ok) throw new Error('Search request failed');
+    return response.json();
+  }
+
+  // ── Build HTML for the dropdown ────────────────────────────────
+  function buildResultsHTML(data, query) {
+    const resources  = data.resources && data.resources.results ? data.resources.results : {};
+    const queries    = (resources.queries  || []).slice(0, MAX_QUERIES);
+    const products   = (resources.products || []).slice(0, MAX_PRODUCTS);
+
+    if (!queries.length && !products.length) {
+      return `<p class="predictive-search__no-results">No results for "<strong>${escapeHTML(query)}</strong>"</p>`;
+    }
+
+    let html = '';
+
+    // Query suggestions
+    if (queries.length) {
+      html += `<p class="predictive-search__section-title">Suggestions</p>`;
+      queries.forEach(q => {
+        const url = `${SEARCH_URL}?q=${encodeURIComponent(q.text)}&type=product`;
+        html += `
+          <a href="${url}" class="predictive-search__query-item" role="option">
+            <span class="predictive-search__query-icon">${searchIcon}</span>
+            <span>${highlightMatch(q.styled_text || q.text, query)}</span>
+          </a>`;
+      });
+    }
+
+    // Products
+    if (products.length) {
+      if (queries.length) html += `<div class="predictive-search__divider"></div>`;
+      html += `<p class="predictive-search__section-title">Products</p>`;
+
+      products.forEach(product => {
+        const imgHTML = product.featured_image && product.featured_image.url
+          ? `<img src="${product.featured_image.url}&width=100" alt="${escapeHTML(product.title)}" class="predictive-search__item-image" width="44" height="44" loading="lazy">`
+          : `<div class="predictive-search__item-image-placeholder"></div>`;
+
+        const price = product.variants && product.variants[0]
+          ? formatMoney(product.variants[0].price)
+          : '';
+
+        html += `
+          <a href="${product.url}" class="predictive-search__item" role="option">
+            ${imgHTML}
+            <div class="predictive-search__item-text">
+              <p class="predictive-search__item-title">${escapeHTML(product.title)}</p>
+              ${price ? `<p class="predictive-search__item-meta">${price}</p>` : ''}
+            </div>
+          </a>`;
+      });
+    }
+
+    // View all link
+    const viewAllUrl = `${SEARCH_URL}?q=${encodeURIComponent(query)}&type=product`;
+    html += `<a href="${viewAllUrl}" class="predictive-search__view-all">View all results for "<strong>${escapeHTML(query)}</strong>"</a>`;
+
+    return html;
+  }
+
+  // ── Utility: escape HTML ───────────────────────────────────────
+  function escapeHTML(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // ── Utility: bold matching portion in suggestion text ─────────
+  function highlightMatch(text, query) {
+    // text may already contain <em> tags from Shopify; just return it
+    if (text.includes('<em>') || text.includes('<strong>')) return text;
+    const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return text.replace(new RegExp(`(${escaped})`, 'gi'), '<strong>$1</strong>');
+  }
+
+  // ── Core controller for a single search input ─────────────────
+  function initPredictiveSearch(input, dropdown) {
+    let currentQuery = '';
+    let selectedIndex = -1;
+    let items = [];
+
+    function getItems() {
+      return Array.from(dropdown.querySelectorAll('[role="option"]'));
+    }
+
+    function openDropdown() {
+      dropdown.classList.add('is-visible');
+      input.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeDropdown() {
+      dropdown.classList.remove('is-visible');
+      input.setAttribute('aria-expanded', 'false');
+      selectedIndex = -1;
+    }
+
+    function setSelected(index) {
+      items = getItems();
+      items.forEach(el => el.classList.remove('is-selected'));
+      if (index >= 0 && index < items.length) {
+        items[index].classList.add('is-selected');
+        items[index].scrollIntoView({ block: 'nearest' });
+      }
+      selectedIndex = index;
+    }
+
+    // Keyboard navigation
+    input.addEventListener('keydown', (e) => {
+      if (!dropdown.classList.contains('is-visible')) return;
+      items = getItems();
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setSelected(Math.min(selectedIndex + 1, items.length - 1));
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setSelected(Math.max(selectedIndex - 1, -1));
+        if (selectedIndex === -1) input.focus();
+      } else if (e.key === 'Enter' && selectedIndex >= 0) {
+        e.preventDefault();
+        items[selectedIndex].click();
+      } else if (e.key === 'Escape') {
+        closeDropdown();
+        input.blur();
+      }
+    });
+
+    // Main search handler
+    const handleInput = debounce(async () => {
+      const query = input.value.trim();
+      if (query === currentQuery) return;
+      currentQuery = query;
+
+      if (query.length < MIN_CHARS) {
+        closeDropdown();
+        dropdown.innerHTML = '';
+        return;
+      }
+
+      dropdown.innerHTML = `<p class="predictive-search__loading">Searching…</p>`;
+      openDropdown();
+
+      try {
+        const data = await fetchPredictiveResults(query);
+        if (input.value.trim() !== query) return; // stale response
+        dropdown.innerHTML = buildResultsHTML(data, query);
+        openDropdown();
+      } catch (err) {
+        dropdown.innerHTML = `<p class="predictive-search__no-results">Something went wrong. Please try again.</p>`;
+      }
+    }, DEBOUNCE_MS);
+
+    input.addEventListener('input', handleInput);
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!input.closest('.header-search-wrapper').contains(e.target)) {
+        closeDropdown();
+      }
+    });
+
+    // Reopen on focus if there's a value
+    input.addEventListener('focus', () => {
+      if (input.value.trim().length >= MIN_CHARS && dropdown.innerHTML.trim()) {
+        openDropdown();
+      }
+    });
+  }
+
+  // ── Attach to all search forms ─────────────────────────────────
+  function init() {
+    document.querySelectorAll('.predictive-search-form').forEach(form => {
+      const input    = form.querySelector('.predictive-search-input');
+      const dropdown = form.querySelector('.predictive-search-results');
+      if (input && dropdown) {
+        initPredictiveSearch(input, dropdown);
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "header",
+  "class": "header position-relative section-header-header-group",
+  "settings": [
+    {
+      "type": "select",
+      "id": "logo_position",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "logo-center-menu-left",
+          "label": "Logo center, menu left"
+        },
+        {
+          "value": "logo-left-menu-center",
+          "label": "Logo left, menu center"
+        },
+        {
+          "value": "logo-center-menu-bottom",
+          "label": "Logo center, menu bottom"
+        },
+        {
+          "value": "logo-left-menu-left",
+          "label": "Logo left, menu left"
+        },
+        {
+          "value": "drawer",
+          "label": "Drawer"
+        }
+      ],
+      "default": "logo-center-menu-left"
+    },
+    {
+      "type": "select",
+      "id": "dropdown_trigger_type",
+      "label": "Open dropdown items on..",
+      "info": "Click mode is forced on touch devices.",
+      "options": [
+        {
+          "value": "hover",
+          "label": "Hover"
+        },
+        {
+          "value": "click",
+          "label": "Click"
+        }
+      ],
+      "default": "hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "Enable sticky header",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "sticky_header_style",
+      "label": "Sticky header style",
+      "options": [
+        {
+          "value": "always",
+          "label": "Always"
+        },
+        {
+          "value": "on_scroll_up",
+          "label": "On scroll up"
+        }
+      ],
+      "default": "always"
+    },
+    {
+      "type": "checkbox",
+      "id": "bottom_box_shadow",
+      "label": "show bottom shadow",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_logo",
+      "label": "Image",
+      "info": "270 x 80px .png recommended"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Image width",
+      "max": 300,
+      "min": 30,
+      "step": 10,
+      "unit": "px",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "logo_mobile_width",
+      "label": "Image mobile width",
+      "max": 180,
+      "min": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 134
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Menu"
+    },
+
+    {
+      "type": "header",
+      "content": "Highlight button"
+    },
+    {
+      "type": "text",
+      "id": "highlight_heading",
+      "label": "Label",
+      "default": "SHOP ALL"
+    },
+    {
+      "type": "url",
+      "id": "highlight_link",
+      "label": "Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_outline_button_style",
+      "label": "Use outline button style",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Transparent header",
+      "info": "Enable this option to make the header transparent."
+    },
+    {
+      "type": "paragraph",
+      "content": "Transparent header will not work if there are any sections added below the header section in the header group."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_transparent_header",
+      "label": "Enable transparent header",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_only_homepage",
+      "label": "Show on only homepage",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "transparent_header_text_color",
+      "label": "Content color",
+      "default": "#000000",
+      "info": "This color will change the color of the links, icon  and  button"
+    },
+    {
+      "type": "image_picker",
+      "id": "transparent_header_logo",
+      "label": "Logo image",
+      "info": "Use the same dimensions as the main logo"
+    },
+    {
+      "type": "header",
+      "content": "Drawer"
+    },
+    {
+      "type": "link_list",
+      "id": "hamberger_menu",
+      "default": "main-menu",
+      "label": "Drawer menu"
+    },
+    {
+      "type": "header",
+      "content": "Language selector",
+      "info": "To add a language, go to your [language settings.](/admin/settings/languages)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_locale_selector",
+      "label": "Show language selector",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Country/region selector",
+      "info": "To add a country/region, go to your [markets settings.](/admin/settings/markets)."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_selector",
+      "label": "Enable country/region selector",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_flag",
+      "label": "Show country flag",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_name",
+      "label": "Show country name",
+      "default": false
+    },
+
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Header"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme-menu",
+      "default": "scheme-1",
+      "label": "Menu"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "mega_menu_promotion",
+      "name": "Mega menu - promotion",
+      "settings": [
+        {
+          "type": "text",
+          "label": "Menu item",
+          "id": "mega_menu_trigger",
+          "info": "Enter menu item to apply a mega menu dropdown."
+        },
+        {
+          "type": "header",
+          "content": "Promotion"
+        },
+        {
+          "type": "select",
+          "id": "promotion_stack",
+          "label": "Stack style",
+          "options": [
+            {
+              "value": "row",
+              "label": "Horizontal"
+            },
+            {
+              "value": "column",
+              "label": "Vertical"
+            }
+          ],
+          "default": "row"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "label": "Image ratio",
+          "options": [
+            {
+              "label": "Portrait (3:4)",
+              "value": "portrait"
+            },
+            {
+              "label": "Square (1:1)",
+              "value": "square"
+            },
+            {
+              "label": "Adapt to image",
+              "value": "adapt"
+            },
+            {
+              "label": "Landspace (4:3)",
+              "value": "landscape"
+            }
+          ],
+          "default": "adapt"
+        },
+        {
+          "type": "text_alignment",
+          "id": "content_alignment",
+          "label": "Heading alignment",
+          "default": "left"
+        },
+        {
+          "type": "header",
+          "content": "Promotion 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "promotion-1_image",
+          "label": "Image",
+          "info": "1200 x 1200px (square 1:1) recommended"
+        },
+        {
+          "type": "text",
+          "id": "promotion-1_button_text",
+          "label": "Heading",
+          "default": "View all"
+        },
+        {
+          "type": "url",
+          "id": "promotion-1_link",
+          "label": "Link"
+        },
+        {
+          "type": "header",
+          "content": "Promotion 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "promotion-2_image",
+          "label": "Image",
+          "info": "1200 x 1200px (square 1:1) recommended"
+        },
+        {
+          "type": "text",
+          "id": "promotion-2_button_text",
+          "label": "Heading",
+          "default": "View all"
+        },
+        {
+          "type": "url",
+          "id": "promotion-2_link",
+          "label": "Link"
+        },
+        {
+          "type": "header",
+          "content": "Promotion 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "promotion-3_image",
+          "label": "Image",
+          "info": "1200 x 1200px (square 1:1) recommended"
+        },
+        {
+          "type": "text",
+          "id": "promotion-3_button_text",
+          "label": "Heading",
+          "default": "View all"
+        },
+        {
+          "type": "url",
+          "id": "promotion-3_link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "link_target",
+          "label": "Open links in",
+          "options": [
+            {
+              "label": "New tab",
+              "value": "_blank"
+            },
+            {
+              "label": "Same tab",
+              "value": "_top"
+            }
+          ],
+          "default": "_blank"
+        }
+      ]
+    },
+    {
+      "type": "mega_menu_collections",
+      "name": "Mega menu - collections",
+      "settings": [
+        {
+          "type": "text",
+          "label": "Menu item",
+          "id": "mega_menu_trigger",
+          "info": "Enter menu item to apply a mega menu dropdown."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "info": "Replaces the default menu item heading",
+          "default": "Heading"
+        },
+        {
+          "type": "select",
+          "id": "submenu_level",
+          "label": "Submenu level",
+          "info": "Controls which level of submenu you would like to show, mega menu will function correctly only if the collection images are updated.",
+          "options": [
+            {
+              "value": "level-2",
+              "label": "Show level 2"
+            },
+            {
+              "value": "level-2-3",
+              "label": "Show level 2 & 3"
+            }
+          ],
+          "default": "level-2"
+        },
+
+        {
+          "type": "select",
+          "id": "column_count",
+          "label": "No. of columns",
+          "options": [
+            {
+              "value": "4",
+              "label": "4"
+            },
+            {
+              "value": "5",
+              "label": "5"
+            }
+          ],
+          "default": "4"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "label": "Image ratio",
+          "options": [
+            {
+              "label": "Portrait (3:4)",
+              "value": "portrait"
+            },
+            {
+              "label": "Square (1:1)",
+              "value": "square"
+            },
+            {
+              "label": "Adapt to image",
+              "value": "adapt"
+            },
+            {
+              "label": "Landspace (4:3)",
+              "value": "landscape"
+            }
+          ],
+          "default": "adapt"
+        },
+        {
+          "type": "text_alignment",
+          "id": "content_alignment",
+          "label": "Heading alignment",
+          "default": "left"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_link",
+          "label": "Show link",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link text",
+          "default": "View all"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link URL"
+        },
+        {
+          "type": "select",
+          "id": "link_target",
+          "label": "Open link in",
+          "options": [
+            {
+              "label": "New tab",
+              "value": "_blank"
+            },
+            {
+              "label": "Same tab",
+              "value": "_top"
+            }
+          ],
+          "default": "_blank"
+        },
+        {
+          "type": "paragraph",
+          "content": "For replacing the default collection image with custom image use metafields. [Learn more](https://support.shoptrade.co/article/55-mega-menu#Collections--Mega-Menu-P-UFD) on how to use this."
+        }
+      ]
+    },
+    {
+      "type": "mega_menu_products",
+      "name": "Mega menu - products",
+      "settings": [
+        {
+          "type": "text",
+          "label": "Menu item",
+          "id": "mega_menu_trigger",
+          "info": "Enter menu item to apply a mega menu dropdown."
+        },
+        {
+          "type": "header",
+          "content": "Navigation"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_heading",
+          "label": "Show heading",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "product_heading",
+          "label": "Heading",
+          "default": "Heading",
+          "info": "Replaces the default collection heading"
+        },
+        {
+          "type": "header",
+          "content": "Featured products"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "product_list",
+          "limit": 4,
+          "id": "products",
+          "label": "Products",
+          "info": "Select products here will override the collection products"
+        },
+        {
+          "type": "text",
+          "label": "Heading",
+          "id": "heading",
+          "default": "heading"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_view_all_button",
+          "label": "Show link",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "view_all_link_style",
+          "label": "Link style",
+          "options": [
+            {
+              "value": "icon",
+              "label": "Arrow"
+            },
+            {
+              "value": "text",
+              "label": "Text"
+            }
+          ],
+          "default": "icon"
+        },
+        {
+          "type": "select",
+          "id": "view_all_link_position",
+          "label": "Desktop link position",
+          "options": [
+            {
+              "value": "start",
+              "label": "Start"
+            },
+            {
+              "value": "end",
+              "label": "End"
+            }
+          ],
+          "default": "start"
+        },
+        {
+          "type": "text",
+          "id": "view_all_link_text",
+          "label": "Link text",
+          "default": "View all",
+          "info": "Will only work when link style is set to 'text' ",
+          "placeholder": "Link text"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        },
+        {
+          "type": "select",
+          "id": "link_target",
+          "label": "Open link in",
+          "options": [
+            {
+              "label": "New tab",
+              "value": "_blank"
+            },
+            {
+              "label": "Same tab",
+              "value": "_top"
+            }
+          ],
+          "default": "_blank"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

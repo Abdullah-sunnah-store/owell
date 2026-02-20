@@ -1,0 +1,101 @@
+<div>
+  <div class="order-product__tr">
+    <div class="order-product__image">
+      {% if line_item.image == blank %}
+        {{ 'product-1' | placeholder_svg_tag }}
+      {% else %}
+        {{
+          line_item.image
+          | image_url: width: line_item.image.width
+          | image_tag: loading: 'lazy', sizes: '98px', widths: '250'
+        }}
+      {% endif %}
+    </div>
+    <div class="order-product__body">
+      <div class="order-product__body-wrp">
+        <a href="{{ line_item.url }}" class="order-product__title">
+          {{- line_item.product.title | default: line_item.title -}}
+        </a>
+        {% comment %} Variant information {% endcomment %}
+        {%- unless line_item.product.has_only_default_variant or line_item.gift_card -%}
+          <p class="order-product__variant-title fnt-14 fnt-body-weight-bold text-color">
+            {{ line_item.variant.title }}
+          </p>
+        {%- endunless -%}
+        {% comment %} Line Item price {% endcomment %}
+        {% render 'order-price', line_item: line_item %}
+        {% comment %} Show line_item discounts badge{% endcomment %}
+        {% if line_item.line_level_discount_allocations.size > 0 %}
+          <ul class="order-product__discounts mt-4">
+            {% for discount_allocation in line_item.line_level_discount_allocations %}
+              <li class="d-inline-flex align-item-center fnt-12 d_badge {% if line_item.line_level_discount_allocations.size > 1 and forloop.last != true -%} mt-5 {% endif -%}">
+                <span class="icon">
+                  {% render 'icon' with 'discount' %}
+                </span>
+                <span class="text">
+                  {{ discount_allocation.discount_application.title }}
+                </span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% comment %} Line Item properties information {% endcomment %}
+        {%- if line_item.properties -%}
+          <div class="order-product__properties__wrapper">
+            {%- for property in line_item.properties -%}
+              {%- assign property_first_char = property.first | slice: 0 -%}
+              {%- if property.last != blank and property_first_char != '_' -%}
+                <div class="order-product-properties fnt-12 ">
+                  <span class="fnt-body-weight-bold">{{ property.first }}: </span>
+                  <span>
+                    {%- if property.last contains '/uploads/' -%}
+                      <a
+                        aria-describedby="a11y-new-window-message"
+                        class="link"
+                        href="{{ property.last }}"
+                        target="_blank"
+                      >
+                        {{ property.last | split: '/' | last }}
+                      </a>
+                    {%- else -%}
+                      {{ property.last }}
+                    {%- endif -%}
+                  </span>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        {% comment %} Selling plan information {% endcomment %}
+        {%- if line_item.selling_plan_allocation != null -%}
+          <p class="order-product__selling-plan fnt-14 mt-8 text-color">
+            {{ line_item.selling_plan_allocation.selling_plan.name }}
+          </p>
+        {%- endif -%}
+        {% comment %} Order fullfillment information {% endcomment %}
+        {%- if line_item.fulfillment -%}
+          <div class="fulfillment">
+            {%- assign created_at = line_item.fulfillment.created_at | time_tag: format: 'date' -%}
+            <span>{{ 'customer.account.order.fulfilled_at_html' | t: date: created_at }}</span>
+
+            <div class="tracking-details fnt-14">
+              <span>
+                {{ line_item.fulfillment.tracking_company }}
+                {%- if line_item.fulfillment.tracking_number -%}
+                  #{{ line_item.fulfillment.tracking_number }}
+                {%- endif -%}
+              </span>
+              {%- if line_item.fulfillment.tracking_url -%}
+                <a href="{{ line_item.fulfillment.tracking_url }}" class="link fnt-14 mb-4">
+                  <span>
+                    {{ 'customer.account.order.track_shipment' | t }}
+                  </span>
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>

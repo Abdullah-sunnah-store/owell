@@ -1,0 +1,57 @@
+{% comment %} drawer css  {% endcomment %}
+<link
+  href="{{ 'section-drawer-view-all-products.css' | asset_url }}"
+  media="print"
+  onload="this.media='all'"
+  rel="stylesheet"
+>
+
+<drawer-component
+  aria-live="polite"
+  aria-modal="true"
+  aria-label="{{ 'general.drawer.option.drawer_text' | t }}"
+  class="d-block drawer color-{{ settings.drawer_color_scheme }} view-all-product-drawer"
+  drawer-type="quiz-drawer-{{ section.id }}"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="drawer__container">
+    <div class="drawer__overlay" drawer-overlay></div>
+    <div class="drawer__wrapper drawer__wrapper--animation-position-right">
+      {% comment %} Drawer Header Area {% endcomment %}
+      <div class="drawer__header align-item-center">
+        <button
+          aria-label="{{ 'accessibility.close_drawer' | t }} {{ 'section.quiz.drawer_text' | t }}"
+          class="drawer__close__btn"
+          close-drawer
+          tabindex="0"
+        >
+          {%- render 'icon' with 'close-drawer' -%}
+        </button>
+
+        <h2 class="drawer__head">{{ 'section.quiz.drawer_text' | t }}</h2>
+        <button class="link quiz__retry text-upper" quiz-retry><span>{{ 'section.quiz.retry' | t }}</span></button    >
+      </div>
+
+      {% comment %} Drawer Content/Body area {% endcomment %}
+      <div class="drawer__body">
+        <div class="drawer__body__wrapper">
+          <div class="h3 quiz__noResults d-none" no-results>{{ 'section.quiz.no-results' | t | newline_to_br }}</div>
+          <div class="grid-layout grid-layout--2-desktop" drawer-items-container></div>
+          <div class="quiz__loadMoreWrp" load-more watch-element>
+            <button class="quiz__loadMore btn{% if section.settings.use_outline_button %} btn--border {% else %} btn--fill {% endif %}">
+              <div class="btn--preloader">
+                <div class="btn--preloader--circular">
+                  <div class="checkmark draw"></div>
+                </div>
+              </div>
+              <div class="btn--text">
+                {{ 'section.quiz.button.load-more' | t }}
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</drawer-component>

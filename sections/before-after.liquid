@@ -1,0 +1,1019 @@
+{{ 'section-before-after.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }};
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }};
+      --padding-bottom: {{ section.settings.padding_bottom | append: 'px' }};
+      padding-bottom: var(--padding-bottom)
+    }
+  }
+{%- endstyle -%}
+
+{% liquid
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  assign intersection = ''
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign intersection = 'intersection-element'
+    assign loading = 'lazy'
+  endif
+
+  assign page_width = settings.page_width
+  assign widths = '500, 780, 1060, 1280, 1440'
+
+  assign contentBlock = section.blocks | where: 'type', 'content'
+  assign sliderBlocks = section.blocks | where: 'type', 'slider_image'
+  assign imageWidth = '100vw'
+  assign imageRatioDivider = 1
+  if contentBlock.size > 0
+    assign imageWidth = '50vw'
+    assign imageRatioDivider = 2
+  endif
+  assign textBlockSize = section.blocks | where: 'type', 'content' | size
+  assign bg_foregound_color = false
+  if section.settings.color_scheme.settings.background == contentBlock.first.settings.color_scheme.settings.background
+    assign bg_foregound_color = true
+  endif
+%}
+
+{%- capture sizes -%}
+  {%- unless section.settings.full_width -%}
+    (min-width: {{ page_width }}px) {{ page_width | minus: 100 | divided_by: imageRatioDivider }}px,
+    (min-width: 768px) calc({{ imageWidth }} - 50px), calc(100vw - 100px)
+    {%- else -%}
+    (min-width: 768px) calc({{ imageWidth }} - 50px), calc(100vw - 100px)
+  {%- endunless -%}
+{%- endcapture -%}
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'top' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-top"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+<div
+  aria-label="{{ 'accessibility.before-after.label' | t }}"
+  class="section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}"
+  role="region"
+>
+  {% unless section.settings.full_width %}
+    <div class="container">
+  {% endunless %}
+  <div class="beforeAfter__section{% if sliderBlocks.size > 1 %} slider-enabled{% endif %} ">
+    <div class="beforeAfter__container {% unless section.settings.full_width or bg_foregound_color %} {% if textBlockSize > 0 and section.settings.color_scheme.settings.background != "rgba(0,0,0,0)" %} border-radius border-radius--block {% endif %} {% endunless %} d-flex position-relative image-fixed {{ section.settings.image_position }}">
+      <div
+        class="beforeAfter__media beforeAfter__block d-v-center  image-full image-height--{{ section.settings.image_aspect_ratio }}"
+        style=" {% if contentBlock.size > 0 %} --media-width: 50% {% else %} flex-grow:1; {% endif %}"
+      >
+        {% comment %} Sldier image block {% endcomment %}
+        {% if sliderBlocks.size > 1 %}
+          <carousel-component
+            {{ intersection }}
+            dynamic-navigation-color
+            class="mobile-content-over-media h-100 js-element position-relative{% if contentBlock.size == 0 %} w-100{% endif %}"
+            slide-disable-touch-move
+            slide-keyboard-disabled
+            slide-layout-type="carousel"
+            slide-pagination-type="bullets"
+            slide-per-view="1"
+            slide-responsive-breakpoints='{"320":{"slidesPerView":"1","autoHeight":"false"},"768":{"slidesPerView":"1","autoHeight":"false"}}'
+            slide-speed="{{ settings.slide_duration }}"
+            animate-on-slide-change
+            {% if section.index == 1 %}
+              animate-on-load
+            {% endif %}
+            style="--pagination-width: {{ sliderBlocks.size }}"
+            aria-label="Slider"
+          >
+            <div class="swiper h-100 swiper-container" main-slider>
+              <div class="swiper-wrapper h-100">
+        {% endif %}
+        {% for block in sliderBlocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+          {% assign index = forloop.index %}
+          <before-after
+            class="swiper-slide beforeAfter__wrapper w-100 h-100 no-select position-relative color-{{ block.settings.color_scheme }} {% if section.settings.full_width == false and bg_foregound_color or section.settings.color_scheme.settings.background == "rgba(0,0,0,0)" or  contentBlock.size == 0 %} border-radius border-radius--block{% endif %}"
+            {{ block.shopify_attributes }}
+            style="--thumb-position: {{ block.settings.drag_position }}%"
+            data-thumb-initial="{{ block.settings.drag_position }}"
+            {% if forloop.index == 1 %}
+              watch-element
+            {% endif %}
+          >
+            <button
+              class="beforeAfter__thumb h-100"
+              style="--color-button-background: {{ block.settings.control_bg }}; --color-button-text: {{ block.settings.control_arrow }}"
+              aria-label="{{ 'accessibility.before-after.control' | t }}"
+            >
+              {% render 'icon', icon: 'before-after-controls' %}
+            </button>
+            {% if block.settings.before_image != blank %}
+              <div class="beforeAfter__beforeImage-wrapper beforeAfter__image-wrapper h-100">
+                {%- if block.settings.before_text != blank -%}
+                  <animation-reveal
+                    class="beforeAfter__text beforeAfter__text-before position-{{ block.settings.before_after_text_position }}"
+                    {% if block.settings.before_after_text_position == 'top' %}
+                      aoi-type="fade-down"
+                      aoi-amount="0.3"
+                    {% else %}
+                      aoi-type="fade-up"
+                      aoi-amount="1"
+                    {% endif %}
+
+                    aoi-duration="0.5"
+                  >
+                    <div>
+                      {% if block.settings.before_product != blank %}
+                        <span>
+                          <a
+                            class="beforeAfter__link d-block"
+                            href="{{ block.settings.before_product.url }}"
+                            target="_top"
+                          >
+                            {{- block.settings.before_text -}}
+                          </a>
+                        </span>
+                      {% else %}
+                        <span class="beforeAfter__link d-block">{{ block.settings.before_text }}</span>
+                      {% endif %}
+                    </div>
+                  </animation-reveal>
+                {%- endif -%}
+                {% liquid
+                  assign imageClass = 'beforeAfter__beforeImage beforeAfter__image h-100 w-100'
+                  assign mobileEnabled = false
+                  if block.settings.before_image_mobile != blank
+                    assign imageClass = imageClass | append: ' tab-only'
+                    assign mobileEnabled = true
+                  endif
+                %}
+                {%- capture beforeimagealt -%}
+                          {{ block.settings.before_image.alt | default: 'image' }}
+                        {%- endcapture -%}
+                {{
+                  block.settings.before_image
+                  | image_url: width: block.settings.before_image.width
+                  | image_tag:
+                    loading: loading,
+                    fetchpriority: fetchpriority,
+                    sizes: sizes,
+                    widths: widths,
+                    class: imageClass,
+                    draggable: 'false',
+                    alt: beforeimagealt
+                }}
+                {% if mobileEnabled %}
+                  {%- capture beforeimagemobilealt -%}
+                            {{ block.settings.before_image_mobile.alt | default: 'image' }}
+                          {%- endcapture -%}
+                  {{
+                    block.settings.before_image_mobile
+                    | image_url: width: block.settings.before_image_mobile.width
+                    | image_tag:
+                      loading: loading,
+                      fetchpriority: fetchpriority,
+                      sizes: sizes,
+                      widths: widths,
+                      class: 'beforeAfter__beforeImage beforeAfter__image h-100 w-100 mobile-sm-only',
+                      draggable: 'false',
+                      alt: beforeimagemobilealt
+                  }}
+                {% endif %}
+              </div>
+            {% else %}
+              <div class="beforeAfter__beforeImage-wrapper beforeAfter__image-wrapper h-100">
+                {%- if block.settings.before_text != blank -%}
+                  <animation-reveal
+                    class="beforeAfter__text beforeAfter__text-before position-{{ block.settings.before_after_text_position }}"
+                    {% if block.settings.before_after_text_position == 'top' %}
+                      aoi-type="fade-down" aoi-amount="0.3"
+                    {% else %}
+                      aoi-type="fade-up" aoi-amount="0.5"
+                    {% endif %}
+                    aoi-duration="0.5"
+                  >
+                    <div>
+                      {% if block.settings.before_product != blank %}
+                        <span>
+                          <a
+                            class="beforeAfter__link d-block"
+                            href="{{ block.settings.before_product.url }}"
+                            target="_top"
+                          >
+                            {{- block.settings.before_text -}}
+                          </a>
+                        </span>
+                      {% else %}
+                        <span class="beforeAfter__link d-block">{{ block.settings.before_text }}</span>
+                      {% endif %}
+                    </div>
+                  </animation-reveal>
+                {%- endif -%}
+                {{
+                  'hero-apparel-1'
+                  | placeholder_svg_tag: 'beforeAfter__image h-100 beforeAfter__beforeImage placeholder-svg w-100'
+                }}
+              </div>
+            {% endif %}
+            {% if block.settings.after_image != blank %}
+              <div class="beforeAfter__afterImage-wrapper beforeAfter__image-wrapper h-100 w-100">
+                {%- if block.settings.after_text != blank -%}
+                  <animation-reveal
+                    class="beforeAfter__text beforeAfter__text-after position-{{ block.settings.before_after_text_position }}"
+                    {% if block.settings.before_after_text_position == 'top' %}
+                      aoi-type="fade-down" aoi-amount="0.3"
+                    {% else %}
+                      aoi-type="fade-up" aoi-amount="0.5"
+                    {% endif %}
+                    {% if index > 1 %}
+                      aoi-fade-delay="0"
+                    {% else %}
+                      aoi-fade-delay="0.5"
+                    {% endif %}
+                    aoi-duration="0.5"
+                  >
+                    <div>
+                      {% if block.settings.after_product != blank %}
+                        <span>
+                          <a
+                            class="beforeAfter__link d-block"
+                            href="{{ block.settings.after_product.url }}"
+                            target="_top"
+                          >
+                            {{- block.settings.after_text -}}
+                          </a>
+                        </span>
+                      {% else %}
+                        <span class="beforeAfter__link d-block">{{ block.settings.after_text }}</span>
+                      {% endif %}
+                    </div>
+                  </animation-reveal>
+                {% endif %}
+                {% liquid
+                  assign imageClass = 'beforeAfter__afterImage beforeAfter__image h-100 w-100'
+                  if block.settings.after_image_mobile != blank
+                    assign imageClass = imageClass | append: ' tab-only'
+                    assign mobileEnabled = true
+                  else
+                    assign mobileEnabled = false
+                  endif
+                %}
+                {%- capture afterimagealt -%}
+                          {{ block.settings.after_image.alt | default: 'image' }}
+                        {%- endcapture -%}
+                {{
+                  block.settings.after_image
+                  | image_url: width: block.settings.after_image.width
+                  | image_tag:
+                    loading: loading,
+                    fetchpriority: fetchpriority,
+                    sizes: sizes,
+                    widths: widths,
+                    class: imageClass,
+                    draggable: 'false',
+                    alt: afterimagealt
+                }}
+                {% if mobileEnabled %}
+                  {%- capture afterimagemobilealt -%}
+                            {{ block.settings.after_image_mobile.alt | default: 'image' }}
+                          {%- endcapture -%}
+                  {{
+                    block.settings.after_image_mobile
+                    | image_url: width: block.settings.after_image_mobile.width
+                    | image_tag:
+                      loading: loading,
+                      fetchpriority: fetchpriority,
+                      sizes: sizes,
+                      widths: widths,
+                      class: 'beforeAfter__afterImage beforeAfter__image h-100 w-100 mobile-sm-only',
+                      draggable: 'false',
+                      alt: afterimagemobilealt
+                  }}
+                {% endif %}
+              </div>
+            {% else %}
+              <div class="beforeAfter__afterImage-wrapper beforeAfter__image-wrapper h-100 w-100">
+                {%- if block.settings.after_text != blank -%}
+                  <animation-reveal
+                    class="beforeAfter__text beforeAfter__text-after position-{{ block.settings.before_after_text_position }}"
+                    {% if block.settings.before_after_text_position == 'top' %}
+                      aoi-type="fade-down" aoi-amount="0.3"
+                    {% else %}
+                      aoi-type="fade-up" aoi-amount="0.5"
+                    {% endif %}
+                    {% if index > 1 %}
+                      aoi-fade-delay="0"
+                    {% else %}
+                      aoi-fade-delay="0.5"
+                    {% endif %}
+                    aoi-duration="0.5"
+                  >
+                    <div>
+                      {% if block.settings.after_product != blank %}
+                        <span>
+                          <a
+                            class="beforeAfter__link d-block"
+                            href="{{ block.settings.after_product.url }}"
+                            target="_top"
+                          >
+                            {{- block.settings.after_text -}}
+                          </a>
+                        </span>
+                      {% else %}
+                        <span class="beforeAfter__link d-block">{{ block.settings.after_text }}</span>
+                      {% endif %}
+                    </div>
+                  </animation-reveal>
+                {% endif %}
+                {{
+                  'hero-apparel-2'
+                  | placeholder_svg_tag: 'beforeAfter__image beforeAfter__afterImage placeholder-svg h-100 w-100'
+                }}
+              </div>
+            {% endif %}
+          </before-after>
+        {% endfor %}
+        {% if sliderBlocks.size > 1 %}
+          </div>
+          </div>
+          <div class="" slider-controller>
+            <div class="dash_arrows ">
+              <!-- Next Arrow -->
+              <div
+                class="slideshow__next sliderPagination__next"
+                slide-next
+                role="button"
+                tabindex="0"
+                aria-label="{{ 'accessibility.next_slide_label' | t }}"
+              >
+                {% render 'slider-arrow-icon', arrow_direction: 'right' %}
+              </div>
+
+              <!-- Pagination Dots -->
+              <div class="sliderControl d-block" role="group" aria-label="Slider Controls">
+                <div class="sliderProgressBar">
+                  <div class="swiper-pagination" slide-progress aria-label="Slider Pagination"></div>
+                </div>
+              </div>
+
+              <!-- Previous Arrow -->
+              <div
+                class="slideshow__prev sliderPagination__prev"
+                slide-prev
+                role="button"
+                tabindex="0"
+                aria-label="{{ 'accessibility.prev_slide_label' | t }}"
+              >
+                {% render 'slider-arrow-icon', arrow_direction: 'left' %}
+              </div>
+            </div>
+          </div>
+          </carousel-component>
+          <noscript class="w-100">
+            <div class="swiper h-100">
+              <div class="swiper-wrapper h-100">
+                {% assign block = sliderBlocks.first %}
+                <before-after
+                  class="swiper-slide h-100 beforeAfter__wrapper w-100 no-select position-relative color-{{ block.settings.color_scheme }}"
+                  {{ block.shopify_attributes }}
+                  style="--thumb-position: {{ block.settings.drag_position }}%"
+                  data-thumb-initial="{{ block.settings.drag_position }}"
+                  watch-element
+                >
+                  <button
+                    class="beforeAfter__thumb h-100"
+                    style="--color-button-background: {{ block.settings.control_bg }}; --color-button-text: {{ block.settings.control_arrow }}"
+                    aria-label="{{ 'accessibility.before-after.control' | t }}"
+                  >
+                    {% render 'icon', icon: 'before-after-controls' %}
+                  </button>
+                  {% if block.settings.before_image != blank and block.settings.after_image != blank %}
+                    <div class="beforeAfter__beforeImage-wrapper beforeAfter__image-wrapper h-100">
+                      {%- if block.settings.before_text != blank -%}
+                        <animation-reveal>
+                          <div class="beforeAfter__text beforeAfter__text-before position-{{ block.settings.before_after_text_position }}">
+                            {% if block.settings.before_product != blank %}
+                              <span>
+                                <a
+                                  class="beforeAfter__link d-block"
+                                  href="{{ block.settings.before_product.url }}"
+                                  target="_top"
+                                >
+                                  {{- block.settings.before_text -}}
+                                </a>
+                              </span>
+                            {% else %}
+                              <span class="beforeAfter__link d-block">{{ block.settings.before_text }}</span>
+                            {% endif %}
+                          </div>
+                        </animation-reveal>
+                      {% endif %}
+                      {% liquid
+                        assign imageClass = 'beforeAfter__beforeImage beforeAfter__image h-100 w-100'
+                        assign mobileEnabled = false
+                        if block.settings.before_image_mobile != blank and block.settings.after_image_mobile != blank
+                          assign imageClass = imageClass | append: ' tab-only'
+                          assign mobileEnabled = true
+                        endif
+                      %}
+                      {%- capture beforeimagealt -%}
+                        {{ block.settings.before_image.alt | default: 'image' }}
+                      {%- endcapture -%}
+                      {{
+                        block.settings.before_image
+                        | image_url: width: block.settings.before_image.width
+                        | image_tag:
+                          loading: loading,
+                          fetchpriority: fetchpriority,
+                          sizes: sizes,
+                          widths: widths,
+                          class: imageClass,
+                          draggable: 'false',
+                          alt: beforeimagealt
+                      }}
+                      {% if mobileEnabled %}
+                        {%- capture beforeimagemobilealt -%}
+                          {{ block.settings.before_image_mobile.alt | default: 'image' }}
+                        {%- endcapture -%}
+                        {{
+                          block.settings.before_image_mobile
+                          | image_url: width: block.settings.before_image_mobile.width
+                          | image_tag:
+                            loading: loading,
+                            fetchpriority: fetchpriority,
+                            sizes: sizes,
+                            widths: widths,
+                            class: 'beforeAfter__beforeImage beforeAfter__image h-100 w-100 mobile-sm-only',
+                            draggable: 'false',
+                            alt: beforeimagemobilealt
+                        }}
+                      {% endif %}
+                    </div>
+                    <div class="beforeAfter__afterImage-wrapper beforeAfter__image-wrapper h-100 w-100">
+                      {%- if block.settings.after_text != blank -%}
+                        <animation-reveal>
+                          <div class="beforeAfter__text beforeAfter__text-after position-{{ block.settings.before_after_text_position }}">
+                            {% if block.settings.after_product != blank %}
+                              <span>
+                                <a
+                                  class="beforeAfter__link d-block"
+                                  href="{{ block.settings.after_product.url }}"
+                                  target="_top"
+                                >
+                                  {{- block.settings.after_text -}}
+                                </a>
+                              </span>
+                            {% else %}
+                              <span class="beforeAfter__link d-block">{{ block.settings.after_text }}</span>
+                            {% endif %}
+                          </div>
+                        </animation-reveal>
+                      {% endif %}
+                      {% liquid
+                        assign imageClass = 'beforeAfter__afterImage beforeAfter__image h-100 w-100'
+                        if block.settings.before_image_mobile != blank and block.settings.after_image_mobile != blank
+                          assign imageClass = imageClass | append: ' tab-only'
+                        endif
+                      %}
+                      {%- capture afterimagealt -%}
+                        {{ block.settings.after_image.alt | default: 'image' }}
+                      {%- endcapture -%}
+                      {{
+                        block.settings.after_image
+                        | image_url: width: block.settings.after_image.width
+                        | image_tag:
+                          loading: loading,
+                          fetchpriority: fetchpriority,
+                          sizes: sizes,
+                          widths: widths,
+                          class: imageClass,
+                          draggable: 'false',
+                          alt: afterimagealt
+                      }}
+                      {% if mobileEnabled %}
+                        {%- capture afterimagemobilealt -%}
+                          {{ block.settings.after_image_mobile.alt | default: 'image' }}
+                        {%- endcapture -%}
+                        {{
+                          block.settings.after_image_mobile
+                          | image_url: width: block.settings.after_image_mobile.width
+                          | image_tag:
+                            loading: loading,
+                            fetchpriority: fetchpriority,
+                            sizes: sizes,
+                            widths: widths,
+                            class: 'beforeAfter__afterImage  h-100 w-100 mobile-sm-only',
+                            draggable: 'false',
+                            alt: afterimagemobilealt
+                        }}
+                      {% endif %}
+                    </div>
+                  {% else %}
+                    <div class="beforeAfter__beforeImage-wrapper beforeAfter__image-wrapper h-100">
+                      {%- if block.settings.before_text != blank -%}
+                        <animation-reveal>
+                          <div class="beforeAfter__text beforeAfter__text-before position-{{ block.settings.before_after_text_position }}">
+                            <span class="beforeAfter__link d-block">{{ block.settings.before_text }}</span>
+                          </div>
+                        </animation-reveal>
+                      {%- endif -%}
+                      {{
+                        'hero-apparel-1'
+                        | placeholder_svg_tag: 'beforeAfter__image beforeAfter__beforeImage placeholder-svg h-100 w-100'
+                      }}
+                    </div>
+                    <div class="beforeAfter__afterImage-wrapper beforeAfter__image-wrapper h-100 w-100">
+                      {%- if block.settings.after_text != blank -%}
+                        <animation-reveal>
+                          <div class="beforeAfter__text beforeAfter__text-after position-{{ block.settings.before_after_text_position }}">
+                            <span class="beforeAfter__link d-block">{{ block.settings.after_text }}</span>
+                          </div>
+                        </animation-reveal>
+                      {% endif %}
+                      {{
+                        'hero-apparel-2'
+                        | placeholder_svg_tag: 'beforeAfter__image beforeAfter__afterImage placeholder-svg h-100 w-100'
+                      }}
+                    </div>
+                  {% endif %}
+                </before-after>
+              </div>
+            </div>
+          </noscript>
+        {% endif %}
+      </div>
+
+      {% if contentBlock.size > 0 %}
+        {% comment %} Content block {% endcomment %}
+        {% liquid
+          assign block = contentBlock.first
+          assign overlay_opacity = block.settings.overlay_opacity | times: 1.0 | divided_by: 100
+          assign overlay_rgba_color = block.settings.overlay_color.rgb | append: ' / ' | append: overlay_opacity
+        %}
+        <div
+          class="beforeAfter__content beforeAfter__block d-v-center position-relative color-{{ block.settings.color_scheme }}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="beforeAfter__wrp text-{{ block.settings.content_alignment }}">
+            <animation-reveal aoi-type="stagger" aoi-delay="0.13" aoi-duration="0.5" aoi-amount="0.5">
+              {% if block.settings.subheading != blank %}
+                <p class="fnt-16 clr-text mb-2">{{ block.settings.subheading }}</p>
+              {% endif %}
+              <h2 class="h2 text-color">
+                {{ block.settings.caption }}
+              </h2>
+              <div class="beforeAfter__desc">
+                {% if block.settings.content != blank %}
+                  <div class="section__subHeading">
+                    <div class="RTE-content">
+                      {{ block.settings.content }}
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+              {% unless block.settings.button_label == blank %}
+                <div class="btn--wrap">
+                  <a
+                    class="btn {% if block.settings.use_outline_button %} btn--border  {% else %} btn--fill{% endif %}"
+                    href="{{ block.settings.button_link }}"
+                    target="{{ block.settings.link_target }}"
+                  >
+                    {{- block.settings.button_label -}}
+                  </a>
+                </div>
+              {% endunless %}
+            </animation-reveal>
+          </div>
+          <div
+            class="image-with-text-overlay-media position-absolute w-100"
+            role="region"
+            {{ block.shopify_attributes }}
+          >
+            <animation-reveal
+              class="beforeAfter__imageOverlay w-100 h-100"
+              aoi-type="scale"
+              aoi-duration="0.5"
+              aoi-amount="0.1"
+            >
+              <div
+                class="image_overlay position-absolute"
+                style="background-color:{% if block.settings.image != blank %}rgba({{ overlay_rgba_color }}){% else %}var(--color-background){% endif %}"
+                video-overlay-elements
+              ></div>
+              {% if block.settings.image != blank %}
+                {% assign imagealt = block.settings.image.alt | default: '' %}
+                {{
+                  block.settings.image
+                  | image_url: width: block.settings.image.width
+                  | image_tag:
+                    loading: loading,
+                    fetchpriority: fetchpriority,
+                    class: 'set-100-percentage-size-media h-100 w-100',
+                    widths: widths,
+                    sizes: sizes,
+                    alt: imagealt
+                }}
+              {% endif %}
+            </animation-reveal>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% unless section.settings.full_width %}
+    </div>
+  {% endunless %}
+</div>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'bottom' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-bottom"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+{% schema %}
+{
+  "name": "Before/after",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Size",
+      "options": [
+        {
+          "label": "Adapt to image",
+          "value": "auto"
+        },
+        {
+          "label": "Small",
+          "value": "sm"
+        },
+        {
+          "label": "Medium",
+          "value": "md"
+        },
+        {
+          "label": "Large",
+          "value": "lg"
+        },
+        {
+          "label": "Fill screen",
+          "value": "fill"
+        }
+      ],
+      "default": "md"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Position",
+      "info": "Applicable only when content block is added",
+      "options": [
+        {
+          "label": "Left",
+          "value": "d-flex-md-row"
+        },
+        {
+          "label": "Right",
+          "value": "d-flex-md-row-reverse"
+        }
+      ],
+      "default": "d-flex-md-row-reverse"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 36
+    },
+    {
+      "type": "select",
+      "id": "border_size",
+      "label": "Border",
+      "options": [
+        {
+          "label": "Hide",
+          "value": "hide"
+        },
+        {
+          "label": "Full width",
+          "value": "full_width"
+        },
+        {
+          "label": "Fixed width",
+          "value": "fixed_width"
+        }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "select",
+      "id": "border_position",
+      "label": "Border position",
+      "options": [
+        {
+          "label": "Both",
+          "value": "both"
+        },
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "both"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Content",
+      "type": "content",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Heading",
+          "default": "Before/after"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "text_alignment",
+          "id": "content_alignment",
+          "label": "Content alignment",
+          "default": "left"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "link_target",
+          "label": "Open link in",
+          "options": [
+            {
+              "label": "New tab",
+              "value": "_blank"
+            },
+            {
+              "label": "Same tab",
+              "value": "_top"
+            }
+          ],
+          "default": "_top"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_outline_button",
+          "label": "Use outline button style",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background image",
+          "info": "1200 x 1200px .jpg recommended"
+        },
+        {
+          "type": "header",
+          "content": "Appearance"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Overlay opacity",
+          "default": 30
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "default": "scheme-4",
+          "label": "Color scheme"
+        }
+      ]
+    },
+    {
+      "name": "Slider image",
+      "type": "slider_image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "before_image",
+          "label": "Before image",
+          "info": "2880 x 1280px (large) .jpg recommended"
+        },
+        {
+          "type": "image_picker",
+          "id": "before_image_mobile",
+          "label": "Before image (mobile)",
+          "info": "740 x 1100px (large) .jpg recommended"
+        },
+        {
+          "type": "image_picker",
+          "id": "after_image",
+          "label": "After image",
+          "info": "2880 x 1280px (large) .jpg recommended"
+        },
+        {
+          "type": "image_picker",
+          "id": "after_image_mobile",
+          "label": "After image (mobile)",
+          "info": "740 x 1100px (large) .jpg recommended"
+        },
+        {
+          "type": "range",
+          "id": "drag_position",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "%",
+          "label": "Slider position",
+          "default": 50
+        },
+        {
+          "type": "text",
+          "id": "before_text",
+          "label": "Before text",
+          "default": "Before"
+        },
+        {
+          "type": "product",
+          "id": "before_product",
+          "label": "Before product"
+        },
+        {
+          "type": "text",
+          "id": "after_text",
+          "label": "After text",
+          "default": "After"
+        },
+        {
+          "type": "product",
+          "id": "after_product",
+          "label": "After product"
+        },
+        {
+          "type": "select",
+          "id": "before_after_text_position",
+          "label": "Text position",
+          "options": [
+            {
+              "label": "Top",
+              "value": "top"
+            },
+            {
+              "label": "Bottom",
+              "value": "bottom"
+            }
+          ],
+          "default": "bottom"
+        },
+        {
+          "type": "header",
+          "content": "Appearance"
+        },
+        {
+          "type": "color",
+          "id": "control_bg",
+          "label": "Slider color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "control_arrow",
+          "label": "Arrow color",
+          "default": "#042436"
+        },
+        {
+          "type": "paragraph",
+          "content": "Adjust button color to change before/after text color."
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "default": "scheme-1",
+          "label": "Color scheme"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Before/after",
+      "blocks": [
+        {
+          "type": "slider_image"
+        },
+        {
+          "type": "slider_image"
+        },
+        {
+          "type": "slider_image"
+        },
+        {
+          "type": "content"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["*"]
+  }
+}
+{% endschema %}

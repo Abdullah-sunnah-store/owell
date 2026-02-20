@@ -1,0 +1,73 @@
+<ul class="social-links">
+  {%- if settings.social_twitter != blank -%}
+    <li class="social-links__item">
+      <a href="{{ settings.social_twitter }}" target="_blank" aria-label="{{ 'general.social.follow_on' | t: social_media: 'Twitter' }}">
+        {% render 'icon' with 'twitter' %}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_facebook != blank -%}
+    <li class="social-links__item">
+      <a href="{{ settings.social_facebook }}" target="_blank" aria-label="{{ 'general.social.follow_on' | t: social_media: 'Facebook' }}">        
+        {%- render 'icon' with 'facebook' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_pinterest != blank -%}
+    <li class="social-links__item">
+      <a href="{{ settings.social_pinterest }}" target="_blank" aria-label="{{ 'general.social.follow_on' | t: social_media: 'Pinterest' }}">
+        {%- render 'icon' with 'pinterest' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_instagram != blank -%}
+    <li class="social-links__item">
+      <a href="{{ settings.social_instagram }}" target="_blank" aria-label="{{ 'general.social.follow_on' | t: social_media: 'Instagram' }}">
+        {%- render 'icon' with 'instagram' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_tiktok != blank -%}
+    <li class="social-links__item">
+      <a href="{{ settings.social_tiktok }}" target="_blank" aria-label="{{ 'general.social.follow_on' | t: social_media: 'TikTok' }}">
+        {%- render 'icon' with 'tiktok' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_linkedin != blank -%}
+    <li class="social-links__item">
+      <a href="{{ settings.social_linkedin }}" target="_blank" aria-label="{{ 'general.social.follow_on' | t: social_media: 'LinkedIn' }}">
+        {%- render 'icon' with 'linkedIn' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_tumblr != blank -%}
+    <li class="social-links__item">
+      <a href="{{ settings.social_tumblr }}" target="_blank" aria-label="{{ 'general.social.follow_on' | t: social_media: 'Tumblr' }}">
+        {%- render 'icon' with 'tumblr' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_snapchat != blank -%}
+    <li class="social-links__item">
+      <a href="{{ settings.social_snapchat }}" target="_blank" aria-label="{{ 'general.social.follow_on' | t: social_media: 'Snapchat' }}">
+        {%- render 'icon' with 'snapchat' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_youtube != blank -%}
+    <li class="social-links__item">
+      <a href="{{ settings.social_youtube }}" target="_blank" aria-label="{{ 'general.social.follow_on' | t: social_media: 'Youtube' }}">
+        {%- render 'icon' with 'youtube' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_vimeo != blank -%}
+    <li class="social-links__item">
+      <a href="{{ settings.social_vimeo }}" target="_blank" aria-label="{{ 'general.social.follow_on' | t: social_media: 'vimeo' }}">
+        {%- render 'icon' with 'vimeo' -%}
+      </a>
+    </li>
+  {%- endif -%}
+
+</ul>

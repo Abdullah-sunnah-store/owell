@@ -1,0 +1,186 @@
+{% comment %}
+  Section: How Can We Help
+  Description: Three main focus points with numbered, clickable links
+{% endcomment %}
+
+<style>
+  .help-section {
+    background-color: {{ section.settings.background_color }};
+    padding: 80px 20px;
+  }
+
+  .help-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .help-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: {{ section.settings.text_color }};
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .help-link-item {
+    margin-bottom: 25px;
+    display: block;
+  }
+
+  .help-link {
+    font-size: 18px;
+    font-weight: 600;
+    color: {{ section.settings.text_color }};
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 8px 0;
+  }
+
+  .help-link:hover {
+    color: {{ section.settings.accent_color }};
+  }
+
+  .help-link:hover .help-number {
+    background: {{ section.settings.accent_color }};
+    color: #ffffff;
+  }
+
+  .help-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    border: 2px solid {{ section.settings.text_color }};
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .help-link:hover .help-number {
+    border-color: {{ section.settings.accent_color }};
+  }
+
+  @media (max-width: 768px) {
+    .help-section {
+      padding: 60px 15px;
+    }
+
+    .help-title {
+      font-size: 20px;
+      margin-bottom: 35px;
+    }
+
+    .help-link {
+      font-size: 16px;
+    }
+  }
+</style>
+
+<section class="help-section">
+  <div class="help-container">
+    <h2 class="help-title">{{ section.settings.section_title }}</h2>
+    
+    <div class="help-links">
+      {% for block in section.blocks %}
+        <div class="help-link-item" {{ block.shopify_attributes }}>
+          <a href="{{ block.settings.link }}" class="help-link">
+            <span class="help-number">{{ forloop.index }}</span>
+            <span class="help-text">{{ block.settings.title }}</span>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "How Can We Help",
+  "tag": "section",
+  "class": "help-section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "SECTION 2 — HOW CAN WE HELP?"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Hover)",
+      "default": "#026EB4"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "help_link",
+      "name": "Help Link",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Sales & Business Accounts"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link URL",
+          "info": "Link to a page, section anchor (#form), or external URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How Can We Help",
+      "blocks": [
+        {
+          "type": "help_link",
+          "settings": {
+            "title": "Sales & Business Accounts",
+            "link": "#sales-form"
+          }
+        },
+        {
+          "type": "help_link",
+          "settings": {
+            "title": "Samples & Product Questions",
+            "link": "#samples-form"
+          }
+        },
+        {
+          "type": "help_link",
+          "settings": {
+            "title": "Orders & Shipping Support",
+            "link": "#orders-form"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

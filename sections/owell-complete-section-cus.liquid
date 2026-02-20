@@ -1,0 +1,1084 @@
+{% comment %}
+  Owell Complete Section - Benefits, Tier Pricing & How It Works
+  Designed for bulk purchasing and professional supplies
+{% endcomment %}
+
+<style>
+  .owell-complete-section {
+    background: #ffffff;
+  }
+
+  /* Benefits Section */
+  .owell-benefits-wrapper {
+    background: linear-gradient(135deg, #042436 0%, #0a3a52 100%);
+    padding: 80px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .owell-benefits-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 20% 30%, rgba(86, 194, 179, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(80, 82, 197, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .owell-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .owell-section-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .owell-badge {
+    display: inline-block;
+    background: rgba(86, 194, 179, 0.15);
+    border: 1px solid rgba(86, 194, 179, 0.3);
+    color: #56c2b3;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .owell-section-title {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.5px;
+  }
+
+  .owell-section-subtitle {
+    font-size: clamp(16px, 2vw, 20px);
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Benefits Grid */
+  .owell-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+
+  .owell-benefit-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px 32px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .owell-benefit-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #56c2b3, #5052c5);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s ease;
+  }
+
+  .owell-benefit-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .owell-benefit-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(86, 194, 179, 0.3);
+    transform: translateY(-5px);
+  }
+
+  .owell-benefit-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #56c2b3, #5052c5);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin-bottom: 24px;
+  }
+
+  .owell-benefit-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 12px 0;
+  }
+
+  .owell-benefit-description {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* Tier Pricing Section */
+  .owell-pricing-wrapper {
+    padding: 80px 20px;
+    background: #f9fafb;
+  }
+
+  .owell-pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 50px;
+  }
+
+  .owell-pricing-card {
+    background: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 36px 28px;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .owell-pricing-card.featured {
+    border-color: #56c2b3;
+    box-shadow: 0 10px 40px rgba(86, 194, 179, 0.15);
+    transform: scale(1.05);
+  }
+
+  .owell-pricing-card.featured .owell-pricing-badge {
+    display: block;
+  }
+
+  .owell-pricing-card:hover {
+    border-color: #56c2b3;
+    box-shadow: 0 10px 30px rgba(86, 194, 179, 0.2);
+    transform: translateY(-5px);
+  }
+
+  .owell-pricing-card.featured:hover {
+    transform: scale(1.05) translateY(-5px);
+  }
+
+  .owell-pricing-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #56c2b3, #5052c5);
+    color: #ffffff;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: none;
+  }
+
+  .owell-pricing-tier {
+    font-size: 14px;
+    font-weight: 600;
+    color: #56c2b3;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .owell-pricing-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #042436;
+    margin: 0 0 8px 0;
+  }
+
+  .owell-pricing-quantity {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 20px;
+  }
+
+  .owell-pricing-amount {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .owell-pricing-price {
+    font-size: 42px;
+    font-weight: 800;
+    color: #042436;
+    line-height: 1;
+  }
+
+  .owell-pricing-unit {
+    font-size: 16px;
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  .owell-pricing-save {
+    background: rgba(86, 194, 179, 0.1);
+    color: #56c2b3;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    display: inline-block;
+    margin-bottom: 24px;
+  }
+
+  .owell-pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 28px 0;
+  }
+
+  .owell-pricing-features li {
+    padding: 10px 0;
+    color: #374151;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .owell-pricing-features li::before {
+    content: '✓';
+    width: 20px;
+    height: 20px;
+    background: rgba(86, 194, 179, 0.15);
+    color: #56c2b3;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .owell-pricing-button {
+    width: 100%;
+    padding: 14px 24px;
+    background: linear-gradient(135deg, #56c2b3, #5052c5);
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+  }
+
+  .owell-pricing-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(86, 194, 179, 0.3);
+  }
+
+  .owell-pricing-button.secondary {
+    background: #ffffff;
+    color: #56c2b3;
+    border: 2px solid #56c2b3;
+  }
+
+  .owell-pricing-button.secondary:hover {
+    background: #56c2b3;
+    color: #ffffff;
+  }
+
+  /* How It Works Section */
+  .owell-how-wrapper {
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #042436 0%, #0a3a52 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .owell-how-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 30% 50%, rgba(80, 82, 197, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 70% 50%, rgba(86, 194, 179, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .owell-steps-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .owell-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-top: 60px;
+    position: relative;
+  }
+
+  /* Connection Line */
+  .owell-steps-grid::before {
+    content: '';
+    position: absolute;
+    top: 40px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      rgba(86, 194, 179, 0.3) 0%, 
+      rgba(86, 194, 179, 0.6) 50%, 
+      rgba(86, 194, 179, 0.3) 100%);
+    z-index: 0;
+  }
+
+  .owell-step-card {
+    position: relative;
+    text-align: center;
+    z-index: 1;
+  }
+
+  .owell-step-number {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #56c2b3, #5052c5);
+    border: 4px solid #042436;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 auto 24px auto;
+    box-shadow: 0 8px 24px rgba(86, 194, 179, 0.3);
+    position: relative;
+    z-index: 2;
+  }
+
+  .owell-step-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 12px 0;
+  }
+
+  .owell-step-description {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Final CTA */
+  .owell-final-cta {
+    background: linear-gradient(135deg, rgba(86, 194, 179, 0.15), rgba(80, 82, 197, 0.1));
+    border: 2px solid rgba(86, 194, 179, 0.3);
+    border-radius: 24px;
+    padding: 50px 40px;
+    text-align: center;
+    margin-top: 60px;
+  }
+
+  .owell-final-cta-title {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 16px 0;
+  }
+
+  .owell-final-cta-text {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0 0 32px 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .owell-final-cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .owell-final-button {
+    padding: 16px 40px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .owell-final-button.primary {
+    background: linear-gradient(135deg, #56c2b3, #5052c5);
+    color: #ffffff;
+    box-shadow: 0 10px 30px rgba(86, 194, 179, 0.3);
+  }
+
+  .owell-final-button.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(86, 194, 179, 0.4);
+  }
+
+  .owell-final-button.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .owell-final-button.secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #56c2b3;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .owell-benefits-wrapper,
+    .owell-pricing-wrapper,
+    .owell-how-wrapper {
+      padding: 60px 20px;
+    }
+
+    .owell-benefits-grid,
+    .owell-pricing-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .owell-pricing-card.featured {
+      transform: scale(1);
+    }
+
+    .owell-pricing-card.featured:hover {
+      transform: translateY(-5px);
+    }
+
+    .owell-steps-grid::before {
+      display: none;
+    }
+
+    .owell-final-cta-buttons {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .owell-final-button {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+<div class="owell-complete-section">
+
+  <!-- BENEFITS SECTION -->
+  <section class="owell-benefits-wrapper">
+    <div class="owell-container">
+      <div class="owell-section-header">
+        <div class="owell-badge">{{ section.settings.benefits_badge }}</div>
+        <h2 class="owell-section-title">{{ section.settings.benefits_title }}</h2>
+        <p class="owell-section-subtitle">{{ section.settings.benefits_subtitle }}</p>
+      </div>
+
+      <div class="owell-benefits-grid">
+        {% for i in (1..4) %}
+          {% assign icon_key = 'benefit_' | append: i | append: '_icon' %}
+          {% assign title_key = 'benefit_' | append: i | append: '_title' %}
+          {% assign desc_key = 'benefit_' | append: i | append: '_description' %}
+          
+          <div class="owell-benefit-card">
+            <div class="owell-benefit-icon">{{ section.settings[icon_key] }}</div>
+            <h3 class="owell-benefit-title">{{ section.settings[title_key] }}</h3>
+            <p class="owell-benefit-description">{{ section.settings[desc_key] }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- TIER PRICING SECTION -->
+  <section class="owell-pricing-wrapper">
+    <div class="owell-container">
+      <div class="owell-section-header">
+        <div class="owell-badge" style="background: rgba(86, 194, 179, 0.1); border-color: #56c2b3;">{{ section.settings.pricing_badge }}</div>
+        <h2 class="owell-section-title" style="color: #042436;">{{ section.settings.pricing_title }}</h2>
+        <p class="owell-section-subtitle" style="color: #6b7280;">{{ section.settings.pricing_subtitle }}</p>
+      </div>
+
+      <div class="owell-pricing-grid">
+        {% for i in (1..4) %}
+          {% assign tier_key = 'tier_' | append: i | append: '_name' %}
+          {% assign qty_key = 'tier_' | append: i | append: '_quantity' %}
+          {% assign price_key = 'tier_' | append: i | append: '_price' %}
+          {% assign unit_key = 'tier_' | append: i | append: '_unit' %}
+          {% assign save_key = 'tier_' | append: i | append: '_save' %}
+          {% assign features_key = 'tier_' | append: i | append: '_features' %}
+          {% assign featured_key = 'tier_' | append: i | append: '_featured' %}
+          {% assign button_text_key = 'tier_' | append: i | append: '_button' %}
+          {% assign button_link_key = 'tier_' | append: i | append: '_link' %}
+          
+          <div class="owell-pricing-card {% if section.settings[featured_key] %}featured{% endif %}">
+            <div class="owell-pricing-badge">Most Popular</div>
+            <div class="owell-pricing-tier">{{ section.settings[tier_key] }}</div>
+            <h3 class="owell-pricing-title">{{ section.settings[qty_key] }}</h3>
+            <div class="owell-pricing-amount">
+              <span class="owell-pricing-price">{{ section.settings[price_key] }}</span>
+              <span class="owell-pricing-unit">{{ section.settings[unit_key] }}</span>
+            </div>
+            {% if section.settings[save_key] != blank %}
+              <div class="owell-pricing-save">{{ section.settings[save_key] }}</div>
+            {% endif %}
+            <ul class="owell-pricing-features">
+              {% assign features = section.settings[features_key] | newline_to_br | split: '<br />' %}
+              {% for feature in features %}
+                {% if feature != blank %}
+                  <li>{{ feature }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+            <a href="{{ section.settings[button_link_key] }}" 
+               class="owell-pricing-button {% unless section.settings[featured_key] %}secondary{% endunless %}">
+              {{ section.settings[button_text_key] }}
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS SECTION -->
+  <section class="owell-how-wrapper">
+    <div class="owell-steps-container">
+      <div class="owell-section-header">
+        <div class="owell-badge">{{ section.settings.how_badge }}</div>
+        <h2 class="owell-section-title">{{ section.settings.how_title }}</h2>
+        <p class="owell-section-subtitle">{{ section.settings.how_subtitle }}</p>
+      </div>
+
+      <div class="owell-steps-grid">
+        {% for i in (1..4) %}
+          {% assign step_title_key = 'step_' | append: i | append: '_title' %}
+          {% assign step_desc_key = 'step_' | append: i | append: '_description' %}
+          
+          <div class="owell-step-card">
+            <div class="owell-step-number">{{ i }}</div>
+            <h3 class="owell-step-title">{{ section.settings[step_title_key] }}</h3>
+            <p class="owell-step-description">{{ section.settings[step_desc_key] }}</p>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="owell-final-cta">
+        <h3 class="owell-final-cta-title">{{ section.settings.final_cta_title }}</h3>
+        <p class="owell-final-cta-text">{{ section.settings.final_cta_text }}</p>
+        <div class="owell-final-cta-buttons">
+          <a href="{{ section.settings.final_button_1_link }}" class="owell-final-button primary">
+            {{ section.settings.final_button_1_text }}
+          </a>
+          <a href="{{ section.settings.final_button_2_link }}" class="owell-final-button secondary">
+            {{ section.settings.final_button_2_text }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+{% schema %}
+{
+  "name": "Complete Benefits",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Benefits Section"
+    },
+    {
+      "type": "text",
+      "id": "benefits_badge",
+      "label": "Benefits Badge",
+      "default": "Why Choose OWELL"
+    },
+    {
+      "type": "text",
+      "id": "benefits_title",
+      "label": "Benefits Title",
+      "default": "Quality & Reliability You Can Count On"
+    },
+    {
+      "type": "textarea",
+      "id": "benefits_subtitle",
+      "label": "Benefits Subtitle",
+      "default": "Professional-grade supplies backed by unmatched guarantees and ethical practices"
+    },
+    {
+      "type": "text",
+      "id": "benefit_1_icon",
+      "label": "Benefit 1 Icon (emoji)",
+      "default": "✓"
+    },
+    {
+      "type": "text",
+      "id": "benefit_1_title",
+      "label": "Benefit 1 Title",
+      "default": "Premium Quality Materials"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_1_description",
+      "label": "Benefit 1 Description",
+      "default": "Highest-grade materials with strict quality control protocols and randomized testing on every batch"
+    },
+    {
+      "type": "text",
+      "id": "benefit_2_icon",
+      "label": "Benefit 2 Icon (emoji)",
+      "default": "🌍"
+    },
+    {
+      "type": "text",
+      "id": "benefit_2_title",
+      "label": "Benefit 2 Title",
+      "default": "Ethically Sourced & Certified"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_2_description",
+      "label": "Benefit 2 Description",
+      "default": "Global certified facilities ensuring ethical manufacturing practices and environmental responsibility"
+    },
+    {
+      "type": "text",
+      "id": "benefit_3_icon",
+      "label": "Benefit 3 Icon (emoji)",
+      "default": "🚚"
+    },
+    {
+      "type": "text",
+      "id": "benefit_3_title",
+      "label": "Benefit 3 Title",
+      "default": "Free & Fast Shipping"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_3_description",
+      "label": "Benefit 3 Description",
+      "default": "Nationwide shipping on time, every time with no hidden fees or minimum order requirements"
+    },
+    {
+      "type": "text",
+      "id": "benefit_4_icon",
+      "label": "Benefit 4 Icon (emoji)",
+      "default": "🛡️"
+    },
+    {
+      "type": "text",
+      "id": "benefit_4_title",
+      "label": "Benefit 4 Title",
+      "default": "100% Satisfaction Guarantee"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_4_description",
+      "label": "Benefit 4 Description",
+      "default": "Unmatched lifetime guarantee on all products with full support and hassle-free returns"
+    },
+    {
+      "type": "header",
+      "content": "Tier Pricing Section"
+    },
+    {
+      "type": "text",
+      "id": "pricing_badge",
+      "label": "Pricing Badge",
+      "default": "Bulk Pricing"
+    },
+    {
+      "type": "text",
+      "id": "pricing_title",
+      "label": "Pricing Title",
+      "default": "Buy More, Save More"
+    },
+    {
+      "type": "textarea",
+      "id": "pricing_subtitle",
+      "label": "Pricing Subtitle",
+      "default": "Professional bulk pricing for businesses and institutions of all sizes"
+    },
+    {
+      "type": "header",
+      "content": "Tier 1 (Starter)"
+    },
+    {
+      "type": "text",
+      "id": "tier_1_name",
+      "label": "Tier 1 Name",
+      "default": "Starter"
+    },
+    {
+      "type": "text",
+      "id": "tier_1_quantity",
+      "label": "Tier 1 Quantity",
+      "default": "1-5 Boxes"
+    },
+    {
+      "type": "text",
+      "id": "tier_1_price",
+      "label": "Tier 1 Price",
+      "default": "$14.99"
+    },
+    {
+      "type": "text",
+      "id": "tier_1_unit",
+      "label": "Tier 1 Unit",
+      "default": "per box"
+    },
+    {
+      "type": "text",
+      "id": "tier_1_save",
+      "label": "Tier 1 Save Text (leave empty for no badge)"
+    },
+    {
+      "type": "textarea",
+      "id": "tier_1_features",
+      "label": "Tier 1 Features (one per line)",
+      "default": "100 gloves per box\nFree shipping\nQuality guaranteed\nPerfect for small businesses"
+    },
+    {
+      "type": "checkbox",
+      "id": "tier_1_featured",
+      "label": "Featured Tier?",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "tier_1_button",
+      "label": "Tier 1 Button Text",
+      "default": "Order Now"
+    },
+    {
+      "type": "url",
+      "id": "tier_1_link",
+      "label": "Tier 1 Link"
+    },
+    {
+      "type": "header",
+      "content": "Tier 2 (Professional)"
+    },
+    {
+      "type": "text",
+      "id": "tier_2_name",
+      "label": "Tier 2 Name",
+      "default": "Professional"
+    },
+    {
+      "type": "text",
+      "id": "tier_2_quantity",
+      "label": "Tier 2 Quantity",
+      "default": "6-20 Boxes"
+    },
+    {
+      "type": "text",
+      "id": "tier_2_price",
+      "label": "Tier 2 Price",
+      "default": "$12.99"
+    },
+    {
+      "type": "text",
+      "id": "tier_2_unit",
+      "label": "Tier 2 Unit",
+      "default": "per box"
+    },
+    {
+      "type": "text",
+      "id": "tier_2_save",
+      "label": "Tier 2 Save Text",
+      "default": "Save 13%"
+    },
+    {
+      "type": "textarea",
+      "id": "tier_2_features",
+      "label": "Tier 2 Features (one per line)",
+      "default": "100 gloves per box\nFree priority shipping\nQuality guaranteed\nBulk pricing savings\nPriority support"
+    },
+    {
+      "type": "checkbox",
+      "id": "tier_2_featured",
+      "label": "Featured Tier?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tier_2_button",
+      "label": "Tier 2 Button Text",
+      "default": "Order Now"
+    },
+    {
+      "type": "url",
+      "id": "tier_2_link",
+      "label": "Tier 2 Link"
+    },
+    {
+      "type": "header",
+      "content": "Tier 3 (Business)"
+    },
+    {
+      "type": "text",
+      "id": "tier_3_name",
+      "label": "Tier 3 Name",
+      "default": "Business"
+    },
+    {
+      "type": "text",
+      "id": "tier_3_quantity",
+      "label": "Tier 3 Quantity",
+      "default": "21-50 Boxes"
+    },
+    {
+      "type": "text",
+      "id": "tier_3_price",
+      "label": "Tier 3 Price",
+      "default": "$10.99"
+    },
+    {
+      "type": "text",
+      "id": "tier_3_unit",
+      "label": "Tier 3 Unit",
+      "default": "per box"
+    },
+    {
+      "type": "text",
+      "id": "tier_3_save",
+      "label": "Tier 3 Save Text",
+      "default": "Save 27%"
+    },
+    {
+      "type": "textarea",
+      "id": "tier_3_features",
+      "label": "Tier 3 Features (one per line)",
+      "default": "100 gloves per box\nFree express shipping\nQuality guaranteed\nMaximum savings\nDedicated account manager\nFlexible payment terms"
+    },
+    {
+      "type": "checkbox",
+      "id": "tier_3_featured",
+      "label": "Featured Tier?",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "tier_3_button",
+      "label": "Tier 3 Button Text",
+      "default": "Order Now"
+    },
+    {
+      "type": "url",
+      "id": "tier_3_link",
+      "label": "Tier 3 Link"
+    },
+    {
+      "type": "header",
+      "content": "Tier 4 (Enterprise)"
+    },
+    {
+      "type": "text",
+      "id": "tier_4_name",
+      "label": "Tier 4 Name",
+      "default": "Enterprise"
+    },
+    {
+      "type": "text",
+      "id": "tier_4_quantity",
+      "label": "Tier 4 Quantity",
+      "default": "51+ Boxes"
+    },
+    {
+      "type": "text",
+      "id": "tier_4_price",
+      "label": "Tier 4 Price",
+      "default": "Custom"
+    },
+    {
+      "type": "text",
+      "id": "tier_4_unit",
+      "label": "Tier 4 Unit",
+      "default": "pricing"
+    },
+    {
+      "type": "text",
+      "id": "tier_4_save",
+      "label": "Tier 4 Save Text",
+      "default": "Best Value"
+    },
+    {
+      "type": "textarea",
+      "id": "tier_4_features",
+      "label": "Tier 4 Features (one per line)",
+      "default": "Custom bulk quantities\nWhite-label options\nCustom packaging available\nDedicated support team\nNet payment terms\nQuarterly business reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "tier_4_featured",
+      "label": "Featured Tier?",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "tier_4_button",
+      "label": "Tier 4 Button Text",
+      "default": "Contact Sales"
+    },
+    {
+      "type": "url",
+      "id": "tier_4_link",
+      "label": "Tier 4 Link"
+    },
+    {
+      "type": "header",
+      "content": "How It Works Section"
+    },
+    {
+      "type": "text",
+      "id": "how_badge",
+      "label": "How Badge",
+      "default": "Simple Process"
+    },
+    {
+      "type": "text",
+      "id": "how_title",
+      "label": "How Title",
+      "default": "How It Works"
+    },
+    {
+      "type": "textarea",
+      "id": "how_subtitle",
+      "label": "How Subtitle",
+      "default": "Getting professional-grade supplies has never been easier"
+    },
+    {
+      "type": "text",
+      "id": "step_1_title",
+      "label": "Step 1 Title",
+      "default": "Choose Your Products"
+    },
+    {
+      "type": "textarea",
+      "id": "step_1_description",
+      "label": "Step 1 Description",
+      "default": "Browse our selection of premium disposable gloves, disinfecting wipes, and janitorial supplies"
+    },
+    {
+      "type": "text",
+      "id": "step_2_title",
+      "label": "Step 2 Title",
+      "default": "Select Your Quantity"
+    },
+    {
+      "type": "textarea",
+      "id": "step_2_description",
+      "label": "Step 2 Description",
+      "default": "Pick your bulk tier to unlock automatic savings - the more you buy, the more you save"
+    },
+    {
+      "type": "text",
+      "id": "step_3_title",
+      "label": "Step 3 Title",
+      "default": "Fast & Free Shipping"
+    },
+    {
+      "type": "textarea",
+      "id": "step_3_description",
+      "label": "Step 3 Description",
+      "default": "We ship nationwide for free - orders arrive on time, every time with full tracking"
+    },
+    {
+      "type": "text",
+      "id": "step_4_title",
+      "label": "Step 4 Title",
+      "default": "Experience OWELL Quality"
+    },
+    {
+      "type": "textarea",
+      "id": "step_4_description",
+      "label": "Step 4 Description",
+      "default": "Use your products with confidence backed by our 100% satisfaction guarantee"
+    },
+    {
+      "type": "header",
+      "content": "Final CTA"
+    },
+    {
+      "type": "text",
+      "id": "final_cta_title",
+      "label": "Final CTA Title",
+      "default": "Ready to Experience the OWELL Difference?"
+    },
+    {
+      "type": "textarea",
+      "id": "final_cta_text",
+      "label": "Final CTA Text",
+      "default": "Join thousands of satisfied businesses and institutions who trust OWELL for their supply needs"
+    },
+    {
+      "type": "text",
+      "id": "final_button_1_text",
+      "label": "Primary Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "final_button_1_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "final_button_2_text",
+      "label": "Secondary Button Text",
+      "default": "Contact Sales"
+    },
+    {
+      "type": "url",
+      "id": "final_button_2_link",
+      "label": "Secondary Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Complete Benefits "
+    }
+  ]
+}
+{% endschema %}

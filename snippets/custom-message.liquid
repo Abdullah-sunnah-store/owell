@@ -1,0 +1,6 @@
+<custom-message class="{{ customClassName }} custom__message d-none position-relative" data-id="{{ custom_id | default: '' }}">
+  <span class="position-absolute close__message color-text" close-btn>{%- render 'icon' with 'message-close' -%}</span>
+  <div class="custom__message__wrapper">
+    <p class="custom__message__text fnt-16 color-text" message-text></p>
+  </div>
+</custom-message>

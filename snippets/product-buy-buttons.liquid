@@ -1,0 +1,73 @@
+{%- comment -%}
+  List of varaibles used
+  block: {{ object }} block related object data
+  form_id: {{string}} Form id
+  product: {{ object }} Product Object
+  
+  Product Buy buttons
+  1) Product Quick Checkout
+  2) Product Default Buttons
+  a) Product Options Drawer Trigger
+  b) Prodyct Add to cart Button
+{%- endcomment -%}
+
+<div {{ block.shopify_attributes }}>
+  {%- if product != blank -%}
+    {% liquid 
+        assign gift_card_recipient_feature_active = false
+      if block.settings.show_gift_card_recipient and product.gift_card?
+        assign gift_card_recipient_feature_active = true
+      endif    
+    %}
+    <product-form class="product-form" data-section-id="{{ section.id }}">
+      {%- form 'product', product, id: form_id, class: 'form', novalidate: 'novalidate' -%}
+        {% render 'custom-message', customClassName: 'product-ajax__message mb-2', custom_id: form_id %}
+        <input
+          disabled
+          name="id"
+          type="hidden"
+          value="{{ product.selected_or_first_available_variant.id }}">
+
+        {%- if gift_card_recipient_feature_active -%}
+          {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
+        {%- endif -%}
+        <div class="product-form__buttons">
+
+          {% comment %} Add to cart Button {% endcomment %}
+          <button
+            class="btn {% if block.settings.show_dynamic_checkout == true %} btn--border {% else %} btn--fill  {% endif %} w-100 mb-16"
+            {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+            type="submit"
+            name="add">       
+            <div class="btn--preloader">
+              <div class="btn--preloader--circular">
+                <div class="checkmark draw"></div>
+              </div>
+            </div>
+            <div class="btn--text">
+              {%- if product.selected_or_first_available_variant.available -%}
+                {{ 'products.product.button_add_to_cart' | t }}
+              {%- else -%}
+                {{ 'products.product.button_out_of_stock' | t }}
+              {%- endif -%}
+            </div>
+          </button>
+          {%- if block.settings.show_dynamic_checkout -%}
+            {{ form | payment_button }}
+          {%- endif -%}
+        </div>
+      {%- endform -%}
+    </product-form>
+  {%- else -%}
+    <div class="product-form">
+      <div class="product-form__buttons form">
+        <button
+          class="btn
+          {% if block.settings.show_dynamic_checkout == true %} btn--border {% else %} btn--fill {% endif %} w-100"
+          disabled
+          type="submit">
+          {{ 'products.product.button_add_to_cart' | t }}</button>
+      </div>
+    </div>
+  {%- endif -%}
+</div>

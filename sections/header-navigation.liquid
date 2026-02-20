@@ -1,0 +1,553 @@
+{% comment %}
+  Header Navigation Section
+  Clean horizontal navigation menu with automatic multi-row support
+  Mobile: Click to toggle submenu
+  Desktop: Hover to show submenu, click to navigate
+  Sticky header option available
+{% endcomment %}
+
+<style>
+  .header-nav {
+    background: {{ section.settings.bg_color }};
+    padding: 0;
+    position: relative;
+    {% if section.settings.sticky_header %}
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    {% endif %}
+  }
+
+  {% if section.settings.sticky_header %}
+  .header-nav.is-scrolled {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    {% if section.settings.sticky_bg_color != blank %}
+    background: {{ section.settings.sticky_bg_color }};
+    {% endif %}
+  }
+  {% endif %}
+
+  .header-nav__inner {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .header-nav__menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: {{ section.settings.menu_spacing }}rem;
+    row-gap: 0 !important;
+  }
+
+  .header-nav__item {
+    position: relative;
+  }
+
+  .header-nav__link {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: {{ section.settings.text_color }};
+    text-decoration: none;
+    font-size: {{ section.settings.font_size }}rem;
+    font-weight: {{ section.settings.font_weight }};
+    text-transform: uppercase;
+    letter-spacing: {{ section.settings.letter_spacing }}em;
+    padding: {{ section.settings.padding_y }}rem 0;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .header-nav__link:hover {
+    color: {{ section.settings.hover_color }};
+  }
+
+  .header-nav__link--active,
+  .header-nav__item--active .header-nav__link {
+    color: {{ section.settings.active_color }};
+  }
+
+  /* Flash Sale Style */
+  .header-nav__item--flash .header-nav__link {
+    color: {{ section.settings.flash_color }};
+  }
+
+  .header-nav__item--flash .header-nav__link:hover {
+    color: {{ section.settings.flash_hover_color }};
+  }
+
+  /* Track Order Style */
+  .header-nav__item--track .header-nav__link {
+    color: {{ section.settings.track_color }};
+  }
+
+  .header-nav__item--track .header-nav__link:hover {
+    color: {{ section.settings.track_hover_color }};
+  }
+
+  .header-nav__icon {
+    font-size: 1.1em;
+  }
+
+  .header-nav__dropdown-icon {
+    font-size: 0.65em;
+    transition: transform 0.3s ease;
+    margin-left: 0.2rem;
+  }
+
+  /* Dropdown Submenu */
+  .header-nav__submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: {{ section.settings.submenu_bg }};
+    min-width: 200px;
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    border-radius: 4px;
+  }
+
+  .header-nav__submenu-item {
+    margin: 0;
+  }
+
+  .header-nav__submenu-link {
+    display: block;
+    color: {{ section.settings.submenu_text }};
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: background 0.3s ease, color 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .header-nav__submenu-link:hover {
+    background: {{ section.settings.hover_color }};
+    color: {{ section.settings.submenu_hover_text }};
+  }
+
+  /* Desktop and mobile - both use click behavior */
+  .header-nav__item.js-open .header-nav__dropdown-icon {
+    transform: rotate(180deg);
+  }
+
+  .header-nav__item.js-open .header-nav__submenu {
+    display: block;
+  }
+
+  @media (max-width: 1024px) {
+    .header-nav__menu {
+      gap: {{ section.settings.menu_spacing | times: 0.6 }}rem;
+    }
+
+    .header-nav__link {
+      font-size: {{ section.settings.font_size | times: 0.9 }}rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .header-nav__inner {
+      padding: 0 1rem;
+      overflow-x: auto;
+      overflow-y: visible;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .header-nav__inner::-webkit-scrollbar {
+      display: none;
+    }
+
+    .header-nav__menu {
+      flex-wrap: nowrap;
+      gap: {{ section.settings.menu_spacing | times: 0.8 }}rem;
+      justify-content: flex-start;
+      min-width: max-content;
+      overflow: visible;
+    }
+
+    .header-nav__link {
+      font-size: {{ section.settings.font_size | times: 0.8 }}rem;
+      padding: {{ section.settings.padding_y | times: 0.8 }}rem 0;
+    }
+
+    .header-nav__item {
+      position: relative;
+    }
+
+    .header-nav__submenu {
+      position: fixed;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      top: auto;
+      width: calc(100% - 2rem);
+      max-width: fit-content;
+      margin-top: 0.5rem;
+    }
+  }
+</style>
+
+<nav class="header-nav" id="headerNav">
+  <div class="header-nav__inner">
+    <ul class="header-nav__menu" id="headerNavMenu">
+      {% for link in linklists[section.settings.menu].links %}
+        {% assign link_handle = link.title | handleize %}
+        {% assign has_submenu = false %}
+        {% if link.links != blank %}
+          {% assign has_submenu = true %}
+        {% endif %}
+        
+        <li class="header-nav__item 
+                   {% if link.active %}header-nav__item--active{% endif %}
+                   {% if link_handle contains 'flash' %}header-nav__item--flash{% endif %}
+                   {% if link_handle contains 'track' %}header-nav__item--track{% endif %}"
+            {% if has_submenu %}data-has-submenu="true"{% endif %}>
+          
+          <a href="{{ link.url }}" 
+             class="header-nav__link{% if has_submenu %} header-nav__link--has-submenu{% endif %}"
+             {% if has_submenu %}onclick="return handleMenuClick(this, event)"{% endif %}
+             aria-expanded="false">
+            
+            {% if link_handle contains 'flash' and section.settings.show_flash_icon %}
+              <span class="header-nav__icon">⚡</span>
+            {% endif %}
+            
+            {{ link.title }}
+            
+            {% if has_submenu and section.settings.show_dropdown_arrows %}
+              <span class="header-nav__dropdown-icon">▼</span>
+            {% endif %}
+          </a>
+
+          {% if has_submenu %}
+            <ul class="header-nav__submenu">
+              {% for child_link in link.links %}
+                <li class="header-nav__submenu-item">
+                  <a href="{{ child_link.url }}" class="header-nav__submenu-link">
+                    {{ child_link.title }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</nav>
+
+<script>
+  // Handle menu click - same behavior for all devices
+  function handleMenuClick(link, event) {
+    // Prevent navigation, toggle submenu instead
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const menuItem = link.closest('.header-nav__item');
+    const isOpen = menuItem.classList.contains('js-open');
+    
+    // Close all other menus
+    document.querySelectorAll('.header-nav__item.js-open').forEach(item => {
+      if (item !== menuItem) {
+        item.classList.remove('js-open');
+      }
+    });
+    
+    // Toggle this menu
+    if (isOpen) {
+      menuItem.classList.remove('js-open');
+      link.setAttribute('aria-expanded', 'false');
+    } else {
+      menuItem.classList.add('js-open');
+      link.setAttribute('aria-expanded', 'true');
+    }
+    
+    return false;
+  }
+  
+  // Close menus when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.header-nav__item')) {
+      document.querySelectorAll('.header-nav__item.js-open').forEach(item => {
+        item.classList.remove('js-open');
+        const link = item.querySelector('.header-nav__link');
+        if (link) {
+          link.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  });
+
+  // Handle window resize - close menus
+  let resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      // Close all open menus on resize
+      document.querySelectorAll('.header-nav__item.js-open').forEach(item => {
+        item.classList.remove('js-open');
+      });
+    }, 250);
+  });
+
+  {% if section.settings.sticky_header %}
+  // Sticky header scroll behavior
+  (function() {
+    const headerNav = document.getElementById('headerNav');
+    let lastScrollY = window.scrollY;
+    const scrollThreshold = {{ section.settings.sticky_scroll_threshold }};
+    
+    function handleScroll() {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > scrollThreshold) {
+        headerNav.classList.add('is-scrolled');
+      } else {
+        headerNav.classList.remove('is-scrolled');
+      }
+      
+      lastScrollY = currentScrollY;
+    }
+    
+    // Throttle scroll events for better performance
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+      if (scrollTimeout) {
+        window.cancelAnimationFrame(scrollTimeout);
+      }
+      scrollTimeout = window.requestAnimationFrame(handleScroll);
+    }, { passive: true });
+    
+    // Initial check
+    handleScroll();
+  })();
+  {% endif %}
+</script>
+
+{% schema %}
+{
+  "name": "Header Navigation",
+  "tag": "section",
+  "class": "header-nav-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Menu Selection"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu",
+      "info": "Select menu from Navigation settings"
+    },
+    {
+      "type": "header",
+      "content": "Sticky Header"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_header",
+      "label": "Enable Sticky Header",
+      "default": false,
+      "info": "Header will stay fixed at top when scrolling"
+    },
+    {
+      "type": "range",
+      "id": "sticky_scroll_threshold",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Scroll Distance to Activate",
+      "default": 50,
+      "info": "How far user must scroll before sticky behavior activates"
+    },
+    {
+      "type": "color",
+      "id": "sticky_bg_color",
+      "label": "Sticky Background Color (Optional)",
+      "info": "Leave blank to use default background color"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1200,
+      "max": 1920,
+      "step": 20,
+      "unit": "px",
+      "label": "Maximum Width",
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "menu_spacing",
+      "min": 1,
+      "max": 5,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Menu Item Spacing",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "padding_y",
+      "min": 0.5,
+      "max": 2,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Vertical Padding",
+      "default": 1.2
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 0.7,
+      "max": 3,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Font Size",
+      "default": 0.9
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "min": 0,
+      "max": 0.2,
+      "step": 0.1,
+      "unit": "em",
+      "label": "Letter Spacing",
+      "default": 0.1
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#999999"
+    },
+    {
+      "type": "color",
+      "id": "hover_color",
+      "label": "Hover Color",
+      "default": "#ff6633"
+    },
+    {
+      "type": "color",
+      "id": "active_color",
+      "label": "Active Color",
+      "default": "#ff6633"
+    },
+    {
+      "type": "color",
+      "id": "flash_color",
+      "label": "Flash Sale Color",
+      "default": "#ffd700"
+    },
+    {
+      "type": "color",
+      "id": "flash_hover_color",
+      "label": "Flash Sale Hover Color",
+      "default": "#ffed4e"
+    },
+    {
+      "type": "color",
+      "id": "track_color",
+      "label": "Track Order Color",
+      "default": "#00ff88"
+    },
+    {
+      "type": "color",
+      "id": "track_hover_color",
+      "label": "Track Order Hover Color",
+      "default": "#5fffa8"
+    },
+    {
+      "type": "header",
+      "content": "Dropdown Menu Colors"
+    },
+    {
+      "type": "color",
+      "id": "submenu_bg",
+      "label": "Dropdown Background",
+      "default": "#2a2a2a"
+    },
+    {
+      "type": "color",
+      "id": "submenu_text",
+      "label": "Dropdown Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "submenu_hover_text",
+      "label": "Dropdown Hover Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Features"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_flash_icon",
+      "label": "Show Flash Sale Icon (⚡)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dropdown_arrows",
+      "label": "Show Dropdown Arrows",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header Navigation"
+    }
+  ]
+}
+{% endschema %}

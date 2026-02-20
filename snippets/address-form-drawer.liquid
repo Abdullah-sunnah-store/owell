@@ -1,0 +1,525 @@
+<script
+  defer
+  src="{{ 'country-selector.js' | asset_url }}"
+></script>
+<script
+  defer
+  src="{{ 'toggle-address-form.js' | asset_url }}"
+></script>
+
+<drawer-component
+  aria-hidden="true"
+  class="d-block drawer color-{{ settings.drawer_color_scheme }}"
+  drawer-type="address-form"
+>
+  <div
+    class="drawer__container"
+  >
+    <div
+      class="drawer__overlay"
+      drawer-overlay
+    ></div>
+    <div class="drawer__wrapper addressDrawer drawer__wrapper--animation-position-right">
+      {% comment %} Drawer Header Area {% endcomment %}
+      <div
+        class="drawer__header"
+      >
+        <button
+          aria-label="{{ 'accessibility.close_drawer' | t }}"
+          class="drawer__close__btn"
+          close-drawer
+        >
+          {%- render 'icon' with 'close-drawer' -%}
+        </button>
+        <h2
+          class="drawer__head"
+          id="edit_address"
+        >
+          {{ 'customer.account.address.edit_address' | t }}
+        </h2>
+        <h2
+          class="drawer__head"
+          id="add_address"
+        >
+          {{ 'customer.account.address.add_address' | t }}
+        </h2>
+      </div>
+
+      {% comment %} Drawer Content/Body area {% endcomment %}
+      <div
+        class="drawer__body"
+      >
+        <toggle-address-form>
+          <div
+            class="drawer__body__wrapper "
+          >
+            {% for address in customer.addresses %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: address %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+              <div
+                address-toggle-form
+                class="addressFormToggle"
+                id="addressForm-{{ address.id }}"
+                aria-hidden="true"
+              >
+                {% form 'customer_address', address, return_to: 'account/addresses' %}
+                  <div
+                    class="account-form"
+                  >
+                    <div
+                      class="column-2"
+                    >
+                      <div
+                        class="form-group"
+                      >
+                        <label
+                          for="addressFirstName--{{ form.id }}"
+                        >
+                          {{- 'customer.account.address.form.first_name' | t -}}
+                        </label>
+                        <input
+                          autocomplete="given-name"
+                          id="addressFirstName--{{ form.id }}"
+                          name="address[first_name]"
+                          type="text"
+                          value="{{ form.first_name }}"
+                        >
+                      </div>
+                      <div
+                        class="form-group"
+                      >
+                        <label
+                          for="addressLastName"
+                        >
+                          {{- 'customer.account.address.form.last_name' | t -}}
+                        </label>
+                        <input
+                          autocomplete="family-name"
+                          id="addressLastName"
+                          name="address[last_name]"
+                          type="text"
+                          value="{{ form.last_name }}"
+                        >
+                      </div>
+                    </div>
+                    <div
+                      class="form-group"
+                    >
+                      <label
+                        for="AddressAddress1_{{ form.id }}"
+                      >
+                        {{- 'customer.account.address.form.address_1' | t -}}
+                      </label>
+                      <input
+                        autocomplete="address-line1"
+                        id="AddressAddress1_{{ form.id }}"
+                        name="address[address1]"
+                        type="text"
+                        value="{{ form.address1 }}"
+                      >
+                    </div>
+                    <div
+                      class="form-group"
+                    >
+                      <label
+                        for="AddressAddress2_{{ form.id }}"
+                      >
+                        {{- 'customer.account.address.form.address_2' | t -}}
+                      </label>
+                      <input
+                        autocomplete="address-line2"
+                        id="AddressAddress2_{{ form.id }}"
+                        name="address[address2]"
+                        type="text"
+                        value="{{ form.address2 }}"
+                      >
+                    </div>
+
+                    <country-province>
+                      <div
+                        class="column-2"
+                      >
+                        <div
+                          class="form-group"
+                        >
+                          <label
+                            for="AddressCity_{{ form.id }}"
+                          >
+                            {{- 'customer.account.address.form.city' | t -}}
+                          </label>
+                          <input
+                            autocomplete="address-level2"
+                            id="AddressCity_{{ form.id }}"
+                            name="address[city]"
+                            type="text"
+                            value="{{ form.city }}"
+                          >
+                        </div>
+                        <div
+                          class="form-group"
+                        >
+                          <label
+                            for="AddressCountry_{{ form.id }}"
+                          >
+                            {{ 'customer.account.address.form.country' | t }}
+                          </label>
+                          <div
+                            class="select select-wrapper"
+                          >
+                            <select
+                              autocomplete="country"
+                              country-selector
+                              data-address-country-select
+                              data-default="{{ form.country }}"
+                              data-form-id="{{ form.id }}"
+                              id="AddressCountry_{{ form.id }}"
+                              name="address[country]"
+                            >
+                              {{ all_country_option_tags }}
+                            </select>
+                            {%- render 'icon' with 'caret' -%}
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="column-2"
+                      >
+                        <div
+                          id="AddressProvinceContainer_{{ form.id }}"
+                          style="display: none"
+                          class="form-group mt-0"
+                        >
+                          <div
+                            class="form-group"
+                          >
+                            <label
+                              for="AddressProvince_{{ form.id }}"
+                            >
+                              {{ 'customer.account.address.form.province' | t }}
+                            </label>
+                            <div
+                              class="select select-wrapper"
+                            >
+                              <select
+                                autocomplete="address-level1"
+                                data-default="{{ form.province }}"
+                                id="AddressProvince_{{ form.id }}"
+                                name="address[province]"
+                              ></select>
+                              {%- render 'icon' with 'caret' -%}
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="form-group"
+                        >
+                          <label
+                            for="AddressZip_{{ form.id }}"
+                          >
+                            {{- 'customer.account.address.form.zip' | t -}}
+                          </label>
+                          <input
+                            autocapitalize="characters"
+                            autocomplete="postal-code"
+                            id="AddressZip_{{ form.id }}"
+                            name="address[zip]"
+                            type="text"
+                            value="{{ form.zip }}"
+                          >
+                        </div>
+                      </div>
+                    </country-province>
+
+                    <div
+                      class="form-group"
+                    >
+                      <label
+                        for="AddressPhone_{{ form.id }}"
+                      >
+                        {{- 'customer.account.address.form.phone' | t -}}
+                      </label>
+                      <input
+                        autocomplete="tel"
+                        id="AddressPhone_{{ form.id }}"
+                        name="address[phone]"
+                        placeholder="{{ 'customer.account.address.form.phone' | t }}"
+                        type="tel"
+                        value="{{ form.phone }}"
+                      >
+                    </div>
+
+                    {% comment %}
+                      {{ form.set_as_default_checkbox }}
+                    {% endcomment %}
+                    <div
+                      class="customCheckbox"
+                    >
+                      {%- unless address.id == customer.default_address.id -%}
+                        <div
+                          class="form-group"
+                        >
+                          <input
+                            class="visually-hidden"
+                            hidden
+                            id="address_default_address_{{ form.id }}"
+                            name="address[default]"
+                            type="checkbox"
+                          >
+
+                          <label
+                            for="address_default_address_{{ form.id }}"
+                          >
+                            <div class="d-flex align-item-center">{% render 'icon' with 'checkbox' %}</div>
+                            {{ 'customer.account.address.form.set_as_default' | t }}
+                          </label>
+                        </div>
+                      {%- endunless -%}
+                    </div>
+
+                    <button
+                      class="btn btn--fill w-100"
+                      type="submit"
+                    >
+                      {{ 'customer.account.address.form.update_address' | t }}
+                    </button>
+                  </div>
+                {% endform %}
+              </div>
+            {% endfor %}
+            <div
+              address-toggle-form
+              class="addressFormToggle"
+              id="addressForm-new-address"
+              aria-hidden="true"
+            >
+              {% form 'customer_address', customer.new_address %}
+                <div
+                  class="account-form"
+                >
+                  <div
+                    class="column-2"
+                  >
+                    <div
+                      class="form-group"
+                    >
+                      <label
+                        for="addressFirstName--{{ form.id }}"
+                      >
+                        {{- 'customer.account.address.form.first_name' | t -}}
+                      </label>
+                      <input
+                        autocomplete="given-name"
+                        id="addressFirstName--{{ form.id }}"
+                        name="address[first_name]"
+                        type="text"
+                        value="{{ form.first_name }}"
+                      >
+                    </div>
+                    <div
+                      class="form-group"
+                    >
+                      <label
+                        for="addressLastName"
+                      >
+                        {{- 'customer.account.address.form.last_name' | t -}}
+                      </label>
+                      <input
+                        autocomplete="family-name"
+                        id="addressLastName"
+                        name="address[last_name]"
+                        type="text"
+                        value="{{ form.last_name }}"
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="form-group"
+                  >
+                    <label
+                      for="AddressAddress1_{{ form.id }}"
+                    >
+                      {{- 'customer.account.address.form.address_1' | t -}}
+                    </label>
+                    <input
+                      autocomplete="address-line1"
+                      id="AddressAddress1_{{ form.id }}"
+                      name="address[address1]"
+                      type="text"
+                      value="{{ form.address1 }}"
+                    >
+                  </div>
+                  <div
+                    class="form-group"
+                  >
+                    <label
+                      for="AddressAddress2_{{ form.id }}"
+                    >
+                      {{- 'customer.account.address.form.address_2' | t -}}
+                    </label>
+                    <input
+                      autocomplete="address-line2"
+                      id="AddressAddress2_{{ form.id }}"
+                      name="address[address2]"
+                      type="text"
+                      value="{{ form.address2 }}"
+                    >
+                  </div>
+
+                  <country-province>
+                    <div
+                      class="column-2"
+                    >
+                      <div
+                        class="form-group"
+                      >
+                        <label
+                          for="AddressCity_{{ form.id }}"
+                        >
+                          {{- 'customer.account.address.form.city' | t -}}
+                        </label>
+                        <input
+                          autocomplete="address-level2"
+                          id="AddressCity_{{ form.id }}"
+                          name="address[city]"
+                          type="text"
+                          value="{{ form.city }}"
+                        >
+                      </div>
+                      <div
+                        class="form-group"
+                      >
+                        <label
+                          for="AddressCountry_{{ form.id }}"
+                        >
+                          {{ 'customer.account.address.form.country' | t }}
+                        </label>
+                        <div
+                          class="select select-wrapper"
+                        >
+                          <select
+                            autocomplete="country"
+                            country-selector
+                            data-address-country-select
+                            data-default="{{ form.country }}"
+                            data-form-id="{{ form.id }}"
+                            id="AddressCountry_{{ form.id }}"
+                            name="address[country]"
+                          >
+                            {{ all_country_option_tags }}
+                          </select>
+                          {%- render 'icon' with 'caret' -%}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="column-2"
+                    >
+                      <div
+                        class="form-group"
+                        id="AddressProvinceContainer_{{ form.id }}"
+                        class="form-group mt-0"
+                      >
+                        <label
+                          for="AddressProvince_{{ form.id }}"
+                        >
+                          {{ 'customer.account.address.form.province' | t }}
+                        </label>
+                        <div
+                          class="select select-wrapper"
+                        >
+                          <select
+                            autocomplete="address-level1"
+                            data-default="{{ form.province }}"
+                            id="AddressProvince_{{ form.id }}"
+                            name="address[province]"
+                          ></select>
+                          {%- render 'icon' with 'caret' -%}
+                        </div>
+                      </div>
+                      <div
+                        class="form-group"
+                      >
+                        <label
+                          for="AddressZip_{{ form.id }}"
+                        >
+                          {{- 'customer.account.address.form.zip' | t -}}
+                        </label>
+                        <input
+                          autocapitalize="characters"
+                          autocomplete="postal-code"
+                          id="AddressZip_{{ form.id }}"
+                          name="address[zip]"
+                          type="text"
+                          value="{{ form.zip }}"
+                        >
+                      </div>
+                    </div>
+                  </country-province>
+
+                  <div
+                    class="form-group"
+                  >
+                    <label
+                      for="AddressPhone_{{ form.id }}"
+                    >
+                      {{- 'customer.account.address.form.phone' | t -}}
+                    </label>
+                    <input
+                      autocomplete="tel"
+                      id="AddressPhone_{{ form.id }}"
+                      name="address[phone]"
+                      placeholder="{{ 'customer.account.address.form.phone' | t }}"
+                      type="tel"
+                      value="{{ form.phone }}"
+                    >
+                  </div>
+                  <div
+                    class="customCheckbox"
+                  >
+                    {%- unless address.id == customer.default_address.id -%}
+                      <div
+                        class="form-group"
+                      >
+                        <input
+                          hidden
+                          class="visually-hidden"
+                          id="address_default_address_{{ form.id }}"
+                          name="address[default]"
+                          type="checkbox"
+                        >
+
+                        <label
+                          for="address_default_address_{{ form.id }}"
+                        >
+                          <div class="d-flex align-item-center">{% render 'icon' with 'checkbox' %}</div>
+                          {{ 'customer.account.address.form.set_as_default' | t }}
+                        </label>
+                      </div>
+                    {%- endunless -%}
+                  </div>
+                  <button
+                    class="btn btn--fill w-100"
+                    type="submit"
+                  >
+                    {{ 'customer.account.address.form.add_new_address' | t }}
+                  </button>
+                </div>
+              {% endform %}
+            </div>
+          </div>
+        </toggle-address-form>
+      </div>
+
+      {% comment %}
+        <div class="overflow-y">
+
+        </div>
+      {% endcomment %}
+    </div>
+  </div>
+</drawer-component>

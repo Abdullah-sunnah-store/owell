@@ -1,0 +1,45 @@
+{% liquid
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign loading = 'lazy'
+  endif
+
+  assign widths = '500, 780, 1060, 1280'
+%}
+
+{%- capture sizes -%}
+  {%- unless section.settings.full_width -%}
+    (min-width: {{ page_width }}px) {{ page_width | minus: 100 | divided_by: 2 }}px,
+    (min-width: 768px) calc(50vw - 50px), calc(100vw - 200px)
+    {%- else -%}
+    (min-width: 768px) calc(50vw - 50px), calc(100vw - 200px)
+  {%- endunless -%}
+{%- endcapture -%}
+{% capture swatch_class %}
+      swatch swatch--{{ shape }} aspect-ratio-{{ shape }}
+  {% endcapture %}
+
+{% if value.swatch.image != blank %}
+  {% assign append_image_class = swatch_class | append: ' filter-color-swatch__image' %}
+  {{
+    value.swatch.image
+    | image_url: width: value.swatch.image.width
+    | image_tag:
+      loading: loading,
+      fetchpriority: fetchpriority,
+      sizes: sizes,
+      widths: widths,
+      draggable: 'false',
+      class: append_image_class,
+      alt: value.swatch.image.alt
+  }}
+{% else %}
+  <span
+    style="background-color: {{ value.swatch.color }}"
+    class="d-inline-block filter-color-swatch {{ swatch_class }}"
+  >
+  </span>
+{% endif %}

@@ -1,0 +1,150 @@
+{%- unless request.page_type == 'captcha' or section.settings.show_only_on_index and request.page_type != 'index' -%}
+  {% unless section.settings.show_only_for_visitors and customer %}
+    <link
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+      href="{{ 'section-newsletter-popup.css' | asset_url }}"
+    >
+    {% assign newsletter_id = 'newsletter-' | append: section.id %}
+    {% assign posted_successfully = false %}
+
+    {% capture newsletter_form %}
+        {%- form 'customer', id: newsletter_id -%}
+          <div class="newsletterForm ">
+            <input
+              name="contact[tags]"
+              type="hidden"
+              value="newsletter"
+            >
+            <div class="newsletter__email-input">
+              <label for="newsletterForm--{{ section.id }}" class="visually-hidden">
+                {{ 'newsletter.label' | t }}
+              </label>
+              <input
+                placeholder="{{ 'newsletter.label' | t }}"
+                id="newsletterForm--{{ section.id }}"
+                type="email"
+                name="contact[email]"
+                class="newsletterForm__input"
+                value="{{ form.email }}"
+                aria-required="true"
+                autocorrect="off"
+                autocapitalize="off"
+                autocomplete="email"
+                {% if form.errors %}
+                  autofocusaria-invalid="true"
+                  aria-describedby="ContactFooter-error"
+                  aria-describedby="ContactFooter-success"
+                {% endif -%}
+                required
+              >
+            </div>
+            <div>
+              <button
+                aria-label="{{ 'newsletter.popup_button_label' | t }}"
+                class="btn btn--fill w-100"
+                id="Subscribe"
+                name="commit"
+                type="submit"
+              >
+                {{ 'newsletter.popup_button_label' | t }}
+              </button>
+            </div>
+          </div>
+          {% if form.posted_successfully? %}
+            {%- assign posted_successfully = form.posted_successfully? -%}
+            <section class="success-ms mt-24">
+              <div class="container">
+                <div class="d-v-center justify-content-center">
+                  {% render 'icon' with 'success' %}
+                  <span class="success-text">
+                    {{ 'newsletter.success' | t }}
+                  </span>
+                </div>
+              </div>
+            </section>
+            <script>
+              localStorage.setItem('theme:popup-filled', 'true');
+            </script>
+          {% endif %}
+        {%- endform -%}
+    {% endcapture %}
+
+    <newsletter-popup
+      apparition-delay="{{ section.settings.apparition_delay }}"
+      aria-expanded="false"
+      class="
+        d-block drawer newsletter-popup
+        {% if section.settings.newsletter_image %}
+          newsletter__image--desktop
+        {% endif %}
+      "
+      {% if section.settings.show_only_once %}
+        only-once
+      {% endif %}
+      {% if posted_successfully %}
+        open
+      {% endif %}
+      drawer-type="newsletter-popup"
+    >
+      <div class="drawer__container">
+        <div class="drawer__overlay" drawer-overlay></div>
+        <div
+          class="drawer__wrapper p-0 drawer__wrapper--animation-position-center addressDrawer color-{{ settings.drawer_color_scheme }}"
+          {% if section.settings.newsletter_image %}
+            style="max-width: {{ section.settings.image_width }}px"
+          {% endif %}
+        >
+          {% if section.settings.newsletter_image %}
+            <div class="drawer__image--container">
+              {{
+                section.settings.newsletter_image
+                | image_url: width: section.settings.newsletter_image.width
+                | image_tag:
+                  loading: 'eager',
+                  widths: '420,840,1200',
+                  sizes: '(min-width: 991px) calc(820px / 2)',
+                  class: 'image-responsive'
+              }}
+            </div>
+          {% endif %}
+          {% if section.settings.newsletter_image %}
+            <div>
+          {% endif %}
+          {% comment %} Drawer Header Area {% endcomment %}
+          <div class="drawer__content--container">
+            <div class="drawer__header">
+              <button
+                aria-label="{{ 'accessibility.close_popup' | t }} {{ section.settings.title }}"
+                class="drawer__close__btn"
+                close-drawer
+              >
+                {%- render 'icon' with 'close-drawer' -%}
+              </button>
+            </div>
+          </div>
+
+          {% comment %} Drawer Content/Body area {% endcomment %}
+          <div class="drawer__body">
+            <h3 class="drawer__head text-center">{{ section.settings.title }}</h3>
+            <p class="fnt-14 color-text text-center">
+              {{ section.settings.subtext }}
+            </p>
+            <div aria-labelledby="newsletter" class="new-letter">
+              {{ newsletter_form }}
+            </div>
+          </div>
+          {% if section.settings.newsletter_image %}
+            </div>
+          {% endif %}
+          {% comment %}
+            <div class="overflow-y">
+
+            </div>
+          {% endcomment %}
+        </div>
+      </div>
+    </newsletter-popup>
+  {% endunless %}
+{% endunless %}

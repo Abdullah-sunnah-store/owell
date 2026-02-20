@@ -1,0 +1,312 @@
+{{ 'section-feature-product-collection.css' | asset_url | stylesheet_tag }}
+<script defer src="{{ 'recently-viewed-products.js' | asset_url }}"></script>
+{%- liquid
+  assign layout_type = section.settings.display_options
+-%}
+
+<style>
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }};
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }};
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }};
+    }
+  }
+</style>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'top' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-top"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+<recently-viewed-products
+  intersection-element
+  class="recently-viewed-products page-width "
+  limit="{{ section.settings.products_to_show }}"
+  {% if product %}
+    excluded-product-id="{{ product.id }}"
+  {% endif %}
+  section-id="{{ section.id }}"
+  watch-element
+>
+  <div class="recently-viewed-products" recently-viewed-product-container>
+    {% if search.results.size > 0 %}
+      <div
+        aria-label="{{ section.settings.heading }}"
+        class="product_collection section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}"
+      >
+        <div class="container">
+          {% render 'section-heading', section: section %}
+
+          {% case layout_type %}
+            {% when 'carousel' %}
+              <carousel-component
+                class="swiper"
+                slide-layout-type="carousel"
+                slide-no-center
+                slide-pagination-type="progressbar"
+                slide-per-view="1.3"
+                slide-responsive-breakpoints='{"480":{"slidesPerView": "1.5"},"640":{"slidesPerView":"2.3"},"1024":{"slidesPerView":"4"}}'
+                slide-speed="{{ settings.slide_duration }}"
+              >
+                <div class="swiper-container" main-slider>
+                  <animation-reveal aoi-type="fade-up" aoi-amount="0.2" class="swiper-wrapper" recommendation-loader>
+                    {% for recently_viewed_product in search.results %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: recently_viewed_product %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                      <div class="swiper-slide h-auto">
+                        {%- render 'card-product', product: recently_viewed_product -%}
+                      </div>
+                    {%- endfor -%}
+                  </animation-reveal>
+                </div>
+                <div class="sliderControl">
+                  <div class="sliderProgressBar" slide-progress></div>
+                  <div class="d-flex sliderPagination">
+                    <!-- next / prev arrows -->
+                    <div
+                      class=""
+                      slide-prev
+                      role="button"
+                      tabindex="0"
+                      aria-label="{{ 'accessibility.prev_slide_label' | t }}"
+                    >
+                      <div class="sliderPagination__prev productSlider__prev">
+                        {% render 'slider-arrow-icon', arrow_direction: 'left' %}
+                      </div>
+                    </div>
+                    <div
+                      class=""
+                      slide-next
+                      role="button"
+                      tabindex="0"
+                      aria-label="{{ 'accessibility.next_slide_label' | t }}"
+                    >
+                      <div class="sliderPagination__next productSlider__next">
+                        {% render 'slider-arrow-icon', arrow_direction: 'right' %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </carousel-component>
+
+            {% when 'grid' %}
+              <div
+                recommendation-loader
+                class="grid-layout grid-layout--{{ section.settings.columns_desktop }}-desktop  grid-layout--{{ section.settings.columns_mobile }}-mobile"
+              >
+                {% for recently_viewed_product in search.results %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: recently_viewed_product %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                  <div class="grid__item">
+                    <animation-reveal
+                      aoi-type="fade-up"
+                      aoi-amount="0.2"
+                      class="h-100"
+                      aoi-fade-delay="{{ 0.2 | times: forloop.index }}"
+                    >
+                      {%- render 'card-product', product: recently_viewed_product -%}
+                    </animation-reveal>
+                  </div>
+                {%- endfor -%}
+              </div>
+
+              {%- comment -%} Display type is "grid" {%- endcomment -%}
+          {% endcase %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</recently-viewed-products>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'bottom' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-bottom"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+{% schema %}
+{
+  "name": "Recently viewed products",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Heading",
+      "id": "heading",
+      "default": "Recently viewed products"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 5,
+      "label": "Maximum products to show"
+    },
+    {
+      "label": "Layout",
+      "id": "display_options",
+      "type": "select",
+      "options": [
+        {
+          "value": "carousel",
+          "label": "Carousel"
+        },
+        {
+          "value": "grid",
+          "label": "Grid"
+        }
+      ],
+      "default": "carousel"
+    },
+
+    {
+      "type": "header",
+      "content": "Grid settings"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Number of columns on desktop",
+      "options": [
+        {
+          "label": "3",
+          "value": "3"
+        },
+        {
+          "label": "4",
+          "value": "4"
+        },
+        {
+          "label": "5",
+          "value": "5"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        {
+          "label": "1",
+          "value": "1"
+        },
+        {
+          "label": "2",
+          "value": "2"
+        }
+      ],
+      "label": "Number of columns on mobile"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 52
+    },
+    {
+      "type": "select",
+      "id": "border_size",
+      "label": "Border",
+      "options": [
+        {
+          "label": "Hide",
+          "value": "hide"
+        },
+        {
+          "label": "Full width",
+          "value": "full_width"
+        },
+        {
+          "label": "Fixed width",
+          "value": "fixed_width"
+        }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "select",
+      "id": "border_position",
+      "label": "Border position",
+      "options": [
+        {
+          "label": "Both",
+          "value": "both"
+        },
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "both"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Color scheme"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Recently viewed products"
+    }
+  ]
+}
+{% endschema %}

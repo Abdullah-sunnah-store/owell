@@ -1,0 +1,42 @@
+{%- if settings.cart_type == 'drawer' and template.name != 'cart' -%}
+  {%- render 'cart-drawer', section: section -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Cart drawer",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Cart drawer won't appear to your customers if you have set the cart type to page in the [global theme settings](/editor?context=theme&category=Cart)."
+    },
+    {
+      "type": "checkbox",
+      "id": "view_cart_link",
+      "label": "t:settings_schema.global.cart.settings.view_cart_link.label",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:settings_schema.global.cart.settings.cart_product_recommendations_head.content",
+      "info": "t:settings_schema.global.cart.settings.cart_product_recommendations_head.info"
+    },
+    {
+      "type": "text",
+      "id": "cart_recommendation_title",
+      "label": "t:settings_schema.global.cart.settings.cart_product_recommendation_title.label",
+      "default": "Trending this month",
+      "placeholder": "Heading"
+    },
+    {
+      "type": "product_list",
+      "id": "recommendation_product_list",
+      "label": "Products",
+      "limit": 10
+    }
+  ],
+  "enabled_on": {
+    "groups": ["aside"]
+  }
+}
+{% endschema %}

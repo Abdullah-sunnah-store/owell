@@ -1,0 +1,46 @@
+{% comment %}
+  Snippet that will handle product-media
+  3d Model Viewer Document
+  https://modelviewer.dev/docs/#loading
+  List of variables used
+  product_media - {{ Array }} Product Media related data
+{% endcomment %}
+
+{% liquid
+  assign medias = product_media
+  unless template.name == 'product'
+    assign medias = product_media | where: 'media_type', 'image'
+  endunless
+  assign layout_class = 'swiper-slide'
+  if layout_type == 'grid' or layout_type == 'grid-with-main-media'
+    assign layout_class = 'grid__layout__item'
+  endif
+%}
+
+{%- if onboarding -%}
+  {% render 'media', media: media, onboarding: onboarding %}
+{%- else -%}
+  <div class="{{ layout_class }}">
+    {%
+      render 'media', media: product_first_media, show_preview_image: render_preview_image | default: false, media_autoplay: media_autoplay, layout_type: layout_type , add_media_aspect_ratio: false,
+      add_media_aspect_ratio_mobile: false,
+    %}
+  </div>
+  {% for media in medias %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: media %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+    {% if media.id != product_feature_media_id %}
+      <div class="{{ layout_class }}">
+        {%
+          render 'media', media: media, show_preview_image: render_preview_image | default: false, media_autoplay: media_autoplay, layout_type: layout_type , add_media_aspect_ratio: false,
+          add_media_aspect_ratio_mobile: false,
+        %}
+      </div>
+    {% endif %}
+  {% endfor %}
+{%- endif -%}

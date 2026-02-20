@@ -1,0 +1,83 @@
+<div
+  aria-live="assertive"
+  class="checkedItems"
+  active-filters-container
+  role="status"
+>
+  {%- for filter in filters -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: filter %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+    {%- if filter.type == 'price_range' -%}
+      {%- if filter.min_value.value != null or filter.max_value.value != null -%}
+        <facet-remove>
+          <div class="checkedItems__ele">
+            <div class="active-filters fnt-14">
+              {%- assign min_value = filter.min_value.value | default: 0 -%}
+              {%- assign max_value = filter.max_value.value | default: filter.range_max -%}
+              <span class="checkedItems_label">
+                {%- if section.settings.show_filter_group_name -%}
+                  {{ filter.label }} -
+                {%- endif %}
+                {% assign min_price = min_value | money_without_trailing_zeros %}
+                {% assign max_price = max_value | money_without_trailing_zeros %}
+                {{ 'general.filter.price_filter' | t: min_price: min_price, max_price: max_price }}
+              </span>
+
+              <a
+                aria-label=" {{ 'general.filter.price_filter' | t : min_price : min_price , max_price : max_price }}"
+                href="{{ filter.url_to_remove }}"
+                role="link"
+              >
+                <span class="close-checked"></span>
+              </a>
+            </div>
+          </div>
+        </facet-remove>
+      {%- endif -%}
+    {%- else -%}
+      {%- for value in filter.active_values -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: value %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+        <facet-remove>
+          <div class="checkedItems__ele">
+            <div class="active-filters fnt-14">
+              <span class="checkedItems_label">
+                {%- if section.settings.show_filter_group_name -%}
+                  {{ filter.label }} -
+                {%- endif %}
+                {{ value.label | escape }}
+              </span>
+              <a href="{{ value.url_to_remove }}" role="link">
+                <span
+                  aria-label=" {{ "general.filter.remove_filter" | t : name: value.label | escape }}"
+                  class="close-checked"
+                ></span>
+              </a>
+            </div>
+          </div>
+        </facet-remove>
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {% comment %} Clear Filters Button {% endcomment %}
+  {% if section.settings.show_filters and filters.size > 0 %}
+    {%- if active_filters_values > 0 -%}
+      <facet-remove>
+        <a class="link clear-filter js-clear-filter" href="{{ results_url }}" tabindex="0"
+          ><span>{{ 'general.filter.clear_filter' | t }}</span></a
+        >
+      </facet-remove>
+    {%- endif -%}
+  {% endif %}
+</div>

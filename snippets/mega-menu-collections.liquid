@@ -1,0 +1,205 @@
+{% comment %} Mega menu dropdown  {% endcomment %}
+{%- liquid
+  assign slideCount = 0
+  assign firstL3Slide = false
+  assign slidesToShow = block.settings.column_count | times: 1
+-%}
+<div details-dropdown class="mega-menu-dropdown mega-menu-collections color-{{ colorScheme }}">
+  <div class="mega-menu-container">
+    <div class="container mega-menu-dropdown__container flex-wrap">
+      {%- if block.settings.heading != blank -%}
+        <div class="mega-menu__heading w-100 h4 mb-24">{{ block.settings.heading }}</div>
+      {%- endif -%}
+      {%- if block.settings.submenu_level == 'level-2-3' -%}
+        {%- assign slides = '' -%}
+        <mega-menu-tabs class="mega-menu-collections__tabs mb-24 d-flex">
+          {%- for childlink in link.links -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: childlink %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+            {%- assign index = forloop.index -%}
+            {%- capture L3Slides -%}
+              {%- for grandchildlink in childlink.links -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: grandchildlink %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                {%- assign collectionImage = grandchildlink.object.metafields.flawless_theme.megamenu_image | default: grandchildlink.object.featured_image -%}
+                {% liquid 
+                  assign ratio = false
+                  if block.settings.image_aspect_ratio == 'adapt'
+                    if collectionImage
+                      assign ratio = block.settings[promotionImage].aspect_ratio
+                    else
+                      assign ratio = 1
+                    endif
+                  endif
+                
+                %}
+                {%- if grandchildlink.type == 'collection_link' and collectionImage != blank -%}
+                  {%- if slideCount == 0 -%}
+                    {% assign firstL3Slide = true %}
+                  {%- endif -%}
+                  {%- if firstL3Slide -%}{%- assign slideCount = slideCount | plus: 1 -%}{%- endif -%}
+                  <div class="{% if firstL3Slide %}swiper-slide{% else %}d-none{% endif %}" data-parent-link="{{ childlink.title }}-{{ index }}">
+                    <div class="collection-image" animate-bundle-image {% if ratio %}
+                      style="--aspect-ratio:{{ ratio }}"
+                    {% endif %}>
+                      <a class="bundle__link{% if grandchildlink.current %} active{% endif %}" href="{{ grandchildlink.url }}" target="{{ block.settings.link_target }}">
+                        {% assign aspect_ratio = "aspect-ratio-" | append : block.settings.image_ratio %}
+                        {%- assign imgClass = "set-100-percentage-size-media border-radius--block " | append: aspect_ratio -%}
+                        <div class="collection-img">
+                          {{
+                          collectionImage
+                          | image_url: width: collectionImage.width
+                          | image_tag:
+                            widths: '600,300'
+                          , sizes: '(min-width: 1340px) 256px, (min-width: 1040px) 230px, 156px'
+                          , alt: collectionImage.alt
+                          , loading: 'lazy'
+                          , class: imgClass }}
+                        </div>
+                        <div class="bundle__body h5 text-{{ block.settings.content_alignment }}">
+                            {{ grandchildlink.title }}
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+            {%- if L3Slides != blank -%}
+              <mega-menu-tab
+                class="mega-menu-collections__tab h5 fnt-18{% if firstL3Slide %} active{% endif %}"
+                data-parent-link="{{ childlink.title }}-{{ index }}"
+              >
+                {{- childlink.title -}}
+              </mega-menu-tab>
+              {%- assign slides = slides | append: L3Slides -%}
+              {%- assign firstL3Slide = false -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </mega-menu-tabs>
+      {%- endif -%}
+      <carousel-component
+        intersection-element
+        dynamic-navigation-color
+        class="mega-menu-collections__swiper js-element w-100 position-relative"
+        slide-layout-type="carousel"
+        slide-pagination-type="bullets"
+        slide-per-view="{{ block.settings.column_count }}"
+        slide-speed="{{ settings.slide_duration }}"
+        animate-on-slide-change
+        animate-on-load
+        slide-no-center
+        slide-animation="slide"
+        aria-label="Slider"
+      >
+        <div class="swiper-container swiper" main-slider>
+          <div class="swiper-wrapper">
+            {%- if block.settings.submenu_level == 'level-2-3' -%}
+              {{ slides }}
+            {%- else -%}
+              {%- for childlink in link.links -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: childlink %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                {%- assign collectionImage = childlink.object.metafields.flawless_theme.megamenu_image
+                  | default: childlink.object.featured_image
+                -%}
+                {%- if childlink.type == 'collection_link' and collectionImage != blank -%}
+                  {%- assign slideCount = slideCount | plus: 1 -%}
+                  <div class="swiper-slide">
+                    <div
+                      class="collection-image"
+                      animate-bundle-image
+                      {% if ratio %}
+                        style="--aspect-ratio:{{ ratio }}"
+                      {% endif %}
+                    >
+                      <a
+                        class="bundle__link{% if childlink.current %} active{% endif %}"
+                        href="{{ childlink.url }}"
+                        target="{{ block.settings.link_target }}"
+                      >
+                        {% assign aspect_ratio = 'aspect-ratio-' | append: block.settings.image_ratio %}
+                        {%- assign imgClass = 'set-100-percentage-size-media border-radius--block '
+                          | append: aspect_ratio
+                        -%}
+                        <div class="collection-img">
+                          {{
+                            collectionImage
+                            | image_url: width: collectionImage.width
+                            | image_tag:
+                              widths: '600,300',
+                              sizes: '(min-width: 1340px) 256px, (min-width: 1040px) 230px, 156px',
+                              alt: collectionImage.alt,
+                              loading: 'lazy',
+                              class: imgClass
+                          }}
+                        </div>
+                        <div class="bundle__body h5 text-{{ block.settings.content_alignment }}">
+                          {{ childlink.title }}
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+        </div>
+        <div class="" slider-controller>
+          <div class="dash_arrows position-absolute{% if slideCount <= slidesToShow %} d-none{% endif %}">
+            <!-- Next Arrow -->
+            <div
+              class="slideshow__next position-absolute sliderPagination__next"
+              slide-next
+              role="button"
+              tabindex="0"
+              aria-label="{{ 'accessibility.next_slide_label' | t }}"
+            >
+              {% render 'slider-arrow-icon', arrow_direction: 'right' %}
+            </div>
+
+            <!-- Pagination Dots -->
+            <div class="sliderControl d-none" role="group" aria-label="Slider Controls">
+              <div class="sliderProgressBar">
+                <div class="swiper-pagination" slide-progress aria-label="Slider Pagination"></div>
+              </div>
+            </div>
+
+            <!-- Previous Arrow -->
+            <div
+              class="slideshow__prev position-absolute sliderPagination__prev"
+              slide-prev
+              role="button"
+              tabindex="0"
+              aria-label="{{ 'accessibility.prev_slide_label' | t }}"
+            >
+              {% render 'slider-arrow-icon', arrow_direction: 'left' %}
+            </div>
+          </div>
+        </div>
+      </carousel-component>
+      {%- if block.settings.show_link and block.settings.link != blank and block.settings.link_text != blank -%}
+        <div class="mega-menu-collections__link position-relative w-100 text-center">
+          <a href="{{ block.settings.link }}" class="link" target="{{ block.settings.link_target }}">
+            <span>{{ block.settings.link_text }}</span>
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

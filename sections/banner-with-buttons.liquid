@@ -1,0 +1,555 @@
+{% if section.settings.desktop_bg_image != blank or section.settings.mobile_bg_image != blank %}
+  <section class="hero-banner-{{ section.id }}">
+    <div class="hero-banner__content">
+      {% if section.settings.title_logo != blank %}
+        <h1 class="hero-banner__title_logo">{{ section.settings.title_logo }}</h1>
+      {% endif %}
+      {% if section.settings.title != blank %}
+        <h1 class="hero-banner__title">{{ section.settings.title }}</h1>
+      {% endif %}
+      
+      {% if section.settings.title_2 != blank %}
+        <h2 class="hero-banner__title-2">{{ section.settings.title_2 }}</h2>
+      {% endif %}
+      
+      {% if section.settings.subtitle != blank %}
+        <div class="hero-banner__subtitle">
+          {{ section.settings.subtitle }}
+        </div>
+      {% endif %}
+      
+      {% if section.settings.button_1_text != blank or section.settings.button_2_text != blank or section.settings.button_3_text != blank %}
+        <div class="hero-banner__buttons">
+          {% if section.settings.button_1_text != blank and section.settings.button_1_link != blank %}
+            <a href="{{ section.settings.button_1_link }}" class="hero-banner__button hero-banner__button--primary">
+              {{ section.settings.button_1_text }}
+            </a>
+          {% endif %}
+          
+          {% if section.settings.button_2_text != blank and section.settings.button_2_link != blank %}
+            <a href="{{ section.settings.button_2_link }}" class="hero-banner__button hero-banner__button--secondary">
+              {{ section.settings.button_2_text }}
+            </a>
+          {% endif %}
+          
+          {% if section.settings.button_3_text != blank and section.settings.button_3_link != blank %}
+            <a href="{{ section.settings.button_3_link }}" class="hero-banner__button hero-banner__button--tertiary">
+              {{ section.settings.button_3_text }}
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endif %}
+
+<style>
+  .hero-banner-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    min-height: 650px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px 20px;
+    {% if section.settings.desktop_bg_image != blank %}
+      background-image: url('{{ section.settings.desktop_bg_image | img_url: "master" }}');
+    {% endif %}
+  }
+  
+  .hero-banner-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: {{ section.settings.overlay_color }};
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    z-index: 1;
+  }
+  
+  .hero-banner__content {
+    position: relative;
+    z-index: 2;
+    max-width: 1800px;
+    width: 100%;
+    text-align: {{ section.settings.text_alignment }};
+    color: {{ section.settings.text_color }};
+    padding: 0 20px 80px;
+  }
+  .hero-banner__title_logo{
+   font-size: 52px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0 0 5px 0;
+    color: {{ section.settings.title_color }};
+  }
+  
+  .hero-banner__title {
+   font-size: 36px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0 0 20px 0;
+    color: {{ section.settings.title_color }};
+  }
+  
+  /* Style for highlighted text in title */
+  .hero-banner__title strong,
+  .hero-banner__title b {
+    color: {{ section.settings.highlight_color }};
+    font-weight: 900;
+  }
+  
+  .hero-banner__title-2 {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 0 0 24px 0;
+    color: {{ section.settings.title_2_color }};
+  }
+  
+  /* Style for highlighted text in title 2 */
+  .hero-banner__title-2 strong,
+  .hero-banner__title-2 b {
+    color: {{ section.settings.highlight_color }};
+    font-weight: 900;
+  }
+  
+  .hero-banner__subtitle {
+    font-size: 24px;
+    line-height: 1.2;
+    margin: 0 0 40px 0;
+    color: {{ section.settings.subtitle_color }};
+  }
+  
+  .hero-banner__subtitle p {
+    font-size: 24px;
+    line-height: 1.2;
+    margin: 0 0 40px 0;
+  }
+  
+  /* Style for highlighted text in subtitle */
+  .hero-banner__subtitle strong,
+  .hero-banner__subtitle b {
+    color: {{ section.settings.highlight_color }};
+    font-weight: 900;
+  }
+  
+  .hero-banner__buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    {% if section.settings.text_alignment == 'center' %}
+      justify-content: center;
+    {% elsif section.settings.text_alignment == 'right' %}
+      justify-content: flex-end;
+    {% else %}
+      justify-content: flex-start;
+    {% endif %}
+  }
+  
+  .hero-banner__button {
+    display: inline-block;
+    padding: 16px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+  
+  .hero-banner__button--primary {
+    background-color: {{ section.settings.button_1_bg_color }};
+    color: {{ section.settings.button_1_text_color }};
+    border-color: {{ section.settings.button_1_bg_color }};
+  }
+  
+  .hero-banner__button--primary:hover {
+    background-color: {{ section.settings.button_1_hover_bg_color }};
+    border-color: {{ section.settings.button_1_hover_bg_color }};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .hero-banner__button--secondary {
+    background-color: {{ section.settings.button_2_bg_color }};
+    color: {{ section.settings.button_2_text_color }};
+    border-color: {{ section.settings.button_2_border_color }};
+  }
+  
+  .hero-banner__button--secondary:hover {
+    background-color: {{ section.settings.button_2_hover_bg_color }};
+    color: {{ section.settings.button_2_hover_text_color }};
+    border-color: {{ section.settings.button_2_hover_border_color }};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .hero-banner__button--tertiary {
+    background-color: {{ section.settings.button_3_bg_color }};
+    color: {{ section.settings.button_3_text_color }};
+    border-color: {{ section.settings.button_3_border_color }};
+  }
+  
+  .hero-banner__button--tertiary:hover {
+    background-color: {{ section.settings.button_3_hover_bg_color }};
+    color: {{ section.settings.button_3_hover_text_color }};
+    border-color: {{ section.settings.button_3_hover_border_color }};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  @media screen and (max-width: 768px) {
+    .hero-banner-{{ section.id }} {
+      min-height: 700px;
+      padding: 60px 20px;
+      {% if section.settings.mobile_bg_image != blank %}
+        background-image: url('{{ section.settings.mobile_bg_image | img_url: "1000x" }}');
+      {% endif %}
+      align-items: flex-end;
+    }
+    .hero-banner__title_logo{
+   font-size: 36px;
+    margin: 0 ;
+  }
+    .hero-banner__title {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+    
+    .hero-banner__title-2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .hero-banner__subtitle {
+      margin: 0 0 10px 0;
+    }
+    .hero-banner__subtitle p{
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    
+    .hero-banner__buttons {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      align-content: center;
+    }
+    .hero-banner__content {
+    text-align: center;
+    padding: 0 20px;
+    }
+    .hero-banner__button {
+      padding: 8px 32px;
+      font-size: 16px;
+      text-align: center;
+      width: 100%;
+      max-width: 300px;
+      {% if section.settings.text_alignment == 'center' %}
+        margin: 0 auto;
+      {% endif %}
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .hero-banner-{{ section.id }} {
+      min-height: 650px;
+      padding: 40px 15px;
+      align-items: flex-end;
+    }
+    
+    .hero-banner__title {
+      font-size: 24px;
+    }
+    
+    .hero-banner__title-2 {
+      font-size: 20px;
+    }
+    
+    .hero-banner__subtitle {
+      font-size: 16px;
+      margin: 0 0 10px 0;
+    }
+    
+    .hero-banner__button {
+      font-size: 15px;
+      padding: 8px 28px;
+    }
+    
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title_logo",
+      "label": "Title logo (H1)",
+      "info": "Use <strong> or <b> tags to highlight text in blue",
+      "default": "OWELL<sup>®</sup>"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title 1 (H1)",
+      "info": "Use <strong> or <b> tags to highlight text in blue",
+      "default": "Quality & Reliability You Can Count On"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Title 2 (H2)",
+      "info": "Use <strong> or <b> tags to highlight text in blue",
+      "default": "Over 1 Million Orders Delivered"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "info": "Use <strong> or <b> tags to highlight text in blue",
+      "default": "<p>Trusted by professionals nationwide since 2016</p>"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Button 1"
+    },
+    {
+      "type": "text",
+      "id": "button_1_text",
+      "label": "Button 1 Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_1_link",
+      "label": "Button 1 Link"
+    },
+    {
+      "type": "color",
+      "id": "button_1_bg_color",
+      "label": "Button 1 Background Color",
+      "default": "#2563eb"
+    },
+    {
+      "type": "color",
+      "id": "button_1_text_color",
+      "label": "Button 1 Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_1_hover_bg_color",
+      "label": "Button 1 Hover Background Color",
+      "default": "#1d4ed8"
+    },
+    {
+      "type": "header",
+      "content": "Button 2"
+    },
+    {
+      "type": "text",
+      "id": "button_2_text",
+      "label": "Button 2 Text",
+      "default": "Open a Business Account"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Button 2 Link"
+    },
+    {
+      "type": "color",
+      "id": "button_2_bg_color",
+      "label": "Button 2 Background Color",
+      "default": "#1f2937"
+    },
+    {
+      "type": "color",
+      "id": "button_2_text_color",
+      "label": "Button 2 Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_2_border_color",
+      "label": "Button 2 Border Color",
+      "default": "#1f2937"
+    },
+    {
+      "type": "color",
+      "id": "button_2_hover_bg_color",
+      "label": "Button 2 Hover Background Color",
+      "default": "#374151"
+    },
+    {
+      "type": "color",
+      "id": "button_2_hover_text_color",
+      "label": "Button 2 Hover Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_2_hover_border_color",
+      "label": "Button 2 Hover Border Color",
+      "default": "#374151"
+    },
+    {
+      "type": "header",
+      "content": "Button 3"
+    },
+    {
+      "type": "text",
+      "id": "button_3_text",
+      "label": "Button 3 Text",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_3_link",
+      "label": "Button 3 Link"
+    },
+    {
+      "type": "color",
+      "id": "button_3_bg_color",
+      "label": "Button 3 Background Color",
+      "default": "#059669"
+    },
+    {
+      "type": "color",
+      "id": "button_3_text_color",
+      "label": "Button 3 Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_3_border_color",
+      "label": "Button 3 Border Color",
+      "default": "#059669"
+    },
+    {
+      "type": "color",
+      "id": "button_3_hover_bg_color",
+      "label": "Button 3 Hover Background Color",
+      "default": "#047857"
+    },
+    {
+      "type": "color",
+      "id": "button_3_hover_text_color",
+      "label": "Button 3 Hover Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_3_hover_border_color",
+      "label": "Button 3 Hover Border Color",
+      "default": "#047857"
+    },
+    {
+      "type": "header",
+      "content": "Background Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_bg_image",
+      "label": "Desktop Background Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_bg_image",
+      "label": "Mobile Background Image"
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Opacity",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Text Colors"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title 1 Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "title_2_color",
+      "label": "Title 2 Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "General Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight Color (for bold/strong text)",
+      "default": "#2196F3"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner"
+    }
+  ]
+}
+{% endschema %}

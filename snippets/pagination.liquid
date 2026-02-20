@@ -1,0 +1,58 @@
+<div class="pagination__contiainer">
+  {%- if paginate.pages > 1 -%}
+    <nav aria-label="pagination" role="navigation">
+      <ol class="pagination">
+        {%- if paginate.previous -%}
+          <li>
+            <a
+              aria-label="{{ 'accessibility.pagination.previous' | t }}"
+              class="pagination__item pagination__item--previous pagination__item-arrow link motion-reduce"
+              href="{{ paginate.previous.url }}{{ anchor }}">
+              {% render 'slider-arrow-icon', arrow_direction: 'left' %}
+            </a>
+          </li>
+        {%- endif -%}
+        {%- for part in paginate.parts -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: part %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+          {%- if part.is_link -%}
+            <li>
+              <a href="{{ part.url }}">
+                <span class="visuallyhidden">page</span>
+                <span>{{ part.title }}</span>
+              </a>
+            </li>
+          {%- else -%}
+            {%- if part.title == paginate.current_page -%}
+              <li aria-current="page" class="active">
+                <span class="visuallyhidden">page</span>
+                <span>{{ part.title }}</span>
+              </li>
+            {%- else -%}
+              <li>
+                <span class="visuallyhidden">page</span>
+                <span>{{ part.title }}</span>
+              </li>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if paginate.next -%}
+          <li>
+            <a
+              aria-label="{{ 'accessibility.pagination.next' | t }}"
+              class="pagination__item pagination__item--next pagination__item-arrow link motion-reduce"
+              href="{{ paginate.next.url }}{{ anchor }}">
+              {% render 'slider-arrow-icon', arrow_direction: 'right' %}
+            </a>
+          </li>
+        {%- endif -%}
+      </ol>
+    </nav>
+  {%- endif -%}
+</div>

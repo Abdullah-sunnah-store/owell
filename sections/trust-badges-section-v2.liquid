@@ -1,0 +1,389 @@
+<style>
+    .trust-badges-section-v2{
+        background-color: #fff;
+        margin-top: 60px;
+        padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px 20px;
+    }
+    .trust-badges-container-v2{
+        display: flex;
+        flex-direction: column;
+        max-width: 120rem;
+        margin: 0 auto;
+    }
+    .trust-badges-header{
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    .trust-badges-title{
+        font-size: 40px;
+        font-weight: 700;
+        color: #000;
+        margin: 0 0 15px 0;
+        line-height: 1.2;
+    }
+    .trust-badges-subtitle{
+        font-size: 18px;
+        color: rgba(0, 0, 0, 0.7);
+        margin: 0;
+        line-height: 1.5;
+        max-width: 70rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .trust-badges-grid-v2{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        justify-content: center;
+    }
+    .trust-badge-item-v2{
+        display: flex;
+        flex-direction: column;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 35px 25px;
+        transition: all 0.3s ease;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        height: 100%;
+    }
+    .trust-badge-item-v2:hover{
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        border-color: #d1d5db;
+    }
+    .trust-badge-link-v2{
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        color: inherit;
+        height: 100%;
+    }
+    .trust-badge-item-v2 h3{
+        color: #000;
+        font-weight: 600;
+        font-size: 22px;
+        margin: 0 0 15px 0;
+        line-height: 1.4;
+    }
+    .trust-badge-item-v2 p{
+        line-height: 1.6;
+        margin: 0;
+        color: rgba(0, 0, 0, 0.7);
+        font-size: 16px;
+        flex-grow: 1;
+    }
+    .trust-badge-cta{
+        display: inline-flex;
+        align-items: center;
+        margin-top: 20px;
+        color: #2563eb;
+        font-weight: 500;
+        font-size: 15px;
+        transition: color 0.2s ease;
+    }
+    .trust-badge-cta:hover{
+        color: #1d4ed8;
+    }
+    .trust-badge-cta svg{
+        margin-left: 8px;
+        transition: transform 0.2s ease;
+    }
+    .trust-badge-item-v2:hover .trust-badge-cta svg{
+        transform: translateX(4px);
+    }
+
+    /* Tablet styles */
+    @media screen and (max-width: 992px) {
+        .trust-badges-section-v2{
+            margin-top: 40px;
+            padding: {{ section.settings.padding_top_tablet }}px 15px {{ section.settings.padding_bottom_tablet }}px 15px;
+        }
+        .trust-badges-header{
+            margin-bottom: 40px;
+        }
+        .trust-badges-title{
+            font-size: 35px;
+        }
+        .trust-badges-subtitle{
+            font-size: 17px;
+        }
+        .trust-badges-grid-v2{
+            gap: 25px;
+        }
+        .trust-badge-item-v2{
+            padding: 30px 22px;
+        }
+        .trust-badge-item-v2 h3{
+            font-size: 20px;
+        }
+        .trust-badge-item-v2 p{
+            font-size: 15px;
+        }
+    }
+
+    /* Mobile styles */
+    @media screen and (max-width: 768px) {
+        .trust-badges-section-v2{
+            margin-top: 30px;
+            padding: {{ section.settings.padding_top_mobile }}px 15px {{ section.settings.padding_bottom_mobile }}px 15px;
+        }
+        .trust-badges-header{
+            margin-bottom: 35px;
+        }
+        .trust-badges-title{
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+        .trust-badges-subtitle{
+            font-size: 16px;
+        }
+        .trust-badges-grid-v2{
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .trust-badge-item-v2{
+            padding: 28px 20px;
+        }
+        .trust-badge-item-v2 h3{
+            font-size: 19px;
+            margin-bottom: 12px;
+        }
+        .trust-badge-item-v2 p{
+            font-size: 15px;
+        }
+        .trust-badge-cta{
+            font-size: 14px;
+            margin-top: 16px;
+        }
+    }
+
+    /* Small mobile styles */
+    @media screen and (max-width: 480px) {
+        .trust-badges-section-v2{
+            margin-top: 20px;
+        }
+        .trust-badges-header{
+            margin-bottom: 30px;
+        }
+        .trust-badges-title{
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .trust-badges-subtitle{
+            font-size: 15px;
+        }
+        .trust-badge-item-v2{
+            padding: 25px 18px;
+        }
+        .trust-badge-item-v2 h3{
+            font-size: 18px;
+        }
+        .trust-badge-item-v2 p{
+            font-size: 14px;
+        }
+    }
+</style>
+
+<div class="container trust-badges-section-v2">
+    <div class="trust-badges-container-v2">
+        {% if section.settings.section_title != blank or section.settings.section_subtitle != blank %}
+        <div class="trust-badges-header">
+            {% if section.settings.section_title != blank %}
+            <h2 class="trust-badges-title">{{ section.settings.section_title }}</h2>
+            {% endif %}
+            {% if section.settings.section_subtitle != blank %}
+            <p class="trust-badges-subtitle">{{ section.settings.section_subtitle }}</p>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        <div class="trust-badges-grid-v2">
+            {% for block in section.blocks %}
+                {% case block.type %}
+                    {% when 'badge' %}
+                        {% if block.settings.title != blank %}
+                        <div class="trust-badge-item-v2" {{ block.shopify_attributes }}>
+                            {% if block.settings.link != blank %}
+                            <a href="{{ block.settings.link }}" class="trust-badge-link-v2">
+                                <h3>{{ block.settings.title }}</h3>
+                                <p>{{ block.settings.text }}</p>
+                                {% if block.settings.link_text != blank %}
+                                <span class="trust-badge-cta">
+                                    {{ block.settings.link_text }}
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </span>
+                                {% endif %}
+                            </a>
+                            {% else %}
+                            <div class="trust-badge-link-v2">
+                                <h3>{{ block.settings.title }}</h3>
+                                <p>{{ block.settings.text }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                {% endcase %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+    
+{% schema %}
+{
+  "name": "Trust Badges Cards",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Why Choose Us"
+    },
+    {
+      "type": "textarea",
+      "id": "section_subtitle",
+      "label": "Section Subtitle",
+      "default": "We're committed to providing you with the best experience possible"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_tablet",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Tablet)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_tablet",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Tablet)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Trust Badge Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Title",
+          "default": "Trust Badge Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Card Description",
+          "default": "Add your trust badge description here to build customer confidence."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Card Link (Optional)",
+          "info": "Leave empty if you don't want this card to be clickable"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Card Link Text",
+          "default": "Learn more",
+          "info": "Only shows if link URL is provided"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Badges Cards",
+      "blocks": [
+        {
+          "type": "badge",
+          "settings": {
+            "title": "90-Day Money Back Guarantee",
+            "text": "If you're not absolutely thrilled with the results, we don't want your money. No hassles, no questions asked.",
+            "link_text": "Learn more"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "title": "Fast & Free Shipping",
+            "text": "We offer fast and free 4-8 day delivery on all orders to the USA.",
+            "link_text": "Learn more"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "title": "Guaranteed High Quality",
+            "text": "All products are made of high quality materials. Enjoy consistent, trouble-free performance for a long time.",
+            "link_text": "Learn more"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,29 @@
+{% liquid
+  assign string = ''
+  for option in product.options_with_values
+    assign string = string | append: option.selected_value | append: '@@'
+  endfor
+  assign string = string | split: '@@' | join: ', '
+%}
+<div class="sticy-container" sticky-add-to-cart-content>
+  <sticky-add-to-cart-content layout-type="bar">
+    <div class="sticky-add-to-cart__wrapper bar-layout">
+      <div class="sticky-add-to-cart__details">
+        <h3 class="h4 mb-0 tab-only">{{ product.title }}</h3>
+        {% unless product.has_only_default_variant %}
+          <div class="sticky-add-to-cart__variant-info">
+            <p class="fnt-16 mb-0" sticky-add-to-cart-variants>
+              {{ string }}
+            </p>
+            <button type="button" scroll-to-section="product-info" class="link link--xs">
+              <span class="ml-2">{{ 'products.product.sticky_add_to_cart.edit' | t }}</span>
+            </button>
+          </div>
+        {% endunless %}
+      </div>
+      <div class="sticky-add-to-cart__add-to-cart-button ">
+        {% render 'sticky-add-to-cart-content', product: product, form_id: form_id %}
+      </div>
+    </div>
+  </sticky-add-to-cart-content>
+</div>

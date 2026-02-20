@@ -1,0 +1,31 @@
+{%- liquid
+  assign calculated_total_price = 0
+
+  for line_item in cart.items
+    if line_item.requires_shipping
+      assign calculated_total_price = calculated_total_price | plus: line_item.final_line_price
+    endif
+  endfor
+
+
+  assign total_cart_discount = 0
+
+  for discount_application in cart.cart_level_discount_applications
+    assign total_cart_discount = total_cart_discount | plus: discount_application.total_allocated_amount
+  endfor
+
+  assign calculated_total_price = calculated_total_price | minus: total_cart_discount
+  assign threshold_price =  settings.free_shipping_amount | times: 100
+  -%}
+
+<free-shipping
+  class="free__shipping-progress__bar d-block"
+  total-price="{{ calculated_total_price }}"
+  threshold="{{ threshold_price }}"
+  free-shipping-activated-message="{{ 'cart.cart_free_shipping_message' | t }}"
+  default-shipping-message="{{ 'cart.cart_default_shipping_message' | t }}">
+  <p class="fnt-14 text-center" shipping-message></p>
+  <div class="progressBar">
+    <span class="progressBar__handle" progress-bar></span>
+  </div>
+</free-shipping>

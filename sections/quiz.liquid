@@ -1,0 +1,659 @@
+{{ 'section-quiz.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }};
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }};
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }};
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign intersection = 'intersection-element'
+  endif
+
+  assign page_width = settings.page_width
+  assign widths = '500, 780, 1060, 1280'
+  assign bg_foregound_color = false
+  if section.settings.color_scheme.settings.background == section.settings.section_background_color
+    assign bg_foregound_color = true
+  endif
+  assign noFullWidth = true
+  if section.settings.full_width
+    assign noFullWidth = false
+  endif
+-%}
+
+{%- capture sizes -%}
+  {%- unless section.settings.full_width -%}
+    (min-width: {{ page_width }}px) {{ page_width | minus: 100 | divided_by: 2 }}px,
+    (min-width: 768px) calc(50vw - 50px), calc(100vw - 200px)
+    {%- else -%}
+    (min-width: 768px) calc(50vw - 50px), calc(100vw - 200px)
+  {%- endunless -%}
+{%- endcapture -%}
+
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'top' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-top"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+
+<div
+  aria-label="{{ 'section.quiz.title' | t }}"
+  class="quiz section-{{ section.id }}-padding"
+  style="background-color: {{ section.settings.section_background_color }}"
+  role="region"
+>
+  {% unless section.settings.full_width %}
+    <div class="container">
+  {% endunless %}
+  <div
+    class="quiz__section{% unless section.settings.full_width %} border-radius border-radius--block {% endunless %} color-{{ section.settings.color_scheme }}"
+    style="--option-background-color: {{ section.settings.option_background }};--option-text-color: {{ section.settings.option_color }}"
+  >
+    <quiz-form
+      class="position-relative d-v-center block-media-size--{{ section.settings.media_size }}"
+      {% if section.settings.button_label == blank -%}
+        init-quiz
+      {%- endif -%}
+    >
+      {%- unless section.settings.button_label == blank -%}
+        <div
+          class="quiz__landing w-100 color-{{ section.settings.color_scheme }} d-flex  align-item-center flex-wrap {% if section.settings.image == blank %} justify-content-{{ section.settings.content_alignment }} {% endif %}  text-{{ section.settings.content_alignment }}{% if section.settings.image_position == 'left' %} d-flex-md-row-reverse{% endif %}"
+          quiz-start
+        >
+          <animation-reveal
+            class="quiz__noFullWidth {% if section.settings.image != blank %}w-50{% else %} quiz__only-content {% endif %}"
+            aoi-type="fade-up"
+            aoi-amount="0.2"
+          >
+            {% if section.settings.subheading != blank %}
+              <p class="quiz__subheading mb-16">{{ section.settings.subheading }}</p>
+            {% endif %}
+            {% if section.settings.heading != blank %}
+              <h3 class="h2 mb-16">{{ section.settings.heading }}</h3>
+            {% endif %}
+            {% if section.settings.content != blank %}
+              <p class="quiz__description fnt-16 mb-16">{{ section.settings.content | strip_html }}</p>
+            {% endif %}
+            <button
+              class="quiz__blockButton mt-16 btn{% if section.settings.use_outline_button %} btn--border {% else %} btn--fill {% endif %}"
+              type="button"
+            >
+              {{ section.settings.button_label }}
+            </button>
+          </animation-reveal>
+          {% if section.settings.image != blank %}
+            {% liquid
+              if section.settings.media_size == 'adapt'
+                assign ratio = section.settings.image.aspect_ratio
+                if section.settings.image_mobile != blank
+                  assign mobile_ratio = section.settings.image_mobile.aspect_ratio
+                endif
+              endif
+            %}
+            <animation-reveal
+              class="quiz__imageWrp position-relative w-50 block-media-size--{{ section.settings.media_size }}{% if section.settings.image_mobile != blank %} tab-only{% endif %}{% if noFullWidth and bg_foregound_color or section.settings.color_scheme.settings.background == "rgba(0,0,0,0)" %} border-radius border-radius--block{% endif %}"
+              aoi-type="scale"
+              aoi-duration="0.7"
+              aoi-amount="0.3"
+              {%- if section.settings.media_size == 'adapt' -%}
+                style=" --aspect-ratio: {{ ratio }};"
+              {%- endif -%}
+            >
+              {%- capture imagealt -%}
+              {{ section.settings.image.alt | default: 'image' }}
+            {%- endcapture -%}
+              {{
+                section.settings.image
+                | image_url: width: section.settings.image.width
+                | image_tag:
+                  loading: loading,
+                  fetchpriority: fetchpriority,
+                  sizes: sizes,
+                  widths: widths,
+                  class: 'set-100-percentage-size-media',
+                  alt: imagealt
+              }}
+            </animation-reveal>
+          {% endif %}
+          {% if section.settings.image_mobile != blank %}
+            <animation-reveal
+              class="quiz__imageWrp position-relative w-100 mobile-sm-only block-media-size--{{ section.settings.media_size }}{% if noFullWidth and bg_foregound_color or section.settings.color_scheme.settings.background == "rgba(0,0,0,0)" %} border-radius border-radius--block{% endif %}"
+              aoi-type="scale"
+              aoi-duration="0.7"
+              aoi-amount="0.3"
+              {%- if section.settings.media_size == 'adapt' -%}
+                style="  --mobile-aspect-ratio: {{ mobile_ratio }}"
+              {%- endif -%}
+            >
+              {%- capture imagealt -%}
+              {{ section.settings.image_mobile.alt | default: 'image' }}
+            {%- endcapture -%}
+              {{
+                section.settings.image_mobile
+                | image_url: width: section.settings.image_mobile.width
+                | image_tag:
+                  loading: loading,
+                  fetchpriority: fetchpriority,
+                  sizes: sizes,
+                  widths: widths,
+                  class: 'set-100-percentage-size-media',
+                  alt: imagealt
+              }}
+            </animation-reveal>
+          {% endif %}
+        </div>
+      {%- endunless -%}
+      <form
+        class="quiz__form quiz__noFullWidth w-100"
+        action="{{ section.settings.collection.url | default: routes.all_products_collection_url }}"
+        method="get"
+      >
+        <carousel-component
+          {{ intersection }}
+          dynamic-navigation-color
+          class="mobile-content-over-media position-relative w-100 container"
+          slide-layout-type="carousel"
+          slide-pagination-type="progressbar"
+          slide-per-view="1"
+          slide-responsive-breakpoints='{"320":{"slidesPerView":"1"},"768":{"slidesPerView":"1"}}'
+          slide-speed="{{ settings.slide_duration }}"
+          animate-on-slide-change
+          slide-disable-touch-move
+          slide-keyboard-disabled
+          {% if section.index == 1 %}
+            animate-on-load
+          {% endif %}
+          style="--pagination-width: {{ section.blocks.size }}"
+          aria-label="Slider"
+        >
+          <div class="swiper swiper-container" main-slider>
+            <animation-reveal aoi-type="fade-up" aoi-amount="0.2" class="swiper-wrapper">
+              {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                <div
+                  class="swiper-slide d-flex d-flex-dir-c justify-content-space-btw"
+                  quiz-block
+                  {{ block.shopify_attributes }}
+                >
+                  <div class="quiz__block d-flex justify-content-space-btw h-100">
+                    <div class="quiz__blockQuestion">
+                      <span class="h2 tab-only">0{{ forloop.index }}.</span>
+                      <h3 class="h2">
+                        <span class="h2 mobile-sm-only">0{{ forloop.index }}.</span>
+                        {{ block.settings.question }}
+                      </h3>
+                    </div>
+                    <div class="quiz__blockOptionsWrp d-flex flex-wrap layout-{{ section.settings.layout_style }}">
+                      {% for index in (1..4) %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: index %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                        {% assign option = 'option_' | append: index %}
+                        {% assign tag = 'tag_' | append: index %}
+                        {% if block.settings[option] != blank and block.settings[tag] != blank %}
+                          <div class="quiz__option text-center position-relative" data-tag="{{ block.settings[tag] }}">
+                            <input
+                              type="radio"
+                              class="visually-hidden"
+                              name="{{ block.id }}"
+                              id="{{ option | append: block.id }}"
+                              value="{{ block.settings[tag] }}"
+                              disabled
+                            >
+                            <label
+                              class="quiz__optionSerial"
+                              for="{{ option | append: block.id }}"
+                              aria-label="{{ block.settings[option] }}"
+                            >
+                              <span>
+                                {% case index %}
+                                  {% when 1 %}
+                                    A
+                                  {% when 2 %}
+                                    B
+                                  {% when 3 %}
+                                    C
+                                  {% when 4 %}
+                                    D
+                                {% endcase %}
+                              </span>
+                              <span>{% render 'icon', icon: 'checkmark' %}</span>
+                            </label>
+                            <label
+                              class="quiz__optionLabel d-flex justify-content-center align-item-center"
+                              for="{{ option | append: block.id }}"
+                            >
+                              {{- block.settings[option] -}}
+                            </label>
+                          </div>
+                        {% endif %}
+                      {% endfor %}
+                      <div class="quiz__blockButtonWrp d-flex justify-content-center">
+                        {% if forloop.last %}
+                          <button
+                            class="quiz__blockButton btn{% if section.settings.use_outline_button %} btn--border {% else %} btn--fill {% endif %}"
+                            type="submit"
+                            disabled
+                          >
+                            <div class="btn--preloader">
+                              <div class="btn--preloader--circular">
+                                <div class="checkmark draw"></div>
+                              </div>
+                            </div>
+                            <div class="btn--text">
+                              {{ 'section.quiz.button.results' | t }}
+                            </div>
+                          </button>
+                        {% else %}
+                          <button
+                            class="quiz__blockButton btn{% if section.settings.use_outline_button %} btn--border {% else %} btn--fill {% endif %}"
+                            type="button"
+                            disabled
+                            quiz-next
+                          >
+                            {{ 'section.quiz.button.next-slide' | t }}
+                          </button>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </animation-reveal>
+          </div>
+          <div class="sliderControl position-absolute">
+            <div class="d-flex sliderPagination">
+              <!-- next / prev arrows -->
+              <div
+                aria-label="{{ 'accessibility.prev_slide_label' | t }}"
+                class=""
+                role="button"
+                slide-prev
+                tabindex="0"
+              >
+                <div class="sliderPagination__prev productSlider__prev d-block">
+                  {% render 'slider-arrow-icon', arrow_direction: 'left' %}
+                </div>
+              </div>
+              <div
+                aria-label="{{ 'accessibility.next_slide_label' | t }}"
+                class=""
+                role="button"
+                slide-next
+                tabindex="0"
+              >
+                <div class="sliderPagination__next productSlider__next d-none">
+                  {% render 'slider-arrow-icon', arrow_direction: 'right' %}
+                </div>
+              </div>
+
+              <!-- !next / prev arrows -->
+            </div>
+            <div
+              aria-hidden="true"
+              class="sliderProgressBar"
+              slide-progress
+            ></div>
+          </div>
+        </carousel-component>
+      </form>
+      {%- render 'quiz-results-drawer' -%}
+    </quiz-form>
+  </div>
+  {% unless section.settings.full_width %}
+    </div>
+  {% endunless %}
+</div>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'bottom' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-bottom"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+{% schema %}
+{
+  "name": "Quiz",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "[Learn more](https://support.shoptrade.co/article/49-quiz) about setting up quiz section"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": false
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "select",
+      "id": "layout_style",
+      "label": "Options style",
+      "info": "Style is set to vertical by default on mobile layout ",
+      "options": [
+        {
+          "label": "Horizontal stack",
+          "value": "row"
+        },
+        {
+          "label": "Vertical stack",
+          "value": "column"
+        }
+      ],
+      "default": "row"
+    },
+    {
+      "type": "header",
+      "content": "Section content"
+    },
+    {
+      "type": "text_alignment",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Quiz section"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Take our quick quiz to uncover your style and receive personalized recommendations tailored just for you!</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Start quiz button label",
+      "default": "Start Quiz",
+      "info": "If you keep the label empty, the content will hide, and the quiz will start automatically."
+    },
+    {
+      "type": "checkbox",
+      "id": "use_outline_button",
+      "label": "Use outline button style",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image"
+    },
+    {
+      "type": "select",
+      "id": "media_size",
+      "label": "Media size",
+      "options": [
+        {
+          "label": "Adapt to image",
+          "value": "adapt"
+        },
+        {
+          "label": "Small",
+          "value": "sm"
+        },
+        {
+          "label": "Medium",
+          "value": "md"
+        },
+        {
+          "label": "Large",
+          "value": "lg"
+        }
+      ],
+      "default": "md"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "option_background",
+      "label": "Option background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "option_color",
+      "label": "Option text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 36
+    },
+    {
+      "type": "select",
+      "id": "border_size",
+      "label": "Border",
+      "options": [
+        {
+          "label": "Hide",
+          "value": "hide"
+        },
+        {
+          "label": "Full width",
+          "value": "full_width"
+        },
+        {
+          "label": "Fixed width",
+          "value": "fixed_width"
+        }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "select",
+      "id": "border_position",
+      "label": "Border position",
+      "options": [
+        {
+          "label": "Both",
+          "value": "both"
+        },
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "both"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-3",
+      "label": "Color scheme"
+    },
+    {
+      "type": "color",
+      "id": "section_background_color",
+      "default": "#ffffff",
+      "label": "Background color"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Question",
+      "type": "question",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Ask your question here?"
+        },
+        {
+          "type": "text",
+          "id": "option_1",
+          "label": "Option 1",
+          "default": "Option 1"
+        },
+        {
+          "type": "text",
+          "id": "tag_1",
+          "label": "Tags",
+          "info": "Use commas to combine multiple tags (case sensitive)",
+          "default": "Add a tag"
+        },
+        {
+          "type": "text",
+          "id": "option_2",
+          "label": "Option 2",
+          "default": "Option 2"
+        },
+        {
+          "type": "text",
+          "id": "tag_2",
+          "label": "Tags",
+          "info": "Use commas to combine multiple tags (case sensitive)",
+          "default": "Add a tag"
+        },
+        {
+          "type": "text",
+          "id": "option_3",
+          "label": "Option 3",
+          "default": "Option 3"
+        },
+        {
+          "type": "text",
+          "id": "tag_3",
+          "label": "Tags",
+          "info": "Use commas to combine multiple tags (case sensitive)",
+          "default": "Add a tag"
+        },
+        {
+          "type": "text",
+          "id": "option_4",
+          "label": "Option 4",
+          "default": "Option 4"
+        },
+        {
+          "type": "text",
+          "id": "tag_4",
+          "label": "Tags",
+          "info": "Use commas to combine multiple tags (case sensitive)",
+          "default": "Add a tag"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Quiz",
+      "blocks": [
+        {
+          "type": "question"
+        },
+        {
+          "type": "question"
+        },
+        {
+          "type": "question"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["*"]
+  }
+}
+{% endschema %}

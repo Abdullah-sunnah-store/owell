@@ -1,0 +1,71 @@
+{% comment %} dropdown menu  {% endcomment %}
+<div details-dropdown class="dropdown-menu__wrapper" menu-list>
+  <ul class="dropdown-menu__list color-{{ colorScheme }}" role="list">
+    {%- for childlink in link.links -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: childlink %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+      <li class="dropdown-menu__item dropdown-menu__item--first-child" animate-dropdown-item>
+        {%- if childlink.links == blank -%}
+          <div>
+            <a
+              menu-item
+              href="{{ childlink.url }}"
+              class="{% if childlink.current %} active{% endif %} menu-main-link fnt-14"
+              {% if childlink.current %}
+                aria-current="page"
+              {% endif %}
+            >
+              {{ childlink.title | escape }}
+            </a>
+          </div>
+        {% else %}
+          <header-menu-trigger data-identefier="child-element" data-trigger="{{ dropdown_trigger_type }}">
+            <details role="menuitem" aria-haspopup="true" aria-expanded="false">
+              <summary menu-item role="button">
+                <span class="menu-main-link link-head fnt-14">
+                  {{ childlink.title | escape }}
+                </span>
+                <span class="arrow-icon">
+                  {% render 'slider-arrow-icon' %}
+                </span>
+              </summary>
+              <ul
+                details-dropdown
+                role="list"
+                aria-label="{{ childlink.title }}"
+                class="dropdown-menu__list dropdown-menu__list--child-list"
+              >
+                {%- for grandchildlink in childlink.links -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: grandchildlink %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                  <li class="dropdown-menu__item" animate-dropdown-item>
+                    <a
+                      role="menuitem"
+                      href="{{ grandchildlink.url }}"
+                      class="{% if grandchildlink.current %} active{% endif %} menu-main-link fnt-14"
+                      {% if grandchildlink.current %}
+                        aria-current="page"
+                      {% endif %}
+                    >
+                      {{ grandchildlink.title | escape }}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </details>
+          </header-menu-trigger>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>

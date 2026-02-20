@@ -1,0 +1,121 @@
+{% comment %}
+  position: slide number to show hightlight
+  prevelement: pervious slide of highlighted slide
+  heading_positions : positions of table key value present
+{% endcomment %}
+<div
+  class="swiper-slide {% if block.settings.product == blank  %} custom-product {% endif %} {% if prevelement == forloopIndex %} highlight-prev-element {% endif %}  {% if position == forloopIndex  %} highlight-active {% if position == 1 %} first-column {% endif %}{% endif %}"
+  table-column
+>
+  {% for i in heading_positions %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: i %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+    {%- assign value_id = 'value_' | append: i -%}
+    {%- assign icon_id = 'icon_' | append: i -%}
+    {% if block.settings[value_id] != blank or block.settings[icon_id] != 'none' %}
+      <div class="comparison__table-values" table-row>
+        <div class="comparison__table-values-content">
+          <p class="m-0">{{ block.settings[value_id] }}</p>
+          {% if block.settings[icon_id] == 'cross' %}
+            <div class="comparison__icon">
+              {% render 'icon' with 'comparison-cross' %}
+            </div>
+          {% elsif block.settings[icon_id] == 'tick' %}
+            <div class="comparison__icon">
+              {% render 'icon' with 'comparison-tick' %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% else %}
+      <div class="comparison__table-values" table-row>
+        <div class="comparison__table-values-content"><span class="empty-value"></span></div>
+      </div>
+    {% endif %}
+  {% endfor -%}
+  {%- if block.settings.product != blank %}
+    <product-card
+      class="comparison-product-slider-buttons"
+      product-url="{{ block.settings.product.url }}"
+      product-handle="{{ block.settings.product.handle }}"
+      product-id="{{ block.settings.product.selected_or_first_available_variant.id }}"
+    >
+      {% liquid
+        assign quick_buy_button_type = settings.quick_buy_button
+        assign show_calltoaction_btn = show_calltoaction_btn | default: quick_buy_button_type, allow_false: true
+        assign show_quick_buy = settings.show_quick_buy
+        assign quick_buy_button = true
+        unless show_quick_buy and show_calltoaction_btn
+          assign quick_buy_button = false
+        endunless
+      %}
+      {% assign is_product_available = block.settings.product.selected_or_first_available_variant.available %}
+      {% assign has_no_varaint = block.settings.product.has_only_default_variant %}
+      {%- assign product_form_id = 'product_form_' | append: block.settings.product.id -%}
+      {% form 'product', block.settings.product, class: 'product-card-item__form', id: product_form_id %}
+        <input
+          name="id"
+          type="hidden"
+          value="{{ block.settings.product.first_available_variant.id }}"
+        >
+        <input
+          name="quantity"
+          type="hidden"
+          value="1"
+        >
+
+        <!-- form content -->
+        {% if quick_buy_button %}
+          {% if is_product_available %}
+            {% unless has_no_varaint %}
+              <button
+                aria-label="{{ 'products.product.button_choose_options' | t }}"
+                class="btn  btn--fill w-100 text-upper"
+                toggle-element="options-drawer"
+                type="submit"
+              >
+                <div aria-hidden="true" class="btn--preloader">
+                  <div aria-hidden="true" class="btn--preloader--circular">
+                    <div aria-hidden="true" class="checkmark draw"></div>
+                  </div>
+                </div>
+                <div aria-hidden="true" class="btn--text">
+                  {{ 'products.product.button_choose_options' | t }}
+                </div>
+              </button>
+            {% else %}
+              <button
+                aria-label="{{ 'products.product.button_add_to_cart' | t }}"
+                class="btn btn--fill w-100 text-upper"
+                toggle-element="cart-drawer"
+                type="submit"
+              >
+                <div aria-hidden="true" class="btn--preloader">
+                  <div aria-hidden="true" class="btn--preloader--circular">
+                    <div aria-hidden="true" class="checkmark draw"></div>
+                  </div>
+                </div>
+                <div aria-hidden="true" class="btn--text">
+                  {{ 'products.product.button_add_to_cart' | t }}
+                </div>
+              </button>
+            {% endunless %}
+          {%- else -%}
+            <button
+              aria-label="{{ 'products.product.button_out_of_stock' | t }}"
+              class="btn btn--fill w-100 text-upper disable"
+              type="button"
+            >
+              {{ 'products.product.button_out_of_stock' | t }}
+            </button>
+          {% endif %}
+        {% endif %}
+      {% endform %}
+    </product-card>
+  {% endif %}
+</div>

@@ -1,0 +1,329 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <meta content="" name="theme-color">
+    <link href="{{ canonical_url }}" rel="canonical">
+    <link crossorigin href="https://cdn.shopify.com" rel="preconnect">
+
+    {%- if settings.favicon != blank -%}
+      <link href="{{ settings.favicon | image_url: width: 32, height: 32 }}" rel="icon" type="image/png">
+    {%- endif -%}
+    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+      <link crossorigin href="https://fonts.shopifycdn.com" rel="preconnect">
+    {%- endunless -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %}
+        &ndash; tagged "{{ current_tags | join: ', ' }}"
+      {%- endif -%}
+      {%- if current_page != 1 %}
+        &ndash; Page {{ current_page -}}
+      {%- endif -%}
+      {%- unless page_title contains shop.name %}
+        &ndash; {{ shop.name -}}
+      {%- endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta content="{{ page_description | escape }}" name="description">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+    {{ content_for_header }}
+
+    {%- unless settings.type_body_font.system? -%}
+      <link
+        as="font"
+        crossorigin
+        href="{{ settings.type_body_font | font_url }}"
+        rel="preload"
+        type="font/woff2"
+      >
+    {%- endunless -%}
+    {%- unless settings.type_header_font.system? -%}
+      <link
+        as="font"
+        crossorigin
+        href="{{ settings.type_header_font | font_url }}"
+        rel="preload"
+        type="font/woff2"
+      >
+    {%- endunless -%}
+
+    {% unless settings.type_button_font.system? %}
+      <link
+        as="font"
+        crossorigin
+        href="{{ settings.type_button_font | font_url }}"
+        rel="preload"
+        type="font/woff2"
+      >
+    {% endunless %}
+
+    {%- liquid
+      assign body_font = settings.type_body_font
+      assign body_font_italic = settings.type_body_font | font_modify: 'weight', 'italic'
+      assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bolder'
+      assign body_font_bold_italic = settings.type_body_font | font_modify: 'weight', 'italic'
+      assign body_font_100 = body_font | font_modify: 'weight', '+100'
+      assign body_font_200 = body_font | font_modify: 'weight', '+200'
+      assign body_font_300 = body_font | font_modify: 'weight', '+300'
+      assign body_font_400 = body_font | font_modify: 'weight', '+400'
+      if body_font_100 and body_font_100.weight > body_font.weight
+        assign body_font_bold = body_font_100
+      elsif body_font_200 and body_font_200.weight > body_font.weight
+        assign body_font_bold = body_font_200
+      elsif body_font_300 and body_font_300.weight > body_font.weight
+        assign body_font_bold = body_font_300
+      elsif body_font_400 and body_font_400.weight > body_font.weight
+        assign body_font_bold = body_font_400
+      endif
+    -%}
+
+    {% style %}
+      {{ body_font | font_face: font_display: 'fallback' }}
+      {{ body_font_italic | font_face: font_display: 'fallback' }}
+      {{ body_font_bold | font_face: font_display: 'fallback' }}
+      {{ body_font_bold_italic | font_face: font_display: 'fallback' }}
+      {{ settings.type_header_font | font_face: font_display: 'fallback' }}
+      {{ settings.type_button_font | font_face: font_display: 'fallback' }}
+    {% endstyle %}
+
+    {% style %}
+      {% for scheme in settings.color_schemes %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: scheme %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+        {% assign color_schemes = color_schemes | append: ', .color-' | append: scheme.id %}
+        {% if forloop.index == 1 -%}
+          :root, {%- endif %}
+        .color-{{ scheme.id }}{
+          --color-text: {{ scheme.settings.text | append: ';' }}
+
+          --color-text-rgb: {{ scheme.settings.text.rgb | append: ';' }}
+
+          --color-background: {{ scheme.settings.background | append: ';' }}
+
+          --gradient-background: {{ scheme.settings.background_gradient | append: ';' }}
+
+          --color-button-background: {{ scheme.settings.primary_button | append: ';' }}
+
+          --color-button-background-rgb: {{ scheme.settings.primary_button.rgb | append: ';' }}
+
+          --color-button-text: {{ scheme.settings.on_primary_button | append: ';' }}
+
+          --color-button-border: {{ scheme.settings.primary_button | append: ';' }}
+
+          --color-button-background-outline: {{ scheme.settings.background | append: ';' }}
+
+          --color-button-text-outline: {{ scheme.settings.secondary_button | append: ';' }}
+
+          --color-button-border-outline: {{ scheme.settings.secondary_button | append: ';' }}
+
+          --color-icon: {{ scheme.settings.icons | append: ';' }}
+
+          --color-icon-rgb: {{ scheme.settings.icons.rgb | append: ';' }}
+
+          --color-link: {{ scheme.settings.links | append: ';' }}
+
+          --color-input-variant-color: {{ scheme.settings.variant_color.rgb | append: ';' }}
+
+          --color-input-color: {{ scheme.settings.input_color | append: ';' }}
+
+          --color-input-color-rgb: {{ scheme.settings.input_color.rgb | append: ';' }}
+
+          --color-border : {{ scheme.settings.border.rgb | append: ';' }}
+
+          --color-controls : {{ scheme.settings.controls.rgb | append: ';' }}
+
+        }
+
+      {% endfor %}
+
+      {{ color_schemes | prepend: 'body' }}
+      {
+        background-color: var(--color-background);
+        color: var(--color-text);
+      }
+    {% endstyle %}
+
+    <script>
+      document.documentElement.classList.add(`native-share--${navigator.share ? 'enabled' : 'disabled'}`);
+    </script>
+    <script
+      defer
+    >
+    window.shopUrl = '{{ request.origin }}';
+    window.routes = {
+      cart_add_url: '{{ routes.cart_add_url }}',
+      cart_change_url: '{{ routes.cart_change_url }}',
+      cart_update_url: '{{ routes.cart_update_url }}',
+      cart_url: '{{ routes.cart_url }}',
+      predictive_search_url: '{{ routes.predictive_search_url }}'
+    };
+
+
+    window.variantStrings = {
+      addToCart: `{{ 'products.product.button_add_to_cart' | t }}`,
+      soldOut: `{{ 'products.product.button_out_of_stock' | t }}`,
+      unavailable: `{{ 'products.product.unavailable' | t }}`,
+      unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`
+    };
+
+    window.accessibilityStrings = {
+      recipientFormExpanded: `{{ 'gift_cards.recipient.form.expanded' | t }}`,
+      recipientFormCollapsed: `{{ 'gift_cards.recipient.form.collapsed' | t }}`
+    };
+    window.Shopify.money_format = {{ shop.money_format | json }}
+
+    window.drawer = {
+      options: `{{ 'general.drawer.option.drawer_text' | t }}`,
+      quickView: `{{ 'general.drawer.quick_view.drawer_text' | t }}`,
+    }
+
+    window.animation = {{ settings.enable_animation }}
+    </script>
+
+    {% comment %} Theme base functionalities JS file {% endcomment %}
+    <script defer src="{{ 'base.js' | asset_url }}"></script>
+
+    {% comment %} Theme animation script {% endcomment %}
+
+    {%- if settings.enable_animation -%}
+      {{ 'animation.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
+
+    {% comment %} Theme Base styles  {% endcomment %}
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+
+    {% comment %} Predective search support files {% endcomment %}
+    {%- if settings.predictive_search_enabled -%}
+      <script defer="defer" src="{{ 'predictive-search.js' | asset_url }}"></script>
+    {%- endif -%}
+
+    <style>
+      :root
+      {
+        --font-header-weight: {{ settings.type_header_font.weight }};
+        --font-body-weight: {{ settings.type_body_font.weight }};
+        --font-body-weight-bold: {{ body_font_bold.weight }};
+        --font-button-weight: {{ settings.type_button_font.weight }};
+        --font-head-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+        --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+        --font-button-family: {{ settings.type_button_font.family }}, {{ settings.type_button_font.fallback_families }};
+        --font-heading-scale: {{ settings.header_font_scale | times: 1.0 | divided_by: settings.body_font_scale }};
+        --font-body-scale: {{ settings.body_font_scale | divided_by: 100.0 }};
+        --font-button-scale: {{ settings.button_font_scale | divided_by: 100.0 }};
+        --card-image-background: {{ settings.card_image_background }};
+        --offer-text: {{ settings.offer_text }};
+        --bg-sale-badge-color: {{ settings.bg_sale_badge_color }};
+        --bg-soldout-badge-color: {{ settings.bg_soldout_badge_color }};
+        --text-sale-badge-color: {{ settings.text_sale_badge_color }};
+        --text-soldout-badge-color: {{ settings.text_soldout_badge_color }};
+        --container-width : {{ settings.page_width | append : 'px' }};
+        --object-fit: {{ settings.image_fit }};
+        --COLOR-TRANSPARENT: rgba(255, 255, 255, 0);
+        --clr-17: #171717;
+        --clr-2c: #2c2c2c;
+        --clr-84: #848484;
+        --clr-6f: #6f6f6f;
+        --clr-73: #737373;
+        --COLOR-DARK-GRAY: #e6dfd4;
+        --COLOR-LIGHT-GRAY: #c4c4c4;
+        --COLOR-A7: #a7a7a7;
+        --COLOR-AB: #ababab;
+        --COLOR-B8: #b8b8b8;
+        --COLOR-E5: #e5e5e5;
+        --COLOR-EB: #ebebeb;
+        --COLOR-DE: #dedede;
+        --COLOR-D3: #d3d3d3;
+        --COLOR-DB: #dbdbdb;
+        --COLOR-3A: #3a3a3a;
+        --COLOR-D4: #d4d4d4;
+        --COLOR-D9: #d9d9d9;
+        --COLOR-EE: #eeeeee;
+        --COLOR-CA: #cacaca;
+        --COLOR-CB: #cbcbcb;
+        --COLOR-B8: #b8b8b8;
+        --COLOR-E9: #e9e9e9;
+        --COLOR-E6: #e6e6e6;
+        --COLOR-98: #989898;
+        --COLOR-ED: #ededed;
+        --COLOR-RED: #ba3e38;
+        --COLOR-F4: #f4f4f4;
+        --COLOR-LIGHT-RED: #fdf1f1;
+        --COLOR-LIGHT-GREEN: #e6feeb;
+        --COLOR-GREEN: #469b49;
+        --COLOR-CYAN-BLUE: #08f;
+        --black: #000000;
+        --white: #ffffff;
+        --svg-background:  35,35,35;
+        --error-background-color: #FDF1F1;
+        --error-text-color: #BA3E38;
+        --success-background-color: #E6FEEB;
+        --success-text-color: #469B49;
+        --button-border-radius: {{ settings.button_border_radius | append: 'px' }};
+        --input-border-radius: {{ settings.input_border_radius | append: 'px' }};
+        --block-border-radius: {{ settings.block_border_radius | append: 'px' }};
+        --menu-drawer-border-radius: {{ settings.menu_drawer_border_radius | append: 'px' }};
+
+      }
+    </style>
+
+    <script>
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+      if (Shopify.designMode) {
+        document.documentElement.classList.add('shopify-design-mode');
+      }
+    </script>
+  </head>
+
+  <body class="gradient ">
+    <a class="skip-to-content-link btn btn--fill visually-hidden" href="#MainContent">
+      {{ 'accessibility.skip_to_text' | t }}
+    </a>
+    {% if request.page_type == 'customers/account'
+      or request.page_type == 'customers/order'
+      or request.page_type == 'customers/addresses'
+    %}
+      {% render 'page-loader' %}
+    {% endif %}
+    {% render 'product-quick-view-drawer' %}
+
+    {% sections 'header-group' %}
+
+    {% comment %}
+      Section overlay groups that has following settings
+      2) Cart Drawer
+      3) Search Drawer
+      4) Newsletter Popup
+    {% endcomment %}
+    {% sections 'overlay-group' %}
+    {% render 'pickup-availiability-drawer' %}
+    {% render 'toast-message', customClassName: 'header__toast', toast_type: 'common-errors' %}
+
+    <main
+      class="content-for-layout focus-none main"
+      id="MainContent"
+      role="main"
+      tabindex="-1"
+    >
+      {{ content_for_layout }}
+    </main>
+    {% sections 'footer-group' %}
+    {% render 'portal-container' %}
+
+    {% if settings.scrolltotop_available %}
+      {% render 'scroll-to-top' %}
+    {% endif %}
+  </body>
+</html>

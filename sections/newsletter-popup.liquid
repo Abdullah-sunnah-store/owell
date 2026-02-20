@@ -1,0 +1,81 @@
+{% render 'newsletter-popup', section: section %}
+
+{% schema %}
+{
+  "name": "Newsletter popup",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Customers who subscribe will have their email address added to the \"accepts marketing\" [customer list](/admin/customers?query=&accepts_marketing=1)."
+    },
+    {
+      "type": "header",
+      "content": "Behaviour"
+    },
+    {
+      "type": "range",
+      "id": "apparition_delay",
+      "min": 0,
+      "max": 15,
+      "step": 1,
+      "unit": "sec",
+      "label": "Delay appearance",
+      "default": 2
+    },
+    {
+      "type": "checkbox",
+      "id": "show_only_on_index",
+      "label": "Show only on home page",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_only_for_visitors",
+      "label": "Disable for account holders",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_only_once",
+      "label": "Show once to visitors",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Signup for our newsletter"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtext",
+      "label": "Content",
+      "default": "Describe what your customers will receive when subscribing to your newsletter."
+    },
+    {
+      "type": "image_picker",
+      "id": "newsletter_image",
+      "label": "Desktop image",
+      "info": "1200 x 1200px .jpg recommended"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 840,
+      "max": 1440,
+      "step": 10,
+      "unit": "px",
+      "label": "Width",
+      "default": 840,
+      "info": "Width will work only when desktop image is added"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["aside"]
+  }
+}
+{% endschema %}

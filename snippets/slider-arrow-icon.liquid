@@ -1,0 +1,34 @@
+{% comment %}  {% endcomment %}
+
+{%- case arrow_direction -%}
+  {%- when 'right' -%}
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" >
+      <circle cx="18" cy="18" r="17.5" stroke="rgba(var(--color-controls)/1)"/>
+      <path d="M21.4766 13.4961L26.1811 18.2006L21.4766 22.9052" stroke="rgba(var(--color-controls)/1)"/>
+      <path d="M25.9766 18.2031L9.81747 18.2031" stroke="rgba(var(--color-controls)/1)"/>    
+    </svg>
+
+  {%- when 'left' -%}
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" >
+      <circle r="17.5" transform="matrix(-1 0 0 1 18 18)" stroke="rgba(var(--color-controls)/1)"/>
+      <path d="M14.5234 13.4961L9.81889 18.2006L14.5234 22.9052" stroke="rgba(var(--color-controls)/1)"/>
+      <path d="M10.0234 18.2031L26.1825 18.2031" stroke="rgba(var(--color-controls)/1)"/>     
+    </svg>
+
+  {%- when 'right-2' -%}
+    <svg width="49" height="49" viewBox="0 0 49 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="24.4116" cy="24.2143" r="23.7143" fill="white" fill-opacity="0.7" stroke="#8B8B8B"/>
+      <path d="M22.3961 18.1326L28.9541 24.6906L22.3961 31.2486" stroke="#8B8B8B" stroke-width="2.01786"/>
+    </svg>
+
+  {%- when 'left-2' -%}
+    <svg width="50" height="49" viewBox="0 0 50 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M48.6973 24.2143C48.6973 37.3039 37.9154 47.9286 24.5986 47.9286C11.2819 47.9286 0.5 37.3039 0.5 24.2143C0.5 11.1246 11.2819 0.5 24.5986 0.5C37.9154 0.5 48.6973 11.1246 48.6973 24.2143Z" fill="white" fill-opacity="0.7" stroke="#8B8B8B"/>
+      <path d="M26.8096 18.1326L20.1475 24.6906L26.8096 31.2486" stroke="#8B8B8B" stroke-width="2.01786"/>
+    </svg>
+
+  {%- else %}
+    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="9" viewBox="0 0 17 9" fill="none" >
+      <path d="M1 8.5L8.5 0.999999L16 8.5" stroke="rgba(var(--color-controls)/1)"/>
+    </svg>
+{%- endcase -%}

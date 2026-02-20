@@ -1,0 +1,13 @@
+<div id="product_list">
+  {%- liquid 
+    layout none
+  
+    paginate collection.products by 50
+      assign totalPages = paginate.pages
+      for product in collection.products
+        render 'card-product-view-all', product: product, index: forloop.index0
+      endfor
+    endpaginate
+  -%}
+</div>
+<div id="pagination">{{ totalPages }}</div>

@@ -1,0 +1,44 @@
+{% comment %}
+  Renders a swatch input component.
+  Accepts:
+  - id: {String} unique input id
+  - type: {String} input type. Accepts 'radio' or 'checkbox', defaults to 'radio' (optional)
+  - name: {String} input name,
+  - value: {ProductOptionValueDrop} input value
+  - checked: {Boolean} default checked status
+  - option_disabled: {Boolean} default disabled status (optional)
+  - shape: {String} swatch shape. Accepts 'square', defaults to circle (optional)
+
+
+  Usage:
+   {% render 'swatch-input',
+      id: input_id,
+      name: input_name,
+      value: input_value,
+      swatch: swatch,
+      product_form_id: product_form_id,
+      checked: checked
+    %}
+{% endcomment %}
+
+<input
+  type="{{ type | default: 'radio' }}"
+  id="{{ id }}"
+  name="{{ name }}"
+  value="{{ value }}"
+  form="{{ product_form_id }}"
+  class="swatch-input__input {% if option_disabled %} disabled{% endif %}"
+  {% if checked %}
+    checked
+  {% endif %}
+  {% if disabled %}
+    disabled
+  {% endif %}
+>
+<label
+  for="{{ id }}"
+  title="{{ value }}"
+  class="swatch-input__label"
+>
+  {% render 'swatch', swatch: swatch, shape: shape %}
+</label>

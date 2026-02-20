@@ -1,0 +1,321 @@
+.beforeAfter__section .beforeAfter__container {
+  background: var(--color-background) var(--gradient-background) no-repeat 100% 100%;
+  overflow: visible;
+}
+@media screen and (max-width: 767px) {
+  .beforeAfter__section .beforeAfter__container {
+    flex-wrap: wrap;
+    overflow: hidden;
+  }
+}
+.beforeAfter__section .beforeAfter__wrapper {
+  --thumb-position: 50%;
+  --clip-timing: 0.7s;
+  line-height: 0;
+  overflow: hidden;
+}
+.beforeAfter__section .beforeAfter__wrapper.animation-init .beforeAfter__thumb {
+  animation: beforeAfter-contoller var(--clip-timing);
+}
+.beforeAfter__section .beforeAfter__wrapper.animation-init .beforeAfter__afterImage-wrapper {
+  animation: beforeAfter-init var(--clip-timing);
+}
+.beforeAfter__section .beforeAfter__image {
+  min-height: var(--media-height);
+  margin: auto 0;
+  object-fit: cover;
+  object-position: center;
+}
+.beforeAfter__section .beforeAfter__image.placeholder-svg {
+  position: static !important;
+}
+.beforeAfter__section .beforeAfter__afterImage-wrapper {
+  clip-path: inset(0 0 0 var(--thumb-position));
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+.beforeAfter__section .beforeAfter__thumb {
+  cursor: grab;
+  touch-action: none;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 0;
+  z-index: 5;
+  left: var(--thumb-position);
+  touch-action: none;
+  background: none;
+  border: none;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.beforeAfter__section .beforeAfter__thumb:active {
+  cursor: grabbing;
+}
+.beforeAfter__section .beforeAfter__thumb svg.thumb {
+  width: 40px;
+  height: 40px;
+}
+.beforeAfter__section .beforeAfter__thumb svg.thumb circle {
+  fill: var(--color-button-background);
+}
+.beforeAfter__section .beforeAfter__thumb svg.thumb path {
+  stroke: var(--color-button-text);
+}
+@media (min-width: 768px) {
+  .beforeAfter__section .beforeAfter__thumb svg.thumb {
+    width: 50px;
+    height: 50px;
+  }
+}
+.beforeAfter__section .beforeAfter__thumb svg.line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  width: 0;
+  border: 1px solid var(--color-button-background);
+}
+.beforeAfter__section .beforeAfter__content {
+  flex-grow: 1;
+}
+@media screen and (min-width: 768px) {
+  .beforeAfter__section .beforeAfter__content {
+    flex-basis: 50%;
+  }
+}
+.beforeAfter__section .beforeAfter__content .beforeAfter__wrp {
+  z-index: 2;
+  flex-grow: 1;
+}
+.beforeAfter__section .beforeAfter__wrp {
+  padding: 36px 84px;
+}
+@media (max-width: 991px) {
+  .beforeAfter__section .beforeAfter__wrp {
+    padding: 36px;
+  }
+}
+@media (max-width: 767px) {
+  .beforeAfter__section .beforeAfter__wrp {
+    padding: 36px 14px;
+  }
+}
+.beforeAfter__section .beforeAfter__wrp h2 {
+  margin-bottom: 16px;
+}
+.beforeAfter__section .beforeAfter__media {
+  width: 100%;
+}
+@media screen and (min-width: 768px) {
+  .beforeAfter__section .beforeAfter__media {
+    width: 50%;
+  }
+}
+.beforeAfter__section .beforeAfter__desc {
+  margin-bottom: 32px;
+}
+@media (min-width: 768px) {
+  .beforeAfter__section .beforeAfter__desc {
+    margin-bottom: 24px;
+  }
+}
+.beforeAfter__section .beforeAfter__text {
+  position: absolute;
+  line-height: 1.5;
+  --x-gap: 12px;
+  --y-gap: 12px;
+}
+@media (min-width: 768px) {
+  .beforeAfter__section .beforeAfter__text {
+    --x-gap: 15px;
+    --y-gap: 12px;
+  }
+}
+.beforeAfter__section .beforeAfter__text-before {
+  left: var(--x-gap);
+}
+.beforeAfter__section .beforeAfter__text-after {
+  right: var(--x-gap);
+}
+.beforeAfter__section .beforeAfter__text.position-top {
+  top: var(--y-gap);
+}
+.beforeAfter__section .beforeAfter__text.position-bottom {
+  bottom: var(--y-gap);
+}
+.beforeAfter__section .beforeAfter__text {
+  line-height: 1;
+  max-width: 40%;
+  width: -moz-fit-content;
+  width: fit-content;
+  border: none;
+}
+.beforeAfter__section .beforeAfter__text span {
+  word-break: break-word;
+}
+.beforeAfter__section .beforeAfter__link {
+  color: var(--color-button-text);
+  text-decoration: none;
+  padding: 8px 15px;
+  background-color: rgb(var(--color-button-background-rgb)/0.6);
+  border-radius: calc(var(--block-border-radius) / 2);
+}
+.beforeAfter__section .beforeAfter__link[href]:hover {
+  opacity: 0.8;
+}
+.beforeAfter__section .beforeAfter__imageOverlay {
+  display: inline-block;
+}
+.beforeAfter__section .beforeAfter__imageOverlay .image_overlay {
+  z-index: 1;
+  inset: 0;
+}
+.beforeAfter__section .image-with-text-overlay-media {
+  inset: 0;
+}
+.beforeAfter__section .image-with-text-overlay-media img {
+  object-fit: cover;
+}
+.beforeAfter__section .image-height--auto {
+  display: grid;
+}
+@media screen and (max-width: 767px) {
+  .beforeAfter__section .image-height--auto .beforeAfter__content {
+    height: 100%;
+  }
+}
+.beforeAfter__section .image-height--auto.beforeAfter__media {
+  position: relative;
+  grid-area: 1/1;
+}
+.beforeAfter__section .sliderProgressBar {
+  background-color: transparent;
+  max-width: 100%;
+}
+@media screen and (min-width: 768px) {
+  .beforeAfter__section.slider-enabled {
+    padding-bottom: calc(80px - var(--padding-bottom));
+  }
+}
+.beforeAfter__section.slider-enabled .beforeAfter__media {
+  padding-bottom: 66px;
+}
+@media screen and (min-width: 768px) {
+  .beforeAfter__section.slider-enabled .beforeAfter__media {
+    padding-bottom: 0;
+  }
+}
+.beforeAfter__section.slider-enabled .dash_arrows {
+  bottom: -52px;
+  z-index: 1;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  left: 50%;
+  transform: translate(-50%);
+}
+@media screen and (min-width: 768px) {
+  .beforeAfter__section.slider-enabled .dash_arrows {
+    bottom: -58px;
+  }
+}
+.beforeAfter__section.slider-enabled .dash_arrows .swiper-pagination {
+  position: relative;
+  display: flex;
+  inset: inherit;
+}
+.beforeAfter__section.slider-enabled .dash_arrows .sliderProgressBar {
+  margin-right: 0;
+  margin-top: 0;
+}
+.beforeAfter__section.slider-enabled .dash_arrows .sliderControl {
+  width: 174px;
+}
+.beforeAfter__section.slider-enabled .dash_arrows .slideshow__next {
+  right: -45px;
+  display: flex;
+}
+@media (min-width: 992px) {
+  .beforeAfter__section.slider-enabled .dash_arrows .slideshow__next {
+    right: -45px;
+  }
+}
+.beforeAfter__section.slider-enabled .dash_arrows .swiper-button-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.beforeAfter__section.slider-enabled .dash_arrows .slideshow__prev,
+.beforeAfter__section.slider-enabled .dash_arrows .slideshow__next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 99;
+  cursor: pointer;
+}
+.beforeAfter__section.slider-enabled .dash_arrows .slideshow__prev {
+  display: flex;
+  left: -45px;
+}
+@media (min-width: 992px) {
+  .beforeAfter__section.slider-enabled .dash_arrows .slideshow__prev {
+    left: -45px;
+  }
+}
+
+@keyframes beforeAfter-init {
+  0% {
+    clip-path: inset(0 0 0 0%);
+  }
+  70% {
+    clip-path: inset(0 0 0 calc(var(--thumb-position) + 5%));
+  }
+  100% {
+    clip-path: inset(0 0 0 var(--thumb-position));
+  }
+}
+@keyframes beforeAfter-contoller {
+  0% {
+    left: 0%;
+  }
+  70% {
+    left: calc(var(--thumb-position) + 5%);
+  }
+  100% {
+    left: var(--thumb-position);
+  }
+}
+.container .beforeAfter__block .swiper-slide {
+  overflow: hidden;
+  border-radius: var(--block-border-radius) 0 0 var(--block-border-radius);
+}
+.container .beforeAfter__block .swiper-slide.border-radius.border-radius--block {
+  border-radius: var(--block-border-radius);
+}
+.container .beforeAfter__block.beforeAfter__content {
+  overflow: hidden;
+  border-radius: 0 var(--block-border-radius) var(--block-border-radius) 0;
+}
+@media screen and (max-width: 767px) {
+  .container .beforeAfter__block .swiper-slide, .container .beforeAfter__block.beforeAfter__content {
+    border-radius: var(--block-border-radius) !important;
+  }
+}
+.container .d-flex-md-row-reverse .beforeAfter__block .swiper-slide {
+  border-radius: 0 var(--block-border-radius) var(--block-border-radius) 0;
+}
+.container .d-flex-md-row-reverse .beforeAfter__block.beforeAfter__content {
+  border-radius: var(--block-border-radius) 0 0 var(--block-border-radius);
+}
+@media screen and (max-width: 767px) {
+  .container .beforeAfter__section:not(.slider-enabled) .beforeAfter__block .swiper-slide {
+    border-radius: var(--block-border-radius) var(--block-border-radius) 0 0 !important;
+  }
+  .container .beforeAfter__section:not(.slider-enabled) .beforeAfter__block.beforeAfter__content {
+    border-radius: 0 0 var(--block-border-radius) var(--block-border-radius) !important;
+  }
+}

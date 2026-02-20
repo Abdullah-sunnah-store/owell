@@ -1,0 +1,36 @@
+{% comment %} 
+
+  Variable used:
+  block : {{Object}} Block object
+
+{% endcomment %}
+{% liquid
+    case section.settings.icon_style
+      when 'tick'
+        assign icon = 'icon-tick'
+      when 'arrow'
+        assign icon = 'icon-arrow'
+      when 'star'
+        assign icon = 'icon-star'
+      when 'counter'
+        assign icon = 'icon-counter'
+      when 'star-2'
+        assign icon = 'icon-star-2'
+    endcase
+%}
+
+<div class="feature-list-grid-item">
+    {% if block.settings.custom_image == blank %}
+        <span class="accordion-icon" style="--icon-line-color: {{ section.settings.icon_line_color }}; --icon-bg-color: {{ section.settings.icon_bg_color }}">{% render 'icon' with icon , index: index %}</span>
+        {% else %}
+        {{ block.settings.custom_image | 
+          image_url: width: block.settings.custom_image.width 
+          | image_tag: widths: '32,64'
+          , sizes: '32px'
+          , class: 'accordion-icon' }}
+      {% endif %}
+      <p>{{ block.settings.heading }}</p>
+      <div class="RTE-content">
+        {{ block.settings.content }}
+      </div>
+</div>

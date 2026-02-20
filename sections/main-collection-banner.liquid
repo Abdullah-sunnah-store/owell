@@ -1,0 +1,219 @@
+{{ 'section-collection-banner.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  .collectionBanner__image-wrp::after {
+    background: {{ section.settings.overlay_color }}
+    ;
+    opacity: {{ section.settings.overlay_opacity | append: '%' }}
+
+  }
+{% endstyle %}
+
+{% liquid
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign loading = 'lazy'
+  endif
+  assign ratio = 1.77
+  if section.settings.image_size == 'adapt'
+    if section.settings.show_collection_image and section.settings.collection_background_image != blank
+      assign ratio = section.settings.collection_background_image.aspect_ratio
+    elsif collection.image
+      assign ratio = collection.image.aspect_ratio
+    endif
+  endif
+%}
+<div class="collectionBanner  color-{{ section.settings.color_scheme }} ">
+  <div class="{% unless section.settings.show_collection_image %} collectionBanner--{{ section.id }} {% endunless %} {% if section.settings.show_collection_image and collection.image %} collection-hero--with-image {% endif %} {% unless section.settings.full-width %} container {% endunless %}">
+    <div
+      class="collectionBanner__container  {% if section.settings.show_collection_image %} {% if collection.image or section.settings.collection_background_image != blank %} media-size--{{ section.settings.image_size }} {% endif %} {% endif %} content-aligment--{{ section.settings.content_alignment }}"
+      {%- if section.settings.image_size == 'adapt' -%}
+        style=" --aspect-ratio: {{ ratio }};"
+      {%- endif -%}
+    >
+      <div class="collectionBanner__wrp container content-aligment--{{ section.settings.content_alignment }}">
+        <div class="collectionBanner__description RTE-content">
+          {% if section.settings.show_collection_title %}
+            <h1 class="{{ section.settings.heading_size }}" id="collection-title-{{ section.id }}">
+              {{ collection.title }}
+            </h1>
+          {% endif %}
+
+          {% if section.settings.show_collection_description %}
+            <p class="text-color" id="collection-description-{{ section.id }}">{{ collection.description }}</p>
+          {% endif %}
+        </div>
+      </div>
+      {% if section.settings.show_collection_image %}
+        <div class="collectionBanner__image-wrp">
+          {% if section.settings.collection_background_image != blank %}
+            {%- capture image_alt -%}
+          {{ section.settings.collection_background_image.alt | default: 'image' }}
+        {%- endcapture -%}
+            {{
+              section.settings.collection_background_image
+              | image_url: width: section.settings.collection_background_image.width
+              | image_tag:
+                class: 'image-responsive',
+                widths: '4472,3500,2500,1920,1600,1300,800',
+                sizes: '100vw',
+                loading: loading,
+                fetchpriority: fetchpriority,
+                alt: image_alt
+            }}
+          {% elsif collection.image %}
+            {%- capture collection_image_alt -%}
+              {{ collection.image.alt | default: 'image' }}
+            {%- endcapture -%}
+            {{
+              collection.image
+              | image_url: width: collection.image.width
+              | image_tag:
+                class: 'image-responsive',
+                widths: '4472,3500,2500,1920,1600,1300,800',
+                sizes: '100vw',
+                is: 'lazy-image-loading',
+                loading: loading,
+                fetchpriority: fetchpriority,
+                alt: collection_image_alt
+            }}
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection banner",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full-width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "Add a description or image by editing your collection. [Learn more](https://help.shopify.com/manual/products/collections/collection-layout)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_title",
+      "default": true,
+      "label": "Show heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_description",
+      "default": true,
+      "label": "Show description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "label": "Show collection image",
+      "info": "[Learn more](https://help.shopify.com/en/manual/products/collections/collection-layout#add-or-change-the-featured-image-for-a-collection) about adding or editing a collection image.",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "label": "H1",
+          "value": "h1"
+        },
+        {
+          "label": "H2",
+          "value": "h2"
+        },
+        {
+          "label": "H3",
+          "value": "h3"
+        },
+        {
+          "label": "H4",
+          "value": "h4"
+        },
+        {
+          "label": "H5",
+          "value": "h5"
+        },
+        {
+          "label": "H6",
+          "value": "h6"
+        }
+      ]
+    },
+    {
+      "type": "text_alignment",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "default": "left"
+    },
+    {
+      "type": "image_picker",
+      "id": "collection_background_image",
+      "label": "Image",
+      "info": "2880 x 880px (small) .jpg recomended. Default to collection image"
+    },
+    {
+      "type": "select",
+      "id": "image_size",
+      "label": "Image size",
+      "options": [
+        {
+          "label": "Adapt to image",
+          "value": "adapt"
+        },
+        {
+          "label": "Small",
+          "value": "sm"
+        },
+        {
+          "label": "Medium",
+          "value": "md"
+        },
+        {
+          "label": "Large",
+          "value": "lg"
+        }
+      ],
+      "default": "md"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "max": 100,
+      "min": 0,
+      "step": 1,
+      "default": 5,
+      "unit": "%"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-2",
+      "label": "Color scheme"
+    }
+  ]
+}
+{% endschema %}

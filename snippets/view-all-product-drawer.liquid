@@ -1,0 +1,67 @@
+{% comment %} blocks: product block {% endcomment %}
+
+{% comment %} drawer css  {% endcomment %}
+<link
+  href="{{ 'section-drawer-view-all-products.css' | asset_url }}"
+  media="print"
+  onload="this.media='all'"
+  rel="stylesheet"
+>
+
+<script src="{{ 'add-all-products-to-cart.js' | asset_url }}" defer></script>
+
+<drawer-component
+  aria-live="polite"
+  aria-modal="true"
+  aria-label="{{ 'general.drawer.option.drawer_text' | t }}"
+  class="d-block drawer color-{{ settings.drawer_color_scheme }} view-all-product-drawer"
+  drawer-type="view-all-products-drawer-{{ section.id }}"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="drawer__container">
+    <div class="drawer__overlay" drawer-overlay></div>
+
+    <div class="drawer__wrapper drawer__wrapper--animation-position-right">
+      {% comment %} Drawer Header Area {% endcomment %}
+      <div class="drawer__header">
+        <button
+          aria-label="{{ 'accessibility.close_drawer' | t }} {{ 'general.drawer.view_all_prodcuts.drawer_text' | t }}"
+          class="drawer__close__btn"
+          close-drawer
+          tabindex="0"
+        >
+          {%- render 'icon' with 'close-drawer' -%}
+        </button>
+
+        <h2 class="drawer__head">{{ 'general.drawer.view_all_prodcuts.drawer_text' | t }}</h2>
+      </div>
+
+      {% comment %} Drawer Content/Body area {% endcomment %}
+      <div class="drawer__body">
+        <div class="drawer__body__wrapper">
+          <add-all-products-to-cart class="product_collection" drawer-type="view-all-products-drawer-{{ section.id }}">
+            <div class="grid-layout grid-layout--2-desktop" drawer-items-container></div>
+            <div class="drawer__action__btn">
+              <button
+                aria-label="{{ 'general.drawer.view_all_prodcuts.add_all_to_cart' | t }}"
+                class="btn {% if section.settings.use_outline_button %} btn--border {% else %} btn--fill {% endif %} w-100 text-upper"
+                add-to-cart
+                type="button"
+              >
+                <div aria-hidden="true" class="btn--preloader">
+                  <div aria-hidden="true" class="btn--preloader--circular">
+                    <div aria-hidden="true" class="checkmark draw"></div>
+                  </div>
+                </div>
+                <div aria-hidden="true" class="btn--text">
+                  {{ 'general.drawer.view_all_prodcuts.add_all_to_cart' | t }}
+                </div>
+              </button>
+            </div>
+          </add-all-products-to-cart>
+        </div>
+      </div>
+    </div>
+  </div>
+</drawer-component>

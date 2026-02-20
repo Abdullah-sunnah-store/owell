@@ -1,0 +1,30 @@
+{% comment %}
+  Params Used:
+  product: {@object} Gets you which product object
+  block: @object Gets you block settings
+{% endcomment %}
+
+<link
+  href="{{ 'snippet-complementary-product.css' | asset_url }}"
+  rel="stylesheet"
+  media="print"
+  onload="this.media='all'"
+>
+
+<script defer="defer" src="{{ 'complementary-products.js' | asset_url }}"></script>
+
+<complementary-product
+  style="padding-bottom: {{ block.settings.block_bottom_spacing | append: 'px' }}"
+  class="d-block recommendation recommendation-inactive"
+  recommendation-limit="3"
+  recommendation-product-id="{{ product_id }}"
+  recommendation-section="complementary-products"
+  recommendation-type="complementary"
+  watch-element
+  {{ block.shopify_attributes }}
+>
+  <template>
+    <h3 class="recommendation__title h3 " recommendation-title>{{ block.settings.heading }}</h3>
+  </template>
+  <div class="recommendation__wrapper" products-data></div>
+</complementary-product>

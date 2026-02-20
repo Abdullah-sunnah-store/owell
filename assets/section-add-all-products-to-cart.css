@@ -1,0 +1,21 @@
+.view-all-item__image-wrp {
+  position: relative;
+}
+.view-all-item__image-wrp [toggle-element=options-drawer],
+.view-all-item__image-wrp [toggle-element=cart-drawer] {
+  padding: 6px 4px;
+  font-size: calc(var(--font-body-scale) * 18px);
+  font-weight: 600;
+  line-height: 23.4px;
+  width: 32px;
+}
+.view-all-item .image--aspectSize {
+  padding-top: 100%;
+}
+.view-all-item__content {
+  margin-top: 12px;
+}
+.view-all-item .product-price__wrapper {
+  margin-top: 8px;
+}
+/*# sourceMappingURL=section-add-all-products-to-cart.css.map */

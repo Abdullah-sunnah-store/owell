@@ -1,0 +1,26 @@
+.beYou {
+  padding-top: 54px;
+  padding-bottom: 54px;
+}
+@media (max-width: 767px) {
+  .beYou {
+    padding: 36px 0;
+  }
+}
+.beYou__container {
+  max-width: 854px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.beYou__container h2 {
+  font-family: var(--font-head-family);
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+.beYou__container p {
+  font-size: calc(var(--font-body-scale) * 16px);
+  line-height: 24px;
+  color: var(--clr-17);
+}

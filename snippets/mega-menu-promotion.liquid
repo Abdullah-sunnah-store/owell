@@ -1,0 +1,139 @@
+{%- assign promos = '' -%}
+{%- for i in (1..4) -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: i %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+  {%- liquid
+    assign promotionImage = 'promotion-' | append: i | append: '_image'
+    assign buttonText = 'promotion-' | append: i | append: '_button_text'
+    assign promotionLink = 'promotion-' | append: i | append: '_link'
+
+    assign ratio = false
+    if section.settings.image_aspect_ratio == 'adapt'
+      if block.settings[promotionImage] != blank
+        assign ratio = block.settings[promotionImage].aspect_ratio
+      else
+        assign ratio = 1
+      endif
+    endif
+  -%}
+
+  {%- if block.settings[promotionImage] != blank -%}
+    {%- capture temp -%}
+    <div class="bundle__item">
+      <div class="bundle__container">
+        <div class="bundle__imgWrp">
+          <div class="bundle__image" animate-bundle-image  {% if ratio %}
+            style="--aspect-ratio:{{ ratio }}"
+          {% endif %}>
+            {% if block.settings[promotionLink] != blank %}
+              <a href="{{ block.settings[promotionLink] }}">
+            {% endif %}
+
+            {% if block.settings[promotionImage] %}
+              {% assign aspect_ratio = "aspect-ratio-" | append : block.settings.image_ratio %}
+              {%- assign imgClass = "border-radius--block set-100-percentage-size-media " | append: aspect_ratio -%}
+              {{
+                block.settings[promotionImage]
+              | image_url: width: block.settings[promotionImage].width
+              | image_tag:
+                widths: '600,300'
+              , sizes: '(min-width: 1340px) 256px, (min-width: 1040px) 230px, 156px'
+              , alt: block.settings[promotionImage].alt
+              , loading: 'lazy'
+              , class: imgClass }}
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag: imgClass }}
+            {% endif %}
+
+            {% if block.settings[promotionLink] != blank %}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="bundle__body text-{{ block.settings.content_alignment }}">
+          {% if block.settings[buttonText] != blank %}
+            <a class="bundle__link" href="{{ block.settings[promotionLink] }}">{{ block.settings[buttonText] }}
+              <span class="arrow-icon">
+                {%- render 'icon' with 'view-all' -%}
+              </span>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {%- endcapture -%}
+    {%- assign promos = promos | append: temp -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<div details-dropdown class="mega-menu-dropdown color-{{ colorScheme }}">
+  <div class="mega-menu-container">
+    <div class="container mega-menu-dropdown__container">
+      <ul class="mega-menu__list" aria-labell="{{ link.title }}" role="list">
+        {%- for childlink in link.links -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: childlink %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+          <li class="mega-menu__item" role="menuitem" animate-mage-menu-item>
+            {%- if childlink.links == blank -%}
+              <a
+                role="menuitem"
+                href="{{ childlink.url }}"
+                class="{% if childlink.current %} active{% endif %} menu-main-link link-head fnt-14"
+                {% if childlink.current %}
+                  aria-current="page"
+                {% endif %}
+              >
+                {{ childlink.title | escape }}
+              </a>
+            {% else %}
+              <a class="menu-main-link link-head" href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
+              <ul class="mega-menu__list--child-list" role="menu" aria-label="{{ childlink.title }}">
+                {%- for grandchildlink in childlink.links -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: grandchildlink %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                  <li class="mega-menu__item" role="menuitem">
+                    <a
+                      role="menuitem"
+                      href="{{ grandchildlink.url }}"
+                      class="{% if grandchildlink.current %} active{% endif %} menu-main-link "
+                      {% if grandchildlink.current %}
+                        aria-current="page"
+                      {% endif %}
+                    >
+                      {{ grandchildlink.title | escape }}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+      {%- if promos != blank -%}
+        <div class="bundle__Wrp position-relative mega__menu--promotion">
+          <div
+            class="bundle{% if block.settings.promotion_stack == 'column' %} bundle-vertical d-flex-dir-c{% endif %}"
+            style="--bundle-height:{%- if block.settings.image_ratio contains '1-1' -%}350px{%- elsif block.settings.image_ratio contains '3-4' -%}450px{%- else -%}300px{%- endif -%};"
+          >
+            {{ promos }}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

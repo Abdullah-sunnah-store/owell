@@ -1,0 +1,779 @@
+{{ 'section-look-book.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }};
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }};
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }};
+    }
+  }
+{%- endstyle -%}
+
+{% liquid
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign loading = 'lazy'
+    assign intersection = 'intersection-element'
+  endif
+
+  assign page_width = settings.page_width
+  assign widths = '500, 780, 1060, 1280'
+%}
+
+{%- capture sizes -%}
+  {%- unless section.settings.full_width -%}
+    (min-width: {{ page_width }}px) {{ page_width | minus: 100 | divided_by: 2 }}px,
+    (min-width: 768px) calc(50vw - 50px), calc(100vw - 200px)
+    {%- else -%}
+    (min-width: 768px) calc(50vw - 50px), calc(100vw - 200px)
+  {%- endunless -%}
+{%- endcapture -%}
+{% capture border_radius_box %}
+{% unless section.settings.full_width %}  border-radius--block {% else %} border-radius--right-box-corner{% endunless %}
+{% endcapture %}
+{% liquid
+  assign backgroundContent = ''
+  assign foregroundContent = ''
+  assign productsContent = ''
+%}
+
+{% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+  {% assign isFirstLoop = forloop.first %}
+  {% liquid
+    assign overlay_opacity = block.settings.overlay_opacity | times: 1.0 | divided_by: 100
+    assign overlay_rgba_color = block.settings.overlay_color.rgb | append: ' / ' | append: overlay_opacity
+  %}
+  {%- capture backgroundBlock -%}
+    <animation-reveal class="lookBook__backgroundContainer h-100 position-absolute{% unless isFirstLoop %} opacity-0{% endunless %}" data-bg-slide-id="{{ block.id }}" aoi-type="scale" aoi-duration="0.7" aoi-amount="0">
+      <div class="image_overlay position-absolute" style="background-color:rgba({{ overlay_rgba_color }})"></div>
+      {% if block.settings.image_background != blank %}
+        {%- capture imagealt -%}
+          {{ block.settings.image_background.alt | default: 'image' }}
+        {%- endcapture -%}
+
+        {% capture background_image_class %}
+        set-100-percentage-size-media border-radius {{ border_radius_box }}
+        {% endcapture %}
+        {{ block.settings.image_background 
+        | image_url: width: block.settings.image_background.width
+        | image_tag: loading: loading
+        , fetchpriority: fetchpriority
+        , sizes: sizes, widths: widths
+        , class: background_image_class
+        , alt: imagealt }}
+      {% else %}
+        {{ "hero-apparel-1" | placeholder_svg_tag: "h-100 w-100" }}
+      {% endif %}
+    </animation-reveal>
+  {%- endcapture -%}
+  {% assign backgroundContent = backgroundContent | append: backgroundBlock %}
+
+  {%- capture foregroundBlock -%}
+  <div class="lookBook__foregroundContainer swiper-slide" data-block-id="{{ block.id }}" {{ block.shopify_attributes }}>
+    <div class="lookBook__foregroundBlock border-radius border-radius--block d-v-center justify-content-center h-100">
+      <div class="lookBook__foreground-imageWrp"{% if section.settings.image_size == 'adapt' %} style=" --aspect-ratio: {{ block.settings.image_foreground.aspect_ratio | default: block.settings.collection.featured_image.aspect_ratio }};"{%- endif -%}>
+        {% assign className = "set-100-percentage-size-media border-radius border-radius--block aspect-ratio-" | append: section.settings.image_ratio  %}
+        {% if section.settings.disable_foreground %}
+          {% assign className = className | append: " opacity-0" %}
+        {% endif %}
+        {% if block.settings.image_foreground == blank and block.settings.collection != blank %}
+          {%- capture imagealt -%}
+            {{ block.settings.featured_image.alt | default: 'image' }}
+          {%- endcapture -%}
+          {{ block.settings.collection.featured_image 
+          | image_url: width: block.settings.collection.featured_image.width
+          | image_tag: loading: loading
+          , fetchpriority: fetchpriority
+          , sizes: sizes, widths: widths
+          , class: className
+          , alt: imagealt }}
+        {% elsif block.settings.image_foreground != blank %}
+          {%- capture imagealt -%}
+            {{ block.settings.image_foreground.alt | default: 'image' }}
+          {%- endcapture -%}
+          {{ block.settings.image_foreground 
+          | image_url: width: block.settings.image_foreground.width
+          | image_tag: loading: loading
+          , fetchpriority: fetchpriority
+          , sizes: sizes, widths: widths
+          , class: className
+          , alt: imagealt }}
+        {% else %}
+          {% if section.settings.disable_foreground %}
+            {% assign className = "w-100 opacity-0" %}
+          {% endif %}
+          {{ "hero-apparel-2" | placeholder_svg_tag: className }}
+        {% endif %}
+      </div>
+      <div class="text-center mt-16 mb-16 lookBook__foregroundHeading position-absolute d-flex justify-content-center align-item-center w-100">
+        {% if block.settings.link != blank or block.settings.collection != blank %}
+          <a href="{{ block.settings.link | default: block.settings.collection.url }}" class="link" target="_top">
+        {% endif %}
+            <span class="h3 mb-0">{{ block.settings.caption | default: block.settings.collection.title }}</span>
+        {% if block.settings.link != blank or block.settings.collection != blank %}
+        </a>
+        {% endif %}
+        </div>
+    </div>
+  </div>
+  {%- endcapture -%}
+  {% assign foregroundContent = foregroundContent | append: foregroundBlock %}
+
+  {%- capture productsBlock -%}
+      {% liquid
+        assign productsForSlider = block.settings.collection.products
+        if block.settings.product_list.count > 0
+          assign productsForSlider = block.settings.product_list
+        endif
+      %}
+
+      {% for product in productsForSlider limit: block.settings.products_to_show %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: product %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+{% comment %} Wholesale_Hub_Product_Prices Start {% endcomment %}
+{% assign base_product = product %}
+{% assign base_variant = product.selected_or_first_available_variant %}
+{% assign WCNonFractionalCurrencies = "AFN, ALL, BIF, CLP, DJF, GNF, ISK, JPY, KMF, KRW, LAK, LBP, MGA, MMK, PYG, RSD, RWF, SLL, STD, UGX, VND, VUV, XAF, XOF, XPF, YER" | split: ", "%}
+
+{% assign WCCartUsingNonFractionalCurrency = false %}
+{% for non_fractional_currency in WCNonFractionalCurrencies %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: non_fractional_currency %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+  {% if cart.currency.iso_code == non_fractional_currency %}
+    {% assign WCCartUsingNonFractionalCurrency = true %}
+  {% endif %}
+{% endfor %}
+
+
+{% assign WCCartUsingSecondaryMarketDiscount = false %}
+{% unless shop.metafields.sawholesale.primary_market_id == blank %}
+  {% if localization.market.id != shop.metafields.sawholesale.primary_market_id %}
+    {% assign WCCartUsingSecondaryMarketDiscount = true %}
+  {% endif %}
+{% endunless%}
+
+{% if shop.metafields.sawholesale['base_price'] == blank %}
+  {% assign base_price = 'compare_at_price' %}
+{% else %}
+  {% assign base_price = shop.metafields.sawholesale['base_price'] %}
+{% endif %}
+
+{% assign saw_discount = 0 %}{% assign saw_has_discount = false %}
+
+{% if customer.tags != blank and WCCartUsingSecondaryMarketDiscount == false %}
+  {% for mf in base_product.metafields.sawholesale %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: mf %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+    {% capture product_customer_tag %}{{ mf | first | replace: 'discount_', '' }}{% endcapture %}
+    {% if customer.tags contains product_customer_tag %}
+      {% assign saw_has_discount = true %}
+      {% assign discount_key = product_customer_tag | prepend: 'discount_' %}
+      {% assign price_key = product_customer_tag | prepend: 'price_' %}
+      {% assign saw_discount = base_product.metafields.sawholesale[discount_key] | divided_by: 100.0 %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if customer.tags != blank and WCCartUsingSecondaryMarketDiscount == true %}
+  {% for collection in base_product.collections %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: collection %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+    {% for discount in collection.metafields.sawholesale.discounts.value %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: discount %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+      {% if customer.tags contains discount.tag %}
+        {% assign saw_has_discount = true %}
+        {% assign this_discount = discount.discount_percent | divided_by: 100.0 %}
+        {% if this_discount > saw_discount %}{% assign saw_discount = this_discount %}{% endif %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+{% endif %}
+
+{% comment %}
+  Rather than calculating the percentage remaining after a discount the secondary
+  markets logic uses the raw discount percentage to calculate the saw_variant_price
+  For a 10% discount:
+    In the primary market the saw_discount would be: 90%
+    In the secondary market the saw_discount would be: 10%
+{% endcomment %}
+{% unless WCCartUsingSecondaryMarketDiscount %}
+  {% assign saw_discount = 1 | minus: saw_discount %}
+{% endunless %}
+
+{% if WCCartUsingSecondaryMarketDiscount == true or base_price == 'price' or base_variant.compare_at_price == blank or base_variant.compare_at_price == 0 or base_variant.compare_at_price < base_variant.price %}
+  {% assign saw_variant_compare_at_price = base_variant.price %}
+{% else %}
+  {% assign saw_variant_compare_at_price = base_variant.compare_at_price %}
+{% endif %}
+
+{% assign cpe = shop.metafields.sawholesale['cpe'] | default: "true" %}
+
+{% if base_variant.metafields.sawholesale[price_key] != blank and cpe == "true" %}
+  {% assign saw_variant_price = base_variant.metafields.sawholesale[price_key] %}
+{% else %}
+  {% comment %}
+    For a 10% discount on a variant price of 100:
+      In the primary market the saw_variant_price would be: 100 * 0.90 = 90
+      In the secondary market the saw_variant_price would be: 100 * 0.10 = 10
+      So saw_variant_price is not made available to the global scope in a secondary
+      market. Doing so might cause strange behaviour if not properly accounted for.
+  {% endcomment %}
+  {% if WCCartUsingSecondaryMarketDiscount %}
+    {% assign WCVariant_DiscountAmount = saw_variant_compare_at_price | times: saw_discount %}
+  {% else %}
+    {% assign saw_variant_price = saw_variant_compare_at_price | times: saw_discount %}
+    {% assign WCVariant_DiscountAmount = 0 %}
+  {% endif %}
+{% endif %}
+{% if WCCartUsingSecondaryMarketDiscount %}
+  {% assign WCVariant_Price = saw_variant_compare_at_price %}
+{% else %}
+  {% assign WCVariant_Price = saw_variant_price %}
+{% endif %}
+
+{% if saw_has_discount == false or saw_variant_price >= saw_variant_compare_at_price %}
+  {% assign WCProduct_Price = base_product.price %}
+  {% assign WCProduct_ComparePrice = base_product.compare_at_price %}
+  {% assign WCProduct_PriceMin = base_product.price_min %}
+  {% assign WCProduct_ComparePriceMin = base_product.compare_at_price_min %}
+  {% assign WCProduct_PriceMax = base_product.price_max %}
+  {% assign WCProduct_ComparePriceMax = base_product.compare_at_price_max %}
+  {% assign WCProduct_VariantPrice = base_variant.price %}
+  {% assign WCProduct_VariantComparePrice = base_variant.compare_at_price %}
+{% else %}
+  {% assign WCProduct_Price =  WCVariant_Price | minus: WCVariant_DiscountAmount %}
+  {% assign WCProduct_PriceMin = base_product.price_min | times: saw_discount %}
+  {% assign WCProduct_PriceMax = base_product.price_max | times: saw_discount %}
+  {% assign WCProduct_ComparePrice = saw_variant_compare_at_price %}
+  {% if base_product.compare_at_price_min != 0 %}{% assign WCProduct_ComparePriceMin = base_product.compare_at_price_min %}{% else %}{% assign WCProduct_ComparePriceMin = base_product.price_min %}{% endif %}
+  {% if base_product.compare_at_price_max != 0 %}{% assign WCProduct_ComparePriceMax = base_product.compare_at_price_max %}{% else %}{% assign WCProduct_ComparePriceMax = base_product.price_max %}{% endif %}
+  {% assign WCProduct_VariantPrice = WCVariant_Price | minus: WCVariant_DiscountAmount %}
+  {% assign WCProduct_VariantComparePrice = saw_variant_compare_at_price %}
+{% endif %}
+{% comment %} Wholesale_Hub_Product_Prices End {% endcomment %}
+
+        <div class="h-auto{% if isFirstLoop %} swiper-slide {% else %} d-none{% endif %}" data-product-slide-id="{{ block.id }}">
+          {%- render 'card-product'
+            , product: product
+            , product_image_loading: loading
+            , product_image_fetchpriority: fetchpriority
+            , section: section,
+            , index: forloop.index0
+          -%}
+        </div>
+      {% else %}
+        {%- for i in (1..block.settings.products_to_show ) -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: i %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+          <div class="h-auto{% if isFirstLoop %} swiper-slide {% else %} d-none{% endif %}" data-product-slide-id="{{ block.id }}">
+            {%- render 'card-product', onboarding: true , index: forloop.index0 -%}
+          </div>
+        {%- endfor -%}
+      {% endfor %}
+  {%- endcapture -%}
+  {% assign productsContent = productsContent | append: productsBlock %}
+{% endfor %}
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'top' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-top"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+<div
+  aria-label="Look book"
+  class="lookBook__section section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}"
+  role="region"
+>
+  <div class="container section-header lookBook__headingWrp text-{{ section.settings.content_alignment }} mobile-sm-only">
+    <animation-reveal class="d-inline-block" aoi-type="stagger" aoi-delay="0.1" aoi-duration="0.4" aoi-amount="0.3">
+      {% if section.settings.subheading != blank %}
+        <p class="lookBook__subheading">{{ section.settings.subheading }}</p>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h3 class="h2 mb-16">{{ section.settings.heading }}</h3>
+      {% endif %}
+      {% if section.settings.content != blank %}
+        <p class="lookBook__description fnt-16">{{ section.settings.content }}</p>
+      {% endif %}
+    </animation-reveal>
+  </div>
+
+  {% unless section.settings.full_width %}
+    <div class="right-container">
+  {% endunless %}
+
+  <div class="lookBook">
+    <div class="lookBook__container d-flex flex-wrap" style="--media-width: 46%">
+      <div class="lookBook__lookWrp position-relative h-100 border-radius {{ border_radius_box }}">
+        <div class="lookBook__foregroundWrp ratio-{{ section.settings.image_ratio }} d-flex align-item-end w-100 h-100 position-relative">
+          <look-book-carousel
+            {{ intersection }}
+            dynamic-navigation-color
+            class="d-block w-100 h-100 mobile-content-over-media color-{{ section.settings.color_scheme_media }}"
+            slide-layout-type="carousel"
+            slide-pagination-type="bullets"
+            slide-per-view="1"
+            slide-responsive-breakpoints='{"320":{"slidesPerView":"1"},"768":{"slidesPerView":"1"}}'
+            slide-speed="{{ settings.slide_duration }}"
+            animate-on-slide-change
+            slide-animation="slide"
+            aria-label="Slider"
+          >
+            <div
+              class="js-element swiper swiper-container h-100 d-flex align-item-center "
+              main-slider
+              style="--pagination-width: {{ section.blocks.size }}"
+            >
+              <animation-reveal aoi-type="fade-up" aoi-amount="0.2" class="swiper-wrapper">
+                {{ foregroundContent }}
+              </animation-reveal>
+            </div>
+            <div class="sliderControl js-element position-absolute">
+              <div class="d-flex sliderPagination w-100 justify-content-space-btw">
+                <!-- next / prev arrows -->
+                <div
+                  aria-label="{{ 'accessibility.prev_slide_label' | t }}"
+                  class=""
+                  role="button"
+                  slide-prev
+                  tabindex="0"
+                >
+                  <div class="sliderPagination__prev productSlider__prev d-block m-0">
+                    {% render 'slider-arrow-icon', arrow_direction: 'left' %}
+                  </div>
+                </div>
+                <div
+                  aria-label="{{ 'accessibility.next_slide_label' | t }}"
+                  class=""
+                  role="button"
+                  slide-next
+                  tabindex="0"
+                >
+                  <div class="sliderPagination__next productSlider__next d-block m-0">
+                    {% render 'slider-arrow-icon', arrow_direction: 'right' %}
+                  </div>
+                </div>
+
+                <!-- !next / prev arrows -->
+              </div>
+            </div>
+            <noscript>
+              <div
+                class="swiper swiper-container swiper-initialized h-100 d-flex align-item-center"
+                main-slider
+                style="--pagination-width: {{ section.blocks.size }}"
+              >
+                {{ foregroundContent }}
+              </div>
+            </noscript>
+          </look-book-carousel>
+        </div>
+        <div class="lookBook__backgroundWrp position-absolute">
+          {{ backgroundContent }}
+        </div>
+      </div>
+      <div class="lookBook__contentWrp flex-1 d-flex d-flex-dir-c justify-content-center">
+        <div class="lookBook__headingWrp section-header text-{{ section.settings.content_alignment }} tab-only">
+          <animation-reveal
+            class="d-inline-block"
+            aoi-type="stagger"
+            aoi-delay="0.1"
+            aoi-duration="0.4"
+            aoi-amount="0.3"
+          >
+            {% if section.settings.subheading != blank %}
+              <p class="lookBook__subheading">{{ section.settings.subheading }}</p>
+            {% endif %}
+            {% if section.settings.heading != blank %}
+              <h3 class="h2 mb-16">{{ section.settings.heading }}</h3>
+            {% endif %}
+            {% if section.settings.content != blank %}
+              <p class="lookBook__description fnt-16">{{ section.settings.content }}</p>
+            {% endif %}
+          </animation-reveal>
+        </div>
+        <carousel-component
+          {{ intersection }}
+          dynamic-navigation-color
+          class="swiper w-100 mobile-content-over-media js-element product_collection"
+          slide-layout-type="carousel"
+          slide-pagination-type="progressbar"
+          slide-per-view="2.5"
+          slide-responsive-breakpoints='{"320":{"slidesPerView":"2.1"},"768":{"slidesPerView":"1.25"},"1024":{"slidesPerView":"2"},"1300":{"slidesPerView":"2.5"}}'
+          slide-speed="{{ settings.slide_duration }}"
+          animate-on-slide-change
+          slide-keyboard-disabled
+          slide-animation="slide"
+          aria-label="Slider"
+        >
+          <div class="swiper-container" main-slider style="--pagination-width: {{ section.blocks.size }}">
+            <animation-reveal aoi-type="fade-up" aoi-amount="0.2" class="swiper-wrapper">
+              {{ productsContent }}
+            </animation-reveal>
+          </div>
+          <div class="sliderControl">
+            <div
+              aria-hidden="true"
+              class="sliderProgressBar"
+              slide-progress
+            ></div>
+            <div class="d-flex sliderPagination">
+              <!-- next / prev arrows -->
+              <div
+                aria-label="{{ 'accessibility.prev_slide_label' | t }}"
+                class=""
+                role="button"
+                slide-prev
+                tabindex="0"
+              >
+                <div class="sliderPagination__prev productSlider__prev">
+                  {% render 'slider-arrow-icon', arrow_direction: 'left' %}
+                </div>
+              </div>
+              <div
+                aria-label="{{ 'accessibility.next_slide_label' | t }}"
+                class=""
+                role="button"
+                slide-next
+                tabindex="0"
+              >
+                <div class="sliderPagination__next productSlider__next">
+                  {% render 'slider-arrow-icon', arrow_direction: 'right' %}
+                </div>
+              </div>
+
+              <!-- !next / prev arrows -->
+            </div>
+          </div>
+        </carousel-component>
+        <noscript class="lookBook__productsWrp product_collection">
+          <div class="lookBook__productsSlider">
+            {{ productsContent }}
+          </div>
+        </noscript>
+      </div>
+    </div>
+  </div>
+
+  {% unless section.settings.full_width %}
+    </div>
+  {% endunless %}
+</div>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'bottom' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-bottom"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+{% schema %}
+{
+  "name": "Look book",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Section content"
+    },
+    {
+      "type": "text_alignment",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Look book"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "header",
+      "content": "Block settings"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Foreground image ratio",
+      "options": [
+        {
+          "label": "Portrait (3:4)",
+          "value": "portrait"
+        },
+        {
+          "label": "Square (1:1)",
+          "value": "square"
+        },
+        {
+          "label": "Adapt to image",
+          "value": "adapt"
+        },
+        {
+          "label": "Landspace (4:3)",
+          "value": "landscape"
+        }
+      ],
+      "default": "square"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_foreground",
+      "label": "Disable foreground",
+      "default": false,
+      "info": "Shows only the background image"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 36
+    },
+    {
+      "type": "select",
+      "id": "border_size",
+      "label": "Border",
+      "options": [
+        {
+          "label": "Hide",
+          "value": "hide"
+        },
+        {
+          "label": "Full width",
+          "value": "full_width"
+        },
+        {
+          "label": "Fixed width",
+          "value": "fixed_width"
+        }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "select",
+      "id": "border_position",
+      "label": "Border position",
+      "options": [
+        {
+          "label": "Both",
+          "value": "both"
+        },
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "both"
+    },
+
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Section color scheme"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme_media",
+      "default": "scheme-2",
+      "label": "Image slider Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Look",
+      "type": "look",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image_background",
+          "label": "Image background",
+          "info": "1200 x 1200px (square 1:1) .jpg recommended"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Overlay opacity",
+          "default": 30
+        },
+        {
+          "type": "image_picker",
+          "id": "image_foreground",
+          "label": "Image foreground",
+          "info": "1200 x 1200px (square 1:1) .jpg recommended. Defaults to collection image"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "product_list",
+          "id": "product_list",
+          "label": "Products",
+          "info": "Select products here will override the collection products"
+        },
+        {
+          "type": "range",
+          "id": "products_to_show",
+          "min": 0,
+          "max": 16,
+          "step": 1,
+          "label": "Maximum products to show",
+          "default": 6
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Heading",
+          "default": "Heading",
+          "info": "Replaces the default collection heading"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link URL",
+          "info": "Defaults to collection URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Look book",
+      "blocks": [
+        {
+          "type": "look",
+          "settings": {
+            "caption": "Collection 1"
+          }
+        },
+        {
+          "type": "look",
+          "settings": {
+            "caption": "Collection 2"
+          }
+        },
+        {
+          "type": "look",
+          "settings": {
+            "caption": "Collection 3"
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["*"]
+  }
+}
+{% endschema %}

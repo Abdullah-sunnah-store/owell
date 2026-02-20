@@ -1,0 +1,917 @@
+{% comment %}
+  Customer Reviews Section with Trustpilot Integration
+  Fully dynamic and customizable through Shopify theme editor
+{% endcomment %}
+
+<style>
+  .reviews-section-{{ section.id }} {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.background_color }};
+  }
+
+  .reviews-container-{{ section.id }} {
+    max-width: {{ section.settings.container_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .reviews-header-{{ section.id }} {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .reviews-header-{{ section.id }} h2 {
+    font-size: {{ section.settings.heading_size }}px;
+    color: {{ section.settings.heading_color }};
+    margin-bottom: 8px;
+    font-weight: {{ section.settings.heading_weight }};
+    line-height: 1.2;
+  }
+
+  .reviews-header-{{ section.id }} h3 {
+    font-size: {{ section.settings.subheading_size }}px;
+    color: {{ section.settings.subheading_color }};
+    font-weight: {{ section.settings.subheading_weight }};
+    margin-bottom: 20px;
+  }
+
+  .trustpilot-badge-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .trustpilot-rating-{{ section.id }} {
+    font-size: {{ section.settings.rating_size }}px;
+    font-weight: 600;
+    color: {{ section.settings.rating_color }};
+  }
+
+  .trustpilot-stars-{{ section.id }} {
+    display: flex;
+    gap: 4px;
+  }
+
+  .trustpilot-stars-{{ section.id }} img {
+    width: {{ section.settings.star_size }}px;
+    height: {{ section.settings.star_size }}px;
+    object-fit: contain;
+  }
+
+  .trustpilot-logo-{{ section.id }} img {
+    height: {{ section.settings.logo_height }}px;
+    width: auto;
+  }
+
+  .review-count-{{ section.id }} {
+    font-size: {{ section.settings.review_count_size }}px;
+    color: {{ section.settings.review_count_color }};
+  }
+
+  .reviews-carousel-wrapper-{{ section.id }} {
+    position: relative;
+    margin-top: 40px;
+  }
+
+  .carousel-header-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+
+  .carousel-header-{{ section.id }} h3 {
+    font-size: {{ section.settings.carousel_heading_size }}px;
+    color: {{ section.settings.carousel_heading_color }};
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .carousel-controls-{{ section.id }} {
+    display: flex;
+    gap: 12px;
+  }
+
+  .carousel-control-{{ section.id }} {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: {{ section.settings.control_bg_color }};
+    border: 1px solid {{ section.settings.control_border_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .carousel-control-{{ section.id }}:hover {
+    background: {{ section.settings.control_hover_bg }};
+    transform: scale(1.05);
+  }
+
+  .carousel-control-{{ section.id }} svg {
+    width: 20px;
+    height: 20px;
+    fill: {{ section.settings.control_icon_color }};
+  }
+
+  .reviews-carousel-{{ section.id }} {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .reviews-carousel-{{ section.id }}::-webkit-scrollbar {
+    display: none;
+  }
+
+  .review-card-{{ section.id }} {
+    min-width: {{ section.settings.card_width }}px;
+    background: {{ section.settings.card_bg_color }};
+    border: 1px solid {{ section.settings.card_border_color }};
+    border-radius: {{ section.settings.card_border_radius }}px;
+    padding: {{ section.settings.card_padding }}px;
+    box-shadow: {{ section.settings.card_shadow }};
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .review-card-header-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .review-stars-{{ section.id }} {
+    display: flex;
+    gap: 4px;
+  }
+
+  .review-stars-{{ section.id }} img {
+    width: {{ section.settings.review_star_size }}px;
+    height: {{ section.settings.review_star_size }}px;
+    object-fit: contain;
+  }
+
+  .review-trustpilot-logo-{{ section.id }} {
+    flex-shrink: 0;
+  }
+
+  .review-trustpilot-logo-{{ section.id }} img {
+    height: {{ section.settings.review_card_logo_height }}px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .review-text-{{ section.id }} {
+    font-size: {{ section.settings.review_text_size }}px;
+    line-height: 1.6;
+    color: {{ section.settings.review_text_color }};
+    margin-bottom: 20px;
+  }
+
+  .review-author-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .author-avatar-{{ section.id }} {
+    width: {{ section.settings.avatar_size }}px;
+    height: {{ section.settings.avatar_size }}px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .author-avatar-{{ section.id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .author-info-{{ section.id }} h4 {
+    font-size: {{ section.settings.author_name_size }}px;
+    font-weight: 600;
+    color: {{ section.settings.author_name_color }};
+    margin: 0 0 4px 0;
+  }
+
+  .author-info-{{ section.id }} p {
+    font-size: {{ section.settings.author_date_size }}px;
+    color: {{ section.settings.author_date_color }};
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .review-card-{{ section.id }} {
+      min-width: 280px;
+    }
+   .carousel-controls-{{ section.id }} {
+    display: none;
+  }
+    .carousel-header-{{ section.id }} {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .reviews-header-{{ section.id }} h2 {
+      font-size: calc({{ section.settings.heading_size }}px * 0.8);
+    }
+
+    .reviews-header-{{ section.id }} h3 {
+      font-size: calc({{ section.settings.subheading_size }}px * 0.8);
+    }
+  }
+</style>
+
+<section class="reviews-section-{{ section.id }}">
+  <div class="reviews-container-{{ section.id }}">
+    
+    <!-- Header Section -->
+    <div class="reviews-header-{{ section.id }}">
+      {% if section.settings.show_heading %}
+        <h2>{{ section.settings.heading }}</h2>
+      {% endif %}
+      
+      {% if section.settings.show_subheading %}
+        <h3>{{ section.settings.subheading }}</h3>
+      {% endif %}
+
+      <!-- Trustpilot Badge -->
+      {% if section.settings.show_trustpilot %}
+        <div class="trustpilot-badge-{{ section.id }}">
+          <span class="trustpilot-rating-{{ section.id }}">{{ section.settings.trustpilot_rating }}</span>
+          
+          <div class="trustpilot-stars-{{ section.id }}">
+            {% if section.settings.star_full_image %}
+              {% assign rating_decimal = section.settings.trustpilot_rating | times: 1.0 %}
+              {% assign full_stars = rating_decimal | floor %}
+              {% assign remaining = rating_decimal | minus: full_stars %}
+              {% assign next_star = full_stars | plus: 1 %}
+              
+              {% for i in (1..5) %}
+                {% if i <= full_stars %}
+                  <img src="{{ section.settings.star_full_image | img_url: 'master' }}" alt="Full star">
+                {% elsif i == next_star and remaining > 0 and section.settings.star_half_image %}
+                  <img src="{{ section.settings.star_half_image | img_url: 'master' }}" alt="Half star">
+                {% elsif section.settings.star_empty_image %}
+                  <img src="{{ section.settings.star_empty_image | img_url: 'master' }}" alt="Empty star">
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          {% if section.settings.show_trustpilot_logo and section.settings.trustpilot_logo %}
+            <div class="trustpilot-logo-{{ section.id }}">
+              <img src="{{ section.settings.trustpilot_logo | img_url: 'master' }}" alt="Trustpilot">
+            </div>
+          {% endif %}
+
+          {% if section.settings.show_review_count %}
+            <span class="review-count-{{ section.id }}">
+              {{ section.settings.review_count_text }}
+            </span>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Reviews Carousel -->
+    <div class="reviews-carousel-wrapper-{{ section.id }}">
+      <div class="carousel-header-{{ section.id }}">
+        <h3>{{ section.settings.carousel_heading }}</h3>
+        
+        <div class="carousel-controls-{{ section.id }}">
+          <button class="carousel-control-{{ section.id }} carousel-prev-{{ section.id }}" aria-label="Previous reviews">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+          </button>
+          <button class="carousel-control-{{ section.id }} carousel-next-{{ section.id }}" aria-label="Next reviews">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="reviews-carousel-{{ section.id }}" id="reviewsCarousel{{ section.id }}">
+        {% for block in section.blocks %}
+          <div class="review-card-{{ section.id }}" {{ block.shopify_attributes }}>
+            
+            <!-- Card Header with Stars and Trustpilot Logo -->
+            <div class="review-card-header-{{ section.id }}">
+              <!-- Star Rating -->
+              <div class="review-stars-{{ section.id }}">
+                {% if section.settings.review_star_full_image %}
+                  {% for i in (1..5) %}
+                    {% if i <= block.settings.rating %}
+                      <img src="{{ section.settings.review_star_full_image | img_url: 'master' }}" alt="Full star">
+                    {% elsif section.settings.review_star_empty_image %}
+                      <img src="{{ section.settings.review_star_empty_image | img_url: 'master' }}" alt="Empty star">
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              </div>
+
+              <!-- Trustpilot Logo on Card -->
+              {% if section.settings.show_review_card_logo and section.settings.review_card_trustpilot_logo %}
+                <div class="review-trustpilot-logo-{{ section.id }}">
+                  <img src="{{ section.settings.review_card_trustpilot_logo | img_url: 'master' }}" alt="Trustpilot">
+                </div>
+              {% endif %}
+            </div>
+
+            <!-- Review Text -->
+            <div class="review-text-{{ section.id }}">
+              {{ block.settings.review_text }}
+            </div>
+
+            <!-- Author Info -->
+            <div class="review-author-{{ section.id }}">
+              {% if block.settings.author_image %}
+                <div class="author-avatar-{{ section.id }}">
+                  <img src="{{ block.settings.author_image | img_url: 'master' }}" alt="{{ block.settings.author_name }}">
+                </div>
+              {% endif %}
+              
+              <div class="author-info-{{ section.id }}">
+                <h4>{{ block.settings.author_name }}</h4>
+                <p>{{ block.settings.review_date }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  (function() {
+    const carousel = document.getElementById('reviewsCarousel{{ section.id }}');
+    const prevBtn = document.querySelector('.carousel-prev-{{ section.id }}');
+    const nextBtn = document.querySelector('.carousel-next-{{ section.id }}');
+    
+    if (carousel && prevBtn && nextBtn) {
+      const scrollAmount = {{ section.settings.card_width }} + 24; // card width + gap
+      
+      prevBtn.addEventListener('click', () => {
+        carousel.scrollBy({
+          left: -scrollAmount,
+          behavior: 'smooth'
+        });
+      });
+      
+      nextBtn.addEventListener('click', () => {
+        carousel.scrollBy({
+          left: scrollAmount,
+          behavior: 'smooth'
+        });
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Customer Reviews",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 800,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Container Width",
+      "default": 1200
+    },
+    {
+      "type": "header",
+      "content": "Heading Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "Show Heading",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Read reviews,"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subheading",
+      "label": "Show Subheading",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "ride with confidence."
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 18,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Subheading Size",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "subheading_weight",
+      "label": "Subheading Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "header",
+      "content": "Trustpilot Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trustpilot",
+      "label": "Show Trustpilot Badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "trustpilot_rating",
+      "label": "Trustpilot Rating",
+      "default": "4.2/5",
+      "info": "Display format (e.g., 4.2/5)"
+    },
+    {
+      "type": "range",
+      "id": "rating_size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Rating Text Size",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "rating_color",
+      "label": "Rating Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Star Size",
+      "default": 24
+    },
+    {
+      "type": "image_picker",
+      "id": "star_full_image",
+      "label": "Full Star Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "star_half_image",
+      "label": "Half Star Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "star_empty_image",
+      "label": "Empty Star Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trustpilot_logo",
+      "label": "Show Trustpilot Logo",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "trustpilot_logo",
+      "label": "Trustpilot Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Logo Height",
+      "default": 24
+    },
+    {
+      "type": "checkbox",
+      "id": "show_review_count",
+      "label": "Show Review Count",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "review_count_text",
+      "label": "Review Count Text",
+      "default": "Based on 5210 reviews"
+    },
+    {
+      "type": "range",
+      "id": "review_count_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Review Count Size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "review_count_color",
+      "label": "Review Count Color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Carousel Settings"
+    },
+    {
+      "type": "text",
+      "id": "carousel_heading",
+      "label": "Carousel Heading",
+      "default": "What our customers are saying"
+    },
+    {
+      "type": "range",
+      "id": "carousel_heading_size",
+      "min": 16,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "label": "Carousel Heading Size",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "carousel_heading_color",
+      "label": "Carousel Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Card Settings"
+    },
+    {
+      "type": "range",
+      "id": "card_width",
+      "min": 250,
+      "max": 500,
+      "step": 10,
+      "unit": "px",
+      "label": "Card Width",
+      "default": 350
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card Border Color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Card Border Radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 16,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Card Padding",
+      "default": 24
+    },
+    {
+      "type": "text",
+      "id": "card_shadow",
+      "label": "Card Shadow",
+      "default": "0 2px 8px rgba(0,0,0,0.08)"
+    },
+    {
+      "type": "text",
+      "id": "card_hover_shadow",
+      "label": "Card Hover Shadow",
+      "default": "0 8px 20px rgba(0,0,0,0.12)"
+    },
+    {
+      "type": "header",
+      "content": "Review Card Trustpilot Logo"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_review_card_logo",
+      "label": "Show Trustpilot Logo on Cards",
+      "default": true,
+      "info": "Display Trustpilot logo in the top-right corner of each review card"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_card_trustpilot_logo",
+      "label": "Review Card Trustpilot Logo",
+      "info": "Logo displayed on individual review cards"
+    },
+    {
+      "type": "range",
+      "id": "review_card_logo_height",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Card Logo Height",
+      "default": 20,
+      "info": "Height of Trustpilot logo on review cards"
+    },
+    {
+      "type": "header",
+      "content": "Review Content"
+    },
+    {
+      "type": "range",
+      "id": "review_star_size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Review Star Size",
+      "default": 18
+    },
+    {
+      "type": "image_picker",
+      "id": "review_star_full_image",
+      "label": "Review Full Star Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_star_empty_image",
+      "label": "Review Empty Star Image"
+    },
+    {
+      "type": "range",
+      "id": "review_text_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Review Text Size",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "review_text_color",
+      "label": "Review Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "avatar_size",
+      "min": 32,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "label": "Avatar Size",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "author_name_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Author Name Size",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "author_name_color",
+      "label": "Author Name Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "author_date_size",
+      "min": 11,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Date Size",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "author_date_color",
+      "label": "Date Color",
+      "default": "#999999"
+    },
+    {
+      "type": "header",
+      "content": "Control Buttons"
+    },
+    {
+      "type": "color",
+      "id": "control_bg_color",
+      "label": "Button Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "control_border_color",
+      "label": "Button Border",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "color",
+      "id": "control_hover_bg",
+      "label": "Button Hover Background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "control_icon_color",
+      "label": "Button Icon Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star Rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_text",
+          "label": "Review Text",
+          "default": "Amazing service and great products!"
+        },
+        {
+          "type": "image_picker",
+          "id": "author_image",
+          "label": "Author Image"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author Name",
+          "default": "John Doe"
+        },
+        {
+          "type": "text",
+          "id": "review_date",
+          "label": "Review Date",
+          "default": "2 weeks ago"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Reviews",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_text": "My buying experience is so nice, and received me very politely. Riding experience is also very good. Very good performance. I never experienced such a kind of performance. Very good service.",
+            "author_name": "Karan",
+            "review_date": "2 weeks ago"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_text": "I love my e-bike and the customer service is excellent. They respond in a timely manner with loads of information about e-bikes, accessories and maintenance information.",
+            "author_name": "Catherine",
+            "review_date": "10 days ago"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_text": "Visited to EQ store. Prod particularly welds, looks wife and took small test. parking lot area. We busy with customization after went over all the options satisfied.",
+            "author_name": "Peter",
+            "review_date": "1 week ago"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

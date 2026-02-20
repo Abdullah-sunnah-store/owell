@@ -1,0 +1,527 @@
+<script defer src="{{ 'product-badges.js' | asset_url }}"></script>
+
+<div class="badge-container">
+  <badge-component id="{{ block.id | prepend: 'shopify-section-' }}" target-portal-element="#portal">
+    <ul
+      class="product-badges product-badges--style-{{ block.settings.badge_stack_style }}"
+      style="padding-bottom: {{ block.settings.block_bottom_spacing | append: 'px' }}"
+    >
+      {% if block.settings.heading_1 != blank %}
+        <li
+          style="--badge-text-color: {{ block.settings.text_color_1 }}; --badge-bg-color: {{ block.settings.background_color_1 }}"
+        >
+          <button
+            class="product-badges__item"
+            {% if block.settings.content_1 != blank or block.settings.page_1 != blank %}
+              triger-drawer-button
+            {% endif %}
+          >
+            {% liquid
+              case block.settings.icon_style_1
+                when 'question'
+                  assign icon = 'icon-question'
+                when 'leaf'
+                  assign icon = 'icon-leaf'
+                when 'globe'
+                  assign icon = 'icon-globe'
+                when 'box'
+                  assign icon = 'icon-box'
+                when 'heart'
+                  assign icon = 'icon-heart'
+                when 'gift'
+                  assign icon = 'icon-gift'
+                when 'smaile'
+                  assign icon = 'icon-smaile'
+                when 'thumb'
+                  assign icon = 'icon-thumb'
+                when 'back'
+                  assign icon = 'icon-back'
+                when 'secure'
+                  assign icon = 'icon-secure'
+                when 'card'
+                  assign icon = 'icon-card'
+                when 'tags'
+                  assign icon = 'icon-tags'
+                when 'diamond'
+                  assign icon = 'icon-diamond'
+                when 'check'
+                  assign icon = 'icon-circle-check'
+                when 'arrow'
+                  assign icon = 'icon-circle-arrow'
+                when 'star'
+                  assign icon = 'icon-star-sm'
+                when 'vehicle'
+                  assign icon = 'icon-vehicle'
+                when 'none'
+                  assign icon = 'none'
+              endcase
+            %}
+
+            {% if block.settings.custom_image_1 != blank %}
+              <span
+                class="product-badge"
+              >
+                {{
+                  block.settings.custom_image_1
+                  | image_url: width: block.settings.custom_image_1.width
+                  | image_tag: widths: '32,64', sizes: '32px', class: 'product-badge-icon'
+                }}
+              </span>
+            {% elsif icon != 'none' %}
+              <span
+                class="product-badge"
+              >
+                {%- render 'icon' with icon -%}
+              </span>
+            {% endif %}
+            <span class="product-badge-text">{{ block.settings.heading_1 }}</span>
+            {% if block.settings.content_1 != blank or block.settings.page_1 != blank %}
+              <div class="product-badge-content visually-hidden" drawer-content>
+                <h3>{{ block.settings.heading_1 }}</h3>
+                <div class="RTE-content">
+                  {{ block.settings.content_1 }}
+                  {{ block.settings.page_1.content }}
+                </div>
+              </div>
+              <span class="caret-right-icon">
+                {% render 'slider-arrow-icon' %}
+              </span>
+            {% endif %}
+          </button>
+        </li>
+      {% endif %}
+      {% if block.settings.heading_2 != blank %}
+        <li
+          style="--badge-text-color: {{ block.settings.text_color_2 }}; --badge-bg-color: {{ block.settings.background_color_2 }}"
+        >
+          <button
+            class="product-badges__item"
+            {% if block.settings.content_2 != blank or block.settings.page_2 != blank %}
+              triger-drawer-button
+            {% endif %}
+          >
+            {% liquid
+              case block.settings.icon_style_2
+                when 'question'
+                  assign icon = 'icon-question'
+                when 'leaf'
+                  assign icon = 'icon-leaf'
+                when 'globe'
+                  assign icon = 'icon-globe'
+                when 'box'
+                  assign icon = 'icon-box'
+                when 'heart'
+                  assign icon = 'icon-heart'
+                when 'gift'
+                  assign icon = 'icon-gift'
+                when 'smaile'
+                  assign icon = 'icon-smaile'
+                when 'thumb'
+                  assign icon = 'icon-thumb'
+                when 'back'
+                  assign icon = 'icon-back'
+                when 'secure'
+                  assign icon = 'icon-secure'
+                when 'card'
+                  assign icon = 'icon-card'
+                when 'tags'
+                  assign icon = 'icon-tags'
+                when 'diamond'
+                  assign icon = 'icon-diamond'
+                when 'check'
+                  assign icon = 'icon-circle-check'
+                when 'arrow'
+                  assign icon = 'icon-circle-arrow'
+                when 'star'
+                  assign icon = 'icon-star-sm'
+                when 'vehicle'
+                  assign icon = 'icon-vehicle'
+                when 'none'
+                  assign icon = 'none'
+              endcase
+            %}
+
+            {% if block.settings.custom_image_2 != blank %}
+              <span
+                class="product-badge"
+              >
+                {{
+                  block.settings.custom_image_2
+                  | image_url: width: block.settings.custom_image_2.width
+                  | image_tag: widths: '32,64', sizes: '32px', class: 'product-badge-icon'
+                }}
+              </span>
+            {% elsif icon != 'none' %}
+              <span
+                class="product-badge"
+              >
+                {%- render 'icon' with icon -%}
+              </span>
+            {% endif %}
+            <span class="product-badge-text">{{ block.settings.heading_2 }}</span>
+            {% if block.settings.content_2 != blank or block.settings.page_2 != blank %}
+              <div class="product-badge-content visually-hidden" drawer-content>
+                <h3>{{ block.settings.heading_2 }}</h3>
+                <div class="RTE-content">
+                  {{ block.settings.content_2 }}
+                  {{ block.settings.page_2.content }}
+                </div>
+              </div>
+              <span class="caret-right-icon">
+                {% render 'slider-arrow-icon' %}
+              </span>
+            {% endif %}
+          </button>
+        </li>
+      {% endif %}
+      {% if block.settings.heading_3 != blank %}
+        <li
+          style="--badge-text-color: {{ block.settings.text_color_3 }}; --badge-bg-color: {{ block.settings.background_color_3 }}"
+        >
+          <button
+            class="product-badges__item"
+            {% if block.settings.content_3 != blank or block.settings.page_3 != blank %}
+              triger-drawer-button
+            {% endif %}
+          >
+            {% liquid
+              case block.settings.icon_style_3
+                when 'question'
+                  assign icon = 'icon-question'
+                when 'leaf'
+                  assign icon = 'icon-leaf'
+                when 'globe'
+                  assign icon = 'icon-globe'
+                when 'box'
+                  assign icon = 'icon-box'
+                when 'heart'
+                  assign icon = 'icon-heart'
+                when 'gift'
+                  assign icon = 'icon-gift'
+                when 'smaile'
+                  assign icon = 'icon-smaile'
+                when 'thumb'
+                  assign icon = 'icon-thumb'
+                when 'back'
+                  assign icon = 'icon-back'
+                when 'secure'
+                  assign icon = 'icon-secure'
+                when 'card'
+                  assign icon = 'icon-card'
+                when 'tags'
+                  assign icon = 'icon-tags'
+                when 'diamond'
+                  assign icon = 'icon-diamond'
+                when 'check'
+                  assign icon = 'icon-circle-check'
+                when 'arrow'
+                  assign icon = 'icon-circle-arrow'
+                when 'star'
+                  assign icon = 'icon-star-sm'
+                when 'vehicle'
+                  assign icon = 'icon-vehicle'
+                when 'none'
+                  assign icon = 'none'
+              endcase
+            %}
+            {% if block.settings.custom_image_3 != blank %}
+              <span
+                class="product-badge"
+              >
+                {{
+                  block.settings.custom_image_3
+                  | image_url: width: block.settings.custom_image_3.width
+                  | image_tag: widths: '32,64', sizes: '32px', class: 'product-badge-icon'
+                }}
+              </span>
+            {% elsif icon != 'none' %}
+              <span
+                class="product-badge"
+              >
+                {%- render 'icon' with icon -%}
+              </span>
+            {% endif %}
+            <span class="product-badge-text">{{ block.settings.heading_3 }}</span>
+            {% if block.settings.content_3 != blank or block.settings.page_3 != blank %}
+              <div class="product-badge-content visually-hidden" drawer-content>
+                <h3>{{ block.settings.heading_3 }}</h3>
+                <div class="RTE-content">
+                  {{ block.settings.content_3 }}
+                  {{ block.settings.page_3.content }}
+                </div>
+              </div>
+              <span class="caret-right-icon">
+                {% render 'slider-arrow-icon' %}
+              </span>
+            {% endif %}
+          </button>
+        </li>
+      {% endif %}
+      {% if block.settings.heading_4 != blank %}
+        <li
+          style="--badge-text-color: {{ block.settings.text_color_4 }}; --badge-bg-color: {{ block.settings.background_color_4 }}"
+        >
+          <button
+            class="product-badges__item"
+            {% if block.settings.content_4 != blank or block.settings.page_4 != blank %}
+              triger-drawer-button
+            {% endif %}
+          >
+            {% liquid
+              case block.settings.icon_style_4
+                when 'question'
+                  assign icon = 'icon-question'
+                when 'leaf'
+                  assign icon = 'icon-leaf'
+                when 'globe'
+                  assign icon = 'icon-globe'
+                when 'box'
+                  assign icon = 'icon-box'
+                when 'heart'
+                  assign icon = 'icon-heart'
+                when 'gift'
+                  assign icon = 'icon-gift'
+                when 'smaile'
+                  assign icon = 'icon-smaile'
+                when 'thumb'
+                  assign icon = 'icon-thumb'
+                when 'back'
+                  assign icon = 'icon-back'
+                when 'secure'
+                  assign icon = 'icon-secure'
+                when 'card'
+                  assign icon = 'icon-card'
+                when 'tags'
+                  assign icon = 'icon-tags'
+                when 'diamond'
+                  assign icon = 'icon-diamond'
+                when 'check'
+                  assign icon = 'icon-circle-check'
+                when 'arrow'
+                  assign icon = 'icon-circle-arrow'
+                when 'star'
+                  assign icon = 'icon-star-sm'
+                when 'vehicle'
+                  assign icon = 'icon-vehicle'
+                when 'none'
+                  assign icon = 'none'
+              endcase
+            %}
+
+            {% if block.settings.custom_image_4 != blank %}
+              <span
+                class="product-badge"
+              >
+                {{
+                  block.settings.custom_image_4
+                  | image_url: width: block.settings.custom_image_4.width
+                  | image_tag: widths: '32,64', sizes: '32px', class: 'product-badge-icon'
+                }}
+              </span>
+            {% elsif icon != 'none' %}
+              <span
+                class="product-badge"
+              >
+                {%- render 'icon' with icon -%}
+              </span>
+            {% endif %}
+            <span class="product-badge-text">{{ block.settings.heading_4 }}</span>
+            {% if block.settings.content_4 != blank or block.settings.page_4 != blank %}
+              <div class="product-badge-content visually-hidden" drawer-content>
+                <h3>{{ block.settings.heading_4 }}</h3>
+                <div class="RTE-content">
+                  {{ block.settings.content_4 }}
+                  {{ block.settings.page_4.content }}
+                </div>
+              </div>
+              <span class="caret-right-icon">
+                {% render 'slider-arrow-icon' %}
+              </span>
+            {% endif %}
+          </button>
+        </li>
+      {% endif %}
+      {% if block.settings.heading_5 != blank %}
+        <li
+          style="--badge-text-color: {{ block.settings.text_color_5 }}; --badge-bg-color: {{ block.settings.background_color_5 }}"
+        >
+          <button
+            class="product-badges__item"
+            {% if block.settings.content_5 != blank or block.settings.page_5 != blank %}
+              triger-drawer-button
+            {% endif %}
+          >
+            {% liquid
+              case block.settings.icon_style_5
+                when 'question'
+                  assign icon = 'icon-question'
+                when 'leaf'
+                  assign icon = 'icon-leaf'
+                when 'globe'
+                  assign icon = 'icon-globe'
+                when 'box'
+                  assign icon = 'icon-box'
+                when 'heart'
+                  assign icon = 'icon-heart'
+                when 'gift'
+                  assign icon = 'icon-gift'
+                when 'smaile'
+                  assign icon = 'icon-smaile'
+                when 'thumb'
+                  assign icon = 'icon-thumb'
+                when 'back'
+                  assign icon = 'icon-back'
+                when 'secure'
+                  assign icon = 'icon-secure'
+                when 'card'
+                  assign icon = 'icon-card'
+                when 'tags'
+                  assign icon = 'icon-tags'
+                when 'diamond'
+                  assign icon = 'icon-diamond'
+                when 'check'
+                  assign icon = 'icon-circle-check'
+                when 'arrow'
+                  assign icon = 'icon-circle-arrow'
+                when 'star'
+                  assign icon = 'icon-star-sm'
+                when 'vehicle'
+                  assign icon = 'icon-vehicle'
+                when 'none'
+                  assign icon = 'none'
+              endcase
+            %}
+            {% if block.settings.custom_image_5 != blank %}
+              <span
+                class="product-badge"
+              >
+                {{
+                  block.settings.custom_image_5
+                  | image_url: width: block.settings.custom_image_5.width
+                  | image_tag: widths: '32,64', sizes: '32px', class: 'product-badge-icon'
+                }}
+              </span>
+            {% elsif icon != 'none' %}
+              <span
+                class="product-badge"
+              >
+                {%- render 'icon' with icon -%}
+              </span>
+            {% endif %}
+            <span class="product-badge-text">{{ block.settings.heading_5 }}</span>
+            {% if block.settings.content_5 != blank or block.settings.page_5 != blank %}
+              <div class="product-badge-content visually-hidden" drawer-content>
+                <h3>{{ block.settings.heading_5 }}</h3>
+                <div class="RTE-content">
+                  {{ block.settings.content_5 }}
+                  {{ block.settings.page_5.content }}
+                </div>
+              </div>
+              <span class="caret-right-icon">
+                {% render 'slider-arrow-icon' %}
+              </span>
+            {% endif %}
+          </button>
+        </li>
+      {% endif %}
+      {% if block.settings.heading_6 != blank %}
+        <li
+          style="--badge-text-color: {{ block.settings.text_color_6 }}; --badge-bg-color: {{ block.settings.background_color_6 }}"
+        >
+          <button
+            class="product-badges__item"
+            {% if block.settings.content_6 != blank or block.settings.page_6 != blank %}
+              triger-drawer-button
+            {% endif %}
+          >
+            {% liquid
+              case block.settings.icon_style_6
+                when 'question'
+                  assign icon = 'icon-question'
+                when 'leaf'
+                  assign icon = 'icon-leaf'
+                when 'globe'
+                  assign icon = 'icon-globe'
+                when 'box'
+                  assign icon = 'icon-box'
+                when 'heart'
+                  assign icon = 'icon-heart'
+                when 'gift'
+                  assign icon = 'icon-gift'
+                when 'smaile'
+                  assign icon = 'icon-smaile'
+                when 'thumb'
+                  assign icon = 'icon-thumb'
+                when 'back'
+                  assign icon = 'icon-back'
+                when 'secure'
+                  assign icon = 'icon-secure'
+                when 'card'
+                  assign icon = 'icon-card'
+                when 'tags'
+                  assign icon = 'icon-tags'
+                when 'diamond'
+                  assign icon = 'icon-diamond'
+                when 'check'
+                  assign icon = 'icon-circle-check'
+                when 'arrow'
+                  assign icon = 'icon-circle-arrow'
+                when 'star'
+                  assign icon = 'icon-star-sm'
+                when 'vehicle'
+                  assign icon = 'icon-vehicle'
+                when 'none'
+                  assign icon = 'none'
+              endcase
+            %}
+            {% if block.settings.custom_image_6 != blank %}
+              <span
+                class="product-badge"
+              >
+                {{
+                  block.settings.custom_image_6
+                  | image_url: width: block.settings.custom_image_6.width
+                  | image_tag: widths: '32,64', sizes: '32px', class: 'product-badge-icon'
+                }}
+              </span>
+            {% elsif icon != 'none' %}
+              <span
+                class="product-badge"
+              >
+                {%- render 'icon' with icon -%}
+              </span>
+            {% endif %}
+            <span class="product-badge-text">{{ block.settings.heading_6 }}</span>
+            {% if block.settings.content_6 != blank or block.settings.page_6 != blank %}
+              <div class="product-badge-content visually-hidden" drawer-content>
+                <h3>{{ block.settings.heading_6 }}</h3>
+                <div class="RTE-content">
+                  {{ block.settings.content_6 }}
+                  {{ block.settings.page_6.content }}
+                </div>
+              </div>
+              <span class="caret-right-icon">
+                {% render 'slider-arrow-icon' %}
+              </span>
+            {% endif %}
+          </button>
+        </li>
+      {% endif %}
+    </ul>
+    {% if block.settings.content_1 != blank
+      or block.settings.page_1 != blank
+      or block.settings.content_2 != blank
+      or block.settings.page_2 != blank
+      or block.settings.content_3 != blank
+      or block.settings.page_3 != blank
+      or block.settings.content_4 != blank
+      or block.settings.page_4 != blank
+      or block.settings.content_5 != blank
+      or block.settings.page_5 != blank
+      or block.settings.content_6 != blank
+      or block.settings.page_6 != blank
+    %}
+      {% render 'badge-drawer' %}
+    {% endif %}
+  </badge-component>
+</div>

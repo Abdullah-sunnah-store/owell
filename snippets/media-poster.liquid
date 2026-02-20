@@ -1,0 +1,50 @@
+{% comment %}
+  <div video-preview-elements>
+    <div class="video__main__poster">
+    {{
+    media.preview_image
+    | image_url: width: 640
+    | image_tag:
+    widths: '640,340'
+    , sizes: '(max-width: 520px) 340px'
+    , alt: media.alt
+    , loading: 'lazy'
+    , class: 'image-responsive' }}
+    </div>
+    <div class="position-absolute play__icon" play-media>
+    {% render 'icon' with 'play' %}
+    </div>
+  </div>
+{% endcomment %}
+{% liquid
+  if cover_image.alt == blank
+    assign image_alt = 'media image'
+  else
+    assign image_alt = cover_image.alt
+  endif
+%}
+
+<div class="set-100-percentage-size-media position-relative" video-preview-elements>
+  <div class="video__main__poster set-100-percentage-size-media">
+    {% if media.preview_image != blank %}
+      {{
+        media.preview_image
+        | image_url: width: media.sources.first.width
+        | image_tag:
+          widths: '340,767,980',
+          sizes: '(max-width: 520px) 340px,(max-width: 767px) 767px,(max-width: 980px) 980px',
+          alt: image_alt,
+          loading: loading,
+          fetchpriority: fetchpriority,
+          class: 'set-100-percentage-size-media object-fit-cover'
+      }}
+    {% endif %}
+  </div>
+
+  {% comment %} Only Play button when media is not set to autplay {% endcomment %}
+  {%- unless media_autoplay -%}
+    <div class="play__icon" play-media>
+      {% render 'icon' with 'play' %}
+    </div>
+  {%- endunless -%}
+</div>

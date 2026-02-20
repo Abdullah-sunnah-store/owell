@@ -1,0 +1,27 @@
+ <div class="product__form-share">
+    <details class="product__dropDown-share product-info__default-share" outer-click-close>
+        <summary class="d-inline-block">
+            <div is="share-button" class="product-info__share__trigger d-inline-flex align-item-center">
+                {% render 'icon' with 'share' %}
+                <span class="product__share-title fnt-14 text-upper">{{- 'general.social.share' | t -}}</span>
+            </div>
+        </summary>
+        <div class="product__dropdown-share__buttons">
+            <div class="share-buttons">
+                <ul role="list">
+                    <li><a  href="{% render 'share-link', host: 'facebook', title: product.title, description: product.description, url: product.url %}" class="share-buttons__item d-inline-flex align-item-center fnt-16 text-color" aria-label="{{ 'general.social.share_on' | t: social_media: 'Facebook' }}">{%- render 'icon' with 'facebook' -%} <span>{{ 'general.social.facebook' | t }}</span> </a></li>
+                    <li><a href="{% render 'share-link', host: 'twitter', title: product.title, description: product.description, url: product.url %}" class="share-buttons__item d-inline-flex align-item-center fnt-16 text-color" aria-label="{{ 'general.social.share_on' | t: social_media: 'Twitter' }}">{%- render 'icon' with 'twitter' -%} <span>{{ 'general.social.twitter' | t }}</span></a></li>
+                    <li><a href="{% render 'share-link', host: 'pinterest', title: product.title, description: product.description, url: product.url %}" class="share-buttons__item d-inline-flex align-item-center fnt-16 text-color" aria-label="{{ 'general.social.share_on' | t: social_media: 'Pinterest' }}">{%- render 'icon' with 'pinterest' -%} <span>{{ 'general.social.pintrest' | t }}</span></a></li>
+                    <li><button class="share-buttons__item share-button-copy d-inline-flex align-item-center fnt-16 text-color" aria-label="{{ 'general.social.share_on' | t: social_media: 'Copy link' }}" is="copy-link">{%- render 'icon' with 'copy-link' -%} <span class="default__copy-text">{{ 'general.social.copy_link' | t }} </span><span class="successfull-copy-text">{{ 'general.social.copied' | t }}</span></button></li>
+                </ul>
+            </div>
+        </div>
+    </details>
+    <div class="product-info__native-share js-element">
+         <button is="share-button" type="button" class="product-info__share__trigger d-inline-flex align-item-center">
+            {% render 'icon' with 'share' %}
+            <span class="product__share-title fnt-14 text-upper">{{- 'general.social.share' | t -}}</span>
+        {% comment %} {%- render 'icon' with 'share' -%} {{- 'general.social.share' | t -}} {% endcomment %}
+            </button>
+    </div>
+</div>

@@ -1,0 +1,648 @@
+{% style %}
+.announcement-bar__text a {
+    color: #fff;
+}
+.announcement-bar .announcement-carousel {
+    max-width: 100%;
+    width: 1400px;
+}
+.announcement-bar p{
+  font-size: 18px !important;
+  margin: 0;
+}
+
+/* Desktop: Single line */
+.announcement-bar__text p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.announcement-bar__text p .text-gap {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+/* Mobile: Two lines */
+@media (max-width: 768px) {
+  .announcement-bar p{
+    font-size: 12px !important;
+  }
+  .announcement-bar__text p .text-gap {
+  margin-left: 0;
+}
+
+  
+  .announcement-bar__text p {
+    white-space: normal;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+  }
+      .announcement-bar .announcement-carousel {
+        padding-inline: 0;
+    }
+}
+
+  :root  {
+    --sticky-announcement-enabled: {%- if section.settings.enable_sticky -%}
+      1{% else %}
+      0{% endif %};
+  }
+
+  #shopify-section-{{ section.id }}{
+    position: {%- if section.settings.enable_sticky -%}
+      sticky{% else %}
+      relative{% endif %};
+    top: 0;
+    z-index: 7;
+  }
+
+  {%- if section.settings.enable_sticky -%}
+    .section-header-header-group ~ #shopify-section-{{ section.id }}{
+      top: calc(var(--sticky-header-enabled, 0) * var(--header-height, 0px));
+      z-index: 8;
+    }
+  {%- else -%}
+    .section-header-header-group ~ #shopify-section-{{ section.id }}{
+      z-index: 5;
+    }
+  {%- endif -%}
+{% endstyle %}
+{% liquid
+  assign hasGradient = false
+  if section.settings.color_scheme.settings.background_gradient != blank
+    assign hasGradient = true
+  endif
+%}
+<height-calc class="d-block" variable="announcement">
+  <div
+    aria-label="Announcement Bar"
+    class="announcement-bar color-{{ section.settings.color_scheme }}"
+    role="region"
+  >
+    <div class="container">
+      <div class="announcement-bar__container">
+        <div class="announcement-bar__leftContainer desktop-only">
+          {% if section.settings.enable_sublinks %}
+            {% case section.settings.sublink %}
+              {% when 'social' %}
+                <div class="announcement-bar__social-media-icons">
+                  {% render 'social-media-icons' %}
+                </div>
+              {% when 'custom_links' %}
+                <ul class="announcement-bar__custom-link fnt-18">
+                  {% if section.settings.custom_link_heading_1 != blank %}
+                    <li>
+                      
+                        href="{{ section.settings.custom_link_url_1 }}"
+                        class="link text-size-xs"
+                      >
+                        {{ section.settings.custom_link_heading_1 }}
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% if section.settings.custom_link_heading_2 != blank %}
+                    <li>
+                      
+                        href="{{ section.settings.custom_link_url_2 }}"
+                        class="link text-size-xs"
+                      >
+                        {{ section.settings.custom_link_heading_2 }}
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% if section.settings.custom_link_heading_3 != blank %}
+                    <li>
+                      
+                        href="{{ section.settings.custom_link_url_3 }}"
+                        class="link text-size-xs"
+                      >
+                        {{ section.settings.custom_link_heading_3 }}
+                      </a>
+                    </li>
+                  {% endif %}
+                </ul>
+            {% endcase %}
+          {% endif %}
+        </div>
+        <div class="announcement-bar__content">
+          {% if section.settings.navigation == 'slider' %}
+            <carousel-component
+              class="swiper announcement-carousel js-element"
+              role="region"
+              slide-animation="fade"
+              slide-layout-type="carousel"
+              slide-no-center
+              slide-per-view="1"
+              slide-responsive-breakpoints='{"480":{"slidesPerView": "1"}}'
+              slide-speed="{{ settings.slide_duration }}"
+            >
+              <div class="swiper-container" main-slider>
+                <div class="swiper-wrapper">
+                  {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                    {% if block.settings.text %}
+                      <div
+                        aria-label="{{ block.settings.text }}"
+                        class="swiper-slide"
+                        role="listitem"
+                        {{ block.shopify_attributes }}
+                      >
+                        <div class="announcement-bar__text text-center">
+                          {% if block.settings.announcement_link != blank %}
+                            <a href="{{ block.settings.announcement_link }}">
+                          {% endif %}
+                          <p class="text-size-xs fnt-body">{{ block.settings.text }}<span class="text-gap">{{ block.settings.text_2 }}</span></p>
+                          {% if block.settings.announcement_link != blank %}
+                            </a>
+                          {% endif %}
+                        </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="announcement-controls">
+                <div class="d-flex sliderPagination">
+                  <!-- next / prev arrows -->
+                  <div
+                    aria-label="Previous Slide"
+                    class=""
+                    role="button"
+                    slide-prev
+                  >
+                    <div class="sliderPagination__prev ">
+                      {% render 'slider-arrow-icon' %}
+                    </div>
+                  </div>
+                  <div
+                    aria-label="Next Slide"
+                    class=""
+                    role="button"
+                    slide-next
+                  >
+                    <div class="sliderPagination__next ">
+                      {% render 'slider-arrow-icon' %}
+                    </div>
+                  </div>
+
+                  <!-- !next / prev arrows -->
+                </div>
+              </div>
+            </carousel-component>
+            <noscript>
+              <div
+                aria-label="Announcement Carousel"
+                class="swiper announcement-carousel"
+                role="region"
+              >
+                <div class="swiper-wrapper">
+                  {% assign firstBlockData = section.blocks | first %}
+                  {% if firstBlockData.settings.text %}
+                    <div
+                      aria-label="{{ firstBlockData.settings.text }}"
+                      class="swiper-slide"
+                      role="listitem"
+                      {{ firstBlockData.shopify_attributes }}
+                    >
+                      <div class="announcement-bar__text text-center">
+                        {% if firstBlockData.settings.announcement_link != blank %}
+                          <a href="{{ firstBlockData.settings.announcement_link }}">
+                        {% endif %}
+                        <p class="text-size-xs fnt-body">
+                          {{ firstBlockData.settings.text }}<span class="text-gap">{{ firstBlockData.settings.text_2 }}</span>
+                        </p>
+                        {% if firstBlockData.settings.announcement_link != blank %}
+                          </a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </noscript>
+
+          {% else %}
+            {{ 'section-marquee.css' | asset_url | stylesheet_tag }}
+            {% style %}
+              /* Enable animation */
+              .enable-animation .marquee__content-{{ section.id }}{
+                animation: {{ section.settings.scroll_speed | append: 's linear infinite scroll;' }}
+              }
+            {% endstyle %}
+            <div
+              aria-label="Marquee"
+              class="marquee {% if hasGradient %} hasGradient {% endif %} enable-animation"
+              role="region"
+            >
+              <div class="marquee__content marquee__content-{{ section.id }}" role="list">
+                {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                  <div
+                    aria-label="{{ block.settings.text }}"
+                    class="Marquee-tag marquee__text-color"
+                    role="listitem"
+                    {{ block.shopify_attributes }}
+                  >
+                    {% if block.settings.announcement_link != blank %}
+                      <a href="{{ block.settings.announcement_link }}">
+                    {% endif %}
+                    <p class="text-size-xs fnt-body">{{ block.settings.text }}<span class="text-gap">{{ block.settings.text_2 }}</span></p>
+                    {% if block.settings.announcement_link != blank %}
+                      </a>
+                    {% endif %}
+                  </div>
+                  <span class="circle-dot"></span>
+                {% endfor %}
+              </div>
+              {% for i in (1..9) %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: i %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                <div
+                  aria-hidden="true"
+                  class="marquee__content marquee__content-{{ section.id }}"
+                  role="list"
+                >
+                  {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                    <div
+                      aria-label="{{ block.settings.text }}"
+                      class="Marquee-tag marquee__text-color"
+                      role="listitem"
+                      {{ block.shopify_attributes }}
+                    >
+                      {% if block.settings.announcement_link != blank %}
+                        <a href="{{ block.settings.announcement_link }}">
+                      {% endif %}
+                      <p class="text-size-xs fnt-body">{{ block.settings.text }}<span class="text-gap">{{ block.settings.text_2 }}</span></p>
+                      {% if block.settings.announcement_link != blank %}
+                        </a>
+                      {% endif %}
+                    </div>
+                    <span class="circle-dot"></span>
+                  {% endfor %}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="announcement-bar__localization">
+          <ul class="d-flex desktop-only">
+            {% if section.settings.show_country_selector and localization.available_countries.size > 1 %}
+              <li class="desktop-only">
+                <div class="localization-dropdown country-selector">
+                  <localization-component>
+                    {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
+                      <button
+                        class="localization-dropdown__btn text-size-xs"
+                        localization-btn-label
+                        aria-expanded="false"
+                        type="button"
+                      >
+                        {%- if section.settings.show_country_flag -%}
+                          <link
+                            href="{{ 'section-country-selector.css' | asset_url }}"
+                            rel="stylesheet"
+                            media="print"
+                            onload="this.media='all'"
+                          >
+
+                          <span class="country-flags country-flags--{{ localization.country.iso_code }} "></span>
+                        {%- endif -%}
+                        {% if section.settings.show_country_name %}
+                          <span>{{ localization.country.name }} </span>
+                        {% endif %}
+                        <span class="localization-dropdown__currency text-size-xs"
+                          >({{ localization.country.currency.iso_code }}
+                          {{ localization.country.currency.symbol }})</span
+                        >
+                        {% render 'icon' with 'caret' %}
+                      </button>
+                      <ul
+                        class="localization-dropdown__list"
+                        hidden
+                        localization-dropdown-panel
+                      >
+                        {% for country in localization.available_countries %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: country %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                          <li class="localization-dropdown__item">
+                            
+                              class="localization-dropdown__item-link text-size-xs"
+                              data-value="{{ country.iso_code }}"
+                              href="#"
+                              {% if country.iso_code == localization.country.iso_code %}
+                                active-link
+                              {% endif %}
+                              localization-link
+                            >
+                              {%- if section.settings.show_country_flag -%}
+                                <span class="country-flags country-flags--{{ country.iso_code }} "></span>
+                              {%- endif -%}
+                              <span>
+                                {{- country.name }} ({{ country.currency.iso_code }}
+                                {{ country.currency.symbol }})</span
+                              >
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                      <input
+                        name="country_code"
+                        type="hidden"
+                        value="{{ localization.country.iso_code }}"
+                      >
+                    {%- endform -%}
+                  </localization-component>
+                </div>
+              </li>
+            {% endif %}
+
+            {% if section.settings.show_locale_selector and localization.available_languages.size > 1 %}
+              <li class="desktop-only">
+                <div class="localization-dropdown">
+                  <localization-component>
+                    {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
+                      <button
+                        class="localization-dropdown__btn text-size-xs"
+                        localization-btn-label
+                        aria-expanded="false"
+                        type="button"
+                      >
+                        {{ localization.language.endonym_name | capitalize }}
+                        {% render 'icon' with 'caret' %}
+                      </button>
+                      <ul
+                        class="localization-dropdown__list"
+                        hidden
+                        localization-dropdown-panel
+                      >
+                        {% for language in localization.available_languages %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: language %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                          <li class="localization-dropdown__item">
+                            
+                              class="localization-dropdown__item-link text-size-xs"
+                              data-value="{{ language.iso_code }}"
+                              {% if language.iso_code == localization.language.iso_code %}
+                                active-link
+                              {% endif %}
+                              href="#"
+                              localization-link
+                            >
+                              {{ language.endonym_name | capitalize -}}
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                      <input
+                        name="locale_code"
+                        type="hidden"
+                        value="{{ localization.language.iso_code }}"
+                      >
+                    {%- endform -%}
+                  </localization-component>
+                </div>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</height-calc>
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "tag": "aside",
+  "limit": 1,
+  "class": "section-annoucement-bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "Enable sticky bar",
+      "default": true
+    },
+    {
+      "type": "select",
+      "label": "Layout",
+      "id": "navigation",
+      "options": [
+        {
+          "label": "Slider",
+          "value": "slider"
+        },
+        {
+          "label": "Scrolling text",
+          "value": "auto-scroll"
+        }
+      ],
+      "default": "slider"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "label": "Scroll speed",
+      "min": 3,
+      "max": 30,
+      "unit": "s",
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Desktop"
+    },
+    {
+      "type": "header",
+      "content": "Language selector",
+      "info": "To add a language, go to your [language settings.](/admin/settings/languages)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_locale_selector",
+      "label": "Show language selector",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Country/region selector",
+      "info": "To add a country/region, go to your [markets settings.](/admin/settings/markets)."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_selector",
+      "label": "Enable country/region selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_flag",
+      "label": "Show country flag",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_name",
+      "label": "Show country name",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Sublinks"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sublinks",
+      "label": "Enable sublinks"
+    },
+    {
+      "type": "select",
+      "label": "Sublinks",
+      "id": "sublink",
+      "options": [
+        {
+          "label": "Socials",
+          "value": "social"
+        },
+        {
+          "label": "Custom links",
+          "value": "custom_links"
+        }
+      ],
+      "default": "custom_links"
+    },
+    {
+      "type": "header",
+      "content": "Custom link 1"
+    },
+    {
+      "type": "text",
+      "label": "Heading",
+      "id": "custom_link_heading_1",
+      "default": "Link 1"
+    },
+    {
+      "type": "url",
+      "label": "Link",
+      "id": "custom_link_url_1"
+    },
+    {
+      "type": "header",
+      "content": "Custom link 2"
+    },
+    {
+      "type": "text",
+      "label": "Heading",
+      "id": "custom_link_heading_2",
+      "default": "Link 2"
+    },
+    {
+      "type": "url",
+      "label": "Link",
+      "id": "custom_link_url_2"
+    },
+    {
+      "type": "header",
+      "content": "Custom link 3"
+    },
+    {
+      "type": "text",
+      "label": "Heading",
+      "id": "custom_link_heading_3",
+      "default": "Link 3"
+    },
+    {
+      "type": "url",
+      "label": "Link",
+      "id": "custom_link_url_3"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-4",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Announcement",
+      "type": "announcement",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Announce something here"
+        },
+        {
+          "type": "text",
+          "id": "text_2",
+          "label": "Text 2",
+          "default": "Announce something here"
+        },
+        {
+          "type": "url",
+          "id": "announcement_link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement bar",
+      "blocks": [
+        {
+          "type": "announcement"
+        },
+        {
+          "type": "announcement"
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,29 @@
+<script defer src="{{ "pickup-location-list.js" | asset_url }}"></script>
+
+<drawer-component
+  aria-hidden="true"
+  class="d-block drawer color-{{ settings.drawer_color_scheme }}"
+  drawer-type="pick-up-availiablity"
+>
+  <div class="drawer__container">
+    <div class="drawer__overlay" drawer-overlay></div>
+    <div class="drawer__wrapper drawer__wrapper--animation-position-right">
+      <div class="drawer__header">
+        <button
+          class="drawer__close__btn"
+          aria-label="{{ 'accessibility.close_popup' | t }} {{ 'products.product.pickup_availability.drawer_head' | t }}"
+          drawer-to-close="pick-up-availiablity"
+          is="close-drawer"
+        >
+          {%- render 'icon' with 'close-drawer' -%}
+        </button>
+        <h2 class="drawer__head">{{ 'products.product.pickup_availability.drawer_head' | t }}</h2>
+      </div>
+      <div class="drawer__body">
+        <div class="drawer__body__wrapper">
+          <pickup-locations-list></pickup-locations-list>
+        </div>
+      </div>
+    </div>
+  </div>
+</drawer-component>

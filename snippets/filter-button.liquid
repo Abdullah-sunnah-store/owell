@@ -1,0 +1,15 @@
+{% if filters.size > 0 %}
+  <button
+    aria-controls="filter-drawer"
+    aria-expanded="false"
+    class="collectionList__filter-btn"
+    drawer-to-open="filter"
+    is="open-drawer">
+    <p class="mb-0">
+      {{ 'general.filter.show_filter' | t | capitalize }}
+    </p>
+    <div>
+      {% render 'icon' with 'filter' %}
+    </div>
+  </button>
+{% endif %}

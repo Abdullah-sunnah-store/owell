@@ -1,0 +1,797 @@
+{% comment %}
+  OWELL vs Others Comparison Section
+  Title/Subtitle header with two-column comparison layout
+{% endcomment %}
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap');
+
+  .owell-comparison-section {
+    background: linear-gradient(135deg, #026EB4 0%, #025a92 100%);
+    padding: 80px 20px;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .owell-comparison-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 15% 25%, rgba(86, 194, 179, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 85% 75%, rgba(2, 110, 180, 0.4) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .owell-comparison-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    padding: 0 20px;
+  }
+
+  /* Header Section */
+  .owell-header {
+    text-align: center;
+    margin-bottom: 60px;
+    animation: fadeInDown 0.8s ease-out;
+  }
+
+  .owell-main-title {
+    font-size: 42px;
+    font-weight: 800;
+    color: white;
+    margin: 0 0 16px 0;
+    line-height: 1.1;
+    letter-spacing: -1px;
+  }
+
+  .owell-main-title sup {
+    font-size: 0.5em;
+    top: -0.8em;
+  }
+
+  .owell-subtitle {
+    font-size: clamp(18px, 2.5vw, 24px);
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  /* Comparison Grid */
+  .owell-comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 50px;
+  }
+
+  /* OWELL Column (Left) */
+  .owell-column {
+    background: linear-gradient(135deg, #56C2B3 0%, #45b5a7 100%);
+    border-radius: 24px;
+    overflow: hidden;
+    animation: fadeInLeft 0.8s ease-out;
+  }
+
+  .owell-column-header {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 40px 30px;
+    text-align: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .owell-product-image {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .owell-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .owell-brand-name {
+    font-size: 36px;
+    font-weight: 800;
+    color: white;
+    margin: 0;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .owell-features-list {
+    padding: 0;
+    margin: 0;
+  }
+
+  .owell-feature-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.3s ease;
+  }
+
+  .owell-feature-row:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .owell-feature-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+  }
+
+  .owell-feature-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: white;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  .owell-feature-text {
+    flex: 1;
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .owell-subfeature {
+    margin-top: 8px;
+    padding-left: 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.5;
+  }
+
+  /* Others Column (Right) */
+  .others-column {
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    animation: fadeInRight 0.8s ease-out;
+  }
+
+  .others-column-header {
+    background: #f3f4f6;
+    padding: 40px 30px;
+    text-align: center;
+    border-bottom: 2px solid #e5e7eb;
+  }
+
+  .others-icon-wrapper {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fee2e2;
+    border-radius: 50%;
+  }
+
+  .others-icon-wrapper svg {
+    width: 60px;
+    height: 60px;
+    stroke: #ef4444;
+    stroke-width: 2;
+  }
+
+  .others-brand-name {
+    font-size: 36px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .others-features-list {
+    padding: 0;
+    margin: 0;
+  }
+
+  .others-feature-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 30px;
+    border-top: 1px solid #f3f4f6;
+    transition: all 0.3s ease;
+  }
+
+  .others-feature-row:hover {
+    background: #f9fafb;
+  }
+
+  .others-feature-icon {
+    width: 44px;
+    height: 44px;
+    background: #fee2e2;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .others-feature-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: #ef4444;
+    stroke-width: 2.5;
+  }
+
+  .others-feature-text {
+    flex: 1;
+    color: #6b7280;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .others-subfeature {
+    margin-top: 8px;
+    padding-left: 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: #9ca3af;
+    line-height: 1.5;
+  }
+
+  /* CTA Section */
+  .owell-cta-section {
+    text-align: center;
+    animation: fadeInUp 0.8s ease-out 0.3s backwards;
+  }
+
+  .owell-cta-box {
+    background: linear-gradient(135deg, rgba(86, 194, 179, 0.15), rgba(86, 194, 179, 0.1));
+    border: 2px solid rgba(86, 194, 179, 0.35);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .owell-cta-button {
+    display: inline-block;
+    background: #fff;
+    color: #000;
+    font-size: 18px;
+    font-weight: 800;
+    padding: 18px 48px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(86, 194, 179, 0.3);
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .owell-cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(86, 194, 179, 0.45);
+    background: #ffffff;
+  }
+
+  .owell-guarantee {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .owell-guarantee svg {
+    width: 22px;
+    height: 22px;
+    stroke: #56C2B3;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  /* Scroll hint indicator (mobile only) */
+  .owell-scroll-hint {
+    display: none;
+    text-align: center;
+    margin-bottom: 14px;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .owell-scroll-hint svg {
+    width: 16px;
+    height: 16px;
+    stroke: rgba(255, 255, 255, 0.75);
+    fill: none;
+    stroke-width: 2;
+    animation: nudgeX 1.6s ease-in-out infinite;
+  }
+
+  @keyframes nudgeX {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(5px); }
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── Mobile: horizontal scroll ─── */
+  @media (max-width: 768px) {
+    .owell-comparison-section {
+      padding: 30px 0 0;
+      overflow: hidden; /* keep section contained */
+    }
+
+    .owell-comparison-container {
+      padding: 0; /* remove side padding so scroll area reaches edge */
+    }
+
+    .owell-header {
+      padding: 0 20px;
+      margin-bottom: 32px;
+    }
+
+    .owell-main-title {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .owell-subtitle {
+      font-size: 15px;
+    }
+
+    /* Scroll hint */
+    .owell-scroll-hint {
+      display: flex;
+      padding: 0 20px;
+      margin-bottom: 12px;
+    }
+
+    /* Scrollable wrapper */
+    .owell-comparison-grid {
+      display: flex;               /* switch from grid to flex */
+      flex-wrap: nowrap;           /* keep columns side by side */
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      gap: 16px;
+      padding: 4px 20px 20px;     /* side padding so cards don't hug edge */
+      margin-bottom: 40px;
+
+      /* hide scrollbar visually but keep functionality */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .owell-comparison-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Each column becomes a fixed-width snap card */
+    .owell-column,
+    .others-column {
+      flex: 0 0 78vw;             /* show ~78% of viewport width per card */
+      min-width: 280px;
+      max-width: 360px;
+      scroll-snap-align: start;
+      animation: none;            /* disable slide-in animations on mobile */
+    }
+
+    /* Slightly smaller internal padding on mobile */
+    .owell-column-header,
+    .others-column-header {
+      padding: 28px 20px;
+    }
+
+    .owell-product-image,
+    .others-icon-wrapper {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 14px;
+    }
+
+    .owell-brand-name,
+    .others-brand-name {
+      font-size: 26px;
+    }
+
+    .owell-feature-row,
+    .others-feature-row {
+      padding: 18px 20px;
+      gap: 12px;
+    }
+
+    .owell-feature-text,
+    .others-feature-text {
+      font-size: 14px;
+    }
+
+    .owell-subfeature,
+    .others-subfeature {
+      font-size: 12px;
+    }
+
+    .owell-feature-icon,
+    .others-feature-icon {
+      width: 36px;
+      height: 36px;
+    }
+
+    .owell-feature-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .others-feature-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* CTA */
+    .owell-cta-section {
+      padding: 0 20px;
+    }
+
+    .owell-cta-box {
+      padding: 28px 20px;
+    }
+
+    .owell-cta-button {
+      width: 100%;
+      padding: 16px 24px;
+      font-size: 16px;
+    }
+  }
+</style>
+
+<section class="owell-comparison-section">
+  <div class="owell-comparison-container">
+    
+    <!-- Header Section -->
+    <div class="owell-header">
+      <h2 class="owell-main-title">{{ section.settings.main_title }}</h2>
+      <p class="owell-subtitle">{{ section.settings.subtitle }}</p>
+    </div>
+
+    <!-- Scroll hint (visible only on mobile via CSS) -->
+    <div class="owell-scroll-hint">
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      Swipe to compare
+    </div>
+
+    <!-- Comparison Grid -->
+    <div class="owell-comparison-grid">
+      
+      <!-- OWELL Column (Left) -->
+      <div class="owell-column">
+        <div class="owell-column-header">
+          {% if section.settings.product_image %}
+            <div class="owell-product-image">
+              <img src="{{ section.settings.product_image | img_url: '300x' }}" alt="{{ section.settings.brand_name }}">
+            </div>
+          {% endif %}
+          <h3 class="owell-brand-name">{{ section.settings.brand_name }}</h3>
+        </div>
+        
+        <div class="owell-features-list">
+          {% for block in section.blocks %}
+            {% if block.type == 'owell_feature' %}
+              <div class="owell-feature-row" {{ block.shopify_attributes }}>
+                <div class="owell-feature-icon">
+                  {{ block.settings.icon_svg }}
+                </div>
+                <div class="owell-feature-text">
+                  <div>{{ block.settings.feature_text }}</div>
+                  {% if block.settings.subfeature_text != blank %}
+                    <div class="owell-subfeature">{{ block.settings.subfeature_text }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Others Column (Right) -->
+      <div class="others-column">
+        <div class="others-column-header">
+          <div class="others-icon-wrapper">
+            <svg viewBox="0 0 24 24" fill="none">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </div>
+          <h3 class="others-brand-name">{{ section.settings.others_title }}</h3>
+        </div>
+        
+        <div class="others-features-list">
+          {% for block in section.blocks %}
+            {% if block.type == 'other_feature' %}
+              <div class="others-feature-row" {{ block.shopify_attributes }}>
+                <div class="others-feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </div>
+                <div class="others-feature-text">
+                  <div>{{ block.settings.feature_text }}</div>
+                  {% if block.settings.subfeature_text != blank %}
+                    <div class="others-subfeature">{{ block.settings.subfeature_text }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA Section -->
+    {% comment %} <div class="owell-cta-section">
+      <div class="owell-cta-box">
+        <a href="{{ section.settings.cta_url }}" class="owell-cta-button">
+          {{ section.settings.cta_text }}
+        </a>
+        <div class="owell-guarantee">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <span>{{ section.settings.guarantee_text }}</span>
+        </div>
+      </div>
+    </div> {% endcomment %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "OWELL vs Others Comp",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Main Header"
+    },
+    {
+      "type": "html",
+      "id": "main_title",
+      "label": "Main Title",
+      "default": "OWELL<sup>®</sup> vs. Others"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "See why thousands of customers choose OWELL for superior quality and results"
+    },
+    {
+      "type": "header",
+      "content": "OWELL Column"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Product Image"
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand Name",
+      "default": "OWELL"
+    },
+    {
+      "type": "header",
+      "content": "Others Column"
+    },
+    {
+      "type": "text",
+      "id": "others_title",
+      "label": "Others Title",
+      "default": "Others"
+    },
+    {
+      "type": "header",
+      "content": "Call to Action"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Button Text",
+      "default": "Try Risk-Free Today"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA Button URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_text",
+      "label": "Guarantee Text",
+      "default": "30-day money back guarantee"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "owell_feature",
+      "name": "OWELL Feature",
+      "settings": [
+        {
+          "type": "html",
+          "id": "icon_svg",
+          "label": "Icon SVG",
+          "default": "<svg viewBox=\"0 0 24 24\" stroke-width=\"2\"><path d=\"M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z\"/></svg>"
+        },
+        {
+          "type": "text",
+          "id": "feature_text",
+          "label": "Feature Text",
+          "default": "Premium Quality Materials"
+        },
+        {
+          "type": "textarea",
+          "id": "subfeature_text",
+          "label": "Sub-Feature Text (Optional)",
+          "info": "Additional details about this feature"
+        }
+      ]
+    },
+    {
+      "type": "other_feature",
+      "name": "Others Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature_text",
+          "label": "Feature Text",
+          "default": "Inconsistent Quality"
+        },
+        {
+          "type": "textarea",
+          "id": "subfeature_text",
+          "label": "Sub-Feature Text (Optional)",
+          "info": "Additional details about this limitation"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OWELL vs Others Comp",
+      "blocks": [
+        {
+          "type": "owell_feature",
+          "settings": {
+            "icon_svg": "<svg viewBox=\"0 0 24 24\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 6v6l4 2\"/></svg>",
+            "feature_text": "FDA Approved & Certified",
+            "subfeature_text": "Manufactured in FDA-registered facilities with GMP compliance"
+          }
+        },
+        {
+          "type": "owell_feature",
+          "settings": {
+            "icon_svg": "<svg viewBox=\"0 0 24 24\" stroke-width=\"2\"><path d=\"M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z\"/></svg>",
+            "feature_text": "3rd-Party Lab Tested",
+            "subfeature_text": "Independent verification for purity, potency, and safety"
+          }
+        },
+        {
+          "type": "owell_feature",
+          "settings": {
+            "icon_svg": "<svg viewBox=\"0 0 24 24\" stroke-width=\"2\"><path d=\"M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z\"/></svg>",
+            "feature_text": "Allergen-Free & Pure",
+            "subfeature_text": "No fillers, binders, or artificial ingredients"
+          }
+        },
+        {
+          "type": "owell_feature",
+          "settings": {
+            "icon_svg": "<svg viewBox=\"0 0 24 24\" stroke-width=\"2\"><path d=\"M13 10V3L4 14h7v7l9-11h-7z\"/></svg>",
+            "feature_text": "Fast & Free Shipping",
+            "subfeature_text": "Orders processed within 24 hours"
+          }
+        },
+        {
+          "type": "owell_feature",
+          "settings": {
+            "icon_svg": "<svg viewBox=\"0 0 24 24\" stroke-width=\"2\"><path d=\"M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z\"/></svg>",
+            "feature_text": "100% Satisfaction Guarantee",
+            "subfeature_text": "Full refund if you're not completely satisfied"
+          }
+        },
+        {
+          "type": "other_feature",
+          "settings": {
+            "feature_text": "Uncertified Products",
+            "subfeature_text": "No regulatory oversight or quality standards"
+          }
+        },
+        {
+          "type": "other_feature",
+          "settings": {
+            "feature_text": "No Testing Transparency",
+            "subfeature_text": "Claims without third-party verification"
+          }
+        },
+        {
+          "type": "other_feature",
+          "settings": {
+            "feature_text": "Fillers & Additives",
+            "subfeature_text": "Unnecessary ingredients that dilute effectiveness"
+          }
+        },
+        {
+          "type": "other_feature",
+          "settings": {
+            "feature_text": "Slow or Expensive Shipping",
+            "subfeature_text": "Additional costs and long wait times"
+          }
+        },
+        {
+          "type": "other_feature",
+          "settings": {
+            "feature_text": "Limited Warranties",
+            "subfeature_text": "Restrictive return policies and conditions"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

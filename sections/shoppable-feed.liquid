@@ -1,0 +1,403 @@
+{{ 'section-shoppable-feed.css' | asset_url | stylesheet_tag }}
+<script defer src="{{ 'section-shoppable-feed.js' | asset_url }}"></script>
+{% liquid
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  assign intersection = ''
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign loading = 'lazy'
+    assign intersection = 'intersection-element'
+  endif
+  assign handle_present = false
+  if section.settings.handle_name != blank or section.settings.handle_image != blank
+    assign handle_present = true
+  endif
+%}
+
+<style>
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }}
+      ;
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }}
+      ;
+    }
+  }
+</style>
+
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'top' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-top"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+<div
+  aria-label="{{ section.settings.heading }}"
+  class="shoppable__feed section-{{ section.id }}-padding full-width-container  color-{{ section.settings.color_scheme }} overflow-hidden"
+  role="region"
+>
+  <div class="container">
+    <div class="d-flex d-flex-dir-c {{ section.settings.content_alignment | prepend : "text-" }} {{ section.settings.content_alignment | prepend : "align-item-" }} {% if handle_present -%} remove-header-bottom-spacing {%- endif  -%}">
+      {% render 'section-heading', section: section %}
+      {%- if handle_present -%}
+        <div class="shoppable__feed--social d-flex w-100 align-item-center mb-24 {{ section.settings.content_alignment | prepend : "justify-content-" }}">
+          {%- if section.settings.handle_image -%}
+            <div class="shoppable__feed--social--image position-relative overflow-hidden {{ section.settings.shape_type | prepend: "shape-" }}">
+              <div class="image--aspectSize">
+                {{
+                  section.settings.handle_image
+                  | image_url: width: 140
+                  | image_tag:
+                    widths: '140, 100',
+                    sizes: '(max-width: 767) 100px',
+                    alt: section.settings.handle_image.alt,
+                    loading: loading,
+                    fetchpriority: fetchpriority,
+                    class: 'image-responsive object-fit-cover'
+                }}
+              </div>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.handle_name -%}
+            <a
+              class="shoppable__feed--social--handle__name fnt-16 text-decoration-underline text-color"
+              href="{{ section.settings.handle_url | default: "#"}}"
+              target="_blank"
+            >
+              {{ section.settings.handle_name }}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+  {% if section.blocks.size > 0 %}
+    <carousel-component
+      {{ intersection }}
+      class="swiper js-element  container"
+      slide-layout-type="carousel"
+      slide-pagination-type="progressbar"
+      slide-per-view="1.2"
+      slide-responsive-breakpoints='{"600":{"slidesPerView": "2.2"},"1024":{"slidesPerView": "{{ section.settings.columns_desktop }}"}}'
+      slide-speed="{{ settings.slide_duration }}"
+    >
+      <div class="swiper-container" main-slider>
+        <animation-reveal aoi-type="fade-up" aoi-amount="0.2" class="swiper-wrapper">
+          {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+            {% case block.type %}
+              {% when 'media_post' %}
+                <div
+                  aria-label="Media post"
+                  class="swiper-slide"
+                >
+                  {% render 'media-post',
+                    block: block,
+                    loopIndex: forloop.index,
+                    media_loading_type: loading,
+                    media_fetch_priority: fetchpriority,
+                    media_aspect_ratio: section.settings.media_aspect_ratio,
+                    media_overlay_background: section.settings.feed_overlay_color,
+                    show_play_button: section.settings.hide_play_button
+                  %}
+                </div>
+            {% endcase %}
+          {% endfor %}
+        </animation-reveal>
+      </div>
+      <div class="container  p-0">
+        <div class="sliderControl">
+          <div class="sliderProgressBar " slide-progress></div>
+          <div class="d-flex sliderPagination">
+            <!-- next / prev arrows -->
+            <div class="" slide-prev>
+              <div
+                aria-label="{{ 'accessibility.prev_slide_label' | t }}"
+                class="sliderPagination__prev"
+              >
+                {% render 'slider-arrow-icon', arrow_direction: 'left' %}
+              </div>
+            </div>
+            <div class="" slide-next>
+              <div
+                aria-label="{{ 'accessibility.next_slide_label' | t }}"
+                class="sliderPagination__next "
+              >
+                {% render 'slider-arrow-icon', arrow_direction: 'right' %}
+              </div>
+            </div>
+
+            <!-- !next / prev arrows -->
+          </div>
+        </div>
+      </div>
+    </carousel-component>
+  {% endif %}
+</div>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'bottom' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-bottom"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+
+{% schema %}
+{
+  "name": "Shoppable feed",
+  "settings": [
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Number of columns on desktop",
+      "options": [
+        {
+          "label": "3",
+          "value": "3"
+        },
+        {
+          "label": "4",
+          "value": "4"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "header",
+      "content": "Section content"
+    },
+    {
+      "type": "text_alignment",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shoppable feed "
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "handle_image",
+      "label": "Profile Image"
+    },
+    {
+      "type": "select",
+      "id": "shape_type",
+      "label": "Image Shape Type",
+      "options": [
+        {
+          "label": "Square",
+          "value": "square"
+        },
+        {
+          "label": "Circle",
+          "value": "circle"
+        }
+      ],
+      "default": "circle"
+    },
+    {
+      "type": "text",
+      "id": "handle_name",
+      "label": "Handle name",
+      "default": "HandleName"
+    },
+    {
+      "type": "url",
+      "id": "handle_url",
+      "label": "Handle url"
+    },
+    {
+      "type": "select",
+      "id": "media_aspect_ratio",
+      "label": "Image ratio",
+      "options": [
+        {
+          "label": "Square (1:1)",
+          "value": "square"
+        },
+        {
+          "label": "Portrait (3:4)",
+          "value": "portrait"
+        },
+        {
+          "label": "Portrait (9:16)",
+          "value": "portrait-9-16"
+        }
+      ],
+      "default": "portrait-9-16",
+      "info": "Feed media will be cropped to fit the feed size. Feed preview is set to adapt to media by default"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_play_button",
+      "label": "Hide Play button",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "play_button_bg",
+      "label": "Play button background",
+      "default": "#F5C04D"
+    },
+    {
+      "type": "color",
+      "id": "play_button_color",
+      "label": "Play button",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "feed_text_color",
+      "label": "Feed product text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color_background",
+      "id": "feed_overlay_color",
+      "label": "Feed overlay",
+      "default": "linear-gradient(180deg, rgba(255, 255, 255, 0) 56%, rgba(0, 0, 0, 1) 96%)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 52
+    },
+    {
+      "type": "select",
+      "id": "border_size",
+      "label": "Border",
+      "options": [
+        {
+          "label": "Hide",
+          "value": "hide"
+        },
+        {
+          "label": "Full width",
+          "value": "full_width"
+        },
+        {
+          "label": "Fixed width",
+          "value": "fixed_width"
+        }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "select",
+      "id": "border_position",
+      "label": "Border position",
+      "options": [
+        {
+          "label": "Both",
+          "value": "both"
+        },
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "both"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Post",
+      "type": "media_post",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Videos are muted and auto-played when played"
+        },
+        {
+          "type": "image_picker",
+          "id": "feed_image",
+          "label": "Image",
+          "info": "Image won’t appear if video is added"
+        },
+        {
+          "type": "product_list",
+          "id": "product_list",
+          "label": "Products",
+          "limit": 5
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

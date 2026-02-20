@@ -1,0 +1,734 @@
+{% comment %}
+  Owell vs. Other Brands Comparison Section
+  Clean modern design with white background
+{% endcomment %}
+
+<style>
+  .owell-comparison-wrapper {
+    background: #ffffff;
+    padding: 80px 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .owell-comparison-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 10% 20%, rgba(86, 194, 179, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 90% 80%, rgba(80, 82, 197, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .owell-comparison-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    padding: 0 20px;
+  }
+
+  .owell-comparison-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .owell-comparison-badge {
+    display: inline-block;
+    background: rgba(86, 194, 179, 0.1);
+    border: 1px solid rgba(86, 194, 179, 0.2);
+    color: #1a7f74;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .owell-comparison-title {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.5px;
+  }
+
+  .owell-comparison-subtitle {
+    font-size: clamp(16px, 2vw, 20px);
+    color: #666666;
+    margin: 0;
+    font-weight: 400;
+  }
+
+  .owell-comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+  }
+
+  .owell-comparison-card {
+    background: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 24px;
+    padding: 40px 32px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .owell-comparison-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #56c2b3, #5052c5);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .owell-comparison-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .owell-comparison-card:hover {
+    border-color: #56c2b3;
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  }
+
+  .owell-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f3f4f6;
+  }
+
+  .owell-card-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  .owell-card-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #56c2b3, #5052c5);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #ffffff;
+    flex-shrink: 0;
+  }
+
+  .owell-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .owell-feature-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    animation: fadeInUp 0.6s ease-out backwards;
+  }
+
+  .owell-feature-item:nth-child(1) { animation-delay: 0.1s; }
+  .owell-feature-item:nth-child(2) { animation-delay: 0.2s; }
+  .owell-feature-item:nth-child(3) { animation-delay: 0.3s; }
+  .owell-feature-item:nth-child(4) { animation-delay: 0.4s; }
+  .owell-feature-item:nth-child(5) { animation-delay: 0.5s; }
+
+  .owell-check-icon {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #56c2b3, #5052c5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .owell-check-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: white;
+    stroke-width: 3;
+    fill: none;
+  }
+
+  .owell-cross-icon {
+    width: 28px;
+    height: 28px;
+    background: #fee2e2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .owell-cross-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: #ef4444;
+    stroke-width: 3;
+  }
+
+  .owell-feature-text {
+    flex: 1;
+  }
+
+  .owell-feature-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 4px 0;
+  }
+
+  .owell-feature-description {
+    font-size: 14px;
+    color: #666666;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .owell-cta-section {
+    background: linear-gradient(135deg, #f0fdf4 0%, #eff6ff 100%);
+    border: 2px solid #56c2b3;
+    border-radius: 24px;
+    padding: 48px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .owell-cta-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(86, 194, 179, 0.05) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  .owell-cta-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .owell-cta-title {
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0 0 12px 0;
+  }
+
+  .owell-cta-subtitle {
+    font-size: 18px;
+    color: #666666;
+    margin: 0 0 32px 0;
+  }
+
+  .owell-cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #56c2b3, #5052c5);
+    color: #ffffff;
+    padding: 16px 40px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(86, 194, 179, 0.25);
+  }
+
+  .owell-cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(86, 194, 179, 0.35);
+    background: linear-gradient(135deg, #5052c5, #56c2b3);
+  }
+
+  .owell-guarantee {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+    color: #1a7f74;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .owell-guarantee svg {
+    width: 20px;
+    height: 20px;
+    stroke: #56c2b3;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1) rotate(0deg);
+    }
+    50% {
+      transform: scale(1.1) rotate(180deg);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .owell-comparison-wrapper {
+      padding: 60px 20px;
+    }
+    .owell-comparison-container {
+      padding: 0;
+    }
+    .owell-comparison-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .owell-comparison-card {
+      padding: 32px 24px;
+    }
+
+    .owell-cta-section {
+      padding: 36px 24px;
+    }
+  }
+</style>
+
+<section class="owell-comparison-wrapper">
+  <div class="owell-comparison-container">
+    
+    <div class="owell-comparison-header">
+      <div class="owell-comparison-badge">
+        {{ section.settings.badge_text }}
+      </div>
+      <h2 class="owell-comparison-title">
+        {{ section.settings.title }}
+      </h2>
+      <p class="owell-comparison-subtitle">
+        {{ section.settings.subtitle }}
+      </p>
+    </div>
+
+    <div class="owell-comparison-grid">
+      
+      <!-- OWELL Card -->
+      <div class="owell-comparison-card">
+        <div class="owell-card-header">
+          <h3 class="owell-card-title">{{ section.settings.owell_title }}</h3>
+          <div class="owell-card-icon">✓</div>
+        </div>
+        <div class="owell-card-content">
+          
+          <div class="owell-feature-item">
+            <div class="owell-check-icon">
+              <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="owell-feature-text">
+              <h4 class="owell-feature-title">{{ section.settings.feature_1_title }}</h4>
+              <p class="owell-feature-description">{{ section.settings.feature_1_desc }}</p>
+            </div>
+          </div>
+
+          <div class="owell-feature-item">
+            <div class="owell-check-icon">
+              <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="owell-feature-text">
+              <h4 class="owell-feature-title">{{ section.settings.feature_2_title }}</h4>
+              <p class="owell-feature-description">{{ section.settings.feature_2_desc }}</p>
+            </div>
+          </div>
+
+          <div class="owell-feature-item">
+            <div class="owell-check-icon">
+              <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="owell-feature-text">
+              <h4 class="owell-feature-title">{{ section.settings.feature_3_title }}</h4>
+              <p class="owell-feature-description">{{ section.settings.feature_3_desc }}</p>
+            </div>
+          </div>
+
+          <div class="owell-feature-item">
+            <div class="owell-check-icon">
+              <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="owell-feature-text">
+              <h4 class="owell-feature-title">{{ section.settings.feature_4_title }}</h4>
+              <p class="owell-feature-description">{{ section.settings.feature_4_desc }}</p>
+            </div>
+          </div>
+
+          <div class="owell-feature-item">
+            <div class="owell-check-icon">
+              <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="owell-feature-text">
+              <h4 class="owell-feature-title">{{ section.settings.feature_5_title }}</h4>
+              <p class="owell-feature-description">{{ section.settings.feature_5_desc }}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Other Brands Card -->
+      <div class="owell-comparison-card">
+        <div class="owell-card-header">
+          <h3 class="owell-card-title">{{ section.settings.others_title }}</h3>
+          <div class="owell-card-icon" style="background: #fee2e2;">
+            <span style="color: #ef4444;">✗</span>
+          </div>
+        </div>
+        <div class="owell-card-content">
+          
+          <div class="owell-feature-item">
+            <div class="owell-cross-icon">
+              <svg viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </div>
+            <div class="owell-feature-text">
+              <h4 class="owell-feature-title" style="color: #666666;">{{ section.settings.other_feature_1_title }}</h4>
+              <p class="owell-feature-description">{{ section.settings.other_feature_1_desc }}</p>
+            </div>
+          </div>
+
+          <div class="owell-feature-item">
+            <div class="owell-cross-icon">
+              <svg viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </div>
+            <div class="owell-feature-text">
+              <h4 class="owell-feature-title" style="color: #666666;">{{ section.settings.other_feature_2_title }}</h4>
+              <p class="owell-feature-description">{{ section.settings.other_feature_2_desc }}</p>
+            </div>
+          </div>
+
+          <div class="owell-feature-item">
+            <div class="owell-cross-icon">
+              <svg viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </div>
+            <div class="owell-feature-text">
+              <h4 class="owell-feature-title" style="color: #666666;">{{ section.settings.other_feature_3_title }}</h4>
+              <p class="owell-feature-description">{{ section.settings.other_feature_3_desc }}</p>
+            </div>
+          </div>
+
+          <div class="owell-feature-item">
+            <div class="owell-cross-icon">
+              <svg viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </div>
+            <div class="owell-feature-text">
+              <h4 class="owell-feature-title" style="color: #666666;">{{ section.settings.other_feature_4_title }}</h4>
+              <p class="owell-feature-description">{{ section.settings.other_feature_4_desc }}</p>
+            </div>
+          </div>
+
+          <div class="owell-feature-item">
+            <div class="owell-cross-icon">
+              <svg viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </div>
+            <div class="owell-feature-text">
+              <h4 class="owell-feature-title" style="color: #666666;">{{ section.settings.other_feature_5_title }}</h4>
+              <p class="owell-feature-description">{{ section.settings.other_feature_5_desc }}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA Section -->
+    <div class="owell-cta-section">
+      <div class="owell-cta-content">
+        <h3 class="owell-cta-title">{{ section.settings.cta_title }}</h3>
+        <p class="owell-cta-subtitle">{{ section.settings.cta_subtitle }}</p>
+        <a href="{{ section.settings.cta_link }}" class="owell-cta-button">
+          {{ section.settings.cta_button_text }}
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+        <div class="owell-guarantee">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <span>{{ section.settings.guarantee_text }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Owell vs Others Comp",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header Settings"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "Why Choose OWELL"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Title",
+      "default": "OWELL® vs. Other Brands"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Quality and reliability you can count on, backed by real guarantees"
+    },
+    {
+      "type": "header",
+      "content": "OWELL Card"
+    },
+    {
+      "type": "text",
+      "id": "owell_title",
+      "label": "OWELL Title",
+      "default": "OWELL®"
+    },
+    {
+      "type": "text",
+      "id": "feature_1_title",
+      "label": "Feature 1 Title",
+      "default": "Premium Quality Materials"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_1_desc",
+      "label": "Feature 1 Description",
+      "default": "Highest-grade materials with strict quality control and randomized testing protocols"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_title",
+      "label": "Feature 2 Title",
+      "default": "Ethically Sourced & Certified"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_2_desc",
+      "label": "Feature 2 Description",
+      "default": "Global certified facilities ensuring ethical manufacturing practices"
+    },
+    {
+      "type": "text",
+      "id": "feature_3_title",
+      "label": "Feature 3 Title",
+      "default": "100% Satisfaction Guarantee"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_3_desc",
+      "label": "Feature 3 Description",
+      "default": "Unmatched lifetime guarantee on all products with full support"
+    },
+    {
+      "type": "text",
+      "id": "feature_4_title",
+      "label": "Feature 4 Title",
+      "default": "Free & Fast Shipping"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_4_desc",
+      "label": "Feature 4 Description",
+      "default": "Shipping on time, every time with nationwide coverage"
+    },
+    {
+      "type": "text",
+      "id": "feature_5_title",
+      "label": "Feature 5 Title",
+      "default": "Clean & Pure Products"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_5_desc",
+      "label": "Feature 5 Description",
+      "default": "Allergen-free, vegan, gluten-free options with no unnecessary additives"
+    },
+    {
+      "type": "header",
+      "content": "Other Brands Card"
+    },
+    {
+      "type": "text",
+      "id": "others_title",
+      "label": "Others Title",
+      "default": "Other Brands"
+    },
+    {
+      "type": "text",
+      "id": "other_feature_1_title",
+      "label": "Other Feature 1 Title",
+      "default": "Inconsistent Quality"
+    },
+    {
+      "type": "textarea",
+      "id": "other_feature_1_desc",
+      "label": "Other Feature 1 Description",
+      "default": "Variable product quality with minimal testing standards"
+    },
+    {
+      "type": "text",
+      "id": "other_feature_2_title",
+      "label": "Other Feature 2 Title",
+      "default": "Unclear Sourcing"
+    },
+    {
+      "type": "textarea",
+      "id": "other_feature_2_desc",
+      "label": "Other Feature 2 Description",
+      "default": "Limited transparency on manufacturing and sourcing practices"
+    },
+    {
+      "type": "text",
+      "id": "other_feature_3_title",
+      "label": "Other Feature 3 Title",
+      "default": "Limited Warranties"
+    },
+    {
+      "type": "textarea",
+      "id": "other_feature_3_desc",
+      "label": "Other Feature 3 Description",
+      "default": "Short-term or conditional warranties with many exclusions"
+    },
+    {
+      "type": "text",
+      "id": "other_feature_4_title",
+      "label": "Other Feature 4 Title",
+      "default": "Slow or Paid Shipping"
+    },
+    {
+      "type": "textarea",
+      "id": "other_feature_4_desc",
+      "label": "Other Feature 4 Description",
+      "default": "Additional shipping costs and longer delivery times"
+    },
+    {
+      "type": "text",
+      "id": "other_feature_5_title",
+      "label": "Other Feature 5 Title",
+      "default": "Fillers & Additives"
+    },
+    {
+      "type": "textarea",
+      "id": "other_feature_5_desc",
+      "label": "Other Feature 5 Description",
+      "default": "Products may contain unnecessary fillers and additives"
+    },
+    {
+      "type": "header",
+      "content": "Call to Action"
+    },
+    {
+      "type": "text",
+      "id": "cta_title",
+      "label": "CTA Title",
+      "default": "Experience the OWELL Difference"
+    },
+    {
+      "type": "textarea",
+      "id": "cta_subtitle",
+      "label": "CTA Subtitle",
+      "default": "Join thousands of satisfied customers who trust OWELL for their needs"
+    },
+    {
+      "type": "text",
+      "id": "cta_button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_text",
+      "label": "Guarantee Text",
+      "default": "100% Satisfaction Guarantee"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Owell Comparison"
+    }
+  ]
+}
+{% endschema %}

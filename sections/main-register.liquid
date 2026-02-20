@@ -1,0 +1,177 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }};
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }};
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }};
+    }
+  }
+{%- endstyle -%}
+
+<section class="registerForm section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
+  <div class="container">
+    {% render 'breadcrumb' %}
+  </div>
+  {%- form 'create_customer', novalidate: 'novalidate' -%}
+    <div class="container">
+      <div class="account-form" role="region" aria-label="{{ 'customer.register.heading' | t }}">
+        <h1 class="h2">
+          {{ 'customer.register.heading' | t }}
+        </h1>
+        {%- if form.errors -%}
+          <section class="error-ms">
+            <div class="container">
+              <div class="d-v-center justify-content-center d-flex-dir-c">
+                {% render 'icon' with 'error' %}
+                <span class="error-text" aria-label="{{ 'contact.form.error_message' | t }}">
+                  {{ 'contact.form.error_message' | t }}
+                </span>
+                <ul>
+                  {%- for field in form.errors -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: field %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                    <li class="text-center">
+                      {%- if field == 'form' -%}
+                        {{ form.errors.messages[field] }}
+                      {%- else -%}
+                        <a
+                          class="link link--green"
+                          href="#RegisterForm-{{ field }}"
+                          aria-label="{{ form.errors.translated_fields[field] | capitalize }} - {{ form.errors.messages[field] }}"
+                        >
+                          {{ form.errors.translated_fields[field] | capitalize }}
+                          {{ form.errors.messages[field] }}
+                        </a>
+                      {%- endif -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </div>
+          </section>
+        {%- endif -%}
+        <div class="form-group">
+          <label for="RegisterForm-FirstName" aria-label="{{ 'customer.register.first_name' | t }}">
+            {{ 'customer.register.first_name' | t }}
+          </label>
+          <input
+            type="text"
+            name="customer[first_name]"
+            id="RegisterForm-FirstName"
+            {% if form.first_name %}
+              value="{{ form.first_name }}"
+            {% endif %}
+            autocomplete="given-name"
+          >
+        </div>
+        <div class="form-group">
+          <label for="RegisterForm-LastName" aria-label="{{ 'customer.register.last_name' | t }}">
+            {{ 'customer.register.last_name' | t }}
+          </label>
+          <input
+            type="text"
+            name="customer[last_name]"
+            id="RegisterForm-LastName"
+            {% if form.last_name %}
+              value="{{ form.last_name }}"
+            {% endif %}
+            autocomplete="family-name"
+          >
+        </div>
+        <div class="form-group">
+          <label for="RegisterForm-email" aria-label="{{ 'customer.register.email' | t }}">
+            {{ 'customer.register.email' | t }}
+          </label>
+          <input
+            type="email"
+            name="customer[email]"
+            id="RegisterForm-email"
+            {% if form.email %}
+              value="{{ form.email }}"
+            {% endif %}
+            spellcheck="false"
+            autocapitalize="off"
+            autocomplete="email"
+            aria-required="true"
+            {% if form.errors contains 'email' %}
+              aria-invalid="true"
+              aria-describedby="RegisterForm-email-error"
+            {% endif %}
+          >
+        </div>
+        <div class="form-group mb-24">
+          <label for="RegisterForm-password" aria-label="{{ 'customer.register.password' | t }}">
+            {{ 'customer.register.password' | t }}
+          </label>
+          <input
+            type="password"
+            name="customer[password]"
+            id="RegisterForm-password"
+            aria-required="true"
+            autocomplete="new-password"
+            {% if form.errors contains 'password' %}
+              aria-invalid="true"
+              aria-describedby="RegisterForm-password-error"
+            {% endif %}
+          >
+        </div>
+        <button class="btn btn--fill w-100" aria-label="{{ 'customer.register.submit' | t }}">
+          {{ 'customer.register.submit' | t }}
+        </button>
+        <h3 class="h3 fnt-heading forrm-sub-text" aria-label="{{ 'customer.register.have_account' | t }}">
+          {{ 'customer.register.have_account' | t }}
+        </h3>
+        <a class="account-link" href="{{ routes.account_login_url }}" aria-label="{{ 'customer.log_in' | t }}">
+          {{ 'customer.log_in' | t }}
+        </a>
+      </div>
+    </div>
+  {%- endform -%}
+</section>
+
+{% schema %}
+{
+  "name": "Customer resigter",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 36
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Color scheme"
+    }
+  ]
+}
+{% endschema %}

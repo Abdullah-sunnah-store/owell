@@ -1,0 +1,19 @@
+{% comment %}
+  Required variables:
+     - value: The value to be displayed in the progress bar
+     - maxvalue: The maximum value of the progress bar
+     - progress_bar_color: The color of the progress bar
+{% endcomment %}
+
+{% liquid
+  assign calcwidth = value | times: 100.0 | divided_by: maxvalue | at_most: 100
+  assign progress_bar_background_color = progress_bar_color | color_modify: 'alpha', 0.3 | color_to_rgb
+  assign progress_bar_width_color = progress_bar_color | color_to_rgb
+%}
+
+<div
+  class="progressBar"
+  style="--progress-bar-color: {{ progress_bar_background_color }}; --progress_bar_width_color: {{ progress_bar_width_color }}  "
+>
+  <span class="progressBar__handle" style="width: {{ calcwidth | append: "%" }}"></span>
+</div>

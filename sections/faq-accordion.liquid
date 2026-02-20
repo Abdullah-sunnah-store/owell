@@ -1,0 +1,191 @@
+{{ 'section-faq.css' | asset_url | stylesheet_tag }}
+{{ 'section-faq-multi-column.css' | asset_url | stylesheet_tag }}
+{{ 'section-dropdown.css' | asset_url | stylesheet_tag }}
+
+<script defer src="{{ 'dropdown.js' | asset_url }}"></script>
+<script defer src="{{ 'faq.js' | asset_url }}"></script>
+
+{% style %}
+  /* CSS styles for padding and background */
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }};
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }};
+  }
+
+  /* Media query styles */
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }};
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }};
+    }
+  }
+
+  /* Styles for background on smaller screens */
+  @media(max-width: 991px) {
+    .faq {
+      background: var(--color-background) var(--gradient-background) no-repeat 100% 100%;
+    }
+  }
+{% endstyle %}
+
+<section
+  class="faq-section section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}"
+  id="{{ section.id }}"
+>
+  <div class="container" id="{{ section.settings.faqLink }}">
+    <h1 class="h2 clr-b">{{ section.settings.heading }}</h1>
+    <div class="faq-container">
+      <div class="faq-multi-column__container ">
+        <!-- Navigation tabs for desktop -->
+        <div class="sticky-element desktop-only">
+          <div class="faq-multi-column__tabsContainer">
+            <div class="faq-multi-column__tabs" aria-label="{{ section.settings.heading }}" role="navigation">
+              {% assign headBlock = section.blocks | where: 'type', 'category' %}
+              {% for block in headBlock %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                <tab-item class="{% if forloop.first %}active{% endif %}">
+                  <a faqLink href="#aside-{{ block.id }}">{{ block.settings.heading }}</a>
+                </tab-item>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <!-- Dropdown menu for mobile -->
+        <div class="faq-multi-column__dropdown mobile-only dropdown-container">
+          {% assign headBlock = section.blocks | where: 'type', 'category' %}
+          <details class="dropdown">
+            <summary>
+              <span class="dropdown-title" dropdown-title>{{ headBlock.first.settings.heading }}</span>
+              {% render 'icon' with 'caret' %}
+            </summary>
+            <ul class="dropdown__list" dropdown-list>
+              {% for block in headBlock %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                <li>
+                  <tab-item>
+                    <a faqLink href="#aside-{{ block.id }}">{{ block.settings.heading }}</a>
+                  </tab-item>
+                </li>
+              {% endfor %}
+            </ul>
+          </details>
+        </div>
+      </div>
+      <!-- FAQ content -->
+      <div class="faq-multi-column__containerAcc faq">
+        <div class="faq-multi-column__tabs-wrp">
+          {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+            {% case block.type %}
+              {% when 'category' %}
+                <!-- Heading for category -->
+                <h2 class="h3" tabs-container>{{ block.settings.heading }}</h2>
+              {% when 'question' %}
+                <!-- Render FAQ accordion for questions -->
+                {% render 'accordion', block: block %}
+            {% endcase %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Faq accordion",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Heading",
+      "id": "heading",
+      "default": "FAQ"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 36
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Question",
+      "type": "question",
+      "settings": [
+        {
+          "type": "text",
+          "label": "Question",
+          "id": "heading",
+          "default": "Question"
+        },
+        {
+          "type": "richtext",
+          "label": "Answer",
+          "id": "content",
+          "default": "<p>Write a clear and concise answer to guide your customers.</p>"
+        },
+        {
+          "type": "page",
+          "label": "Select page",
+          "id": "page"
+        }
+      ]
+    },
+    {
+      "name": "Category",
+      "type": "category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Category",
+          "default": "Category"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

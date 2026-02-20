@@ -1,0 +1,27 @@
+<link
+  href="{{ 'section-drawer-product-quick-view.css' | asset_url }}"
+  rel="stylesheet"
+  media="print"
+  onload="this.media='all'"
+>
+<script defer="defer" src="{{ 'product-quick-view.js' | asset_url }}"></script>
+
+<drawer-component
+  aria-live="polite"
+  aria-modal="true"
+  aria-label="{{ 'general.drawer.option.drawer_text' | t }}"
+  class="d-block drawer color-{{ settings.drawer_color_scheme }} {% if design_mode %} drawer-active {% endif %}"
+  drawer-type="options"
+  role="dialog"
+  aria-hidden="{% if design_mode -%} false {%- else -%} true {%- endif -%}"
+>
+  <div class="drawer__container">
+    <div class="drawer__overlay" drawer-overlay></div>
+
+    <product-quick-view-component
+      aria-live="polite"
+      class="d-block {% if request.design_mode and request.page_type == 'collection' or request.page_type == 'index' %} hide-design-mode-content {% endif %}"
+    >
+    </product-quick-view-component>
+  </div>
+</drawer-component>

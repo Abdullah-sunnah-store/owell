@@ -1,0 +1,546 @@
+{% comment %}
+  Section: Core Areas (Category Style)
+  Description: Displays core business areas in a card-based layout with hover flip reveal
+{% endcomment %}
+
+<style>
+  .core-areas-section {
+    background-color: {{ section.settings.background_color }};
+    padding: 80px 20px;
+  }
+
+  .core-areas-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .core-areas-title {
+    text-align: center;
+    color: {{ section.settings.text_color }};
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 60px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .core-areas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+
+  /* ── Flip card wrapper ── */
+  .core-area-card-wrapper {
+    perspective: 1200px;
+    height: 320px; /* fixed height so back aligns */
+  }
+
+  .core-area-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    border-radius: 16px;
+  }
+
+  /* Flip on hover (desktop) */
+  .core-area-card-wrapper:hover .core-area-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  /* Flip on .is-flipped (mobile toggle) */
+  .core-area-card-wrapper.is-flipped .core-area-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  /* ── Front face ── */
+  .core-area-card-front,
+  .core-area-card-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 2px solid {{ section.settings.badge_border_color }};
+    background: #026eb4;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .core-area-card-wrapper:hover .core-area-card-front,
+  .core-area-card-wrapper:hover .core-area-card-back,
+  .core-area-card-wrapper.is-flipped .core-area-card-front,
+  .core-area-card-wrapper.is-flipped .core-area-card-back {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    border-color: {{ section.settings.text_color }};
+  }
+
+  /* ── Back face ── */
+  .core-area-card-back {
+    transform: rotateY(180deg);
+    background: #025a92;
+    align-items: flex-start;
+    text-align: left;
+    overflow-y: auto;
+    justify-content: flex-start;
+    padding: 30px 28px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(86,194,179,0.5) transparent;
+  }
+
+  .core-area-card-back::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .core-area-card-back::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .core-area-card-back::-webkit-scrollbar-thumb {
+    background: rgba(86,194,179,0.5);
+    border-radius: 4px;
+  }
+
+  /* ── Front content ── */
+  .core-area-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 25px;
+    background: {{ section.settings.badge_border_color }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, background 0.3s ease;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .core-area-icon svg {
+    width: 35px;
+    height: 35px;
+    fill: {{ section.settings.background_color }};
+  }
+
+  .core-area-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .core-area-icon.has-custom-image {
+    background: transparent;
+    border: 2px solid {{ section.settings.badge_border_color }};
+  }
+
+  .core-area-title {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .core-area-description {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Hover hint pill */
+  .core-area-hint {
+    margin-top: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: {{ section.settings.badge_border_color }};
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  .core-area-hint svg {
+    width: 14px;
+    height: 14px;
+    stroke: {{ section.settings.badge_border_color }};
+    fill: none;
+    stroke-width: 2;
+  }
+
+  /* ── Back content (rich text) ── */
+  .core-area-back-title {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 14px 0;
+    line-height: 1.3;
+    width: 100%;
+  }
+
+  .core-area-more-content {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 14px;
+    line-height: 1.7;
+    width: 100%;
+  }
+
+  /* Rich text styling inside back */
+  .core-area-more-content p {
+    margin: 0 0 10px 0;
+  }
+
+  .core-area-more-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .core-area-more-content strong,
+  .core-area-more-content b {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .core-area-more-content em,
+  .core-area-more-content i {
+    font-style: italic;
+    color: rgba(255,255,255,0.75);
+  }
+
+  .core-area-more-content ul,
+  .core-area-more-content ol {
+    margin: 6px 0 10px 0;
+    padding-left: 18px;
+  }
+
+  .core-area-more-content li {
+    margin-bottom: 5px;
+  }
+
+  .core-area-more-content a {
+    color: {{ section.settings.badge_border_color }};
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .core-area-more-content h3,
+  .core-area-more-content h4 {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 12px 0 6px 0;
+  }
+
+  /* Back "close" hint (mobile) */
+  .core-area-back-close {
+    display: none;
+    margin-top: 14px;
+    align-self: flex-start;
+    font-size: 12px;
+    font-weight: 600;
+    color: {{ section.settings.badge_border_color }};
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .core-area-back-close svg {
+    width: 13px;
+    height: 13px;
+    stroke: {{ section.settings.badge_border_color }};
+    fill: none;
+    stroke-width: 2;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .core-areas-section {
+      padding: 60px 15px;
+    }
+
+    .core-areas-title {
+      font-size: 32px;
+      margin-bottom: 40px;
+    }
+
+    .core-areas-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .core-area-card-wrapper {
+      height: auto;
+      perspective: none;
+    }
+
+    /* On mobile: no 3D flip. Instead animate height / show back below */
+    .core-area-card-inner {
+      transform-style: flat;
+      transform: none !important;
+      transition: none;
+      height: auto;
+    }
+
+    .core-area-card-front,
+    .core-area-card-back {
+      position: relative;
+      inset: auto;
+      backface-visibility: visible;
+      -webkit-backface-visibility: visible;
+      transform: none !important;
+      border-radius: 16px;
+      padding: 30px 24px;
+    }
+
+    .core-area-card-back {
+      display: none;
+      margin-top: 12px;
+      text-align: left;
+      align-items: flex-start;
+      justify-content: flex-start;
+      overflow-y: visible;
+      max-height: none;
+    }
+
+    .core-area-card-wrapper.is-flipped .core-area-card-back {
+      display: flex;
+    }
+
+    .core-area-back-close {
+      display: inline-flex;
+    }
+
+    .core-area-hint {
+      cursor: pointer;
+    }
+  }
+</style>
+
+<section class="core-areas-section">
+  <div class="core-areas-container">
+    <h2 class="core-areas-title">{{ section.settings.section_title }}</h2>
+
+    <div class="core-areas-grid">
+      {% for block in section.blocks %}
+        <div class="core-area-card-wrapper" {{ block.shopify_attributes }}>
+          <div class="core-area-card-inner">
+
+            <!-- FRONT -->
+            <div class="core-area-card-front">
+              <div class="core-area-icon {% if block.settings.custom_image %}has-custom-image{% endif %}">
+                {% if block.settings.custom_image %}
+                  <img src="{{ block.settings.custom_image | img_url: '140x140' }}" alt="{{ block.settings.title }}" loading="lazy">
+                {% else %}
+                  {% if block.settings.icon == 'supply-chain' %}
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M3 3h4v4H3V3zm7 0h4v4h-4V3zm7 0h4v4h-4V3zM3 10h4v4H3v-4zm7 0h4v4h-4v-4zm7 0h4v4h-4v-4zM3 17h4v4H3v-4zm7 0h4v4h-4v-4zm7 0h4v4h-4v-4z"/>
+                    </svg>
+                  {% elsif block.settings.icon == 'quality' %}
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1 15l-4-4 1.41-1.41L11 14.17l5.59-5.59L18 10l-7 7z"/>
+                    </svg>
+                  {% elsif block.settings.icon == 'fulfillment' %}
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm13.5-9l1.96 2.5H17V9h2.5zm-1.5 9c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+                    </svg>
+                  {% elsif block.settings.icon == 'products' %}
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-7-2h2V7h-4v2h2z"/>
+                    </svg>
+                  {% endif %}
+                {% endif %}
+              </div>
+
+              <h3 class="core-area-title">{{ block.settings.title }}</h3>
+              <p class="core-area-description">{{ block.settings.description }}</p>
+
+              {% if block.settings.more_info != blank %}
+                <span class="core-area-hint js-flip-trigger">
+                  <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+                  Learn more
+                </span>
+              {% endif %}
+            </div>
+
+            <!-- BACK -->
+            {% if block.settings.more_info != blank %}
+              <div class="core-area-card-back">
+                <h4 class="core-area-back-title">{{ block.settings.title }}</h4>
+                <div class="core-area-more-content">
+                  {{ block.settings.more_info }}
+                </div>
+                <span class="core-area-back-close js-flip-close">
+                  <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Back
+                </span>
+              </div>
+            {% endif %}
+
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    // Mobile-only tap-to-flip toggle
+    function isMobile() {
+      return window.innerWidth <= 768;
+    }
+
+    document.querySelectorAll('.core-area-card-wrapper').forEach(function (wrapper) {
+      var trigger = wrapper.querySelector('.js-flip-trigger');
+      var closeBtn = wrapper.querySelector('.js-flip-close');
+
+      if (trigger) {
+        trigger.addEventListener('click', function (e) {
+          if (!isMobile()) return; // desktop uses CSS :hover
+          e.stopPropagation();
+          wrapper.classList.add('is-flipped');
+        });
+      }
+
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          wrapper.classList.remove('is-flipped');
+        });
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Core Areas",
+  "tag": "section",
+  "class": "core-areas-section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "OUR CORE AREAS"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#026EB4"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "badge_border_color",
+      "label": "Badge/Border Color",
+      "default": "#56C2B3"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "core_area",
+      "name": "Core Area",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Core Area Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Short Description (Front of card)",
+          "default": "Description of this core area and what it encompasses."
+        },
+        {
+          "type": "richtext",
+          "id": "more_info",
+          "label": "More Info (Back of card — supports rich text)",
+          "info": "This content appears when the card is hovered (desktop) or tapped (mobile). Supports bold, italic, lists, and links."
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom Image (Optional)",
+          "info": "Upload a custom image to replace the icon. Recommended size: 140x140px"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon (Used if no custom image)",
+          "options": [
+            { "value": "supply-chain", "label": "Supply Chain" },
+            { "value": "quality",      "label": "Quality & Compliance" },
+            { "value": "fulfillment",  "label": "Fulfillment & Logistics" },
+            { "value": "products",     "label": "Products" }
+          ],
+          "default": "supply-chain"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Core Areas",
+      "blocks": [
+        {
+          "type": "core_area",
+          "settings": {
+            "title": "Our Supply Chain",
+            "description": "End-to-end supply chain management ensuring efficiency and reliability.",
+            "more_info": "<p>Our supply chain spans <strong>30+ countries</strong>, with dedicated sourcing teams ensuring consistent quality from raw material to finished product.</p><ul><li>Global supplier network</li><li>Real-time inventory visibility</li><li>Risk mitigation protocols</li></ul>",
+            "icon": "supply-chain"
+          }
+        },
+        {
+          "type": "core_area",
+          "settings": {
+            "title": "Quality & Compliance",
+            "description": "Rigorous quality standards and regulatory compliance across all operations.",
+            "more_info": "<p>Every product meets <strong>FDA, GMP, and ISO</strong> standards, backed by third-party lab verification and full traceability documentation.</p><ul><li>Third-party lab testing</li><li>Full audit trail</li><li>Regulatory documentation</li></ul>",
+            "icon": "quality"
+          }
+        },
+        {
+          "type": "core_area",
+          "settings": {
+            "title": "Fulfillment & Logistics",
+            "description": "Streamlined fulfillment and logistics for timely delivery worldwide.",
+            "more_info": "<p>Orders ship within <strong>24 hours</strong> from our strategically located fulfillment centers. Free shipping on qualifying orders with full tracking included.</p><ul><li>Same-day processing</li><li>Real-time order tracking</li><li>International shipping</li></ul>",
+            "icon": "fulfillment"
+          }
+        },
+        {
+          "type": "core_area",
+          "settings": {
+            "title": "Our Products",
+            "description": "Premium product selection curated for excellence and innovation.",
+            "more_info": "<p>Our product line is formulated by <strong>certified nutritionists and scientists</strong>, using only the highest-grade ingredients with no unnecessary fillers.</p><ul><li>Science-backed formulations</li><li>Allergen-free options</li><li>Transparent labeling</li></ul>",
+            "icon": "products"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

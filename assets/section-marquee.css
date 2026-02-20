@@ -1,0 +1,85 @@
+/* Marquee styles */
+.marquee {
+  --gap: 3rem;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  -webkit-user-select: none;
+          user-select: none;
+  gap: var(--gap);
+}
+.marquee h3 {
+  color: var(--color-text);
+  margin-bottom: 0;
+}
+.marquee a {
+  text-decoration: none;
+}
+
+.homeMarque {
+  background: var(--color-background) var(--gradient-background) no-repeat 100% 100%;
+}
+
+.marquee__text-color h3 {
+  color: var(--color-text);
+  line-height: initial;
+  margin-bottom: 0;
+}
+
+.marquee__text-color svg path {
+  fill: var(--color-icon);
+}
+
+.marquee__content {
+  display: grid;
+  gap: var(--gap);
+  grid: auto/auto-flow max-content;
+  /* flex-shrink: 0; */
+  /* display: flex; */
+  /* justify-content: space-around; */
+  gap: var(--gap);
+  /* min-width: 100%; */
+  align-items: center;
+}
+.marquee__content p {
+  margin-bottom: 0;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+    -webkit-transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+/* Pause animation when reduced-motion is set */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__content {
+    animation-play-state: paused !important;
+  }
+}
+/* Pause on hover */
+.marquee--hover-pause:hover .marquee__content {
+  animation-play-state: paused;
+}
+
+.Marquee-tag {
+  display: flex;
+  align-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.Marquee-tag p {
+  margin-bottom: 0;
+  line-height: normal;
+  font-family: var(--font-head-family);
+}
+
+.Marquee-tag__image img {
+  width: 100%;
+  height: auto;
+}

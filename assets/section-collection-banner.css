@@ -1,0 +1,64 @@
+.collectionBanner {
+  background: var(--color-background) var(--gradient-background) no-repeat 100% 100%;
+}
+.collectionBanner__wrp {
+  display: flex;
+}
+.collectionBanner .collectionBanner__image-wrp {
+  text-align: center;
+  overflow: hidden;
+}
+.collectionBanner .collectionBanner__image-wrp svg {
+  height: 100%;
+}
+.collectionBanner .collectionBanner__image-wrp::after {
+  content: "";
+  inset: 0;
+  position: absolute;
+  height: 100%;
+}
+.collectionBanner .container .collectionBanner__container {
+  border-radius: var(--block-border-radius);
+  overflow: hidden;
+}
+.collectionBanner .content-aligment--center {
+  justify-content: center;
+  text-align: center;
+}
+.collectionBanner .content-aligment--right {
+  justify-content: flex-end;
+  text-align: right;
+}
+.collectionBanner .content-aligment--left {
+  justify-content: flex-start;
+  text-align: left;
+}
+.collectionBanner__container {
+  display: flex;
+  position: relative;
+  align-items: center;
+  padding: 24px 0;
+}
+.collectionBanner__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.collectionBanner__image-wrp {
+  position: absolute;
+  inset: 0;
+}
+.collectionBanner__description {
+  position: relative;
+  z-index: 2;
+}
+.collectionBanner__description h1 {
+  margin-top: 0;
+}
+@media (min-width: 568px) {
+  .collectionBanner__description {
+    z-index: 1;
+    max-width: 576px;
+    width: 100%;
+  }
+}

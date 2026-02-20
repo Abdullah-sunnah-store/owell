@@ -1,0 +1,86 @@
+{% comment %}theme-check-disable UndefinedObject{% endcomment %}
+{% comment %} {{ 'section-pickup-availability.css'| asset_url | stylesheet_tag }} {% endcomment %}
+
+
+{%- assign pick_up_availabilities = product_variant.store_availabilities | where: 'pick_up_enabled', true -%}
+
+{%- if pick_up_availabilities.size > 0 -%}
+  <pickup-availability-preview class="pickup__availability-container d-flex ">
+    <div class="pickup__availability-icon">
+      {%- liquid
+      assign closest_location = pick_up_availabilities.first
+
+      if closest_location.available
+        render 'icon' with 'circular-tick'
+      else 
+        render 'icon' with 'circular-cross'
+      endif
+    -%}
+    </div>
+   
+
+    <div class="pickup__availability-info">
+      {%- if closest_location.available -%}
+        <p class="text-color fnt-16 fnt-body-weight-bold mb-0">{{ 'products.product.pickup_availability.pick_up_available_at_html' | t: location_name: closest_location.location.name }}</p>
+        <p class="text-color fnt-14 mt-12 mb-0">{{ closest_location.pick_up_time }}</p>
+        <button class="pickup__availability-button link fnt-12 mt-12 mb-0 line-height-none" aria-haspopup="dialog"> 
+          <span class="fnt-12">
+            {%- if pick_up_availabilities.size == 1 -%}
+              {{ 'products.product.pickup_availability.view_store_info' | t }} 
+            {%- else -%}
+              {{ 'products.product.pickup_availability.check_other_stores' | t }}
+            {%- endif -%}
+          </span>
+        </button>
+      {%- else -%}
+        <p class="text-color fnt-16 mb-0 fnt-body-weight-bold">{{ 'products.product.pickup_availability.pick_up_unavailable_at_html' | t: location_name: closest_location.location.name }}</p>
+        {%- if pick_up_availabilities.size > 1 -%}
+          <button class="pickup__availability-button fnt-12 link mt-12 mb-0 line-height-none" aria-haspopup="dialog"> <span class="fnt-12"> {{ 'products.product.pickup_availability.check_other_stores' | t }}</span></button>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    <template>
+      <ul class="pickup__availability-list" role="list" pickup-locations-data>
+              {%- for availability in pick_up_availabilities -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: availability %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                <li class="pickup__availability-list__item">
+                  <div class="pickup__availability-list__item__wrapper d-flex ">
+                      <div class="pickup__availability-list__icon">
+                        {%- if availability.available -%}                            
+                          {%- render 'icon' with 'circular-tick' -%}
+                        {%- else -%}                          
+                          {%- render 'icon' with 'circular-cross' -%}
+                        {%- endif -%}
+                      </div>
+                      <div class="pickup__availability-list__addresss">
+                          <h3 class="fnt-16 fnt-heading-weight mb-5">{{ availability.location.name | escape }}</h3>
+                          <div class="pickup__availability-interval">
+                            {%- if availability.available -%}
+                                <p class="fnt-16 fnt-body-weight-bold mb-5">{{ 'products.product.pickup_availability.pick_up_available' | t }} <span class="fnt-body-weight-regular">{{ availability.pick_up_time | downcase }}</span></p>
+                                {%- else -%}
+                                  <p class="fnt-16 fnt-body-weight-bold mb-5">{{ 'products.product.pickup_availability.pick_up_unavailable' | t }}</p>
+                            {%- endif -%}
+                          </div>
+
+                          {%- assign address = availability.location.address -%}
+                          <div class="pickup__availability-address text-color">
+                            {{ address | format_address }}
+                            {%- if address.phone.size > 0 -%}
+                              <p>{{ address.phone }}</p>
+                            {%- endif -%}
+                          </div>
+                      </div>
+                    </div>
+                  </li>
+              {%- endfor -%}
+            </ul>
+    </template>
+  </pickup-availability-preview>
+{%- endif -%}

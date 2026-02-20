@@ -1,0 +1,102 @@
+{{ 'section-account.css' | asset_url | stylesheet_tag }}
+<script
+  defer
+  src="{{ 'setDefaultAddress.js' | asset_url }}"
+></script>
+<drawer-component
+  aria-hidden="true"
+  class="d-block drawer color-{{ settings.drawer_color_scheme }}"
+  drawer-type="change-default-address"
+>
+  <div
+    class="drawer__container"
+  >
+    <div
+      class="drawer__overlay"
+      drawer-overlay
+    ></div>
+    <div class="drawer__wrapper drawer__wrapper--animation-position-right">
+      {% comment %} Drawer Header Area {% endcomment %}
+      <div
+        class="drawer__header"
+      >
+        <button
+          class="drawer__close__btn"
+          aria-label="{{ 'accessibility.close_drawer' | t }} {{ 'customer.account.choose_address.label' | t }}"
+          close-drawer
+        >
+          {%- render 'icon' with 'close-drawer' -%}
+        </button>
+
+        <h2 class="drawer__head">{{ 'customer.account.choose_address.label' | t }}</h2>
+      </div>
+
+      {% comment %} Drawer Content/Body area {% endcomment %}
+      <div
+        class="drawer__body"
+      >
+        <div
+          class="drawer__body__wrapper"
+        >
+          <div
+            class="address-list"
+          >
+            {% if customer.addresses_count > 0 %}
+              <default-address>
+                {% form 'customer_address', customer.default_address %}
+                  <ul
+                    class=""
+                  >
+                    {% for address in customer.addresses %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: address %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                      <li
+                        class="customRadio"
+                      >
+                        <input
+                          default-address-input
+                          {% if address == customer.default_address %}
+                            checked
+                          {% endif %}
+                          id="defaultAddress--{{ address.id }}"
+                          name="address[default]"
+                          target-url="{{ address.url }}"
+                          type="radio"
+                        >
+                        <label
+                          for="defaultAddress--{{ address.id }}"
+                        >
+                          <div
+                            class="address-formate"
+                          >
+                            {{ address | format_address }}
+                          </div>
+                        </label>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                  <div
+                    class="d-center"
+                  >
+                    <button
+                      class="btn btn--border w-100"
+                      type="submit"
+                      updateAddressButton
+                    >
+                      {{ 'customer.account.address.form.confirm' | t }}
+                    </button>
+                  </div>
+                {% endform %}
+              </default-address>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</drawer-component>

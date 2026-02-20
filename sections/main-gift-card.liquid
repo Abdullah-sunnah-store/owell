@@ -1,0 +1,182 @@
+{{ 'section-gift-card.css' | asset_url | stylesheet_tag }}
+<script defer src="{{ 'vendor/qrcode.js' | shopify_asset_url }}"></script>
+<script defer src="{{ 'gift-card.js' | asset_url }}"></script>
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }};
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }};
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }};
+    }
+  }
+{% endstyle %}
+
+{%- liquid
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign loading = 'lazy'
+  endif
+-%}
+
+<section
+  class="gift-card section-{{ section.id }}-padding "
+  role="region"
+  aria-label="{{ shop.name }}"
+  style="background-color: {{ section.settings.background_color }}"
+>
+  <div class="container">
+    <gift-card>
+      <div class="gift-card__container color-{{ section.settings.color_scheme }}">
+        <div class="gift-card__wrp">
+          <h1 class="h2 mt-0 mb-16">{{ shop.name }}</h1>
+          <p class="fnt-18 text-color mb-24">{{ 'gift_cards.subtitle' | t }}</p>
+          {% if section.settings.gift_card_image != blank %}
+            {{
+              section.settings.gift_card_image
+              | image_url: width: 310
+              | image_tag:
+                class: 'gift-card__img',
+                loading: loading,
+                fetchpriority: fetchpriority,
+                sizes: '(min-width:1600px) 310px,200px',
+                widths: '500,400',
+                alt: section.settings.gift_card_image.alt
+            }}
+          {% else %}
+            <img
+              alt="Gift card image"
+              class="gift-card__img"
+              height="207"
+              loading="lazy"
+              src="{{ 'gift-card/card.svg' | shopify_asset_url }}"
+              width="310"
+            >
+          {% endif %}
+
+          <p class="h2 fnt-body">{{ gift_card.initial_value | money }}</p>
+          <label for="gift_card-{{ gift_card.code }}" class="visually-hidden">
+            {{- 'gift_cards.gift_card_code' | t -}}
+          </label>
+          <input
+            id="gift_card-{{ gift_card.code }}"
+            aria-label="{{ 'gift_cards.gift_card_code' | t }}"
+            class="gift-card__code"
+            gift-card-code
+            readonly
+            type="text"
+            value="{{ gift_card.code | format_code }}"
+          >
+          <p class="color-text mb-24">{{ 'gift_cards.online_text' | t }}</p>
+
+          <div class="gift-card__btnGroup">
+            <button class="btn btn--fill" copy-code aria-label="{{ 'gift_cards.copy_code' | t }}">
+              <div class="btn--preloader">
+                <div class="btn--preloader--circular">
+                  <div class="checkmark draw"></div>
+                </div>
+              </div>
+              <div class="btn--text">
+                {{ 'gift_cards.copy_code' | t }}
+              </div>
+            </button>
+            <button class="btn btn--border" print-button aria-label="{{ 'gift_cards.print' | t }}">
+              {{ 'gift_cards.print' | t }}
+            </button>
+          </div>
+          {%- if gift_card.pass_url -%}
+            <a
+              class="gift-card__apple-wallet"
+              href="{{ gift_card.pass_url }}"
+              aria-label="{{ 'gift_cards.add_to_apple_wallet' | t }}"
+              target="_blank"
+            >
+              <img
+                alt="{{ 'gift_cards.add_to_apple_wallet' | t }}"
+                height="40"
+                loading="lazy"
+                src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}"
+                width="120"
+              >
+            </a>
+          {%- endif -%}
+
+          <div
+            class="gift-card__qr-code"
+            gift-card-qr-code
+            qr-alt-text="{{ 'gift_cards.qr_image_alt' | t }}"
+            qr-code
+            qr-identifier="{{ gift_card.qr_identifier }}"
+          ></div>
+        </div>
+        <a
+          class="link link--green"
+          href="{{ shop.url }}"
+          target="_blank"
+          aria-label="{{ 'gift_cards.back_to_shopping' | t }}"
+        >
+          {{- 'gift_cards.back_to_shopping' | t -}}
+        </a>
+      </div>
+    </gift-card>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Gift card",
+  "settings": [
+    {
+      "type": "image_picker",
+      "label": "Image",
+      "id": "gift_card_image"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Color scheme"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["gift_card"]
+  }
+}
+{% endschema %}

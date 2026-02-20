@@ -1,0 +1,642 @@
+{{ 'section-video.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign mediaType = section.settings.video_url.type
+  assign media_autoplay = section.settings.media_autoplay
+  assign overlay_opacity = section.settings.overlay_opacity | times: 1.0 | divided_by: 100
+  assign overlay_rgba_color = section.settings.overlay_color.rgb | append: ' / ' | append: overlay_opacity
+  assign cover_image = section.settings.cover_image
+  assign coverImage = cover_image.alt | default: ''
+
+  unless cover_image
+    if section.settings.video
+      assign cover_image = section.settings.video.preview_image
+    endif
+  endunless
+
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign loading = 'lazy'
+  endif
+  assign page_width = settings.page_width
+  assign widths = '500, 970, 1280, 1336,1600'
+
+  if section.settings.media_size == 'adapt'
+    assign ratio = cover_image.aspect_ratio
+  endif
+
+  if ratio == 0 or ratio == null
+    assign ratio = 1.77
+  endif
+%}
+
+{%- capture sizes -%}
+    (min-width: {{ page_width }}px) {{ page_width | minus: 100 }}px,
+    calc(100vw - 30px)
+{%- endcapture -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }}
+      ;
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }}
+      ;
+    }
+  }
+{%- endstyle -%}
+
+{%- capture display_video_overlay_elements -%}
+    <div class="video__overlay__elements {% if section.settings.full_width %} container {% endif %}" video-overlay-elements> 
+    <animation-reveal class="video__overlay__elements__wrapper" aoi-type="fade-in" aoi-duration="0.5" aoi-amount="0.7">
+     
+        {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+          {%- case block.type -%}
+            {%- when 'heading' -%}
+            <h2 class="video__heading mb-1 {{ block.settings.heading_style }}" {{ block.shopify_attributes }}>
+              {{ block.settings.heading }}
+            </h2>
+
+            {%- when 'sub_heading' -%}
+              <p class="video__sub__heading mb-2" {{ block.shopify_attributes }}>
+                {{ block.settings.sub_heading }}
+              </p>
+            {%- when 'paragraph' -%}
+              <div class="video__paragraph mb-1 RTE-content" {{ block.shopify_attributes }}>
+                {{ block.settings.paragraph }}
+              </div>
+            {%- when 'play_button' -%}
+              {% unless media_autoplay %}
+                <div
+                  aria-label="Play Video"
+                  class="play__icon mb-1 {% unless  section.settings.content_position == 'content-center' %} play-icon-center {% endunless %}"
+                  play-media
+                  role="button"
+                  tabindex="0"
+                  {{ block.shopify_attributes }}>
+                  {% render 'icon' with 'play' %}
+                </div>
+              {% endunless %}
+            {%- when 'button' -%}
+              <a
+                class="btn {% if block.settings.use_outline_button %} btn--border {% else %} btn--fill %} {% endif %}"
+                href="{{ block.settings.link }}"
+                target="{{ block.settings.link_target }}"
+                {{ block.shopify_attributes }}>{{ block.settings.button_text }}
+              </a>
+          {%- endcase -%}
+        {% endfor %}
+      </animation-reveal>
+    </div>
+  {%- endcapture -%}
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'top' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-top"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+<div
+  aria-label="{{ section.settings.heading }}"
+  class="section-{{ section.id }}-padding video-container color-{{ section.settings.color_scheme }}"
+  animate-section
+>
+  <div
+    class="video__section media-size--{{ section.settings.media_size }} {% unless section.settings.full_width %} container {% endunless %} content-{{ section.settings.content_position }}-{{ section.settings.content_alignment }}"
+    {% if section.settings.media_size == 'adapt' %}
+      style="--aspect-ratio: {{ ratio }}"
+    {% endif %}
+  >
+    {% comment %} Render default Link {% endcomment %}
+    {%- if section.settings.video -%}
+      <default-player
+        class="d-block custom__player__element position-relative"
+        watch-element
+        {% if media_autoplay %}
+          media-autoplay
+        {% endif %}
+      >
+        <animation-reveal aoi-type="scale" aoi-duration="0.5" aoi-amount="0.3">
+          <video
+            alt="{{ section.settings.video.alt }}"
+            preload="metadata"
+            webkit-playsinline
+            playsinline
+            poster="false"
+            {% unless media_autoplay %}
+              controls
+            {% else %}
+              muted autoplay loop
+            {% endunless %}
+            aria-label="{{ section.settings.video.alt }}"
+          >
+            {% for source in section.settings.video.sources %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: source %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+              <source src="{{ source.url }}" type="{{ source.mime_type }}">
+            {% endfor %}
+            {{ 'section.video.error_text' | t }}
+          </video>
+          <div class="set-100-percentage-size-media media-preview-element position-absolute" video-preview-elements>
+            <div class="video__main__poster">
+              {% if cover_image != blank %}
+                {{
+                  cover_image
+                  | image_url: width: cover_image.width
+                  | image_tag:
+                    widths: widths,
+                    sizes: sizes,
+                    alt: coverImage,
+                    loading: loading,
+                    fetchpriority: fetchpriority,
+                    class: 'set-100-percentage-size-media'
+                }}
+              {% else %}
+                {{
+                  section.settings.video.preview_image
+                  | image_url: width: section.settings.video.preview_image.width
+                  | image_tag:
+                    widths: widths,
+                    sizes: sizes,
+                    alt: coverImage,
+                    loading: loading,
+                    fetchpriority: fetchpriority,
+                    class: 'set-100-percentage-size-media',
+                    style: 'background-size: cover;
+                    background-image:
+                    "url(data:image/svg+xml;base64,[svg text]);"'
+                }}
+              {% endif %}
+            </div>
+          </div>
+        </animation-reveal>
+        {{ display_video_overlay_elements }}
+        <div
+          class="video__overlay position-absolute"
+          style="background-color:rgba({{ overlay_rgba_color }})"
+          video-overlay-elements
+        ></div>
+      </default-player>
+    {%- else -%}
+      {% comment %} Render external Video Link {% endcomment %}
+      {%- case mediaType -%}
+        {%- when 'youtube' -%}
+          {%- assign iframe_id = section.id | append: '-' | append: section.settings.video_url.id.id -%}
+          <youtube-player
+            class="d-block custom__player__element position-relative"
+            video-id="{{ section.settings.video_url.id }}"
+            watch-element
+            {% if media_autoplay %}
+              media-autoplay
+            {% endif %}
+          >
+            <animation-reveal class="w-100" aoi-type="scale" aoi-duration="0.5" aoi-amount="0.3">
+              <div class="d-inline">
+                <div id="{{ iframe_id }}" iframe-element></div>
+              </div>
+              <div class="set-100-percentage-size-media media-preview-element position-absolute" video-preview-elements>
+                <div class="video__main__poster set-100-percentage-size-media">
+                  {% if cover_image != blank %}
+                    {{
+                      cover_image
+                      | image_url: width: 1336
+                      | image_tag:
+                        widths: widths,
+                        sizes: sizes,
+                        alt: coverImage,
+                        loading: loading,
+                        fetchpriority: fetchpriority,
+                        class: 'set-100-percentage-size-media',
+                        style: 'background-size: cover; 
+                      background-image:
+                      url("data:image/svg+xml;base64,[svg text]");'
+                    }}
+                  {% else %}
+                    {{ 'hero-apparel-1' | placeholder_svg_tag: 'set-100-percentage-size-media' }}
+                  {% endif %}
+                </div>
+              </div>
+            </animation-reveal>
+
+            {{ display_video_overlay_elements }}
+            <div
+              class="video__overlay position-absolute"
+              style="background-color:rgba({{ overlay_rgba_color }})"
+              video-overlay-elements
+            ></div>
+          </youtube-player>
+        {%- when 'vimeo' -%}
+          {%- assign iframe_id = section.id | append: '-' | append: section.settings.video_url.id.id -%}
+          <vimeo-player
+            class="d-block custom__player__element  position-relative"
+            video-id="{{ section.settings.video_url.id }}"
+            watch-element
+            {% if media_autoplay %}
+              media-autoplay
+            {% endif %}
+          >
+            <animation-reveal class="w-100" aoi-type="scale" aoi-duration="0.5" aoi-amount="0.3">
+              <div
+                class="d-inline"
+                id="{{ iframe_id }}"
+                iframe-element
+              ></div>
+              <div class="set-100-percentage-size-media position-absolute" video-preview-elements>
+                <div class="video__main__poster set-100-percentage-size-media">
+                  {% if cover_image != blank %}
+                    {{
+                      cover_image
+                      | image_url: width: 1336
+                      | image_tag:
+                        widths: widths,
+                        sizes: sizes,
+                        alt: coverImage,
+                        loading: loading,
+                        fetchpriority: fetchpriority,
+                        class: 'set-100-percentage-size-media',
+                        style: 'background-size: cover; 
+                      background-image:
+                      url("data:image/svg+xml;base64,[svg text]");'
+                    }}
+                  {% else %}
+                    {{ 'hero-apparel-1' | placeholder_svg_tag: 'set-100-percentage-size-media' }}
+                  {% endif %}
+                </div>
+              </div>
+            </animation-reveal>
+            {{ display_video_overlay_elements }}
+            <div
+              class="video__overlay position-absolute"
+              style="background-color:rgba({{ overlay_rgba_color }})"
+              video-overlay-elements
+            ></div>
+          </vimeo-player>
+      {%- endcase -%}
+    {%- endif -%}
+  </div>
+</div>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'bottom' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-bottom"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+{% schema %}
+{
+  "name": "Video",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "media_autoplay",
+      "label": "Enable video autoplay",
+      "info": "Video will be muted",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "media_size",
+      "label": "Video size",
+      "options": [
+        {
+          "label": "Adapt to media",
+          "value": "adapt"
+        },
+        {
+          "label": "Small",
+          "value": "sm"
+        },
+        {
+          "label": "Medium",
+          "value": "md"
+        },
+        {
+          "label": "Large",
+          "value": "lg"
+        },
+        {
+          "label": "Fill screen",
+          "value": "fill-screen"
+        }
+      ],
+      "default": "md"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video",
+      "info": "Replaces the video URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "Cover image"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "accept": ["youtube", "vimeo"],
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+      "label": "Video URL",
+      "placeholder": "video url",
+      "info": "Use a youtube or vimeo URL"
+    },
+    {
+      "type": "header",
+      "content": "Block settings"
+    },
+    {
+      "type": "text_alignment",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Content position",
+      "options": [
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Center",
+          "value": "middle"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "bottom"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 52
+    },
+    {
+      "type": "select",
+      "id": "border_size",
+      "label": "Border",
+      "options": [
+        {
+          "label": "Hide",
+          "value": "hide"
+        },
+        {
+          "label": "Full width",
+          "value": "full_width"
+        },
+        {
+          "label": "Fixed width",
+          "value": "fixed_width"
+        }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "select",
+      "id": "border_position",
+      "label": "Border position",
+      "options": [
+        {
+          "label": "Both",
+          "value": "both"
+        },
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "both"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-5",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Play button",
+      "type": "play_button",
+      "limit": 1
+    },
+    {
+      "name": "Heading",
+      "type": "heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Video Heading",
+          "placeholder": "Heading"
+        },
+        {
+          "type": "select",
+          "id": "heading_style",
+          "label": "Size",
+          "options": [
+            {
+              "label": "H1",
+              "value": "h1"
+            },
+            {
+              "label": "H2",
+              "value": "h2"
+            },
+            {
+              "label": "H3",
+              "value": "h3"
+            },
+            {
+              "label": "H4",
+              "value": "h4"
+            },
+            {
+              "label": "H5",
+              "value": "h5"
+            },
+            {
+              "label": "H6",
+              "value": "h6"
+            }
+          ],
+          "default": "h2"
+        }
+      ]
+    },
+    {
+      "name": "Subheading",
+      "type": "sub_heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "sub_heading",
+          "label": "Subheading",
+          "default": "Subheading",
+          "placeholder": "Subheading"
+        }
+      ]
+    },
+    {
+      "name": "Paragraph",
+      "type": "paragraph",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "paragraph",
+          "label": "Content",
+          "default": "<p>Briefly describe what this video is about</p>"
+        }
+      ]
+    },
+    {
+      "name": "Button",
+      "type": "button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Label",
+          "default": "Button text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "link_target",
+          "label": "Open link in",
+          "options": [
+            {
+              "label": "New tab",
+              "value": "_blank"
+            },
+            {
+              "label": "Same tab",
+              "value": "_top"
+            }
+          ],
+          "default": "_top"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_outline_button",
+          "label": "Use outline button style",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "play_button"
+        },
+        {
+          "type": "paragraph"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["*"]
+  }
+}
+{% endschema %}

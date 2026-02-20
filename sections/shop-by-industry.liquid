@@ -1,0 +1,578 @@
+<style>
+  .shop-by-industry-section {
+    background-color: #fff;
+    padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px 20px;
+  }
+
+  .shop-by-industry-container {
+    max-width: 120rem;
+    margin: 0 auto;
+  }
+
+  /* Section Header */
+  .shop-by-industry-header {
+    text-align: {{ section.settings.text_alignment }};
+    margin-bottom: 50px;
+  }
+
+  .shop-by-industry-title {
+    font-size: 40px;
+    font-weight: 700;
+    color: #000;
+    margin: 0 0 15px 0;
+    line-height: 1.2;
+  }
+
+  .shop-by-industry-subtitle {
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.7);
+    margin: 0;
+    line-height: 1.5;
+    max-width: 80rem;
+    {% if section.settings.text_alignment == 'center' %}
+      margin-left: auto;
+      margin-right: auto;
+    {% endif %}
+  }
+
+  /* Industry Grid */
+  .industry-grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+    gap: {{ section.settings.grid_gap }}px;
+  }
+
+  .industry-tile {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ section.settings.tile_border_radius }}px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  .industry-tile:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .industry-tile-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    height: 100%;
+  }
+
+  .industry-tile-image-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: {{ section.settings.image_ratio }}%;
+    overflow: hidden;
+    background: #f5f5f5;
+  }
+
+  .industry-tile-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .industry-tile:hover .industry-tile-image {
+    transform: scale(1.05);
+  }
+
+  /* Content Overlay - Optional */
+  .industry-tile-content {
+    padding: 25px 20px;
+    background: #fff;
+  }
+
+  .industry-tile-content.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5));
+    color: #fff;
+  }
+
+  .industry-tile-number {
+    font-size: 16px;
+    font-weight: 700;
+    color: {{ section.settings.accent_color }};
+    margin-bottom: 8px;
+  }
+
+  .overlay .industry-tile-number {
+    color: {{ section.settings.overlay_accent_color }};
+  }
+
+  .industry-tile-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+  }
+
+  .overlay .industry-tile-title {
+    color: #fff;
+  }
+
+  .industry-tile-description {
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.7);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .overlay .industry-tile-description {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  /* Tablet Styles */
+  @media screen and (max-width: 992px) {
+    .shop-by-industry-section {
+      padding: {{ section.settings.padding_top_tablet }}px 15px {{ section.settings.padding_bottom_tablet }}px 15px;
+    }
+
+    .shop-by-industry-header {
+      margin-bottom: 40px;
+    }
+
+    .shop-by-industry-title {
+      font-size: 35px;
+    }
+
+    .shop-by-industry-subtitle {
+      font-size: 17px;
+    }
+
+    .industry-grid {
+      grid-template-columns: repeat({{ section.settings.columns_tablet }}, 1fr);
+      gap: {{ section.settings.grid_gap_tablet }}px;
+    }
+
+    .industry-tile-title {
+      font-size: 18px;
+    }
+
+    .industry-tile-description {
+      font-size: 15px;
+    }
+  }
+
+  /* Mobile Styles */
+  @media screen and (max-width: 768px) {
+    .shop-by-industry-section {
+      padding: {{ section.settings.padding_top_mobile }}px 15px {{ section.settings.padding_bottom_mobile }}px 15px;
+    }
+
+    .shop-by-industry-header {
+      margin-bottom: 30px;
+    }
+
+    .shop-by-industry-title {
+      font-size: 28px;
+    }
+
+    .shop-by-industry-subtitle {
+      font-size: 16px;
+    }
+
+    .industry-grid {
+      grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr);
+      gap: {{ section.settings.grid_gap_mobile }}px;
+    }
+
+    .industry-tile-content {
+      padding: 20px 15px;
+    }
+
+    .industry-tile-title {
+      font-size: 17px;
+    }
+
+    .industry-tile-description {
+      font-size: 15px;
+    }
+  }
+</style>
+
+<section class="shop-by-industry-section">
+  <div class="shop-by-industry-container">
+    <!-- Section Header -->
+    {% if section.settings.section_title != blank or section.settings.section_subtitle != blank %}
+      <div class="shop-by-industry-header">
+        {% if section.settings.section_title != blank %}
+          <h2 class="shop-by-industry-title">{{ section.settings.section_title }}</h2>
+        {% endif %}
+        {% if section.settings.section_subtitle != blank %}
+          <p class="shop-by-industry-subtitle">{{ section.settings.section_subtitle }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- Industry Grid -->
+    <div class="industry-grid">
+      {% for block in section.blocks %}
+        {% if block.settings.tile_image != blank %}
+          <div class="industry-tile" {{ block.shopify_attributes }}>
+            {% if block.settings.tile_link != blank %}
+              <a href="{{ block.settings.tile_link }}" class="industry-tile-link">
+            {% else %}
+              <div class="industry-tile-link">
+            {% endif %}
+              
+              <div class="industry-tile-image-wrapper">
+                <img 
+                  src="{{ block.settings.tile_image | img_url: '800x' }}"
+                  srcset="{{ block.settings.tile_image | img_url: '400x' }} 400w,
+                          {{ block.settings.tile_image | img_url: '600x' }} 600w,
+                          {{ block.settings.tile_image | img_url: '800x' }} 800w"
+                  sizes="(max-width: 768px) 100vw, (max-width: 992px) 50vw, 33vw"
+                  alt="{{ block.settings.tile_title | escape }}"
+                  class="industry-tile-image"
+                  loading="lazy"
+                >
+              </div>
+
+              <div class="industry-tile-content {% if section.settings.content_position == 'overlay' %}overlay{% endif %}">
+                {% if block.settings.show_number %}
+                  <div class="industry-tile-number">{{ forloop.index }}. {{ block.settings.tile_title }}</div>
+                {% endif %}
+                <h3 class="industry-tile-title">
+                  
+                  {{ block.settings.tile_title }}
+                </h3>
+                {% if block.settings.tile_description != blank %}
+                  <p class="industry-tile-description">{{ block.settings.tile_description }}</p>
+                {% endif %}
+              </div>
+
+            {% if block.settings.tile_link != blank %}
+              </a>
+            {% else %}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop by Industry",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Shop by Industry"
+    },
+    {
+      "type": "textarea",
+      "id": "section_subtitle",
+      "label": "Section Subtitle",
+      "default": "Professional-grade gloves and essential supplies designed for real-world environments."
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "Columns (Desktop)",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Columns (Tablet)",
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns (Mobile)",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 Column"
+        },
+        {
+          "value": "2",
+          "label": "2 Columns"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Grid Gap (Desktop)",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_tablet",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Grid Gap (Tablet)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_mobile",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Grid Gap (Mobile)",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Tile Settings"
+    },
+    {
+      "type": "range",
+      "id": "image_ratio",
+      "min": 50,
+      "max": 150,
+      "step": 5,
+      "unit": "%",
+      "label": "Image Aspect Ratio",
+      "default": 75,
+      "info": "75% = 4:3, 100% = 1:1, 133% = 3:4"
+    },
+    {
+      "type": "range",
+      "id": "tile_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Tile Border Radius",
+      "default": 8
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Content Position",
+      "options": [
+        {
+          "value": "below",
+          "label": "Below Image"
+        },
+        {
+          "value": "overlay",
+          "label": "Overlay on Image"
+        }
+      ],
+      "default": "below"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Number)",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "overlay_accent_color",
+      "label": "Overlay Accent Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Desktop)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Desktop)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_tablet",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Tablet)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_tablet",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Tablet)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "industry_tile",
+      "name": "Industry Tile",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "tile_image",
+          "label": "Tile Image",
+          "info": "Recommended: 800x600px"
+        },
+        {
+          "type": "text",
+          "id": "tile_title",
+          "label": "Tile Title",
+          "default": "Medical & Dental"
+        },
+        {
+          "type": "textarea",
+          "id": "tile_description",
+          "label": "Tile Description",
+          "default": "Exam-grade gloves for clinical and patient-care environments."
+        },
+        {
+          "type": "url",
+          "id": "tile_link",
+          "label": "Tile Link",
+          "info": "Optional - Link to collection or page"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_number",
+          "label": "Show Number Badge",
+          "default": false,
+          "info": "Display number as a separate badge above title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Industry",
+      "blocks": [
+        {
+          "type": "industry_tile",
+          "settings": {
+            "tile_title": "Medical & Dental",
+            "tile_description": "Exam-grade gloves for clinical and patient-care environments."
+          }
+        },
+        {
+          "type": "industry_tile",
+          "settings": {
+            "tile_title": "Laboratory & Drug Testing",
+            "tile_description": "Exam gloves trusted for testing and controlled environments."
+          }
+        },
+        {
+          "type": "industry_tile",
+          "settings": {
+            "tile_title": "Food Service & Hospitality",
+            "tile_description": "Food-safe gloves designed for back-of-house operations."
+          }
+        },
+        {
+          "type": "industry_tile",
+          "settings": {
+            "tile_title": "Janitorial & Facility",
+            "tile_description": "Durable gloves for cleaning, sanitation, and maintenance."
+          }
+        },
+        {
+          "type": "industry_tile",
+          "settings": {
+            "tile_title": "Retail",
+            "tile_description": "Display-ready gloves for in-store and point-of-purchase use."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

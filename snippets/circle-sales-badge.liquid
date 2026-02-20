@@ -1,0 +1,89 @@
+<script defer src="{{ 'sales-badge.js' | asset_url }}"></script>
+{{ 'sales-badge.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign desk_content_align = block.settings.desk_content_align
+  assign desk_content_pos = block.settings.desk_content_pos
+
+  assign mob_content_align = block.settings.mob_content_align
+  assign mob_content_pos = block.settings.mob_content_pos
+
+  assign saleText = block.settings.sale_text
+  assign sales_badge = block.settings.badge_type
+  assign saleTextRange = block.settings.sale_text_range
+  assign saleTextLetterSpacing = block.settings.sale_text_letter_spacing
+  assign circle_badge_style_icon_color = block.settings.circle_badge_style_icon_color
+
+  assign font_size = block.settings.sales_circle_font_size
+%}
+
+{% style %}
+  .sales-badge__curved-letter{
+      font-size: calc(var(--font-body-scale) * {{ font_size | append : 'px' }});
+
+      @media (max-width: 767px){
+          font-size: calc(var(--font-body-scale) * {{ font_size | append : 'px' }} * 0.8);
+      }
+  }
+  {% comment %} font-size: calc(var(--body-heading-scale) * 26px); {% endcomment %}
+  .sales-badge__start-parent .marquee-defaults .marquee{
+      gap: {{ saleTextLetterSpacing }}px !important;
+  }
+
+  {% comment %} .sales-badge__icon svg path{
+      stroke: {{ circle_badge_style_icon_color }};
+  } {% endcomment %}
+
+  .sales-badge__text{
+      animation: effect {{ block.settings.sales_circle_speed }}s linear infinite;
+  }
+
+  @keyframes effect {
+      0% {
+          transform: rotate(0deg);
+      }
+
+      100% {
+          transform: rotate(360deg);
+      }
+  }
+{% endstyle %}
+
+{% comment %} Sales Badge {% endcomment %}
+<div
+  class="
+    sales-badge__parent
+    {% if desk_content_align == 'up' %}desk_align_up{% else %}desk_align_down{% endif %}
+    {% if desk_content_pos == 'left' %}desk_content_left{% else %}desk_content_right{% endif %}
+    {% if mob_content_align == 'up' %}mob_content_up{% else %}mob_content_down{% endif %}
+    {% if mob_content_pos == 'left' %} mob_pos_left{% else %} mob_pos_right{% endif %}
+  "
+  data-text="{{ saleText | strip | upcase }}"
+  data-letter-spacing="{{ saleTextRange }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="sales-badge__container">
+    <div id="text" class="sales-badge__text" data-spinner-text>
+      {% assign salesText = saleText | strip | upcase %}
+      {% assign letterSpacing = saleTextRange %}
+
+      {% for i in (0..salesText.size) %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: i %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+        {% assign degree = letterSpacing | times: i %}
+        <span class="sales-badge__curved-letter" style="transform: rotate({{ degree }}deg)">
+          {{ salesText | slice: i }}
+        </span>
+      {% endfor %}
+    </div>
+
+    <div class="sales-badge__icon">
+      {% render 'icon' with sales_badge, color: circle_badge_style_icon_color %}
+    </div>
+  </div>
+</div>

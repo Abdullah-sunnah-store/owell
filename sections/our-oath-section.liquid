@@ -1,0 +1,301 @@
+<style>
+  .our-oath-section {
+    padding: 60px 20px;
+    background-color: {{ section.settings.background_color }};
+    font-family: 'obviously-variable', sans-serif;
+  }
+
+  .our-oath-container {
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .our-oath-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .our-oath-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: {{ section.settings.heading_color }};
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+
+  .our-oath-intro {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+  }
+
+  .our-oath-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    margin-bottom: 50px;
+  }
+
+  .our-oath-card {
+    background-color: {{ section.settings.card_background }};
+    border-radius: 30px;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+  }
+
+  .our-oath-icon {
+    width: 100%;
+    height: 250px;
+    transition: all 0.3s ease;
+    border-radius: 25px 25px 0 0;
+  }
+
+  .our-oath-card:hover .our-oath-icon {
+    animation: wobble-vertical 0.7s ease-in-out 1;
+  }
+
+  @keyframes wobble-vertical {
+    0% { transform: translateY(0); }
+    15% { transform: translateY(-5px); }
+    30% { transform: translateY(4px); }
+    45% { transform: translateY(-3px); }
+    60% { transform: translateY(2px); }
+    75% { transform: translateY(-1px); }
+    100% { transform: translateY(0); }
+  }
+
+  .our-oath-card-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 15px 0 0;
+    color: #333;
+  }
+
+  .our-oath-card-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #555;
+    padding: 0 20px 20px;
+  }
+
+  .our-oath-cta {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .our-oath-button {
+    background-color: {{ section.settings.heading_color }};
+    color: #fff;
+    font-family: 'Elza Text', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 20px 40px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .our-oath-button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+
+  @media screen and (max-width: 990px) {
+    .our-oath-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .our-oath-title {
+      font-size: 36px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .our-oath-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .our-oath-title {
+      font-size: 32px;
+    }
+
+    .our-oath-card {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
+</style>
+
+<div class="our-oath-section">
+  <div class="our-oath-container">
+    <div class="our-oath-header">
+      <h2 class="our-oath-title">{{ section.settings.heading }}</h2>
+      <div class="our-oath-intro">{{ section.settings.intro_text }}</div>
+    </div>
+
+    <div class="our-oath-grid">
+      {% for block in section.blocks %}
+        {% if block.type == 'oath' %}
+          <div class="our-oath-card" {{ block.shopify_attributes }}>
+            {% if block.settings.icon != blank %}
+              <img 
+                src="{{ block.settings.icon | img_url: 'master' }}" 
+                alt="{{ block.settings.title }}" 
+                class="our-oath-icon"
+                loading="lazy"
+                width="100"
+                height="100">
+            {% endif %}
+            <h3 class="our-oath-card-title">{{ block.settings.title }}</h3>
+            <div class="our-oath-card-description">{{ block.settings.description }}</div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if section.settings.cta_text != blank and section.settings.cta_link != blank %}
+      <div class="our-oath-cta">
+        <a href="{{ section.settings.cta_link }}" class="our-oath-button">
+          {{ section.settings.cta_text }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Our Oath",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Oath"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Introduction Text",
+      "default": "<p>We started Life because we believe everyday food should be anything but ordinary. It's not just about eating clean—it's about feeling connected to what you consume. So here are six oaths we live by, pinkies optional.</p>"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#87C643"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card Background Color",
+      "default": "#F3F9EC"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Button Text",
+      "default": "SHOP OUR DECAF"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "oath",
+      "name": "Oath",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Oath Title",
+          "default": "Oath Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Oath Description",
+          "default": "Description text goes here."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Oath",
+      "blocks": [
+        {
+          "type": "oath",
+          "settings": {
+            "title": "Flavor-first, always",
+            "description": "Tea should do more than hydrate, it should spark something in you. We blend organic leaves and botanicals that actually taste as vibrant as they look."
+          }
+        },
+        {
+          "type": "oath",
+          "settings": {
+            "title": "Spices with soul",
+            "description": "Our masalas aren't just mixes, they're stories. Handcrafted in small batches, each blend honors tradition and adds its own twist to whatever's cooking in your kitchen."
+          }
+        },
+        {
+          "type": "oath",
+          "settings": {
+            "title": "Sweet, simple, real",
+            "description": "Cookies should comfort, not confuse. Ours are made with pantry ingredients you recognize, in combinations you'll come back for again and again."
+          }
+        },
+        {
+          "type": "oath",
+          "settings": {
+            "title": "Nothing to hide",
+            "description": "From ingredient lists to sourcing practices, we believe in clarity. If it's in your food, you should know what it is and why it's there."
+          }
+        },
+        {
+          "type": "oath",
+          "settings": {
+            "title": "Good for you, gentle on the planet",
+            "description": "Every step we take, from packaging to partnerships, is shaped by care for the Earth. We're building something sustainable, one product at a time."
+          }
+        },
+        {
+          "type": "oath",
+          "settings": {
+            "title": "Rooted in joy",
+            "description": "Whether it's a warm cup of tea or a spiced-up dal, food is joy. We're here to make your pantry a happier place, and we hope it brings a little more ease to your everyday life."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

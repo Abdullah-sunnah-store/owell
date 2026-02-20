@@ -1,0 +1,124 @@
+<link href="{{ 'section-predictive-search.css' | asset_url }}" rel="stylesheet" media="print" onload="this.media='all'">
+<drawer-component
+  aria-hidden="true"
+  class="d-block drawer color-{{ settings.drawer_color_scheme }}"
+  drawer-type="search-drawer"
+>
+  <div class="drawer__container">
+    <div class="drawer__overlay" drawer-overlay></div>
+    <div class="drawer__wrapper drawer__wrapper--animation-position-right">
+      {% comment %} Drawer Header Area {% endcomment %}
+      <div class="drawer__header">
+        <div class="position-relative w-100">
+          <div class="d-flex justify-content-space-btw align-item-center w-100 drawer__header__inner__wrapper">
+            <div class="drawer__header__left w-100 d-flex me-2">
+              <button class="drawer__close__btn" close-drawer aria-label="{{ 'accessibility.close_drawer' | t }} ">
+                {%- render 'icon' with 'close-drawer' -%}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} Drawer Content/Body area {% endcomment %}
+      <div class="drawer__body">
+        <div class="drawer__body__wrapper h-100">
+          {%- if settings.predictive_search_enabled -%}
+            <predictive-search
+              id="predictive-search"
+              class="search-form-container d-block"
+              data-loading-text="loading..."
+            >
+          {%- endif -%}
+          <form
+            action="{{ routes.search_url }}"
+            class="search-form search"
+            method="get"
+            role="search"
+          >
+            <div class="search-form__container">
+              <div class="search-form__wrp {% if section.settings.prompt_animation %} prompt_animation  {% endif %} {% if section.settings.prompt_mobile %} prompt-mobile {% endif %}">
+                <label for="Search-In-Modal-Drawer" class="search-form__label visually-hidden">
+                  {{ 'general.search.default_search' | t }}
+                </label>
+                <input
+                  class="search-form__input field__input"
+                  id="Search-In-Modal-Drawer"
+                  type="search"
+                  name="q"
+                  value=""
+                  placeholder="{{ 'general.search.default_search' | t }}"
+                  aria-label="Search In Modal"
+                  {%- if settings.predictive_search_enabled -%}
+                    role="combobox"
+                    aria-expanded="false"
+                    aria-owns="predictive-search-results-list"
+                    aria-controls="predictive-search-results-list"
+                    aria-haspopup="listbox"
+                    aria-autocomplete="list"
+                    autocorrect="off"
+                    autocomplete="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                    required
+                  {%- endif -%}
+                >
+                {% if section.settings.prompt_animation %}
+                  <prompt-element class="d-flex prompt_text ">
+                    <p>{{ 'general.search.search_prompt' | t }}</p>
+                    <ul class="" prompt-element>
+                      {% if section.settings.prompt_text_1 != blank %}
+                        <li>
+                          <span>{{ section.settings.prompt_text_1 }}</span>
+                        </li>
+                      {% endif %}
+                      {% if section.settings.prompt_text_2 != blank %}
+                        <li>
+                          <span>{{ section.settings.prompt_text_2 }}</span>
+                        </li>
+                      {% endif %}
+                      {% if section.settings.prompt_text_3 != blank %}
+                        <li>
+                          <span>{{ section.settings.prompt_text_3 }}</span>
+                        </li>
+                      {% endif %}
+                      {% if section.settings.prompt_text_4 != blank %}
+                        <li>
+                          <span>{{ section.settings.prompt_text_4 }}</span>
+                        </li>
+                      {% endif %}
+                      {% if section.settings.prompt_text_5 != blank %}
+                        <li>
+                          <span>{{ section.settings.prompt_text_5 }}</span>
+                        </li>
+                      {% endif %}
+                    </ul>
+                  </prompt-element>
+                {% endif %}
+                <input name="options[prefix]" type="hidden" value="last">
+
+                {% comment %}
+                  <input
+                  name="type"
+                  type="hidden"
+                  value="product" />
+
+                  <button class="search-form__input-clear" input-clear-button>
+                  {% render 'icon' with 'clear' %}
+                  </button>
+                {% endcomment %}
+              </div>
+            </div>
+            {%- if settings.predictive_search_enabled -%}
+              <div class="predictive-search predictive-search--header h-100" data-predictive-search></div>
+            {%- endif -%}
+          </form>
+          {%- if settings.predictive_search_enabled -%}
+            </predictive-search>
+          {%- endif -%}
+          {% render 'search-trending-products', section: section %}
+        </div>
+      </div>
+    </div>
+  </div>
+</drawer-component>

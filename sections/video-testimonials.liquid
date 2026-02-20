@@ -1,0 +1,966 @@
+{%- comment -%}
+------------------------------------------------------------------------------------------------------------------------
+CSS
+------------------------------------------------------------------------------------------------------------------------
+{%- endcomment -%}
+<style>
+ #shopify-section-{{ section.id }} {
+   --testimonial-background: {{ section.settings.background_gradient | default: section.settings.background }};
+ }
+
+
+ .video-testimonials {
+   position: relative;
+   overflow: hidden;
+   padding: 60px 0;
+ }
+
+
+ .video-testimonials__carousel {
+   overflow: hidden;
+   padding: 0 5%;
+ }
+
+
+ .video-testimonials__container {
+   display: flex;
+   gap: 20px;
+   align-items: center;
+   justify-content: center;
+   position: relative;
+   flex-wrap: nowrap;
+   overflow: visible;
+   cursor: grab;
+   user-select: none;
+ }
+
+
+
+
+ .video-testimonial {
+   position: relative;
+   border-radius: 20px;
+   overflow: hidden;
+   cursor: pointer;
+   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+   transform: scale(1) translateY(0);
+   flex-shrink: 0;
+ }
+
+
+ .video-testimonials__container:not(.dragging) .video-testimonial {
+   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+               height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+               box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+               border-width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+               transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+               order 0s;
+ }
+
+
+ .video-testimonial.hidden {
+   opacity: 0;
+   pointer-events: none;
+ }
+
+
+ /* 3D Carousel Positions */
+ .video-testimonial.center {
+   opacity: 1;
+   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+   width: 270px;
+   height: 480px;
+   border: 4px solid #63b1a6;
+ }
+
+
+ .video-testimonial.left-3 {
+   z-index: 0;
+   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+   width: 175px;
+   height: 311px;
+   border: 2.8px solid #39180F;
+ }
+
+
+ .video-testimonial.left-2 {
+   z-index: 1;
+   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+   width: 218px;
+   height: 388px;
+   border: 3.2px solid #39180F;
+ }
+
+
+ .video-testimonial.left-1 {
+   z-index: 5;
+   width: 243px;
+   height: 432px;
+   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+   border: 3.6px solid #39180F;
+ }
+
+
+ .video-testimonial.right-1 {
+   z-index: 5;
+   width: 243px;
+   height: 432px;
+   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+   border: 3.6px solid #39180F;
+ }
+
+
+ .video-testimonial.right-2 {
+   z-index: 1;
+   width: 218px;
+   height: 388px;
+   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+   border: 3.2px solid #39180F;
+ }
+
+
+ .video-testimonial.right-3 {
+   z-index: 0;
+   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+   width: 175px;
+   height: 311px;
+   border: 2.8px solid #39180F;
+ }
+
+
+ .video-testimonial video {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+ }
+
+
+ .video-testimonial__poster {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   z-index: 2;
+   cursor: pointer;
+ }
+
+
+ .video-testimonial__overlay {
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   background: linear-gradient(transparent, rgba(0,0,0,0.8));
+   padding: 20px;
+   z-index: 3;
+   opacity: 0;
+   transition: opacity 0.3s ease;
+ }
+
+
+ .video-testimonial.center .video-testimonial__overlay {
+   opacity: 1;
+ }
+
+
+ .video-testimonial__product {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   background: #ECE5D4;
+   padding: 8px 20px 8px 8px;
+   border-radius: 8px;
+ }
+
+
+ .video-testimonial__product-image {
+   width: 64px;
+   height: 64px;
+   border-radius: 4px;
+   object-fit: cover;
+ }
+
+
+ .video-testimonial__product-name {
+   color: #39180FB2;
+   font-size: 14px;
+   display: flex;
+   font-weight: 700;
+   flex-direction: column;
+   align-items: flex-start;
+ }
+
+
+ .video-testimonial__shop-button {
+     color: #333;
+   border: none;
+   border-radius: 20px;
+   font-size: 13px;
+   font-weight: 500;
+   cursor: pointer;
+   text-decoration: underline;
+   transition: all 0.3s ease;
+ }
+
+
+ .video-testimonial__controls {
+   position: absolute;
+   top: 15px;
+   right: 15px;
+   z-index: 4;
+   opacity: 0;
+   transition: opacity 0.3s ease;
+ }
+
+
+ .video-testimonial.center .video-testimonial__controls {
+   opacity: 1;
+ }
+
+
+ .video-testimonial__mute-button {
+   background: transparent;
+   border: 1px solid #FFFFFF1A !important;
+   border-radius: 6px;
+   width: 40px;
+   height: 40px;
+   color: white;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   transition: all 0.3s ease;
+ }
+
+
+ .video-testimonial__mute-button:hover {
+   border-color: #fff !important;
+ }
+ .left-3 .video-testimonial__play-button{
+   display: none !important;
+ }
+ .left-2 .video-testimonial__play-button{
+   display: none !important;
+ }
+ .left-1 .video-testimonial__play-button{
+   display: none !important;
+ }
+ .right-1 .video-testimonial__play-button{
+   display: none !important;
+ }
+ .right-2 .video-testimonial__play-button{
+   display: none !important;
+ }
+ .right-3 .video-testimonial__play-button{
+   display: none !important;
+ }
+
+
+ .video-testimonial__play-button {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background: rgba(255, 255, 255, 0.9);
+   border: none;
+   border-radius: 50%;
+   width: 60px;
+   height: 60px;
+   cursor: pointer;
+   z-index: 4;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   transition: all 0.3s ease;
+ }
+
+
+ .video-testimonial__play-button:hover {
+   background: white;
+   transform: translate(-50%, -50%) scale(1.1);
+ }
+
+
+ .video-testimonial__play-button.playing {
+   display: none;
+ }
+
+
+ /* Navigation */
+ .video-testimonials__navigation {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 40px;
+   margin-top: 40px;
+ }
+
+
+ .video-testimonials__arrow {
+   background:#daf5f2;
+   border-radius: 40px;
+   width: 88px;
+   height: 56px;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   transition: all 0.3s ease;
+   border: 1px solid #39180F1A;
+ }
+
+
+ .video-testimonials__arrow:hover {
+   border-color: #000 !important;
+ }
+
+
+ .video-testimonials__dots {
+   display: flex;
+   gap: 8px;
+ }
+
+
+ .video-testimonials__dot {
+   width: 12px;
+   height: 12px;
+   border-radius: 50%;
+   background: #39180F3D;
+   border: none;
+   cursor: pointer;
+   transition: all 0.3s ease;
+ }
+
+
+ .video-testimonials__dot.active {
+   background: #5052c5;
+   width: 32px;
+   border-radius: 40px !important;
+ }
+
+
+ /* Section header */
+ .video-testimonials__header {
+   text-align: center;
+   margin-bottom: 50px;
+ }
+
+
+ .video-testimonials__title {
+   font-size: clamp(24px, 4vw, 48px);
+   margin-bottom: 10px;
+   color: {{ section.settings.text_color }};
+ }
+
+
+ .video-testimonials__subtitle {
+   font-size: clamp(14px, 2vw, 18px);
+   color: {{ section.settings.text_color }};
+   opacity: 0.8;
+ }
+
+
+ /* Responsive breakpoints */
+
+
+ /* Tablets and small desktops - 5 slides */
+ @media (max-width: 1440px) {
+   .video-testimonial.left-3,
+   .video-testimonial.right-3 {
+     display: none;
+   }
+ }
+
+
+ /* Mobile landscape and small tablets - 3 slides */
+ @media (max-width: 768px) {
+   .video-testimonial.left-2,
+   .video-testimonial.right-2,
+   .video-testimonial.left-3,
+   .video-testimonial.right-3 {
+     display: none;
+   }
+
+
+   .video-testimonials__navigation {
+     gap: 20px;
+     margin-top: 30px;
+   }
+
+
+   .video-testimonials__arrow {
+     width: 40px;
+     height: 40px;
+   }
+
+
+   .video-testimonial__play-button {
+     width: 50px;
+     height: 50px;
+   }
+ }
+
+
+ /* Mobile portrait - button sizing */
+ @media (max-width: 480px) {
+   .video-testimonials__arrow {
+     width: 36px;
+     height: 36px;
+   }
+ }
+</style>
+
+
+{%- comment -%}
+------------------------------------------------------------------------------------------------------------------------
+LIQUID
+------------------------------------------------------------------------------------------------------------------------
+{%- endcomment -%}
+
+
+<div class="section-full" {% render 'surface', background_gradient: section.settings.background_gradient, background: section.settings.background %}>
+ <div class="video-testimonials">
+   {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+     <div class="video-testimonials__header">
+       {%- if section.settings.title != blank -%}
+         <h2 class="video-testimonials__title">{{ section.settings.title | escape }}</h2>
+       {%- endif -%}
+       {%- if section.settings.subtitle != blank -%}
+         <p class="video-testimonials__subtitle">{{ section.settings.subtitle | escape }}</p>
+       {%- endif -%}
+     </div>
+   {%- endif -%}
+
+
+   <div class="video-testimonials__carousel" data-current-slide="0">
+     <div class="video-testimonials__container" id="testimonials-container">
+       {%- for block in section.blocks limit: 7 -%}
+         <div class="video-testimonial" data-block-id="{{ block.id }}" data-slide-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+           {%- if block.settings.video != blank -%}
+             <video
+               class="video-testimonial__video"
+               muted
+               loop
+               playsinline
+               {% if block.settings.poster != blank %}poster="{{ block.settings.poster | image_url: width: 400 }}"{% endif %}
+             >
+               <source src="{{ block.settings.video.sources[1].url }}" type="video/mp4">
+             </video>
+           {%- elsif block.settings.poster != blank -%}
+             <img
+               src="{{ block.settings.poster | image_url: width: 400 }}"
+               alt="{{ block.settings.title | escape }}"
+               class="video-testimonial__poster"
+             >
+           {%- endif -%}
+
+
+           <button class="video-testimonial__play-button" onclick="toggleVideo(this)" style="display: none;">
+             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+               <path d="M8 5v14l11-7z"/>
+             </svg>
+           </button>
+
+
+           <div class="video-testimonial__controls">
+             <button class="video-testimonial__mute-button" onclick="toggleMute(this)">
+               <svg class="unmute-icon" xmlns="http://www.w3.org/2000/svg" width="23" height="20" viewBox="0 0 23 20" fill="none" style="display: none;">
+                 <path d="M13.5791 0.325786C13.4529 0.264328 13.3121 0.23948 13.1726 0.254063C13.033 0.268647 12.9004 0.322078 12.7897 0.408286L6.24219 5.49985H2C1.60218 5.49985 1.22064 5.65788 0.93934 5.93919C0.658035 6.22049 0.5 6.60202 0.5 6.99985V12.9998C0.5 13.3977 0.658035 13.7792 0.93934 14.0605C1.22064 14.3418 1.60218 14.4998 2 14.4998H6.24219L12.7897 19.5914C12.9005 19.6775 13.0332 19.7309 13.1728 19.7453C13.3124 19.7597 13.4533 19.7347 13.5793 19.6731C13.7054 19.6115 13.8117 19.5157 13.8861 19.3967C13.9604 19.2777 13.9999 19.1402 14 18.9998V0.999848C14 0.859343 13.9606 0.721658 13.8861 0.602482C13.8117 0.483306 13.7053 0.387432 13.5791 0.325786ZM2 6.99985H5.75V12.9998H2V6.99985ZM12.5 17.4661L7.25 13.3833V6.61641L12.5 2.5336V17.4661ZM17.5625 7.5211C18.1657 8.20592 18.4986 9.08722 18.4986 9.99985C18.4986 10.9125 18.1657 11.7938 17.5625 12.4786C17.43 12.6242 17.2456 12.7119 17.049 12.7227C16.8524 12.7335 16.6595 12.6666 16.5118 12.5364C16.3642 12.4062 16.2736 12.2231 16.2597 12.0268C16.2458 11.8304 16.3097 11.6364 16.4375 11.4867C16.7992 11.0759 16.9988 10.5473 16.9988 9.99985C16.9988 9.45245 16.7992 8.92382 16.4375 8.51297C16.3097 8.36327 16.2458 8.16931 16.2597 7.97293C16.2736 7.77656 16.3642 7.59353 16.5118 7.46333C16.6595 7.33314 16.8524 7.26623 17.049 7.27703C17.2456 7.28784 17.43 7.3755 17.5625 7.5211ZM22.25 9.99985C22.2511 11.845 21.5711 13.6257 20.3403 15.0005C20.2067 15.145 20.0216 15.2313 19.825 15.2406C19.6284 15.2499 19.436 15.1815 19.2893 15.0503C19.1426 14.919 19.0535 14.7353 19.041 14.5388C19.0286 14.3424 19.0939 14.1489 19.2228 14.0002C20.2066 12.9001 20.7505 11.4761 20.7505 10.0003C20.7505 8.52452 20.2066 7.1005 19.2228 6.00047C19.1553 5.9274 19.103 5.84163 19.0689 5.74815C19.0349 5.65466 19.0197 5.55533 19.0245 5.45595C19.0292 5.35657 19.0536 5.25911 19.0963 5.16926C19.1391 5.07942 19.1993 4.99897 19.2734 4.93261C19.3475 4.86625 19.4341 4.81531 19.5281 4.78274C19.6222 4.75018 19.7217 4.73665 19.821 4.74293C19.9203 4.74922 20.0173 4.7752 20.1065 4.81936C20.1957 4.86352 20.2751 4.92498 20.3403 5.00016C21.5714 6.37436 22.2515 8.15487 22.25 9.99985Z" fill="white"/>
+               </svg>
+
+
+               <svg class="mute-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none" >
+               <path d="M14.5791 2.61119C14.4529 2.54973 14.3121 2.52488 14.1726 2.53946C14.033 2.55405 13.9004 2.60748 13.7897 2.69369L7.24219 7.78525H3C2.60218 7.78525 2.22064 7.94328 1.93934 8.22459C1.65804 8.50589 1.5 8.88742 1.5 9.28525V15.2852C1.5 15.6831 1.65804 16.0646 1.93934 16.3459C2.22064 16.6272 2.60218 16.7852 3 16.7852H7.24219L13.7897 21.8768C13.9005 21.9629 14.0332 22.0163 14.1728 22.0307C14.3124 22.0451 14.4533 22.0201 14.5793 21.9585C14.7054 21.8969 14.8117 21.8011 14.8861 21.6821C14.9604 21.5631 14.9999 21.4256 15 21.2852V3.28525C15 3.14474 14.9606 3.00706 14.8861 2.88788C14.8117 2.76871 14.7053 2.67283 14.5791 2.61119ZM3 9.28525H6.75V15.2852H3V9.28525ZM13.5 19.7515L8.25 15.6687V8.90181L13.5 4.819V19.7515ZM23.0306 14.0046C23.1714 14.1454 23.2504 14.3362 23.2504 14.5352C23.2504 14.7343 23.1714 14.9251 23.0306 15.0659C22.8899 15.2066 22.699 15.2857 22.5 15.2857C22.301 15.2857 22.1101 15.2066 21.9694 15.0659L20.25 13.3456L18.5306 15.0659C18.3899 15.2066 18.199 15.2857 18 15.2857C17.801 15.2857 17.6101 15.2066 17.4694 15.0659C17.3286 14.9251 17.2496 14.7343 17.2496 14.5352C17.2496 14.3362 17.3286 14.1454 17.4694 14.0046L19.1897 12.2852L17.4694 10.5659C17.3286 10.4251 17.2496 10.2343 17.2496 10.0352C17.2496 9.83623 17.3286 9.64535 17.4694 9.50462C17.6101 9.36389 17.801 9.28483 18 9.28483C18.199 9.28483 18.3899 9.36389 18.5306 9.50462L20.25 11.2249L21.9694 9.50462C22.1101 9.36389 22.301 9.28483 22.5 9.28483C22.699 9.28483 22.8899 9.36389 23.0306 9.50462C23.1714 9.64535 23.2504 9.83623 23.2504 10.0352C23.2504 10.2343 23.1714 10.4251 23.0306 10.5659L21.3103 12.2852L23.0306 14.0046Z" fill="white"/>
+               </svg>
+             </button>
+           </div>
+
+
+           {%- if block.settings.product != blank -%}
+             <div class="video-testimonial__overlay">
+               <div class="video-testimonial__product">
+                 {%- if block.settings.product.featured_image != blank -%}
+                   <img
+                     src="{{ block.settings.product.featured_image | image_url: width: 80 }}"
+                     alt="{{ block.settings.product.title | escape }}"
+                     class="video-testimonial__product-image"
+                   >
+                 {%- endif -%}
+                 <span class="video-testimonial__product-name">
+                   {{ block.settings.product.title | truncate: 20 }}
+                  
+                   <a href="{{ block.settings.product.url }}" class="video-testimonial__shop-button">
+                     Shop Now
+                   </a>
+                 </span>
+               </div>
+             </div>
+           {%- endif -%}
+         </div>
+       {%- endfor -%}
+     </div>
+
+
+     {%- if section.blocks.size > 1 -%}
+       <div class="video-testimonials__navigation">
+         <button class="video-testimonials__arrow video-testimonials__prev" onclick="slideTestimonials(-1)">
+           <svg xmlns="http://www.w3.org/2000/svg" width="10" height="17" viewBox="0 0 10 17" fill="none">
+           <path d="M9.53073 15.2545C9.60041 15.3241 9.65568 15.4069 9.6934 15.4979C9.73111 15.589 9.75052 15.6865 9.75052 15.7851C9.75052 15.8836 9.73111 15.9812 9.6934 16.0723C9.65568 16.1633 9.60041 16.246 9.53073 16.3157C9.46104 16.3854 9.37832 16.4407 9.28727 16.4784C9.19623 16.5161 9.09865 16.5355 9.0001 16.5355C8.90156 16.5355 8.80397 16.5161 8.71293 16.4784C8.62188 16.4407 8.53916 16.3854 8.46948 16.3157L0.969476 8.81571C0.899744 8.74606 0.844425 8.66334 0.806682 8.57229C0.768939 8.48124 0.749512 8.38365 0.749512 8.28508C0.749512 8.18652 0.768939 8.08893 0.806682 7.99788C0.844425 7.90683 0.899744 7.82411 0.969476 7.75446L8.46948 0.25446C8.61021 0.113729 8.80108 0.034668 9.0001 0.034668C9.19912 0.034668 9.39 0.113729 9.53073 0.25446C9.67146 0.39519 9.75052 0.586062 9.75052 0.785085C9.75052 0.984108 9.67146 1.17498 9.53073 1.31571L2.56041 8.28508L9.53073 15.2545Z" fill="#39180F"/>
+           </svg>
+         </button>
+
+
+         <div class="video-testimonials__dots">
+           {%- for block in section.blocks limit: 7 -%}
+             <button
+               class="video-testimonials__dot {% if forloop.first %}active{% endif %}"
+               onclick="goToSlide({{ forloop.index0 }})"
+               data-slide="{{ forloop.index0 }}"
+             ></button>
+           {%- endfor -%}
+         </div>
+
+
+         <button class="video-testimonials__arrow video-testimonials__next" onclick="slideTestimonials(1)">
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+           <path d="M17.0306 12.8157L9.53055 20.3157C9.46087 20.3854 9.37815 20.4407 9.2871 20.4784C9.19606 20.5161 9.09847 20.5355 8.99993 20.5355C8.90138 20.5355 8.8038 20.5161 8.71276 20.4784C8.62171 20.4407 8.53899 20.3854 8.4693 20.3157C8.39962 20.246 8.34435 20.1633 8.30663 20.0723C8.26892 19.9812 8.24951 19.8836 8.24951 19.7851C8.24951 19.6865 8.26892 19.589 8.30663 19.4979C8.34435 19.4069 8.39962 19.3241 8.4693 19.2545L15.4396 12.2851L8.4693 5.31571C8.32857 5.17498 8.24951 4.98411 8.24951 4.78508C8.24951 4.58606 8.32857 4.39519 8.4693 4.25446C8.61003 4.11373 8.80091 4.03467 8.99993 4.03467C9.19895 4.03467 9.38982 4.11373 9.53055 4.25446L17.0306 11.7545C17.1003 11.8241 17.1556 11.9068 17.1933 11.9979C17.2311 12.0889 17.2505 12.1865 17.2505 12.2851C17.2505 12.3836 17.2311 12.4812 17.1933 12.5723C17.1556 12.6633 17.1003 12.7461 17.0306 12.8157Z" fill="#39180F"/>
+           </svg>
+         </button>
+       </div>
+     {%- endif -%}
+   </div>
+ </div>
+</div>
+
+
+<script>
+ let currentIndex = 0;
+ const totalSlides = {{ section.blocks.size }};
+ let testimonials = [];
+ let isAnimating = false;
+
+
+ function updateCarousel(newIndex) {
+   if (isAnimating) return;
+   isAnimating = true;
+
+
+   // Handle infinite loop in both directions
+   currentIndex = ((newIndex % totalSlides) + totalSlides) % totalSlides;
+
+
+   // Update position classes for all testimonials without removing from DOM
+   testimonials.forEach((item, index) => {
+     // Remove all position classes
+     item.classList.remove(
+       "center",
+       "left-1",
+       "left-2",
+       "left-3",
+       "right-1",
+       "right-2",
+       "right-3",
+       "hidden"
+     );
+
+
+     // Calculate relative position from current index
+     let relativePosition = index - currentIndex;
+
+
+     // Handle circular wrapping
+     if (relativePosition > Math.floor(totalSlides / 2)) {
+       relativePosition -= totalSlides;
+     } else if (relativePosition < -Math.floor(totalSlides / 2)) {
+       relativePosition += totalSlides;
+     }
+
+
+     // Apply position class based on relative position
+     switch (relativePosition) {
+       case -3:
+         item.classList.add("left-3");
+         item.style.order = 0;
+         break;
+       case -2:
+         item.classList.add("left-2");
+         item.style.order = 1;
+         break;
+       case -1:
+         item.classList.add("left-1");
+         item.style.order = 2;
+         break;
+       case 0:
+         item.classList.add("center");
+         item.style.order = 3;
+         break;
+       case 1:
+         item.classList.add("right-1");
+         item.style.order = 4;
+         break;
+       case 2:
+         item.classList.add("right-2");
+         item.style.order = 5;
+         break;
+       case 3:
+         item.classList.add("right-3");
+         item.style.order = 6;
+         break;
+       default:
+         item.classList.add("hidden");
+         item.style.order = 7;
+         break;
+     }
+   });
+
+
+   updateDots();
+   updateVideoStates();
+
+
+   setTimeout(() => {
+     isAnimating = false;
+   }, 500);
+ }
+
+
+ function slideTestimonials(direction) {
+   const newIndex = currentIndex + direction;
+   updateCarousel(newIndex);
+ }
+
+
+ function goToSlide(slideIndex) {
+   updateCarousel(slideIndex);
+ }
+
+
+ function updateVideoStates() {
+   const allVideos = document.querySelectorAll('.video-testimonial video');
+   const allPlayButtons = document.querySelectorAll('.video-testimonial__play-button');
+
+
+   // Pause all videos first
+   allVideos.forEach(video => {
+     video.pause();
+     video.currentTime = 0;
+   });
+
+
+   allPlayButtons.forEach(button => {
+     button.style.display = 'flex';
+   });
+
+
+   // Only play the center video
+   const centerVideo = document.querySelector('.video-testimonial.center video');
+   const centerPlayButton = document.querySelector('.video-testimonial.center .video-testimonial__play-button');
+
+
+   if (centerVideo) {
+     centerVideo.play();
+     if (centerPlayButton) {
+       centerPlayButton.style.display = 'none';
+     }
+   }
+ }
+
+
+ function updateDots() {
+   document.querySelectorAll('.video-testimonials__dot').forEach((dot, index) => {
+     dot.classList.toggle('active', index === currentIndex);
+   });
+ }
+
+
+ function toggleVideo(button) {
+   const video = button.parentElement.querySelector('video');
+   if (video && video.paused) {
+     video.play();
+     button.style.display = 'none';
+   }
+ }
+
+
+ function toggleMute(button) {
+   const allVideos = document.querySelectorAll('.video-testimonial video');
+   const allMuteButtons = document.querySelectorAll('.video-testimonial__mute-button');
+   const video = button.closest('.video-testimonial').querySelector('video');
+
+
+   if (video) {
+     const newMutedState = !video.muted;
+
+
+     // Apply mute state to all videos
+     allVideos.forEach(v => {
+       v.muted = newMutedState;
+     });
+
+
+     // Update all mute button icons
+     allMuteButtons.forEach(btn => {
+       const muteIcon = btn.querySelector('.mute-icon');
+       const unmuteIcon = btn.querySelector('.unmute-icon');
+
+
+       if (newMutedState) {
+         muteIcon.style.display = 'block';
+         unmuteIcon.style.display = 'none';
+       } else {
+         muteIcon.style.display = 'none';
+         unmuteIcon.style.display = 'block';
+       }
+     });
+   }
+ }
+
+
+ // Initialize on load
+ document.addEventListener('DOMContentLoaded', function() {
+   testimonials = Array.from(document.querySelectorAll('.video-testimonial'));
+
+
+   // Set initial state
+   updateCarousel(0);
+
+
+   // Add click handlers to testimonials to center them
+   testimonials.forEach((testimonial, index) => {
+     testimonial.addEventListener('click', (e) => {
+       // Don't trigger if clicking on mute button or other controls, or if user was dragging
+       if (!hasDragged &&
+           !e.target.closest('.video-testimonial__mute-button') &&
+           !e.target.closest('.video-testimonial__play-button') &&
+           !e.target.closest('.video-testimonial__shop-button')) {
+         updateCarousel(index);
+       }
+     });
+   });
+
+
+   // Drag/Swipe functionality
+   const container = document.getElementById('testimonials-container');
+   let isDragging = false;
+   let startPos = 0;
+   let currentTranslate = 0;
+   let prevTranslate = 0;
+   let animationID = 0;
+   let hasDragged = false;
+
+
+   // Mouse events
+   container.addEventListener('mousedown', dragStart);
+   container.addEventListener('mouseup', dragEnd);
+   container.addEventListener('mouseleave', dragEnd);
+   container.addEventListener('mousemove', drag);
+
+
+   // Touch events
+   container.addEventListener('touchstart', dragStart);
+   container.addEventListener('touchend', dragEnd);
+   container.addEventListener('touchmove', drag);
+
+
+   function dragStart(event) {
+     isDragging = true;
+     hasDragged = false;
+     startPos = getPositionX(event);
+     animationID = requestAnimationFrame(animation);
+     container.style.cursor = 'grabbing';
+     container.classList.add('dragging');
+   }
+
+
+   function drag(event) {
+     if (!isDragging) return;
+     event.preventDefault();
+     const currentPosition = getPositionX(event);
+     currentTranslate = currentPosition - startPos;
+
+
+     // Mark as dragged if moved more than 5px
+     if (Math.abs(currentTranslate) > 5) {
+       hasDragged = true;
+     }
+   }
+
+
+   function dragEnd() {
+     if (!isDragging) return;
+     isDragging = false;
+     cancelAnimationFrame(animationID);
+     container.style.cursor = 'grab';
+     container.classList.remove('dragging');
+
+
+     const movedBy = currentTranslate;
+
+
+     // If moved more than 50px, change slide (infinite loop)
+     if (movedBy < -50) {
+       slideTestimonials(1);
+     } else if (movedBy > 50) {
+       slideTestimonials(-1);
+     }
+
+
+     // Reset container transform
+     container.style.transform = '';
+     currentTranslate = 0;
+
+
+     // Reset hasDragged after a short delay to allow click event to check it
+     setTimeout(() => {
+       hasDragged = false;
+     }, 10);
+   }
+
+
+   function getPositionX(event) {
+     return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+   }
+
+
+   function animation() {
+     if (isDragging) {
+       setContainerPosition();
+       requestAnimationFrame(animation);
+     }
+   }
+
+
+   function setContainerPosition() {
+     container.style.transform = `translateX(${currentTranslate}px)`;
+   }
+
+
+   // Auto-play functionality
+   {% if section.settings.autoplay %}
+     setInterval(() => {
+       if (!isAnimating && !isDragging) {
+         slideTestimonials(1);
+       }
+     }, {{ section.settings.duration | times: 1000 }});
+   {% endif %}
+ });
+</script>
+
+
+{% schema %}
+{
+ "name": "Video Testimonials",
+ "class": "shopify-section--video-testimonials",
+ "tag": "section",
+ "max_blocks": 7,
+ "settings": [
+   {
+     "type": "text",
+     "id": "title",
+     "label": "Section title",
+     "default": "What people are saying!"
+   },
+   {
+     "type": "text",
+     "id": "subtitle",
+     "label": "Section subtitle",
+     "default": "From real people"
+   },
+   {
+     "type": "checkbox",
+     "id": "autoplay",
+     "label": "Auto-rotate testimonials",
+     "default": false
+   },
+   {
+     "type": "range",
+     "id": "duration",
+     "min": 3,
+     "max": 10,
+     "step": 1,
+     "unit": "sec",
+     "label": "Change testimonials every",
+     "default": 5
+   },
+   {
+     "type": "header",
+     "content": "Colors"
+   },
+   {
+     "type": "color",
+     "id": "background",
+     "label": "Background",
+     "default": "#f5f5f5"
+   },
+   {
+     "type": "color_background",
+     "id": "background_gradient",
+     "label": "Background gradient"
+   },
+   {
+     "type": "color",
+     "id": "text_color",
+     "label": "Text",
+     "default": "#333333"
+   }
+ ],
+ "blocks": [
+   {
+     "type": "testimonial",
+     "name": "Video Testimonial",
+     "settings": [
+       {
+         "type": "text",
+         "id": "title",
+         "label": "Testimonial title",
+         "info": "For internal reference only"
+       },
+       {
+         "type": "video",
+         "id": "video",
+         "label": "Video"
+       },
+       {
+         "type": "image_picker",
+         "id": "poster",
+         "label": "Video poster/thumbnail",
+         "info": "Shows when video is not loaded. Recommended: 400 x 400px"
+       },
+       {
+         "type": "product",
+         "id": "product",
+         "label": "Featured product",
+         "info": "Product to display on center video only"
+       }
+     ]
+   }
+ ],
+ "presets": [
+   {
+     "name": "Video Testimonials",
+     "blocks": [
+       {
+         "type": "testimonial",
+         "settings": {
+           "title": "Testimonial 1"
+         }
+       },
+       {
+         "type": "testimonial",
+         "settings": {
+           "title": "Testimonial 2"
+         }
+       },
+       {
+         "type": "testimonial",
+         "settings": {
+           "title": "Testimonial 3"
+         }
+       }
+     ]
+   }
+ ]
+}
+{% endschema %}

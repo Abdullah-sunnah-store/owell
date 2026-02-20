@@ -1,0 +1,15 @@
+{% case with %}
+  {% when 'twitter' %}
+    {% render 'icon' with 'twitter' %}
+  {% when 'facebook' %}
+    {% render 'icon' with 'facebook' %}
+  {% when 'pinterest' %}  
+    {%- render 'icon' with 'pinterest' -%}
+  {% when 'instagram' %}  
+    {%- render 'icon' with 'instagram' -%}
+  {% when 'tiktok' %}  
+    {% render 'icon' with 'tiktok' %}
+  {% when 'email' %}
+    {% render 'icon' with 'mail', height: 20, width: 20 %}
+
+{% endcase %}

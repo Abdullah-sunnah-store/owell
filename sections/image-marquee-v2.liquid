@@ -1,0 +1,824 @@
+{%- liquid
+ assign pause_on_hover = section.settings.pause_on_hover
+ assign speed = section.settings.speed
+ assign duration = 6.0
+ assign duration = duration | divided_by: speed
+
+
+ assign vertical_alignment = section.settings.vertical_alignment | default: 'center'
+
+
+ assign h_spacing = section.settings.h_spacing
+ assign v_spacing = section.settings.v_spacing
+
+
+ assign h_spacing_mobile = h_spacing | at_most: 24
+ assign v_spacing_mobile = v_spacing | at_most: 12
+-%}
+
+
+{%- style -%}
+/* Scrolling Promotion V2 - Embedded CSS */
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 {
+ padding-top: {{ section.settings.padding_top }}px;
+ padding-bottom: {{ section.settings.padding_bottom }}px;
+ --h-spacing: {{ h_spacing }}px;
+ --v-spacing: {{ v_spacing }}px;
+ --h-spacing-mobile: {{ h_spacing_mobile }}px;
+ --v-spacing-mobile: {{ v_spacing_mobile }}px;
+ --duration: {{ duration }}s;
+ --align-self: {{ vertical_alignment }};
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .section--padding {
+ padding-top: {{ section.settings.padding_top }}px;
+ padding-bottom: {{ section.settings.padding_bottom }}px;
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .scrolling-promotion {
+ overflow: hidden;
+ position: relative;
+ display: flex;
+ align-items: var(--align-self);
+ gap: 0;
+ width: 100%;
+ background: #e7f9f7;
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .promotion {
+ display: flex;
+ align-items: var(--align-self);
+ gap: var(--h-spacing);
+ flex-shrink: 0;
+}
+
+
+@media (max-width: 767px) {
+ #shopify-section-{{ section.id }} .scrolling-promotion-v2 .promotion {
+   gap: var(--h-spacing-mobile);
+ }
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .promotion--animated {
+ animation: scroll-{{ section.id }} var(--duration, 6s) linear infinite;
+ will-change: transform;
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .scrolling-promotion--right .promotion--animated {
+ animation-direction: reverse;
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .scrolling-promotion--paused .promotion--animated {
+ animation-play-state: paused;
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .promotion__item {
+ display: flex;
+ align-items: var(--align-self);
+ padding: var(--v-spacing) 0;
+}
+
+
+@media (max-width: 767px) {
+ #shopify-section-{{ section.id }} .scrolling-promotion-v2 .promotion__item {
+   padding: var(--v-spacing-mobile) 0;
+ }
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .promotion__item-wrap {
+ display: flex;
+ align-items: center;
+ text-decoration: none;
+ color: inherit;
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .promotion__item-image .media-wrapper {
+ height: var(--image-height, 120px);
+ width: auto;
+ overflow: hidden;
+ border-radius: 8px;
+}
+
+
+@media (max-width: 767px) {
+ #shopify-section-{{ section.id }} .scrolling-promotion-v2 .promotion__item-image .media-wrapper {
+   height: var(--image-height-mobile, 90px);
+ }
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .promotion__item-image img {
+ height: 100%;
+ width: auto;
+ object-fit: cover;
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .blocks-radius-circle .media-wrapper {
+ border-radius: 50% !important;
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .promotion__text {
+ white-space: nowrap;
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .promotion__text--custom-color {
+ color: rgba(var(--text-color), var(--text-opacity, 1));
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .text-stroke {
+ -webkit-text-stroke: 1px currentColor;
+ -webkit-text-fill-color: transparent;
+ text-stroke: 1px currentColor;
+ text-fill-color: transparent;
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .hover-wrapper:hover img {
+ transform: scale(1.05);
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .hover-scale-up {
+ transition: transform 0.3s ease;
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .placeholder-svg {
+ width: 100%;
+ height: 100%;
+ background-color: #f0f0f0;
+}
+
+
+@keyframes scroll-{{ section.id }} {
+ from {
+   transform: translateX(0);
+ }
+ to {
+   transform: translateX(calc(-100% - var(--h-spacing)));
+ }
+}
+
+
+/* Divider styles */
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .scrolling-promotion--layout-vertical .promotion__item {
+ position: relative;
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .scrolling-promotion--layout-vertical .promotion__item:not(:last-child)::after {
+ content: '';
+ position: absolute;
+ right: calc(-1 * var(--h-spacing) / 2);
+ top: 50%;
+ transform: translateY(-50%);
+ width: 1px;
+ height: 60%;
+ background-color: rgba(var(--color-border, 0, 0, 0), 0.1);
+}
+
+
+#shopify-section-{{ section.id }} .scrolling-promotion-v2 .scrolling-promotion--layout-boxed .promotion__item-wrap {
+ border: 1px solid rgba(var(--color-border, 0, 0, 0), 0.1);
+ border-radius: 8px;
+ padding: 1rem;
+}
+{%- endstyle -%}
+
+
+<script>
+// Scrolling Promotion V2 - Embedded JavaScript
+(function() {
+ if (!customElements.get('scrolling-promotion-v2')) {
+   class ScrollingPromotionV2 extends HTMLElement {
+     constructor() {
+       super();
+       this.observer = null;
+     }
+
+
+     connectedCallback() {
+       // Initialize on connection
+       this.initScrolling();
+
+
+       // Handle Shopify theme editor section reload
+       if (window.Shopify && window.Shopify.designMode) {
+         document.addEventListener('shopify:section:load', (event) => {
+           if (event.target.contains(this)) {
+             this.resetAndInit();
+           }
+         });
+       }
+     }
+
+
+     disconnectedCallback() {
+       // Clean up observer when element is removed
+       if (this.observer) {
+         this.observer.disconnect();
+       }
+     }
+
+
+     resetAndInit() {
+       // Remove all clones
+       const allPromotions = this.querySelectorAll('.promotion');
+       allPromotions.forEach((promo, index) => {
+         if (index > 0) {
+           promo.remove();
+         }
+       });
+
+
+       // Reset initialized flag
+       this.initialized = false;
+
+
+       // Reinitialize
+       setTimeout(() => {
+         this.initScrolling();
+       }, 100);
+     }
+
+
+     initScrolling() {
+       // Prevent double initialization
+       if (this.initialized) return;
+
+
+       this.promotion = this.querySelector('.promotion');
+       if (!this.promotion) return;
+
+
+       // Use requestAnimationFrame to ensure DOM is fully ready
+       requestAnimationFrame(() => {
+         this.init();
+       });
+     }
+
+
+     init() {
+       if (!this.promotion) return;
+       if (this.initialized) return;
+
+
+       // Count only the original promotion div (not clones)
+       const promotions = this.querySelectorAll('.promotion');
+       if (promotions.length === 1) {
+         this.initialized = true;
+         this.promotion.classList.add('promotion--animated');
+
+
+         // Clone the promotion element multiple times for continuous scroll
+         for (let index = 0; index < 10; index++) {
+           const clone = this.promotion.cloneNode(true);
+           this.appendChild(clone);
+         }
+
+
+         // Debug: Log the computed duration
+         const computedStyle = getComputedStyle(this.closest('.scrolling-promotion-v2'));
+         const duration = computedStyle.getPropertyValue('--duration');
+         console.log('Scrolling Promotion V2 - Duration:', duration, 'Speed:', this.dataset.speed);
+
+
+         // Start playing by default
+         this.scrollingPlay();
+
+
+         // Pause when out of view
+         this.observer = new IntersectionObserver(
+           (entries) => {
+             entries.forEach((entry) => {
+               if (entry.isIntersecting) {
+                 this.scrollingPlay();
+               } else {
+                 this.scrollingPause();
+               }
+             });
+           },
+           { rootMargin: '0px 0px 50px 0px' }
+         );
+
+
+         this.observer.observe(this);
+
+
+         // Pause on hover if enabled
+         if (this.dataset.pauseOnHover !== undefined) {
+           this.addEventListener('mouseenter', () => this.scrollingPause());
+           this.addEventListener('mouseleave', () => this.scrollingPlay());
+         }
+       }
+     }
+
+
+     scrollingPlay() {
+       this.classList.remove('scrolling-promotion--paused');
+     }
+
+
+     scrollingPause() {
+       this.classList.add('scrolling-promotion--paused');
+     }
+   }
+   customElements.define('scrolling-promotion-v2', ScrollingPromotionV2);
+ }
+
+
+ // Fallback initialization for existing elements
+ if (document.readyState === 'loading') {
+   document.addEventListener('DOMContentLoaded', initExistingElements);
+ } else {
+   initExistingElements();
+ }
+
+
+ function initExistingElements() {
+   const existingElements = document.querySelectorAll('scrolling-promotion-v2');
+   existingElements.forEach(element => {
+     if (!element.initialized) {
+       element.initScrolling();
+     }
+   });
+ }
+})();
+</script>
+<div
+ class="scrolling-promotion-v2 section section--padding color-{{ section.settings.color_scheme }} section--scrolling-promotion{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
+ data-section-index="{{ section.index }}"
+>
+ <scrolling-promotion-v2
+   data-section-type="scrolling-promotion"
+   data-section-id="{{ section.id }}"
+   data-speed="{{ speed }}"
+   data-duration="{{ duration }}"
+   {% if pause_on_hover %}
+     data-pause-on-hover
+   {% endif %}
+   class="scrolling-promotion scrolling-promotion--{{ section.settings.direction }}{% if section.settings.show_divider %} scrolling-promotion--layout-{{ section.settings.divider_layout }}{% endif %}"
+ >
+   <div class="promotion">
+     {%- for block in section.blocks -%}
+       {%- case block.type -%}
+         {%- when 'image' -%}
+           <div
+             class="promotion__item promotion__item-{{ block.type }}"
+             style="--image-height: {{ block.settings.image_height }}px; --image-height-mobile: {{ block.settings.image_height_mobile }}px;"
+             {{ block.shopify_attributes }}
+           >
+             {%- liquid
+               assign tag = 'div'
+               if block.settings.image_link != blank
+                 assign tag = 'a'
+               endif
+             -%}
+             <{{ tag }}
+               {% if block.settings.image_link != blank -%}
+                 href="{{ block.settings.image_link }}"
+               {% endif %}
+               aria-label="{{ shop.name }}"
+               class="block promotion__item-wrap hover-wrapper{% if block.settings.image_rounded %} blocks-radius-circle{% else %} blocks-radius{% endif %}"
+             >
+               {%- if block.settings.image != blank -%}
+                 {%- liquid
+                   assign image = block.settings.image
+                 -%}
+                 <div class="media-wrapper">
+                   {{
+                     image
+                     | image_url: width: 1100
+                     | image_tag:
+                       loading: 'lazy',
+                       class: 'motion-reduce hover-scale-up',
+                       widths: '165, 360, 535, 750, 940, 1100'
+                   }}
+                 </div>
+               {%- else -%}
+                 <svg
+                   class="placeholder-svg"
+                   xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 158.3 158.3"
+                 >
+                   <path d="M50.7 83.8H43v-17c0-.3-.3-.6-.6-.6h-2.8c-.3 0-.6.3-.6.6v20.1c0 .3.2.6.6.6h11.1c.3 0 .6-.3.6-.6v-2.5c-.1-.4-.3-.6-.6-.6zm12.7-17.9c-6.1 0-10.9 4.9-10.9 10.9 0 6.1 4.8 10.9 10.9 10.9 6.1 0 10.9-4.8 10.9-10.9 0-6-4.8-10.9-10.9-10.9zm0 17.9c-3.8 0-6.9-3.1-6.9-6.9 0-3.8 3.1-7 6.9-7s7 3.2 7 7c0 3.7-3.2 6.9-7 6.9zm31.7-6.9h-5.8c-.3 0-.6.2-.6.6v2.4c0 .3.2.5.6.5h2.4V83c-.6.2-1.9.8-3.6.8-3.8 0-6.8-3.2-6.8-6.9 0-3.8 3-7 6.8-7 1.7 0 3.3.6 4.6 1.8.3.2.5.2.8 0l1.9-2c.2-.2.2-.6 0-.8-2.1-1.8-4.7-2.8-7.4-2.8-6 0-10.9 4.9-10.9 10.9 0 6.1 4.8 10.8 10.9 10.8 4.4 0 7.5-2 7.5-2 .1-.1.2-.2.2-.5v-7.8c-.1-.3-.3-.6-.6-.6zm14.5-11c-6.1 0-10.9 4.9-10.9 10.9 0 6.1 4.8 10.9 10.9 10.9 6.1 0 10.9-4.8 10.9-10.9 0-6-4.8-10.9-10.9-10.9zm0 17.9c-3.8 0-6.9-3.1-6.9-6.9 0-3.8 3.1-7 6.9-7s7 3.2 7 7c0 3.7-3.2 6.9-7 6.9z"></path>
+                 </svg>
+               {%- endif -%}
+             </{{ tag }}>
+           </div>
+         {%- when 'text' -%}
+           {%- liquid
+             assign letter_spacing = block.settings.letter_spacing | divided_by: 100.0
+           -%}
+           <div
+             class="promotion__item promotion__item-{{ block.type }}"
+             {{ block.shopify_attributes }}
+             style="{% if block.settings.use_custom_color %}--text-color: {{ block.settings.custom_color.red }}, {{ block.settings.custom_color.green }}, {{ block.settings.custom_color.blue }};{% endif %}--text-opacity: {{ block.settings.text_opacity | divided_by: 100.0 }};"
+           >
+             {%- if block.settings.text != blank -%}
+               {%- liquid
+                 assign tag = 'div'
+                 if block.settings.text_link != blank
+                   assign tag = 'a'
+                 endif
+               -%}
+               <{{ tag }}
+                 {% if block.settings.text_link != blank -%}
+                   href="{{ block.settings.text_link }}"
+                 {% endif %}
+                 class="block promotion__item-wrap"
+               >
+                 <div
+                   class="promotion__text {{ block.settings.text_size }} {{ block.settings.font_weight }} font-{{ block.settings.font_style }} text-{{ block.settings.text_style }}{% if block.settings.use_custom_color %} promotion__text--custom-color{% endif %}"
+                   style="letter-spacing: {{ letter_spacing }}em;"
+                 >
+                   {{ block.settings.text }}
+                 </div>
+               </{{ tag }}>
+             {%- endif -%}
+           </div>
+         {%- when 'html' -%}
+           <div class="promotion__item promotion__item-{{ block.type }}" {{ block.shopify_attributes }}>
+             {%- if block.settings.html != blank -%}
+               {{ block.settings.html }}
+             {%- endif -%}
+           </div>
+       {%- endcase -%}
+     {%- endfor -%}
+   </div>
+ </scrolling-promotion-v2>
+</div>
+{% schema %}
+{
+ "name": "Image Marquee V2",
+ "disabled_on": {
+   "groups": ["custom.overlay"]
+ },
+ "settings": [
+   {
+     "type": "header",
+     "content": "General"
+   },
+   {
+     "type": "color_scheme",
+     "id": "color_scheme",
+     "label": "Color scheme",
+     "default": "scheme-1"
+   },
+   {
+     "type": "header",
+     "content": "Settings"
+   },
+   {
+     "type": "select",
+     "id": "vertical_alignment",
+     "label": "Vertical alignment",
+     "default": "center",
+     "options": [
+       {
+         "value": "start",
+         "label": "Top"
+       },
+       {
+         "value": "center",
+         "label": "Center"
+       },
+       {
+         "value": "end",
+         "label": "Bottom"
+       }
+     ]
+   },
+   {
+     "type": "select",
+     "id": "direction",
+     "label": "Direction",
+     "options": [
+       {
+         "label": "Left",
+         "value": "left"
+       },
+       {
+         "label": "Right",
+         "value": "right"
+       }
+     ],
+     "default": "left"
+   },
+   {
+     "type": "checkbox",
+     "id": "pause_on_hover",
+     "label": "Pause on hover",
+     "default": true
+   },
+   {
+     "type": "range",
+     "id": "speed",
+     "label": "Speed",
+     "min": 0.1,
+     "max": 3,
+     "unit": "x",
+     "step": 0.1,
+     "default": 1
+   },
+   {
+     "type": "range",
+     "id": "h_spacing",
+     "label": "Horizontal spacing",
+     "default": 50,
+     "min": 0,
+     "max": 200,
+     "step": 2,
+     "unit": "px"
+   },
+   {
+     "type": "range",
+     "id": "v_spacing",
+     "label": "Vertical spacing",
+     "default": 10,
+     "min": 0,
+     "max": 100,
+     "step": 2,
+     "unit": "px"
+   },
+   {
+     "type": "header",
+     "content": "Section padding"
+   },
+   {
+     "type": "range",
+     "id": "padding_top",
+     "min": 0,
+     "max": 100,
+     "step": 2,
+     "unit": "px",
+     "label": "Padding top",
+     "default": 40
+   },
+   {
+     "type": "range",
+     "id": "padding_bottom",
+     "min": 0,
+     "max": 100,
+     "step": 2,
+     "unit": "px",
+     "label": "Padding bottom",
+     "default": 40
+   },
+   {
+     "type": "header",
+     "content": "Divider"
+   },
+   {
+     "type": "checkbox",
+     "id": "show_divider",
+     "default": false,
+     "label": "Show divider"
+   },
+   {
+     "type": "select",
+     "id": "divider_layout",
+     "options": [
+       {
+         "value": "vertical",
+         "label": "Vertical"
+       },
+       {
+         "value": "boxed",
+         "label": "Boxed"
+       }
+     ],
+     "default": "vertical",
+     "label": "Divider layout"
+   },
+   {
+     "type": "header",
+     "content": "Custom attributes"
+   },
+   {
+     "type": "text",
+     "id": "custom_class",
+     "label": "Custom class"
+   }
+ ],
+ "blocks": [
+   {
+     "type": "image",
+     "name": "Image",
+     "settings": [
+       {
+         "type": "image_picker",
+         "id": "image",
+         "label": "Image"
+       },
+       {
+         "type": "range",
+         "id": "image_height",
+         "label": "Image height",
+         "default": 120,
+         "min": 20,
+         "max": 400,
+         "step": 4,
+         "unit": "px"
+       },
+       {
+         "type": "checkbox",
+         "id": "image_rounded",
+         "label": "Rounded image",
+         "default": false
+       },
+       {
+         "type": "url",
+         "id": "image_link",
+         "label": "Image link"
+       },
+       {
+         "type": "header",
+         "content": "Mobile settings"
+       },
+       {
+         "type": "range",
+         "id": "image_height_mobile",
+         "label": "Image height",
+         "default": 90,
+         "min": 20,
+         "max": 200,
+         "step": 2,
+         "unit": "px"
+       }
+     ]
+   },
+   {
+     "type": "text",
+     "name": "Text",
+     "settings": [
+       {
+         "type": "text",
+         "label": "Text",
+         "id": "text",
+         "default": "Welcome to BeautyPlus - Premium Beauty Products"
+       },
+       {
+         "type": "url",
+         "id": "text_link",
+         "label": "Text link"
+       },
+       {
+         "type": "select",
+         "id": "text_size",
+         "label": "Text size",
+         "options": [
+           {
+             "label": "Base",
+             "value": "text-base"
+           },
+           {
+             "label": "H3",
+             "value": "h3"
+           },
+           {
+             "label": "H2",
+             "value": "h2"
+           },
+           {
+             "label": "H1",
+             "value": "h1"
+           }
+         ],
+         "default": "h2"
+       },
+       {
+         "type": "select",
+         "id": "font_weight",
+         "label": "Font weight",
+         "options": [
+           {
+             "label": "Heading",
+             "value": "font-heading"
+           },
+           {
+             "label": "Body",
+             "value": "font-body"
+           },
+           {
+             "label": "Body bolder",
+             "value": "font-body-bolder"
+           },
+           {
+             "label": "Body bold",
+             "value": "font-body-bold"
+           }
+         ],
+         "default": "font-heading"
+       },
+       {
+         "type": "select",
+         "id": "font_style",
+         "label": "Font style",
+         "options": [
+           {
+             "label": "Normal",
+             "value": "normal"
+           },
+           {
+             "label": "Italic",
+             "value": "italic"
+           }
+         ],
+         "default": "normal"
+       },
+       {
+         "type": "range",
+         "id": "letter_spacing",
+         "label": "Letter spacing",
+         "default": 0,
+         "min": -50,
+         "max": 50,
+         "step": 1,
+         "unit": "%"
+       },
+       {
+         "type": "range",
+         "id": "text_opacity",
+         "label": "Opacity",
+         "default": 100,
+         "min": 0,
+         "max": 100,
+         "step": 2,
+         "unit": "%"
+       },
+       {
+         "type": "select",
+         "id": "text_style",
+         "label": "Text style",
+         "options": [
+           {
+             "label": "Normal",
+             "value": "normal"
+           },
+           {
+             "label": "Stroke",
+             "value": "stroke"
+           }
+         ],
+         "default": "normal"
+       },
+       {
+         "type": "checkbox",
+         "id": "use_custom_color",
+         "label": "Use custom color"
+       },
+       {
+         "type": "color",
+         "id": "custom_color",
+         "label": "Custom color",
+         "default": "#000000"
+       }
+     ]
+   },
+   {
+     "type": "html",
+     "name": "HTML",
+     "settings": [
+       {
+         "type": "textarea",
+         "label": "HTML",
+         "id": "html"
+       }
+     ]
+   }
+ ],
+ "presets": [
+   {
+     "name": "Image MarqueeV2",
+     "blocks": [
+       {
+         "type": "image"
+       },
+       {
+         "type": "image"
+       },
+       {
+         "type": "image"
+       },
+       {
+         "type": "image"
+       }
+     ]
+   }
+ ]
+}
+{% endschema %}

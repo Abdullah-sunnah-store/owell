@@ -1,0 +1,597 @@
+{% schema %}
+{
+  "name": "Business Account Benefits",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Business Account Benefits"
+    },
+    {
+      "type": "header",
+      "content": "Benefit Tiles"
+    },
+    {
+      "type": "text",
+      "id": "benefit_1_title",
+      "label": "Benefit 1 - Title",
+      "default": "Better Pricing"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_1_description",
+      "label": "Benefit 1 - Description",
+      "default": "Tiered and bulk pricing designed for recurring business orders."
+    },
+    {
+      "type": "url",
+      "id": "benefit_1_link",
+      "label": "Benefit 1 - Link URL"
+    },
+    {
+      "type": "text",
+      "id": "benefit_2_title",
+      "label": "Benefit 2 - Title",
+      "default": "Always Free Same-Day Shipping"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_2_description",
+      "label": "Benefit 2 - Description",
+      "default": "Fast, reliable fulfillment to keep your operation running without delays."
+    },
+    {
+      "type": "url",
+      "id": "benefit_2_link",
+      "label": "Benefit 2 - Link URL"
+    },
+    {
+      "type": "text",
+      "id": "benefit_3_title",
+      "label": "Benefit 3 - Title",
+      "default": "Free Product Samples"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_3_description",
+      "label": "Benefit 3 - Description",
+      "default": "Test our gloves before committing to full orders."
+    },
+    {
+      "type": "url",
+      "id": "benefit_3_link",
+      "label": "Benefit 3 - Link URL"
+    },
+    {
+      "type": "text",
+      "id": "benefit_4_title",
+      "label": "Benefit 4 - Title",
+      "default": "Priority Access to New Products"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_4_description",
+      "label": "Benefit 4 - Description",
+      "default": "Early access to new SKUs and product updates."
+    },
+    {
+      "type": "url",
+      "id": "benefit_4_link",
+      "label": "Benefit 4 - Link URL"
+    },
+    {
+      "type": "header",
+      "content": "CTA Buttons Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta_section",
+      "label": "Show CTA Buttons",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "cta_spacing_top",
+      "label": "CTA Section Top Spacing",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "select",
+      "id": "cta_alignment",
+      "label": "CTA Buttons Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "cta_gap",
+      "label": "Gap Between CTA Buttons",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    }
+  ],
+  "blocks": [
+    {
+      "type": "cta_button",
+      "name": "CTA Button",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Get Started"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_in_new_tab",
+          "label": "Open in New Tab",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button Style",
+          "options": [
+            { "value": "solid", "label": "Solid" },
+            { "value": "outline", "label": "Outline" },
+            { "value": "rounded", "label": "Rounded Solid" },
+            { "value": "rounded-outline", "label": "Rounded Outline" }
+          ],
+          "default": "rounded"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_color",
+          "label": "Button Background Color",
+          "default": "#005bd3"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color",
+          "label": "Button Text Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "select",
+          "id": "button_hover_effect",
+          "label": "Button Hover Effect",
+          "options": [
+            { "value": "custom", "label": "Custom Color" },
+            { "value": "darken", "label": "Auto Darken (10%)" },
+            { "value": "lighten", "label": "Auto Lighten (10%)" }
+          ],
+          "default": "darken",
+          "info": "Choose how button color changes on hover"
+        },
+        {
+          "type": "color",
+          "id": "button_hover_bg",
+          "label": "Hover Background (Custom)",
+          "default": "#004ba0",
+          "info": "Only used when 'Custom Color' is selected"
+        },
+        {
+          "type": "color",
+          "id": "button_hover_text",
+          "label": "Button Hover Text Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "range",
+          "id": "button_font_size",
+          "label": "Button Font Size",
+          "min": 12,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 16
+        },
+        {
+          "type": "select",
+          "id": "button_font_weight",
+          "label": "Button Font Weight",
+          "options": [
+            { "value": "400", "label": "Normal" },
+            { "value": "500", "label": "Medium" },
+            { "value": "600", "label": "Semi Bold" },
+            { "value": "700", "label": "Bold" }
+          ],
+          "default": "600"
+        },
+        {
+          "type": "range",
+          "id": "button_padding_v",
+          "label": "Button Vertical Padding",
+          "min": 8,
+          "max": 30,
+          "step": 2,
+          "unit": "px",
+          "default": 14
+        },
+        {
+          "type": "range",
+          "id": "button_padding_h",
+          "label": "Button Horizontal Padding",
+          "min": 20,
+          "max": 60,
+          "step": 4,
+          "unit": "px",
+          "default": 32
+        },
+        {
+          "type": "range",
+          "id": "button_border_radius",
+          "label": "Button Border Radius",
+          "min": 0,
+          "max": 50,
+          "step": 2,
+          "unit": "px",
+          "default": 24
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Business Account Benefits",
+      "blocks": [
+        {
+          "type": "cta_button",
+          "settings": {
+            "button_text": "Apply for Business Account",
+            "button_style": "rounded"
+          }
+        },
+        {
+          "type": "cta_button",
+          "settings": {
+            "button_text": "View Products",
+            "button_style": "rounded-outline"
+          }
+        },
+        {
+          "type": "cta_button",
+          "settings": {
+            "button_text": "Contact Sales",
+            "button_style": "outline"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .business-benefits-section {
+    padding: 4rem 0 1rem;
+    background: #ffffff;
+  }
+
+  .business-benefits-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .business-benefits-header {
+    text-align: center;
+  }
+
+  .business-benefits-title {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #1a1a1a;
+    margin: 0 0 0.5rem 0;
+    text-transform: uppercase;
+  }
+
+  .business-benefits-subtitle {
+    font-size: 24px;
+    color: #4a4a4a;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #e0e0e0;
+    border: 1px solid #e0e0e0;
+  }
+
+  .benefit-tile {
+    background: #ffffff;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    min-height: 180px;
+  }
+
+  .benefit-tile:hover {
+    background: #f8f8f8;
+  }
+
+  .benefit-icon {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 1);
+    text-align: center;
+    border: 1px solid #56c2b3;
+    border-radius: 50%;
+    width: 15%;
+    background: rgba(0, 91, 211, 1);
+    padding: 5px;
+    margin: 0 auto 1rem;
+  }
+
+  .benefit-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .benefit-description {
+    font-size: 14px;
+    color: #666666;
+    line-height: 1.5;
+    margin: 0;
+    text-align: center;
+  }
+
+  /* CTA Section Styles */
+  .benefits-cta-section-{{ section.id }} {
+    margin-top: {{ section.settings.cta_spacing_top }}px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: {{ section.settings.cta_gap }}px;
+    justify-content: {{ section.settings.cta_alignment }};
+    align-items: center;
+  }
+
+  .benefits-cta-button-{{ section.id }} {
+    display: inline-block;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    white-space: nowrap;
+    border: 2px solid transparent;
+  }
+
+  .benefits-cta-button-{{ section.id }}.cta-style-solid,
+  .benefits-cta-button-{{ section.id }}.cta-style-rounded {
+    border-radius: 6px;
+  }
+
+  .benefits-cta-button-{{ section.id }}.cta-style-outline,
+  .benefits-cta-button-{{ section.id }}.cta-style-rounded-outline {
+    background: transparent;
+  }
+
+  .benefits-cta-button-{{ section.id }}.cta-style-rounded,
+  .benefits-cta-button-{{ section.id }}.cta-style-rounded-outline {
+    transform: translateY(0);
+  }
+
+  .benefits-cta-button-{{ section.id }}.cta-style-rounded:hover,
+  .benefits-cta-button-{{ section.id }}.cta-style-rounded-outline:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (max-width: 1024px) {
+    .benefits-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .business-benefits-section {
+      padding: 3rem 0 0;
+    }
+
+    .benefits-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .benefit-tile {
+      min-height: 140px;
+      padding: 1.5rem 1.25rem;
+    }
+
+    .benefits-cta-section-{{ section.id }} {
+      flex-direction: column;
+      align-items: stretch;
+      margin-top: {{ section.settings.cta_spacing_top | times: 0.7 }}px;
+    }
+
+    .benefits-cta-button-{{ section.id }} {
+      width: 100%;
+      text-align: center;
+    }
+  }
+{% endstyle %}
+
+<section class="business-benefits-section">
+  <div class="business-benefits-container">
+    {% if section.settings.section_title != blank %}
+      <div class="business-benefits-header">
+        <p class="business-benefits-title">WHAT YOU GET</p>
+        <h2 class="business-benefits-subtitle">{{ section.settings.section_title }}</h2>
+      </div>
+    {% endif %}
+
+    <div class="benefits-grid">
+      {% if section.settings.benefit_1_title != blank %}
+        {% if section.settings.benefit_1_link != blank %}
+          <a href="{{ section.settings.benefit_1_link }}" class="benefit-tile">
+        {% else %}
+          <div class="benefit-tile">
+        {% endif %}
+            
+            <h3 class="benefit-title">{{ section.settings.benefit_1_title }}</h3>
+            <p class="benefit-description">{{ section.settings.benefit_1_description }}</p>
+        {% if section.settings.benefit_1_link != blank %}
+          </a>
+        {% else %}
+          </div>
+        {% endif %}
+      {% endif %}
+
+      {% if section.settings.benefit_2_title != blank %}
+        {% if section.settings.benefit_2_link != blank %}
+          <a href="{{ section.settings.benefit_2_link }}" class="benefit-tile">
+        {% else %}
+          <div class="benefit-tile">
+        {% endif %}
+            
+            <h3 class="benefit-title">{{ section.settings.benefit_2_title }}</h3>
+            <p class="benefit-description">{{ section.settings.benefit_2_description }}</p>
+        {% if section.settings.benefit_2_link != blank %}
+          </a>
+        {% else %}
+          </div>
+        {% endif %}
+      {% endif %}
+
+      {% if section.settings.benefit_3_title != blank %}
+        {% if section.settings.benefit_3_link != blank %}
+          <a href="{{ section.settings.benefit_3_link }}" class="benefit-tile">
+        {% else %}
+          <div class="benefit-tile">
+        {% endif %}
+            
+            <h3 class="benefit-title">{{ section.settings.benefit_3_title }}</h3>
+            <p class="benefit-description">{{ section.settings.benefit_3_description }}</p>
+        {% if section.settings.benefit_3_link != blank %}
+          </a>
+        {% else %}
+          </div>
+        {% endif %}
+      {% endif %}
+
+      {% if section.settings.benefit_4_title != blank %}
+        {% if section.settings.benefit_4_link != blank %}
+          <a href="{{ section.settings.benefit_4_link }}" class="benefit-tile">
+        {% else %}
+          <div class="benefit-tile">
+        {% endif %}
+            
+            <h3 class="benefit-title">{{ section.settings.benefit_4_title }}</h3>
+            <p class="benefit-description">{{ section.settings.benefit_4_description }}</p>
+        {% if section.settings.benefit_4_link != blank %}
+          </a>
+        {% else %}
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    {% if section.settings.show_cta_section and section.blocks.size > 0 %}
+      <div class="benefits-cta-section-{{ section.id }}">
+        {% for block in section.blocks %}
+          {% if block.type == 'cta_button' and block.settings.button_text != blank %}
+            <a 
+              href="{{ block.settings.button_link | default: '#' }}"
+              class="benefits-cta-button-{{ section.id }} cta-style-{{ block.settings.button_style }}"
+              {{ block.shopify_attributes }}
+              {% if block.settings.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+              data-block-id="{{ block.id }}"
+            >
+              {{ block.settings.button_text }}
+            </a>
+
+            <style>
+              {%- liquid
+                assign bg_color = block.settings.button_bg_color
+                
+                if block.settings.button_hover_effect == 'darken'
+                  assign r = bg_color | slice: 1, 2 | hex_to_decimal
+                  assign g = bg_color | slice: 3, 2 | hex_to_decimal
+                  assign b = bg_color | slice: 5, 2 | hex_to_decimal
+                  assign hover_r = r | times: 0.9 | floor
+                  assign hover_g = g | times: 0.9 | floor
+                  assign hover_b = b | times: 0.9 | floor
+                  assign hover_bg = 'rgb(' | append: hover_r | append: ',' | append: hover_g | append: ',' | append: hover_b | append: ')'
+                elsif block.settings.button_hover_effect == 'lighten'
+                  assign r = bg_color | slice: 1, 2 | hex_to_decimal
+                  assign g = bg_color | slice: 3, 2 | hex_to_decimal
+                  assign b = bg_color | slice: 5, 2 | hex_to_decimal
+                  assign hover_r = r | plus: 25 | at_most: 255
+                  assign hover_g = g | plus: 25 | at_most: 255
+                  assign hover_b = b | plus: 25 | at_most: 255
+                  assign hover_bg = 'rgb(' | append: hover_r | append: ',' | append: hover_g | append: ',' | append: hover_b | append: ')'
+                else
+                  assign hover_bg = block.settings.button_hover_bg
+                endif
+              -%}
+
+              .benefits-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"] {
+                font-size: {{ block.settings.button_font_size }}px;
+                font-weight: {{ block.settings.button_font_weight }};
+                padding: {{ block.settings.button_padding_v }}px {{ block.settings.button_padding_h }}px;
+                border-radius: {{ block.settings.button_border_radius }}px;
+              }
+
+              .benefits-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-solid,
+              .benefits-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-rounded {
+                background: {{ block.settings.button_bg_color }};
+                color: {{ block.settings.button_text_color }};
+                border-color: {{ block.settings.button_bg_color }};
+              }
+
+              .benefits-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-solid:hover,
+              .benefits-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-rounded:hover {
+                background: {{ hover_bg }};
+                color: {{ block.settings.button_hover_text }};
+                border-color: {{ hover_bg }};
+              }
+
+              .benefits-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-outline,
+              .benefits-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-rounded-outline {
+                background: transparent;
+                color: {{ block.settings.button_bg_color }};
+                border-color: {{ block.settings.button_bg_color }};
+              }
+
+              .benefits-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-outline:hover,
+              .benefits-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-rounded-outline:hover {
+                background: {{ block.settings.button_bg_color }};
+                color: {{ block.settings.button_hover_text }};
+                border-color: {{ block.settings.button_bg_color }};
+              }
+            </style>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>

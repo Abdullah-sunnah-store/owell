@@ -1,0 +1,242 @@
+{{ 'section-account.css' | asset_url | stylesheet_tag }}
+<script defer src="{{ 'nav-tab.js' | asset_url }}"></script>
+<script defer src="{{ 'delete-address.js' | asset_url }}"></script>
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }}
+      ;
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }}
+      ;
+    }
+  }
+{% endstyle %}
+<section class="section-{{ section.id }}-padding main-address color-{{ section.settings.color_scheme }}">
+  <div class="container">
+    {% render 'breadcrumb' %}
+    <nav-tabs class="tabs">
+      <div class="account">
+        <div class="account-side-bar">
+          <aside class="account__aside account-{{ section.id }}">
+            <div class="account__nav-list-top">
+              <h2 class="h3">
+                {{ 'customer.account.greeting' | t | append: ',' }}
+                <br>
+                {{ customer.name | capitalize }}
+              </h2>
+              <ul
+                class="account__asideList"
+              >
+                <li
+                  account-nav
+                  class="
+                    {% if request.page_type == 'customers/account' or request.page_type == 'customers/order' %}
+                      active
+                    {% endif %}
+                  "
+                >
+                  <a data-target="overview" href="{{ routes.account_url }}">
+                    {{ 'customer.account.overview.label' | t }}
+                  </a>
+                </li>
+                <li account-nav class="">
+                  <a
+                    data-target="order-history"
+                    href="{{ routes.account_url }}/#order-history"
+                    nav-button
+                  >
+                    {{- 'customer.account.order.label' | t -}}
+                  </a>
+                </li>
+                <li
+                  account-nav
+                  class="
+                    {% if request.page_type == 'customers/addresses' %}
+                      active
+                    {% endif %}
+                  "
+                >
+                  <h1>
+                    <a
+                      data-target="addresses-{{ section.id }}"
+                      href="{{ routes.account_addresses_url }}"
+                      nav-button
+                    >
+                      {{- 'customer.account.address.label' | t -}}
+                    </a>
+                  </h1>
+                </li>
+              </ul>
+            </div>
+            <div class="account__nav-list-bottom">
+              <ul class="account__asideList">
+                <li class="logout">
+                  <a href="{{ routes.account_logout_url }}" data-no-instant>{{ 'customer.log_out' | t }}</a>
+                </li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+        <delete-address class="account__container">
+          <ul
+            class="account__container tabs__container active"
+            data-id="addresses-{{ section.id }}"
+            sectionToggleContainer
+          >
+            {% if customer.addresses_count > 0 %}
+              {% assign address = customer.default_address %}
+              {% if address %}
+                <li class="account__wrapper">
+                  <div class="account__wrapperHeading d-v-center">
+                    <h2 class="h3">{{ 'customer.account.order.default_shipping_address.label' | t }}</h2>
+                    <button
+                      address-id="new-address"
+                      class="btn btn--border btn--sm"
+                      trigger-address-drawer
+                    >
+                      {{ 'customer.account.address.form.add_new_address' | t }}
+                    </button>
+                  </div>
+                  <div class="account__wrapperBody">
+                    <div class="address-formate">
+                      {{ address | format_address }}
+                    </div>
+                  </div>
+                  <div class="account__wrapperFooter">
+                    <button
+                      address-id="{{ address.id }}"
+                      class="link link--green"
+                      trigger-address-drawer
+                    >
+                      {{ 'customer.account.address.edit' | t }}
+                    </button>
+                    <button
+                      class="link link--green"
+                      deleteAddress
+                      target-url="{{ address.url }}"
+                    >
+                      {{ 'customer.account.address.delete' | t }}
+                    </button>
+                  </div>
+                </li>
+              {% endif %}
+              {% for address in customer.addresses %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: address %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                {% if address != customer.default_address %}
+                  <li class="account__wrapper">
+                    {% if forloop.index == 1 %}
+                      <div class="account__wrapperHeading">
+                        <h2 class="h3">{{ 'customer.account.order.other_shipping_address.label' | t }}</h2>
+                      </div>
+                    {% endif %}
+                    <div class="account__wrapperBody">
+                      <div class="address-formate">
+                        {{ address | format_address }}
+                      </div>
+
+                      {% comment %}
+                        <h2 class="customer_name">{{ address.name }}</h2>
+                        <p class="customer_address">{{ address.address1 }}</p>
+                        <p class="customer_address">{{ address.address2 }}</p>
+                        <p class="customer_address">{{ address.city }}</p>
+                        <p class="customer_address">{{ address.country }}</p>
+                      {% endcomment %}
+                    </div>
+                    <div class="account__wrapperFooter">
+                      <button
+                        address-id="{{ address.id }}"
+                        class="link link--green"
+                        trigger-address-drawer
+                      >
+                        {{ 'customer.account.address.edit' | t }}
+                      </button>
+                      <button
+                        class="link link--green"
+                        deleteAddress
+                        target-url="{{ address.url }}"
+                      >
+                        {{ 'customer.account.address.delete' | t }}
+                      </button>
+                    </div>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              <li class="account__wrapper">
+                <div class="account__wrapperHeading d-v-center">
+                  <h2 class="h3">{{ 'customer.account.address.no-address' | t }}</h2>
+                  <button
+                    address-id="new-address"
+                    class="btn btn--border"
+                    trigger-address-drawer
+                  >
+                    {{ 'customer.account.address.form.add_new_address' | t }}
+                  </button>
+                </div>
+              </li>
+            {% endif %}
+          </ul>
+          {% render 'confirm-popup' %}
+        </delete-address>
+        {% render 'address-form-drawer' %}
+        {% render 'change-default-address' %}
+      </div>
+    </nav-tabs>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer addresses",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Color scheme"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["customers/addresses"]
+  }
+}
+{% endschema %}

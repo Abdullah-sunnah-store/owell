@@ -1,0 +1,1166 @@
+{{ 'section-comparison.css' | asset_url | stylesheet_tag }}
+{% style %}
+  /* CSS styles for padding */
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }};
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }};
+  }
+
+  /* Media query styles */
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }};
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }};
+    }
+  }
+
+    .highlight-active {
+      --column-border-color: {{ section.settings.highlighted_color_scheme.settings.border }};
+      --column-text-color:{{ section.settings.highlighted_color_scheme.settings.text }};
+      --column-fill-color:{{ section.settings.highlighted_color_scheme.settings.background }};
+      --divider-color: {{ section.settings.divider_color }};
+      --color-button-background: {{ section.settings.highlighted_color_scheme.settings.primary_button }};
+      --color-button-background-rgb: {{ section.settings.highlighted_color_scheme.settings.primary_button.rgb }};
+
+      --color-button-text: {{ section.settings.highlighted_color_scheme.settings.on_primary_button }};
+
+      --color-button-border: {{ section.settings.highlighted_color_scheme.settings.primary_button }};
+
+      --color-button-background-outline: {{ section.settings.highlighted_color_scheme.settings.background }};
+
+      --color-button-text-outline: {{ section.settings.highlighted_color_scheme.settings.secondary_button }};
+
+      --color-button-border-outline: {{ section.settings.highlighted_color_scheme.settings.secondary_button }};
+    }
+{% endstyle %}
+
+{% liquid
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign content = section.settings.content
+
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  assign intersection = ''
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign loading = 'lazy'
+    assign intersection = 'intersection-element'
+  endif
+  assign product_images = section.blocks | where: 'type', 'table_value'
+  assign table_heading_block = section.blocks | where: 'type', 'table_heading' | first
+  assign heading_positions = ''
+  for i in (1..10)
+    assign heading_key = 'heading_' | append: i
+    assign custom_icon = 'custom_icon_' | append: i
+    if table_heading_block.settings[heading_key] != blank or table_heading_block.settings[custom_icon] != blank
+      assign heading_positions = heading_positions | append: i | append: ','
+    endif
+  endfor
+  assign full_width_heading_container = false
+  assign as_image = false
+  for block in product_images
+    if block.settings.product == blank and block.settings.image == blank
+      assign full_width_heading_container = true
+    else
+      assign as_image = true
+      assign full_width_heading_container = false
+      break
+    endif
+  endfor
+  assign heading_positions = heading_positions | split: ','
+%}
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'top' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-top"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+<div
+  class="comparison section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}"
+>
+  <div class="container">
+    <div class="comparison__header-container {% unless full_width_heading_container %} d-none {% else %} full-width-container {% endunless %}">
+      {% if subheading != blank %}
+        <p class="mb-2">{{ subheading }}</p>
+      {% endif %}
+      {% if heading != blank %}
+        <h2 class="h2 mb-16">{{ heading }}</h2>
+      {% endif %}
+      <div class="section__subContent">
+        <div class="RTE-content">
+          {{ content }}
+        </div>
+      </div>
+    </div>
+    <comparison-component
+      {{ intersection }}
+      slide-layout-type="carousel"
+      slide-no-center
+      slide-per-view="1.3"
+      space-between="0"
+
+      slide-speed="{{ settings.slide_duration }}"
+    >
+      <div class="comparison__container d-flex comparison__header-image-container">
+        <div class="comparison__grid-item comparison__header">
+          <div class="comparison__header-container {% if full_width_heading_container %} d-none {% endif %}">
+            {% if subheading != blank %}
+              <p class="mb-2">{{ subheading }}</p>
+            {% endif %}
+            {% if heading != blank %}
+              <h2 class="h2 mb-16">{{ heading }}</h2>
+            {% endif %}
+            <div class="RTE-content">
+              {{ content }}
+            </div>
+          </div>
+          <div class="d-flex sliderPagination sliderControl">
+            <!-- next / prev arrows -->
+            <div
+              aria-label="{{ 'accessibility.prev_slide_label' | t }}"
+              role="button"
+              slide-prev
+            >
+              <div class="sliderPagination__prev collectionControl__prev">
+                {% render 'slider-arrow-icon', arrow_direction: 'left' %}
+              </div>
+            </div>
+            <div
+              aria-label="{{ 'accessibility.next_slide_label' | t }}"
+              role="button"
+              slide-next
+            >
+              <div class="sliderPagination__next collectionControl__next">
+                {% render 'slider-arrow-icon', arrow_direction: 'right' %}
+              </div>
+            </div>
+
+            <!-- !next / prev arrows -->
+          </div>
+        </div>
+        {% if product_images.size > 0 %}
+          <div class="comparison__grid-item comparison__image-slider js-element">
+            <div
+              class="swiper-container"
+              main-slider
+              slide-responsive-breakpoints='{"480":{"slidesPerView": "1.3"},"640":{"slidesPerView":"1.5"},"1024":{"slidesPerView":"3"}}'
+            >
+              <div class="swiper-wrapper">
+                {% for block in product_images %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                  {% liquid
+                    if section.settings.enable_highlight
+                      case section.settings.badge_position
+                        when 'first'
+                          assign position = 1
+                        when 'two'
+                          assign position = 2
+                        when 'three'
+                          assign position = 3
+                      endcase
+                    endif
+                  %}
+                  {% assign prevelement = position | minus: 1 %}
+                  {% if block.settings.product != blank
+                    or block.settings.image != blank
+                    or block.settings.heading != blank
+                  %}
+                    <div
+                      {{ block.shopify_attributes }}
+                      class="swiper-slide  {% if prevelement == forloop.index %} highlight-prev-element {% endif %} {% if position == forloop.index  %} highlight-active {% endif %}"
+                    >
+                      {% render 'comparison-product-image',
+                        block: block,
+                        loading: loading,
+                        fetchpriority: fetchpriority,
+                        as_image: as_image
+                      %}
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <noscript>
+            <div class="comparison__grid-item h-100 w-100 comparison__image-slider">
+              <div
+                class="swiper"
+                main-slider
+                slide-responsive-breakpoints='{"480":{"slidesPerView": "1.3"},"640":{"slidesPerView":"1.5"},"1024":{"slidesPerView":"3"}}'
+              >
+                <div class="swiper-wrapper">
+                  {% for block in product_images %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                    {% liquid
+                      if section.settings.enable_highlight
+                        case section.settings.badge_position
+                          when 'first'
+                            assign position = 1
+                          when 'two'
+                            assign position = 2
+                          when 'three'
+                            assign position = 3
+                        endcase
+                      endif
+                    %}
+                    {% assign prevelement = position | minus: 1 %}
+                    {% if block.settings.product != blank
+                      or block.settings.image != blank
+                      or block.settings.heading != blank
+                    %}
+                      <div
+                        {{ block.shopify_attributes }}
+                        class="swiper-slide  {% if prevelement == forloop.index %} highlight-prev-element {% endif %} {% if position == forloop.index  %} highlight-active {% endif %}"
+                      >
+                        {% render 'comparison-product-image', block: block, as_image: as_image %}
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </noscript>
+        {% endif %}
+      </div>
+      <div class="comparison__table-header-value-container color-{{ section.settings.column_color_scheme }}">
+        <div
+          class="comparison__container d-flex  "
+        >
+          <ul class="comparison__grid-item">
+            {% for i in (1..10) %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: i %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+              {% assign heading = 'heading_' | append: i %}
+              {% assign custom_icon = 'custom_icon_' | append: i %}
+              {% if table_heading_block.settings[heading] != blank
+                or table_heading_block.settings[custom_icon] != blank
+              %}
+                <li class="comparison__table-heading" table-row-heading>
+                  {% unless table_heading_block.settings[custom_icon] == blank %}
+                    {{
+                      table_heading_block.settings[custom_icon]
+                      | image_url: width: table_heading_block.settings[custom_icon].width
+                      | image_tag:
+                        class: 'comparison_icon',
+                        widths: '300,200,100,500',
+                        alt: table_heading_block.settings[custom_icon].alt,
+                        loading: loading,
+                        fetchpriority: fetchpriority
+                    }}
+                  {% endunless %}
+                  {% unless table_heading_block.settings[heading] == blank %}
+                    <h3 class="fnt-16 fnt-body fnt-body-weight-bold m-0">
+                      {{ table_heading_block.settings[heading] }}
+                    </h3>
+                  {% endunless %}
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+
+          <div class="comparison__grid-item js-element">
+            <div
+              class="swiper-container overflow-hidden comparison__table-slider"
+              main-slider
+              slide-responsive-breakpoints='{"320":{"slidesPerView": "1"},"640":{"slidesPerView":"1.5"},"1024":{"slidesPerView":"3"}}'
+            >
+              <div class="swiper-wrapper">
+                {% for block in product_images %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                  {% liquid
+                    if section.settings.enable_highlight
+                      case section.settings.badge_position
+                        when 'first'
+                          assign position = 1
+                        when 'two'
+                          assign position = 2
+                        when 'three'
+                          assign position = 3
+                      endcase
+                    endif
+                  %}
+                  {% if block.settings.product != blank
+                    or block.settings.image != blank
+                    or block.settings.heading != blank
+                  %}
+                    {% assign prevelement = position | minus: 1 %}
+
+                    {% render 'comparison-table-values',
+                      prevelement: prevelement,
+                      forloopIndex: forloop.index,
+                      block: block,
+                      position: position,
+                      heading_positions: heading_positions
+                    %}
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <noscript class="table-values-no-js">
+            <div class="comparison__grid-item w-100 h-100">
+              <div
+                class="swiper overflow-hidden comparison__table-slider"
+                main-slider
+                slide-responsive-breakpoints='{"320":{"slidesPerView": "1"},"640":{"slidesPerView":"1.5"},"1024":{"slidesPerView":"3"}}'
+              >
+                <div class="swiper-wrapper">
+                  {% for block in product_images %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                    {% liquid
+                      if section.settings.enable_highlight
+                        case section.settings.badge_position
+                          when 'first'
+                            assign position = 1
+                          when 'two'
+                            assign position = 2
+                          when 'three'
+                            assign position = 3
+                        endcase
+                      endif
+                    %}
+                    {% if block.settings.product != blank
+                      or block.settings.image != blank
+                      or block.settings.heading != blank
+                    %}
+                      {% assign prevelement = position | minus: 1 %}
+                      {% render 'comparison-table-values',
+                        prevelement: prevelement,
+                        forloopIndex: forloop.index,
+                        block: block,
+                        heading_positions: heading_positions
+                      %}
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </noscript>
+        </div>
+        {% for block in product_images %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+          <div
+            class="comparison-button-wrap {% unless forloop.index == 1 %} d-none {% endunless %}"
+            product-buttons
+          >
+            {%- if block.settings.product != blank %}
+              <product-card
+                class="h-auto"
+                product-url="{{ block.settings.product.url }}"
+                product-handle="{{ block.settings.product.handle }}"
+                product-id="{{ block.settings.product.selected_or_first_available_variant.id }}"
+              >
+                {% liquid
+                  assign quick_buy_button_type = settings.quick_buy_button
+                  assign show_calltoaction_btn = show_calltoaction_btn | default: quick_buy_button_type, allow_false: true
+                  assign show_quick_buy = settings.show_quick_buy
+                  assign quick_buy_button = true
+                  unless show_quick_buy and show_calltoaction_btn
+                    assign quick_buy_button = false
+                  endunless
+                %}
+                {% assign is_product_available = block.settings.product.selected_or_first_available_variant.available %}
+                {% assign has_no_varaint = block.settings.product.has_only_default_variant %}
+                {%- assign product_form_id = 'product_form_' | append: block.settings.product.id -%}
+                {% form 'product', block.settings.product, class: 'product-card-item__form', id: product_form_id %}
+                  <input
+                    name="id"
+                    type="hidden"
+                    value="{{ block.settings.product.first_available_variant.id }}"
+                  >
+                  <input
+                    name="quantity"
+                    type="hidden"
+                    value="1"
+                  >
+
+                  <!-- form content -->
+                  {% if quick_buy_button %}
+                    {% if is_product_available %}
+                      {% unless has_no_varaint %}
+                        <button
+                          aria-label="{{ 'products.product.button_choose_options' | t }}"
+                          class="btn  btn--fill w-100 text-upper"
+                          toggle-element="options-drawer"
+                          type="submit"
+                        >
+                          <div aria-hidden="true" class="btn--preloader">
+                            <div aria-hidden="true" class="btn--preloader--circular">
+                              <div aria-hidden="true" class="checkmark draw"></div>
+                            </div>
+                          </div>
+                          <div aria-hidden="true" class="btn--text">
+                            {{ 'products.product.button_choose_options' | t }}
+                          </div>
+                        </button>
+                      {% else %}
+                        <button
+                          aria-label="{{ 'products.product.button_add_to_cart' | t }}"
+                          class="btn btn--fill w-100 text-upper"
+                          toggle-element="cart-drawer"
+                          type="submit"
+                        >
+                          <div aria-hidden="true" class="btn--preloader">
+                            <div aria-hidden="true" class="btn--preloader--circular">
+                              <div aria-hidden="true" class="checkmark draw"></div>
+                            </div>
+                          </div>
+                          <div aria-hidden="true" class="btn--text">
+                            {{ 'products.product.button_add_to_cart' | t }}
+                          </div>
+                        </button>
+                      {% endunless %}
+                    {%- else -%}
+                      <button
+                        aria-label="{{ 'products.product.button_out_of_stock' | t }}"
+                        class="btn btn--fill w-100 text-upper disable"
+                        type="button"
+                      >
+                        {{ 'products.product.button_out_of_stock' | t }}
+                      </button>
+                    {% endif %}
+                  {% endif %}
+                {% endform %}
+              </product-card>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </comparison-component>
+  </div>
+</div>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'bottom' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-bottom"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+{% schema %}
+{
+  "name": "Comparison",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Comparison chart"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Add products or brands to compare between the features they provide.</p>"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "t:settings_schema.global.collection_card.image_ratio.label",
+      "options": [
+        {
+          "label": "t:settings_schema.global.collection_card.image_ratio.option.label_1",
+          "value": "portrait"
+        },
+        {
+          "label": "t:settings_schema.global.collection_card.image_ratio.option.label_2",
+          "value": "square"
+        },
+        {
+          "label": "t:settings_schema.global.collection_card.image_ratio.option.label_3",
+          "value": "adapt"
+        },
+        {
+          "label": "t:settings_schema.global.collection_card.image_ratio.option.label_4",
+          "value": "landscape"
+        }
+      ],
+      "default": "adapt"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "t:settings_schema.global.collection_card.image_fit.label",
+      "options": [
+        {
+          "label": "t:settings_schema.global.collection_card.image_fit.option.contain",
+          "value": "contain"
+        },
+        {
+          "label": "t:settings_schema.global.collection_card.image_fit.option.cover",
+          "value": "cover"
+        }
+      ],
+      "default": "contain"
+    },
+    {
+      "type": "color",
+      "id": "card_image_background",
+      "label": "Image background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Highlight"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_highlight",
+      "label": "Enable highlight"
+    },
+    {
+      "type": "select",
+      "label": "Position",
+      "id": "badge_position",
+      "info": "Choose which column you would like to highlight",
+      "options": [
+        {
+          "label": "First",
+          "value": "first"
+        },
+        {
+          "label": "Two",
+          "value": "two"
+        },
+        {
+          "label": "Three",
+          "value": "three"
+        }
+      ],
+      "default": "first"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "info": "Leave the field empty to disable badge"
+    },
+    {
+      "type": "select",
+      "label": "Icon style",
+      "id": "icon_style",
+      "options": [
+        {
+          "label": "Heart",
+          "value": "comparison-heart"
+        },
+        {
+          "label": "Diamond",
+          "value": "comparison-diamond"
+        },
+        {
+          "label": "Star",
+          "value": "comparison-star"
+        },
+        {
+          "label": "Smiley",
+          "value": "comparison-smailey"
+        }
+      ],
+      "default": "comparison-star"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_icon_color",
+      "label": "Badge Text/Icon color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "badge_background_color",
+      "label": "Badge background color",
+      "default": "#000000"
+    },
+
+    {
+      "type": "color_scheme",
+      "id": "highlighted_color_scheme",
+      "default": "scheme-1",
+      "label": "Highlight color"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider color",
+      "default": "#000000"
+    },
+
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 52
+    },
+    {
+      "type": "select",
+      "id": "border_size",
+      "label": "Border",
+      "options": [
+        {
+          "label": "Hide",
+          "value": "hide"
+        },
+        {
+          "label": "Full width",
+          "value": "full_width"
+        },
+        {
+          "label": "Fixed width",
+          "value": "fixed_width"
+        }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "select",
+      "id": "border_position",
+      "label": "Border position",
+      "options": [
+        {
+          "label": "Both",
+          "value": "both"
+        },
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "both"
+    },
+    {
+      "type": "color_scheme",
+      "id": "column_color_scheme",
+      "default": "scheme-1",
+      "label": "Column color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Section color"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Table value",
+      "type": "table_value",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Custom heading"
+        },
+        {
+          "type": "text",
+          "id": "value_1",
+          "label": "Value 1",
+          "default": "Value 1"
+        },
+        {
+          "type": "select",
+          "id": "icon_1",
+          "label": "Icon",
+          "options": [
+            {
+              "label": "Tick",
+              "value": "tick"
+            },
+            {
+              "label": "Cross",
+              "value": "cross"
+            },
+            {
+              "label": "None",
+              "value": "none"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "value_2",
+          "label": "Value 2",
+          "default": "Value 2"
+        },
+        {
+          "type": "select",
+          "id": "icon_2",
+          "label": "Icon",
+          "options": [
+            {
+              "label": "Tick",
+              "value": "tick"
+            },
+            {
+              "label": "Cross",
+              "value": "cross"
+            },
+            {
+              "label": "None",
+              "value": "none"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "value_3",
+          "label": "Value 3",
+          "default": "Value 3"
+        },
+        {
+          "type": "select",
+          "id": "icon_3",
+          "label": "Icon",
+          "options": [
+            {
+              "label": "Tick",
+              "value": "tick"
+            },
+            {
+              "label": "Cross",
+              "value": "cross"
+            },
+            {
+              "label": "None",
+              "value": "none"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "value_4",
+          "label": "Value 4",
+          "default": "Value 4"
+        },
+        {
+          "type": "select",
+          "id": "icon_4",
+          "label": "Icon",
+          "options": [
+            {
+              "label": "Tick",
+              "value": "tick"
+            },
+            {
+              "label": "Cross",
+              "value": "cross"
+            },
+            {
+              "label": "None",
+              "value": "none"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "value_5",
+          "label": "Value 5",
+          "default": "Value 5"
+        },
+        {
+          "type": "select",
+          "id": "icon_5",
+          "label": "Icon",
+          "options": [
+            {
+              "label": "Tick",
+              "value": "tick"
+            },
+            {
+              "label": "Cross",
+              "value": "cross"
+            },
+            {
+              "label": "None",
+              "value": "none"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "value_6",
+          "label": "Value 6",
+          "default": "Value 6"
+        },
+        {
+          "type": "select",
+          "id": "icon_6",
+          "label": "Icon",
+          "options": [
+            {
+              "label": "Tick",
+              "value": "tick"
+            },
+            {
+              "label": "Cross",
+              "value": "cross"
+            },
+            {
+              "label": "None",
+              "value": "none"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "value_7",
+          "label": "Value 7",
+          "default": "Value 7"
+        },
+        {
+          "type": "select",
+          "id": "icon_7",
+          "label": "Icon",
+          "options": [
+            {
+              "label": "Tick",
+              "value": "tick"
+            },
+            {
+              "label": "Cross",
+              "value": "cross"
+            },
+            {
+              "label": "None",
+              "value": "none"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "value_8",
+          "label": "Value 8",
+          "default": "Value 8"
+        },
+        {
+          "type": "select",
+          "id": "icon_8",
+          "label": "Icon",
+          "options": [
+            {
+              "label": "Tick",
+              "value": "tick"
+            },
+            {
+              "label": "Cross",
+              "value": "cross"
+            },
+            {
+              "label": "None",
+              "value": "none"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "value_9",
+          "label": "Value 9",
+          "default": "Value 9"
+        },
+        {
+          "type": "select",
+          "id": "icon_9",
+          "label": "Icon",
+          "options": [
+            {
+              "label": "Tick",
+              "value": "tick"
+            },
+            {
+              "label": "Cross",
+              "value": "cross"
+            },
+            {
+              "label": "None",
+              "value": "none"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "value_10",
+          "label": "Value 10",
+          "default": "Value 10"
+        },
+        {
+          "type": "select",
+          "id": "icon_10",
+          "label": "Icon",
+          "options": [
+            {
+              "label": "Tick",
+              "value": "tick"
+            },
+            {
+              "label": "Cross",
+              "value": "cross"
+            },
+            {
+              "label": "None",
+              "value": "none"
+            }
+          ],
+          "default": "none"
+        }
+      ]
+    },
+    {
+      "name": "Table headings",
+      "type": "table_heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading_1",
+          "label": "Heading 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon_1",
+          "label": "Custom icon"
+        },
+        {
+          "type": "text",
+          "id": "heading_2",
+          "label": "Heading 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon_2",
+          "label": "Custom icon"
+        },
+        {
+          "type": "text",
+          "id": "heading_3",
+          "label": "Heading 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon_3",
+          "label": "Custom icon"
+        },
+        {
+          "type": "text",
+          "id": "heading_4",
+          "label": "Heading 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon_4",
+          "label": "Custom icon"
+        },
+        {
+          "type": "text",
+          "id": "heading_5",
+          "label": "Heading 5"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon_5",
+          "label": "Custom icon"
+        },
+        {
+          "type": "text",
+          "id": "heading_6",
+          "label": "Heading 6"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon_6",
+          "label": "Custom icon"
+        },
+        {
+          "type": "text",
+          "id": "heading_7",
+          "label": "Heading 7"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon_7",
+          "label": "Custom icon"
+        },
+        {
+          "type": "text",
+          "id": "heading_8",
+          "label": "Heading 8"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon_8",
+          "label": "Custom icon"
+        },
+        {
+          "type": "text",
+          "id": "heading_9",
+          "label": "Heading 9"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon_9",
+          "label": "Custom icon"
+        },
+        {
+          "type": "text",
+          "id": "heading_10",
+          "label": "Heading 10"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon_10",
+          "label": "Custom icon"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Comparison",
+      "settings": {
+        "column_color_scheme": "scheme-4",
+        "color_scheme": "scheme-1"
+      },
+      "blocks": [
+        {
+          "type": "table_heading",
+          "settings": {
+            "heading_1": "FEATURE",
+            "heading_2": "FEATURE",
+            "heading_3": "FEATURE",
+            "heading_4": "FEATURE"
+          }
+        },
+        {
+          "type": "table_value",
+          "settings": {
+            "heading": "PRODUCT 1",
+            "value_1": "Yes",
+            "value_2": "No",
+            "value_3": "Yes",
+            "value_4": "Yes"
+          }
+        },
+        {
+          "type": "table_value",
+          "settings": {
+            "heading": "PRODUCT 2",
+            "value_1": "Yes",
+            "value_2": "Yes",
+            "value_3": "No",
+            "value_4": "Yes"
+          }
+        },
+        {
+          "type": "table_value",
+          "settings": {
+            "heading": "PRODUCT 3",
+            "value_1": "Yes",
+            "value_2": "No",
+            "value_3": "No",
+            "value_4": "Yes"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

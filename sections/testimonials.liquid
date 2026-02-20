@@ -1,0 +1,499 @@
+{%- liquid
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  assign intersection = ''
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign loading = 'lazy'
+    assign intersection = 'intersection-element'
+  endif
+-%}
+
+{{ 'section-testimonial.css' | asset_url | stylesheet_tag }}
+<style>
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }}
+    ;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }}
+      ;
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }}
+      ;
+    }
+  }
+</style>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'top' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-top"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+<div
+  aria-label="{{ section.settings.heading }}"
+  class="testimonials section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}"
+  role="region"
+>
+  <carousel-component
+    {{ intersection }}
+    class="swiper js-element"
+    slide-layout-type="carousel"
+    slide-pagination-type="progressbar"
+    slide-per-view="1.2"
+    slide-responsive-breakpoints='{"480":{"slidesPerView": "1.5"},"640":{"slidesPerView":"2.2"},"992":{"slidesPerView":"1.4"},"1336":{"slidesPerView":"2"}}'
+    slide-speed="{{ settings.slide_duration }}"
+  >
+    <div class="container">
+      <div class="sliderControl mt-0">
+        {% render 'section-heading', section: section %}
+
+        <div class="d-flex sliderPagination">
+          <!-- next / prev arrows -->
+          <div
+            aria-label="{{ 'accessibility.prev_slide_label' | t }}"
+            role="button"
+            slide-prev
+          >
+            <div class="sliderPagination__prev collectionControl__prev">
+              {% render 'slider-arrow-icon', arrow_direction: 'left' %}
+            </div>
+          </div>
+          <div
+            aria-label="{{ 'accessibility.next_slide_label' | t }}"
+            role="button"
+            slide-next
+          >
+            <div class="sliderPagination__next collectionControl__next">
+              {% render 'slider-arrow-icon', arrow_direction: 'right' %}
+            </div>
+          </div>
+
+          <!-- !next / prev arrows -->
+        </div>
+      </div>
+    </div>
+    <div class="right-container">
+      <div class="testimonials__slider swiper">
+        <div class="swiper-container" main-slider>
+          <div class="swiper-wrapper" aoi-container>
+            {% if section.blocks.size > 0 %}
+              {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                {% liquid
+                  assign ratio = false
+                  if section.settings.image_aspect_ratio == 'adapt'
+                    if block.settings.product.featured_image != blank and block.settings.show_product_image
+                      assign ratio = block.settings.product.featured_image.aspect_ratio
+                    elsif block.settings.testimonial_Image != blank
+                      assign ratio = block.settings.testimonial_Image.aspect_ratio
+                    else
+                      assign ratio = 1
+                    endif
+                  endif
+                %}
+                <div class="swiper-slide" {{ block.shopify_attributes }} animate-testimonial-item>
+                  <div class="testimonials__card">
+                    {% if block.settings.product.featured_image != blank and block.settings.show_product_image %}
+                      <div class="testimonials__imgWrp">
+                        <div
+                          class="testimonials__img aspect-ratio-{{ section.settings.image_aspect_ratio }}"
+                          {% if ratio %}
+                            style="--aspect-ratio:{{ ratio }}"
+                          {% endif %}
+                        >
+                          <animation-reveal aoi-type="slide-right" aoi-duration="0.5" aoi-amount="0.3">
+                            {% assign imagealt = block.settings.product.image.alt | default: '' %}
+                            {{
+                              block.settings.product.featured_image
+                              | image_url: width: block.settings.product.featured_image.width
+                              | image_tag:
+                                widths: '550',
+                                sizes: '550px',
+                                alt: imagealt,
+                                loading: loading,
+                                fetchpriority: fetchpriority,
+                                class: 'img'
+                            }}
+
+                            {% if block.settings.show_product_image and block.settings.product != blank %}
+                              <product-card
+                                product-handle="{{ block.settings.product.handle }}"
+                                product-id="{{ block.settings.product.selected_or_first_available_variant.id }}"
+                              >
+                                <button
+                                  aria-label="{{ 'products.product.button_quick_view' | t }}"
+                                  class="tag-icon quick-view-icon"
+                                  quick-view-button
+                                >
+                                  {% render 'icon' with 'quick-view' %}
+                                </button>
+                              </product-card>
+                            {% endif %}
+                          </animation-reveal>
+                        </div>
+                      </div>
+
+                    {% elsif block.settings.testimonial_Image != blank %}
+                      <div class="testimonials__imgWrp">
+                        <div
+                          class="testimonials__img aspect-ratio-{{ section.settings.image_aspect_ratio }}"
+                          {% if ratio %}
+                            style="--aspect-ratio:{{ ratio }}"
+                          {% endif %}
+                        >
+                          <animation-reveal aoi-amount="0.3" aoi-duration="0.5" aoi-type="slide-right">
+                            {% assign imagealt = block.settings.testimonial_Image.alt | default: '' %}
+                            {{
+                              block.settings.testimonial_Image
+                              | image_url: width: block.settings.testimonial_Image.width
+                              | image_tag:
+                                widths: '550',
+                                sizes: '550px',
+                                alt: imagealt,
+                                loading: loading,
+                                fetchpriority: fetchpriority,
+                                class: 'img'
+                            }}
+                            {% if block.settings.testimonial_Image != blank %}
+                              {% if block.settings.product.url != blank %}
+                                <product-card
+                                  product-handle="{{ block.settings.product.handle }}"
+                                  product-id="{{ block.settings.product.selected_or_first_available_variant.id }}"
+                                >
+                                  <button
+                                    aria-label="{{ 'products.product.button_quick_view' | t }}"
+                                    class="tag-icon quick-view-icon"
+                                    quick-view-button
+                                  >
+                                    {% render 'icon' with 'quick-view' %}
+                                  </button>
+                                </product-card>
+                              {% endif %}
+                            {% endif %}
+                          </animation-reveal>
+                        </div>
+                      </div>
+                    {% endif %}
+                    {% liquid
+                      if block.settings.testimonial_Image == blank and block.settings.show_product_image == false
+                        assign imageShown = false
+                      else
+                        assign imageShown = true
+                      endif
+                    %}
+                    <div class="testimonials__body  {% unless imageShown %} no-image {% endunless %}">
+                      <div class="testimonials__wrp">
+                        <animation-reveal aoi-type="slide-right" aoi-duration="0.5" aoi-amount="0.3">
+                          {% if block.settings.author %}
+                            <h3 class="testimonials__name">{{ block.settings.author }}</h3>
+                          {% endif %}
+                          {% if block.settings.show_rating %}
+                            {% liquid
+                              assign rating_decimal = 0
+                              assign decimal = block.settings.rating | modulo: 1
+                              if decimal >= 0.3 and decimal <= 0.7
+                                assign rating_decimal = 0.5
+                              elsif decimal > 0.7
+                                assign rating_decimal = 1
+                              endif
+                            %}
+                            <div
+                              aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: block.settings.rating, rating_max: 5 }}"
+                              class="rating"
+                              role="img"
+                            >
+                              <span
+                                aria-hidden="true"
+                                class="rating-star"
+                                style="--rating: {{ block.settings.rating }}; --rating-max: 5; --rating-decimal: {{ rating_decimal }};"
+                              ></span>
+                            </div>
+                          {% endif %}
+                          {% if block.settings.title %}
+                            <p class="testimonials__designation">{{ block.settings.title }}</p>
+                          {% endif %}
+                          {% if block.settings.content %}
+                            <p class="testimonials__quote">{{ block.settings.content }}</p>
+                          {% endif %}
+                          <div class="d-flex">
+                            {% if block.settings.testimonial_Image == blank
+                              and block.settings.show_product_image == blank
+                            %}
+                              {% if block.settings.product.url != blank %}
+                                <product-card
+                                  product-handle="{{ block.settings.product.handle }}"
+                                  product-id="{{ block.settings.product.selected_or_first_available_variant.id }}"
+                                >
+                                  <button
+                                    aria-label="{{ 'products.product.button_quick_view' | t }}"
+                                    class="tag-icon quick-view-icon"
+                                    quick-view-button
+                                  >
+                                    <span class="fnt-14 d-v-center">
+                                      {% render 'icon' with 'quick-view' %}
+                                      {{ 'products.view_all' | t }}
+                                    </span>
+                                  </button>
+                                </product-card>
+                              {% endif %}
+                            {% endif %}
+                          </div>
+                        </animation-reveal>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </carousel-component>
+</div>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'bottom' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-bottom"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+{% schema %}
+{
+  "name": "Testimonials",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image ratio",
+      "options": [
+        {
+          "label": "Portrait (3:4)",
+          "value": "portrait"
+        },
+        {
+          "label": "Square (1:1)",
+          "value": "square"
+        },
+        {
+          "label": "Adapt to image",
+          "value": "adapt"
+        },
+        {
+          "label": "Landspace (4:3)",
+          "value": "landscape"
+        }
+      ],
+      "default": "square"
+    },
+    {
+      "type": "header",
+      "content": "Section content"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Testimonials"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 36
+    },
+    {
+      "type": "select",
+      "id": "border_size",
+      "label": "Border",
+      "options": [
+        {
+          "label": "Hide",
+          "value": "hide"
+        },
+        {
+          "label": "Full width",
+          "value": "full_width"
+        },
+        {
+          "label": "Fixed width",
+          "value": "fixed_width"
+        }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "select",
+      "id": "border_position",
+      "label": "Border position",
+      "options": [
+        {
+          "label": "Both",
+          "value": "both"
+        },
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "both"
+    },
+
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Testimonial",
+      "type": "testimonial",
+      "settings": [
+        {
+          "type": "checkbox",
+          "label": "Show rating",
+          "id": "show_rating",
+          "default": true
+        },
+        {
+          "type": "range",
+          "label": "Rating",
+          "min": 0,
+          "max": 5,
+          "id": "rating",
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Author Name"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Subheading"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Content",
+          "default": "Write a review about a product, collection or a brand. Describe what the user liked  about it and the reason behind liking it"
+        },
+        {
+          "type": "image_picker",
+          "id": "testimonial_Image",
+          "label": "Image",
+          "info": "1200 x 1200px (Square 1:1) .jpg recommended"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Tag product"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_product_image",
+          "label": "Show product image",
+          "info": "Replaced image with product image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "author": "Author Name",
+            "content": "Write a review about a product, collection or a brand. Describe what the user liked  about it and the reason behind liking it"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author": "Author Name",
+            "content": "Write a review about a product, collection or a brand. Describe what the user liked  about it and the reason behind liking it"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author": "Author Name",
+            "content": "Write a review about a product, collection or a brand. Describe what the user liked  about it and the reason behind liking it"
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["*"]
+  }
+}
+{% endschema %}

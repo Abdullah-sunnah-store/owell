@@ -1,0 +1,41 @@
+{% comment %}
+  List of variables used:
+  form_id : {{ string   }} Reference form id
+  block: {{ object }} block related object data
+{% endcomment %}
+
+<div class="product-quantity__selector-wrapper {{ class | default: '' }}" {{ block.shopify_attributes }}>
+  <label
+    class="mb-2 text-color"
+    for="quantity-{{ form_id }}"
+  >
+    {{ 'products.product.quantity.label' | t }}
+  </label>
+  <quantity-selector class="product-quantity__selector">
+    <button
+      aria-label="{{ 'products.product.quantity.decrease' | t: product: product_title }}"
+      decrease-value
+    >
+      {%- render 'icon' with 'minus', color_var: 'rgb(var(--color-input-color-rgb)/ 1)' -%}
+    </button>
+    <label class="visually-hidden" for="quantity-{{ form_id }}"> Quantity </label>
+    <input
+      id="quantity-{{ form_id }}"
+      form="{{ form_id }}"
+      max="{%- unless product.quantity_rule.max == nil -%}{{ product.quantity_rule.max }}{%- else -%} null {%- endunless -%}"
+      min="{%- unless product.quantity_rule.min == nil -%}{{ product.quantity_rule.min }}{%- else -%} 1 {%- endunless -%}"
+      name="quantity"
+      role="spinbutton"
+      step="{{ product.quantity_rule.increment }}"
+      type="number"
+      aria-label="{{ 'products.product.quantity.quantity_title' | t: product: product_title }}"
+      value="{%- unless product.quantity_rule.min == nil -%}{{ product.quantity_rule.min }}{%- else -%} 1 {%- endunless -%}"
+    >
+    <button
+      aria-label="{{ 'products.product.quantity.increase' | t: product: product_title }}"
+      increase-value
+    >
+      {%- render 'icon' with 'plus', color_var: 'rgb(var(--color-input-color-rgb)/ 1)' -%}
+    </button>
+  </quantity-selector>
+</div>

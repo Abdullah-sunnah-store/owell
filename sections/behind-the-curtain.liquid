@@ -1,0 +1,950 @@
+{% comment %}
+  Behind the Curtain - Advanced Gallery Section
+  
+  Features:
+  - Multiple column types with flexible layouts
+  - Split image support
+  - Infinite scroll animation
+  - Advanced customization options
+  - Responsive design
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Behind the Curtain Gal",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Behind the Curtain"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title Size (Desktop)",
+      "min": 30,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 84
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "label": "Title Size (Mobile)",
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#87C643"
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Title Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "800"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Section Description",
+      "default": "Can you tell we're having fun over here? It's quite the community vibe. Interested to be part of the team or collaborate? Let's chat."
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Description Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "description_max_width",
+      "label": "Description Max Width",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "header",
+      "content": "Scroll Animation"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "min": 0.1,
+      "max": 3,
+      "step": 0.1,
+      "label": "Scroll Speed",
+      "default": 0.7,
+      "info": "Higher = faster"
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on Hover",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "scroll_direction",
+      "label": "Scroll Direction",
+      "options": [
+        { "value": "left", "label": "Left to Right" },
+        { "value": "right", "label": "Right to Left" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Section Padding Top",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Section Padding Bottom",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "header_spacing",
+      "label": "Header Bottom Spacing",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column Gap",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "image_gap",
+      "label": "Image Gap (Within Column)",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Image Border Radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Advanced Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_lazy_load",
+      "label": "Enable Lazy Loading",
+      "default": true,
+      "info": "Improves page load performance"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_zoom_hover",
+      "label": "Enable Zoom on Hover",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "image_zoom_scale",
+      "label": "Image Zoom Scale",
+      "min": 1,
+      "max": 1.5,
+      "step": 0.1,
+      "default": 1.1
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Image Column",
+      "limit": 20,
+      "settings": [
+        {
+          "type": "select",
+          "id": "column_type",
+          "label": "Column Layout Type",
+          "options": [
+            { "value": "narrow-short-tall", "label": "Type 1: Narrow (Short + Tall)" },
+            { "value": "wide-tall-short", "label": "Type 2: Wide (Tall + Short)" },
+            { "value": "medium-extra-tall", "label": "Type 3: Medium (Extra Tall)" },
+            { "value": "square-double", "label": "Type 4: Square (Double)" },
+            { "value": "portrait-landscape", "label": "Type 5: Portrait + Landscape" },
+            { "value": "custom", "label": "Custom (Set Your Own)" }
+          ],
+          "default": "narrow-short-tall",
+          "info": "Choose a preset layout or custom to define your own"
+        },
+        {
+          "type": "header",
+          "content": "⚙️ Custom Column Settings (Only for Custom Type)"
+        },
+        {
+          "type": "range",
+          "id": "custom_width",
+          "label": "Custom Column Width",
+          "min": 150,
+          "max": 600,
+          "step": 10,
+          "unit": "px",
+          "default": 280,
+          "info": "Only applies if Column Type is 'Custom'"
+        },
+        {
+          "type": "header",
+          "content": "🖼️ Image Slot 1"
+        },
+        {
+          "type": "select",
+          "id": "slot_1_type",
+          "label": "Slot 1 Type",
+          "options": [
+            { "value": "single", "label": "Single Image" },
+            { "value": "split", "label": "Split (2 Images Side-by-Side)" },
+            { "value": "empty", "label": "Empty/Hidden" }
+          ],
+          "default": "single"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Slot 1 - Image (Single)",
+          "info": "Used when Slot 1 Type is 'Single Image'"
+        },
+        {
+          "type": "range",
+          "id": "slot_1_height",
+          "label": "Slot 1 Height",
+          "min": 100,
+          "max": 700,
+          "step": 10,
+          "unit": "px",
+          "default": 200,
+          "info": "Custom height for this image slot"
+        },
+        {
+          "type": "image_picker",
+          "id": "split_1_left",
+          "label": "Slot 1 - Left Image (Split)",
+          "info": "Used when Slot 1 Type is 'Split'"
+        },
+        {
+          "type": "image_picker",
+          "id": "split_1_right",
+          "label": "Slot 1 - Right Image (Split)",
+          "info": "Used when Slot 1 Type is 'Split'"
+        },
+        {
+          "type": "header",
+          "content": "🖼️ Image Slot 2"
+        },
+        {
+          "type": "select",
+          "id": "slot_2_type",
+          "label": "Slot 2 Type",
+          "options": [
+            { "value": "single", "label": "Single Image" },
+            { "value": "split", "label": "Split (2 Images Side-by-Side)" },
+            { "value": "empty", "label": "Empty/Hidden" }
+          ],
+          "default": "single"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Slot 2 - Image (Single)",
+          "info": "Used when Slot 2 Type is 'Single Image'"
+        },
+        {
+          "type": "range",
+          "id": "slot_2_height",
+          "label": "Slot 2 Height",
+          "min": 100,
+          "max": 700,
+          "step": 10,
+          "unit": "px",
+          "default": 310,
+          "info": "Custom height for this image slot"
+        },
+        {
+          "type": "image_picker",
+          "id": "split_2_left",
+          "label": "Slot 2 - Left Image (Split)",
+          "info": "Used when Slot 2 Type is 'Split'"
+        },
+        {
+          "type": "image_picker",
+          "id": "split_2_right",
+          "label": "Slot 2 - Right Image (Split)",
+          "info": "Used when Slot 2 Type is 'Split'"
+        },
+        {
+          "type": "header",
+          "content": "🖼️ Image Slot 3 (Optional)"
+        },
+        {
+          "type": "select",
+          "id": "slot_3_type",
+          "label": "Slot 3 Type",
+          "options": [
+            { "value": "single", "label": "Single Image" },
+            { "value": "split", "label": "Split (2 Images Side-by-Side)" },
+            { "value": "empty", "label": "Empty/Hidden" }
+          ],
+          "default": "empty"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Slot 3 - Image (Single)"
+        },
+        {
+          "type": "range",
+          "id": "slot_3_height",
+          "label": "Slot 3 Height",
+          "min": 100,
+          "max": 700,
+          "step": 10,
+          "unit": "px",
+          "default": 250
+        },
+        {
+          "type": "image_picker",
+          "id": "split_3_left",
+          "label": "Slot 3 - Left Image (Split)"
+        },
+        {
+          "type": "image_picker",
+          "id": "split_3_right",
+          "label": "Slot 3 - Right Image (Split)"
+        },
+        {
+          "type": "header",
+          "content": "🎨 Column Styling"
+        },
+        {
+          "type": "range",
+          "id": "column_opacity",
+          "label": "Column Opacity",
+          "min": 0.1,
+          "max": 1,
+          "step": 0.1,
+          "default": 1
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Behind the Curtain Gal",
+      "category": "Image Gallery",
+      "blocks": [
+        {
+          "type": "column",
+          "settings": {
+            "column_type": "narrow-short-tall",
+            "slot_1_type": "single",
+            "slot_1_height": 200,
+            "slot_2_type": "single",
+            "slot_2_height": 310
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "column_type": "wide-tall-short",
+            "slot_1_type": "single",
+            "slot_1_height": 280,
+            "slot_2_type": "single",
+            "slot_2_height": 230
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "column_type": "medium-extra-tall",
+            "slot_1_type": "single",
+            "slot_1_height": 520,
+            "slot_2_type": "empty"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<section 
+  class="behind-curtain-gallery-{{ section.id }}" 
+  data-section-id="{{ section.id }}"
+  style="background-color: {{ section.settings.background_color }};"
+>
+  <div class="btc-header-{{ section.id }}">
+    {% if section.settings.title != blank %}
+      <h2 class="btc-title-{{ section.id }}">{{ section.settings.title }}</h2>
+    {% endif %}
+    {% if section.settings.description != blank %}
+      <p class="btc-description-{{ section.id }}">{{ section.settings.description }}</p>
+    {% endif %}
+  </div>
+  
+  <div class="btc-gallery-container-{{ section.id }}">
+    <div 
+      class="btc-gallery-track-{{ section.id }}" 
+      data-speed="{{ section.settings.scroll_speed }}"
+      data-direction="{{ section.settings.scroll_direction }}"
+      data-pause-hover="{{ section.settings.pause_on_hover }}"
+    >
+      {% comment %} Render blocks 3 times for seamless infinite scroll {% endcomment %}
+      {% for iteration in (1..3) %}
+        {% for block in section.blocks %}
+          {% if block.type == "column" %}
+            <div 
+              class="btc-column-{{ section.id }} btc-column-type-{{ block.settings.column_type }}" 
+              {% if iteration == 1 %}{{ block.shopify_attributes }}{% endif %}
+              style="opacity: {{ block.settings.column_opacity }};"
+              data-column-type="{{ block.settings.column_type }}"
+              data-custom-width="{{ block.settings.custom_width }}"
+            >
+              {% comment %} Slot 1 {% endcomment %}
+              {% if block.settings.slot_1_type != "empty" %}
+                <div 
+                  class="btc-image-wrapper-{{ section.id }} {% if block.settings.slot_1_type == 'split' %}btc-split-row-{{ section.id }}{% endif %}"
+                  data-slot="1"
+                  data-height="{{ block.settings.slot_1_height }}"
+                >
+                  {% if block.settings.slot_1_type == "split" %}
+                    <div class="btc-split-image-{{ section.id }}">
+                      {% if block.settings.split_1_left %}
+                        {{ block.settings.split_1_left | image_url: width: 800 | image_tag: loading: section.settings.enable_lazy_load, alt: block.settings.split_1_left.alt, class: 'btc-img' }}
+                      {% else %}
+                        {{ 'image' | placeholder_svg_tag: 'btc-placeholder' }}
+                      {% endif %}
+                    </div>
+                    <div class="btc-split-image-{{ section.id }}">
+                      {% if block.settings.split_1_right %}
+                        {{ block.settings.split_1_right | image_url: width: 800 | image_tag: loading: section.settings.enable_lazy_load, alt: block.settings.split_1_right.alt, class: 'btc-img' }}
+                      {% else %}
+                        {{ 'image' | placeholder_svg_tag: 'btc-placeholder' }}
+                      {% endif %}
+                    </div>
+                  {% else %}
+                    {% if block.settings.image_1 %}
+                      {{ block.settings.image_1 | image_url: width: 1200 | image_tag: loading: section.settings.enable_lazy_load, alt: block.settings.image_1.alt, class: 'btc-img' }}
+                    {% else %}
+                      {{ 'lifestyle-1' | placeholder_svg_tag: 'btc-placeholder' }}
+                    {% endif %}
+                  {% endif %}
+                </div>
+              {% endif %}
+
+              {% comment %} Slot 2 {% endcomment %}
+              {% if block.settings.slot_2_type != "empty" %}
+                <div 
+                  class="btc-image-wrapper-{{ section.id }} {% if block.settings.slot_2_type == 'split' %}btc-split-row-{{ section.id }}{% endif %}"
+                  data-slot="2"
+                  data-height="{{ block.settings.slot_2_height }}"
+                >
+                  {% if block.settings.slot_2_type == "split" %}
+                    <div class="btc-split-image-{{ section.id }}">
+                      {% if block.settings.split_2_left %}
+                        {{ block.settings.split_2_left | image_url: width: 800 | image_tag: loading: section.settings.enable_lazy_load, alt: block.settings.split_2_left.alt, class: 'btc-img' }}
+                      {% else %}
+                        {{ 'image' | placeholder_svg_tag: 'btc-placeholder' }}
+                      {% endif %}
+                    </div>
+                    <div class="btc-split-image-{{ section.id }}">
+                      {% if block.settings.split_2_right %}
+                        {{ block.settings.split_2_right | image_url: width: 800 | image_tag: loading: section.settings.enable_lazy_load, alt: block.settings.split_2_right.alt, class: 'btc-img' }}
+                      {% else %}
+                        {{ 'image' | placeholder_svg_tag: 'btc-placeholder' }}
+                      {% endif %}
+                    </div>
+                  {% else %}
+                    {% if block.settings.image_2 %}
+                      {{ block.settings.image_2 | image_url: width: 1200 | image_tag: loading: section.settings.enable_lazy_load, alt: block.settings.image_2.alt, class: 'btc-img' }}
+                    {% else %}
+                      {{ 'lifestyle-2' | placeholder_svg_tag: 'btc-placeholder' }}
+                    {% endif %}
+                  {% endif %}
+                </div>
+              {% endif %}
+
+              {% comment %} Slot 3 (Optional) {% endcomment %}
+              {% if block.settings.slot_3_type != "empty" %}
+                <div 
+                  class="btc-image-wrapper-{{ section.id }} {% if block.settings.slot_3_type == 'split' %}btc-split-row-{{ section.id }}{% endif %}"
+                  data-slot="3"
+                  data-height="{{ block.settings.slot_3_height }}"
+                >
+                  {% if block.settings.slot_3_type == "split" %}
+                    <div class="btc-split-image-{{ section.id }}">
+                      {% if block.settings.split_3_left %}
+                        {{ block.settings.split_3_left | image_url: width: 800 | image_tag: loading: section.settings.enable_lazy_load, alt: block.settings.split_3_left.alt, class: 'btc-img' }}
+                      {% else %}
+                        {{ 'image' | placeholder_svg_tag: 'btc-placeholder' }}
+                      {% endif %}
+                    </div>
+                    <div class="btc-split-image-{{ section.id }}">
+                      {% if block.settings.split_3_right %}
+                        {{ block.settings.split_3_right | image_url: width: 800 | image_tag: loading: section.settings.enable_lazy_load, alt: block.settings.split_3_right.alt, class: 'btc-img' }}
+                      {% else %}
+                        {{ 'image' | placeholder_svg_tag: 'btc-placeholder' }}
+                      {% endif %}
+                    </div>
+                  {% else %}
+                    {% if block.settings.image_3 %}
+                      {{ block.settings.image_3 | image_url: width: 1200 | image_tag: loading: section.settings.enable_lazy_load, alt: block.settings.image_3.alt, class: 'btc-img' }}
+                    {% else %}
+                      {{ 'image' | placeholder_svg_tag: 'btc-placeholder' }}
+                    {% endif %}
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% style %}
+/* Base Section Styles */
+.behind-curtain-gallery-{{ section.id }} {
+  position: relative;
+  width: 100%;
+  padding: {{ section.settings.section_padding_top }}px 0 {{ section.settings.section_padding_bottom }}px;
+  overflow-x: hidden;
+}
+
+.btc-header-{{ section.id }} {
+  max-width: 1200px;
+  margin: 0 auto {{ section.settings.header_spacing }}px;
+  text-align: center;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.btc-title-{{ section.id }} {
+  font-size: {{ section.settings.title_size }}px;
+  font-weight: {{ section.settings.title_weight }};
+  line-height: 1;
+  margin: 0 0 30px 0;
+  color: {{ section.settings.title_color }};
+}
+
+.btc-description-{{ section.id }} {
+  font-size: {{ section.settings.description_size }}px;
+  line-height: 1.5;
+  max-width: {{ section.settings.description_max_width }}px;
+  margin: 0 auto;
+  color: {{ section.settings.description_color }};
+}
+
+/* Gallery Container */
+.btc-gallery-container-{{ section.id }} {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.btc-gallery-track-{{ section.id }} {
+  display: flex;
+  will-change: transform;
+}
+
+/* Column Styles */
+.btc-column-{{ section.id }} {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin: 0 {{ section.settings.column_gap | divided_by: 2 }}px;
+}
+
+/* Image Wrapper */
+.btc-image-wrapper-{{ section.id }} {
+  margin: {{ section.settings.image_gap | divided_by: 2 }}px;
+  overflow: hidden;
+  border-radius: {{ section.settings.border_radius }}px;
+  position: relative;
+}
+
+.btc-image-wrapper-{{ section.id }} img,
+.btc-image-wrapper-{{ section.id }} .btc-placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  {% if section.settings.enable_zoom_hover %}
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  {% endif %}
+}
+
+{% if section.settings.enable_zoom_hover %}
+.btc-image-wrapper-{{ section.id }}:hover img {
+  transform: scale({{ section.settings.image_zoom_scale }});
+}
+{% endif %}
+
+/* Split Image Layout */
+.btc-split-row-{{ section.id }} {
+  display: flex;
+  gap: {{ section.settings.image_gap }}px;
+}
+
+.btc-split-image-{{ section.id }} {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  border-radius: {{ section.settings.border_radius }}px;
+}
+
+.btc-split-image-{{ section.id }} img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Column Type Presets - Desktop */
+/* Type 1: Narrow (Short + Tall) */
+.btc-column-type-narrow-short-tall {
+  width: 280px;
+}
+
+.btc-column-type-narrow-short-tall [data-slot="1"] {
+  height: 200px;
+}
+
+.btc-column-type-narrow-short-tall [data-slot="2"] {
+  height: 310px;
+}
+
+/* Type 2: Wide (Tall + Short) */
+.btc-column-type-wide-tall-short {
+  width: 420px;
+}
+
+.btc-column-type-wide-tall-short [data-slot="1"] {
+  height: 280px;
+}
+
+.btc-column-type-wide-tall-short [data-slot="2"] {
+  height: 230px;
+}
+
+/* Type 3: Medium (Extra Tall) */
+.btc-column-type-medium-extra-tall {
+  width: 230px;
+}
+
+.btc-column-type-medium-extra-tall [data-slot="1"] {
+  height: 520px;
+}
+
+.btc-column-type-medium-extra-tall [data-slot="2"] {
+  display: none;
+}
+
+/* Type 4: Square (Double) */
+.btc-column-type-square-double {
+  width: 300px;
+}
+
+.btc-column-type-square-double [data-slot="1"],
+.btc-column-type-square-double [data-slot="2"] {
+  height: 300px;
+}
+
+/* Type 5: Portrait + Landscape */
+.btc-column-type-portrait-landscape {
+  width: 350px;
+}
+
+.btc-column-type-portrait-landscape [data-slot="1"] {
+  height: 450px;
+}
+
+.btc-column-type-portrait-landscape [data-slot="2"] {
+  height: 200px;
+}
+
+/* Tablet Responsive */
+@media screen and (max-width: 1024px) {
+  .btc-title-{{ section.id }} {
+    font-size: calc({{ section.settings.title_size }}px * 0.8);
+  }
+  
+  .btc-column-type-narrow-short-tall {
+    width: 240px;
+  }
+  
+  .btc-column-type-narrow-short-tall [data-slot="1"] {
+    height: 170px;
+  }
+  
+  .btc-column-type-narrow-short-tall [data-slot="2"] {
+    height: 260px;
+  }
+  
+  .btc-column-type-wide-tall-short {
+    width: 360px;
+  }
+  
+  .btc-column-type-wide-tall-short [data-slot="1"] {
+    height: 240px;
+  }
+  
+  .btc-column-type-wide-tall-short [data-slot="2"] {
+    height: 200px;
+  }
+  
+  .btc-column-type-medium-extra-tall {
+    width: 200px;
+  }
+  
+  .btc-column-type-medium-extra-tall [data-slot="1"] {
+    height: 440px;
+  }
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 767px) {
+  .behind-curtain-gallery-{{ section.id }} {
+    padding: {{ section.settings.section_padding_top | times: 0.6 }}px 0 {{ section.settings.section_padding_bottom | times: 0.6 }}px;
+  }
+  
+  .btc-title-{{ section.id }} {
+    font-size: {{ section.settings.title_size_mobile }}px;
+  }
+  
+  .btc-description-{{ section.id }} {
+    font-size: calc({{ section.settings.description_size }}px * 0.9);
+  }
+  
+  .btc-column-type-narrow-short-tall {
+    width: 200px;
+  }
+  
+  .btc-column-type-narrow-short-tall [data-slot="1"] {
+    height: 150px;
+  }
+  
+  .btc-column-type-narrow-short-tall [data-slot="2"] {
+    height: 220px;
+  }
+  
+  .btc-column-type-wide-tall-short {
+    width: 300px;
+  }
+  
+  .btc-column-type-wide-tall-short [data-slot="1"] {
+    height: 200px;
+  }
+  
+  .btc-column-type-wide-tall-short [data-slot="2"] {
+    height: 170px;
+  }
+  
+  .btc-column-type-medium-extra-tall {
+    width: 170px;
+  }
+  
+  .btc-column-type-medium-extra-tall [data-slot="1"] {
+    height: 370px;
+  }
+  
+  .btc-column-type-square-double {
+    width: 250px;
+  }
+  
+  .btc-column-type-square-double [data-slot="1"],
+  .btc-column-type-square-double [data-slot="2"] {
+    height: 250px;
+  }
+  
+  .btc-column-type-portrait-landscape {
+    width: 280px;
+  }
+  
+  .btc-column-type-portrait-landscape [data-slot="1"] {
+    height: 360px;
+  }
+  
+  .btc-column-type-portrait-landscape [data-slot="2"] {
+    height: 170px;
+  }
+}
+{% endstyle %}
+
+<script>
+(function() {
+  const sectionId = '{{ section.id }}';
+  const galleryTrack = document.querySelector(`.btc-gallery-track-${sectionId}`);
+  
+  if (!galleryTrack) return;
+  
+  const scrollSpeed = parseFloat(galleryTrack.getAttribute('data-speed')) || 0.7;
+  const direction = galleryTrack.getAttribute('data-direction') || 'left';
+  const pauseOnHover = galleryTrack.getAttribute('data-pause-hover') === 'true';
+  
+  // Apply custom widths
+  document.querySelectorAll(`.btc-column-${sectionId}[data-column-type="custom"]`).forEach(column => {
+    const customWidth = column.getAttribute('data-custom-width');
+    if (customWidth) {
+      column.style.width = customWidth + 'px';
+    }
+  });
+  
+  // Apply custom heights
+  document.querySelectorAll(`.btc-image-wrapper-${sectionId}`).forEach(wrapper => {
+    const customHeight = wrapper.getAttribute('data-height');
+    if (customHeight) {
+      wrapper.style.height = customHeight + 'px';
+    }
+  });
+  
+  // Calculate dimensions
+  const columns = Array.from(document.querySelectorAll(`.btc-column-${sectionId}`));
+  const originalColumnCount = columns.length / 3; // Divided by 3 because we render 3 sets
+  
+  let totalWidth = 0;
+  for (let i = 0; i < originalColumnCount; i++) {
+    const column = columns[i];
+    const columnWidth = column.offsetWidth;
+    const marginLeft = parseFloat(getComputedStyle(column).marginLeft);
+    const marginRight = parseFloat(getComputedStyle(column).marginRight);
+    totalWidth += columnWidth + marginLeft + marginRight;
+  }
+  
+  const resetPoint = totalWidth;
+  
+  let scrollPosition = 0;
+  let animationId;
+  let isPaused = false;
+  
+  function animate() {
+    if (!isPaused) {
+      if (direction === 'left') {
+        scrollPosition += scrollSpeed;
+        if (scrollPosition >= resetPoint) {
+          scrollPosition = 0;
+        }
+        galleryTrack.style.transform = `translateX(${-scrollPosition}px)`;
+      } else {
+        scrollPosition -= scrollSpeed;
+        if (scrollPosition <= -resetPoint) {
+          scrollPosition = 0;
+        }
+        galleryTrack.style.transform = `translateX(${scrollPosition}px)`;
+      }
+    }
+    
+    animationId = requestAnimationFrame(animate);
+  }
+  
+  // Start animation
+  animate();
+  
+  // Pause on hover
+  if (pauseOnHover) {
+    galleryTrack.addEventListener('mouseenter', () => {
+      isPaused = true;
+    });
+    
+    galleryTrack.addEventListener('mouseleave', () => {
+      isPaused = false;
+    });
+  }
+  
+  // Handle window resize
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      // Recalculate on resize if needed
+      scrollPosition = 0;
+    }, 250);
+  });
+  
+  // Clean up
+  window.addEventListener('pagehide', () => {
+    if (animationId) {
+      cancelAnimationFrame(animationId);
+    }
+  });
+})();
+</script>

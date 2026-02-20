@@ -1,0 +1,77 @@
+{% render 'search-drawer', section: section %}
+
+{% schema %}
+{
+  "name": "Search drawer",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Control search results with the Search & Discovery app. [Learn more](https://help.shopify.com/en/manual/online-store/search-and-discovery/settings)"
+    },
+    {
+      "type": "header",
+      "content": "Prompt animation"
+    },
+    {
+      "type": "checkbox",
+      "id": "prompt_animation",
+      "label": "Enable animation",
+      "info": "Enabling this will replace the default text",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "prompt_mobile",
+      "label": "Enable animation in mobile",
+      "info": "Enable this only if the prompts are short",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "prompt_text_1",
+      "label": "Prompt text 1 (default)",
+      "default": "products"
+    },
+    {
+      "type": "text",
+      "id": "prompt_text_2",
+      "label": "Prompt text 2",
+      "default": "articles"
+    },
+    {
+      "type": "text",
+      "id": "prompt_text_3",
+      "label": "Prompt text 3"
+    },
+    {
+      "type": "text",
+      "id": "prompt_text_4",
+      "label": "Prompt text 4"
+    },
+    {
+      "type": "text",
+      "id": "prompt_text_5",
+      "label": "Prompt text 5"
+    },
+    {
+      "type": "header",
+      "content": "Product recommendation",
+      "info": "Promote products while a search hasn't been made yet."
+    },
+    {
+      "type": "text",
+      "label": "Heading",
+      "id": "heading",
+      "default": "Trending now"
+    },
+    {
+      "type": "collection",
+      "id": "collections",
+      "label": "Collection"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["aside"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,260 @@
+{% comment %}
+  Snippet that will handle product media
+  List of variables:
+  media : {{ Array }} Individual Product media array
+  show_preview_image: {{ Boolean }} if True renders preview image link with image tag
+  add_media_aspect_ratio: {{ Boolean }} if True renders media aspect ratio
+{% endcomment %}
+
+{% liquid
+  assign media_add_media_aspect_ratio = add_media_aspect_ratio | default: true, allow_false: true
+  assign media_add_media_aspect_ratio_mobile = add_media_aspect_ratio_mobile | default: true, allow_false: true
+  assign watch_element_attribute = ''
+  if layout_type == 'grid' or layout_type == 'grid-with-main-media'
+    assign watch_element_attribute = 'watch-element'
+  else
+    if forloop.first
+      assign watch_element_attribute = 'watch-element'
+    endif
+  endif
+  assign default_media_size = 'media__container-size'
+  assign play_media_size_postion = 'media-position-relative'
+  if section.settings.media_fit == 'fill' or show_preview_image
+    assign default_media_size = 'image__padding__size'
+    assign play_media_size_postion = 'media-position-absolute'
+  else
+    unless media.media_type == 'image'
+      assign default_media_size = default_media_size | append: ' ' | append: 'playable_media__container-size'
+    endunless
+  endif
+  if media_add_media_aspect_ratio
+    assign media_aspect_ratio = 1
+    if section.settings.image_aspect_ratio_desktop == 'adapt'
+      assign media_aspect_ratio = media.aspect_ratio | default: ''
+      if media.media_type == 'model'
+        assign media_aspect_ratio = media.preview_image.aspect_ratio
+      endif
+    endif
+  endif
+  if media_add_media_aspect_ratio_mobile
+    assign media_aspect_ratio_mobile = 1
+    if section.settings.image_aspect_ratio_mobile == 'adapt'
+      assign media_aspect_ratio_mobile = media.aspect_ratio | default: ''
+      if media.media_type == 'model'
+        assign media_aspect_ratio_mobile = media.preview_image.aspect_ratio
+      endif
+    endif
+  endif
+  assign image_fetch_priority = 'auto'
+  assign image_loading_style = 'lazy'
+  assign preview_image_fetch_priority = 'auto'
+  assign preview_image_loading_style = 'lazy'
+  if section.index == 1
+    assign preview_image_fetch_priority = 'high'
+    assign preview_image_loading_style = 'eager'
+    if media_custom_identifier == 'carousel' and forloop.first
+      assign image_fetch_priority = 'high'
+      assign image_loading_style = 'eager'
+    elsif media_custom_identifier == 'grid'
+      assign image_fetch_priority = 'high'
+      assign image_loading_style = 'eager'
+    endif
+  endif
+%}
+
+{% comment %} <h1>{{ section.settings.media_fit }}</h1> {% endcomment %}
+
+{%- unless onboarding -%}
+  <div
+    class="position-relative image--aspectSize {{ default_media_size }}  aspect-ratio-{{ section.settings.image_aspect_ratio_desktop }}                 aspect-ratio-mobile-{{ section.settings.image_aspect_ratio_mobile }} "
+    data-media-id="{{ media.id }}"
+    style="--media-max-size:{{ media.width | default: media.preview_image.width }}px; --aspect-ratio: {{ media_aspect_ratio }}; --aspect-ratio-mobile: {{ media_aspect_ratio_mobile }} "
+  >
+    {% comment %} Render default img links with tags {% endcomment %}
+    {% unless show_preview_image %}
+      {%- case media.media_type -%}
+        {%- when 'image' -%}
+          {%- capture sizes -%}
+          {% case section.settings.desktop_media_size %}
+            {% when 'small' %}
+              {% comment %} find the product image container size in px based on media size settings ,if small it will be 40% and 50%,59% for medium and large  {% endcomment %}
+              {% assign desktop_size = settings.page_width | times: 0.40 | minus: 15 | append: 'px' %}
+            {% when 'medium' %}
+              {% assign desktop_size = settings.page_width | times: 0.50 | minus: 15 | append: 'px' %}
+            {% when 'large' %}
+              {% assign desktop_size = settings.page_width | times: 0.59 | minus: 15 | append: 'px' %}
+          {% endcase %}
+              calc(100vw - 30px),(min-width: 780px) calc(50vw - 30px ),(min-width: 1400px) {{ desktop_size }} 
+          {%- endcapture -%}
+          {{
+            media
+            | image_url: width: media.width
+            | image_tag:
+              widths: '2048,1980,1520,1024,800,600',
+              sizes: sizes,
+              alt: media.alt,
+              class: 'image-responsive',
+              fetchpriority: image_fetch_priority,
+              loading: image_loading_style
+          }}
+
+          {% comment %} Render Image {% endcomment %}
+        {%- when 'external_video' -%}
+          {% comment %} Render external Video Link {% endcomment %}
+          {%- if media.host == 'youtube' -%}
+            {%- assign iframe_id = section.id
+              | append: '-'
+              | append: media.external_id
+              | append: '-'
+              | append: media_custom_identifier
+            -%}
+            <youtube-player
+              {{ watch_element_attribute }}
+              class="d-block video__section {{ play_media_size_postion }} set-100-percentage-size-media"
+              video-id="{{ media.external_id }}"
+              data-media-type="{{ media.media_type }}"
+              data-media-host="{{ media.host }}"
+              {% if media_autoplay %}
+                media-autoplay show-controls
+              {% endif %}
+            >
+              <div id="{{ iframe_id }}" iframe-element></div>
+
+              {% render 'media-poster',
+                media: media,
+                media_autoplay: media_autoplay,
+                fetchpriority: image_fetch_priority,
+                loading: image_loading_style
+              %}
+            </youtube-player>
+
+            {% comment %}
+              {{
+                media
+                | external_video_url: color: 'white'
+              | external_video_tag: class: 'image-responsive', loading: 'lazy', enablejsapi: '1', id: iframe_id, autoplay: true, muted: true }}
+            {% endcomment %}
+          {%- elsif media.host == 'vimeo' -%}
+            {%- assign iframe_id = section.id
+              | append: '-'
+              | append: media.external_id
+              | append: '-'
+              | append: media_custom_identifier
+            -%}
+            <vimeo-player
+              {{ watch_element_attribute }}
+              class="d-block video__section {{ play_media_size_postion }} set-100-percentage-size-media"
+              video-id="{{ media.external_id }}"
+              data-media-type="{{ media.media_type }}"
+              data-media-host="{{ media.host }}"
+              {% if media_autoplay %}
+                media-autoplay show-controls
+              {% endif %}
+            >
+              <div id="{{ iframe_id }}" iframe-element></div>
+
+              {% render 'media-poster',
+                media: media,
+                media_autoplay: media_autoplay,
+                fetchpriority: image_fetch_priority,
+                loading: image_loading_style
+              %}
+            </vimeo-player>
+
+            {% comment %} {{ media | external_video_url: loop: '1' | external_video_tag: class: 'image-responsive', loading: 'lazy' }} {% endcomment %}
+          {%- endif -%}
+        {%- when 'video' -%}
+          <default-player
+            {{ watch_element_attribute }}
+            class="d-block video__section {{ play_media_size_postion }} set-100-percentage-size-media"
+            data-media-type="{{ media.media_type }}"
+            {% if media_autoplay %}
+              media-autoplay
+            {% endif %}
+          >
+            <video
+              alt="{{ media.alt | default: product.title }}"
+              webkit-playsinline
+              playsinline
+              preload="metadata"
+              poster="false"
+              controls
+              {% if media_autoplay -%}
+                muted autoplay loop
+              {%- endif -%}
+            >
+              {%- for source in media.sources -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: source %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                <source src="{{ source.url }}" type="{{ source.mime_type }}">
+              {%- endfor -%}
+              Your browser does not support the video tag.
+            </video>
+
+            {% render 'media-poster',
+              media: media,
+              media_autoplay: media_autoplay,
+              fetchpriority: image_fetch_priority,
+              loading: image_loading_style
+            %}
+          </default-player>
+
+          {% comment %} Render Product Video {% endcomment %}
+
+        {%- when 'model' -%}
+          {%- assign model_reveal_type = 'interaction' -%}
+          {%- if media_autoplay -%}
+            {%- assign model_reveal_type = 'auto' -%}
+          {%- endif -%}
+
+          {%- comment -%} Render product model {%- endcomment -%}
+          <model-3d-component
+            class="d-block model__section {{ play_media_size_postion }}"
+            data-media-type="{{ media.media_type }}"
+          >
+            {{
+              media
+              | model_viewer_tag:
+                reveal: model_reveal_type,
+                toggleable: true,
+                image_size: '2048x',
+                loading: 'lazy',
+                class: 'set-100-percentage-size-media'
+            }}
+
+            {% comment %} {% render 'media-poster', media: media, media_autoplay: media_autoplay %} {% endcomment %}
+          </model-3d-component>
+      {%- endcase -%}
+    {%- else -%}
+      {% comment %} Render preview image {% endcomment %}
+      {{
+        media.preview_image
+        | image_url: width: media.width
+        | image_tag:
+          widths: '300,200',
+          sizes: '(max-width: 520px) 50px',
+          alt: media.alt,
+          class: 'image-responsive',
+          loading: preview_image_loading_style,
+          fetchpriority: preview_image_fetch_priority
+      }}
+      <div class="thumbnail__icon position-absolute">
+        {%- case media.media_type -%}
+          {%- when 'model' -%}
+            {% render 'icon' with '3d-model' %}
+          {% when 'video', 'external_video' %}
+            {% render 'icon' with 'play' %}
+        {%- endcase -%}
+      </div>
+    {% endunless %}
+  </div>
+{%- else -%}
+  <div class="product-card-item__aspectSize image__padding__size image--aspectSize onboarding--svg">
+    {{ 'product-apparel-1' | placeholder_svg_tag: 'image-responsive' }}
+  </div>
+{%- endunless -%}

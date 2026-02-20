@@ -1,0 +1,745 @@
+{{ 'section-hotspots.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'detailsDropdownAnimation.js' | asset_url }}" defer></script>
+{% liquid
+  assign page_width = settings.page_width
+  assign main_image = section.settings.main_image
+  assign mobile_image = section.settings.main_image_mobile
+  assign image_blocks = section.blocks | where: 'type', 'image'
+  assign hotspot_block = section.blocks | where: 'type', 'hotspot'
+  assign show_drawer = true
+%}
+
+<style>
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }};
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px' }};
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }};
+    }
+  }
+</style>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'top' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-top"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+<div class="section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
+  <div class="container">
+    <div class="hotspots  {% if image_blocks.size > 0 %} grid-layout grid-layout--2-desktop grid-layout--1-mobile {% endif %} ">
+      <div class="hotspots__image-container ">
+        <hotspot-component>
+          <div
+            class="{% unless image_blocks.size > 0 %}position-relative image-height image-height--{{ section.settings.image_aspect_ratio }} {% else %} hotspots__iamge-wrap {% endunless %}"
+            hotspot-container
+          >
+            <div class="hotspots__imageWrap border-radius border-radius--block {% if mobile_image != blank %} tab-only {% endif %}">
+              {% if main_image != blank %}
+                {%- capture sizes -%}
+                (min-width: {{ page_width }}px) {{ page_width }}px,
+                (min-width: 768px) calc(50vw - 50px), calc(100vw - 200px)
+              {%- endcapture -%}
+                {{
+                  main_image
+                  | image_url: width: main_image.width
+                  | image_tag: sizes: sizes, widths: '500,700,800,1200', class: 'hotspots__image'
+                }}
+              {% else %}
+                {{ 'hero-apparel-2' | placeholder_svg_tag: 'hotspots__image' }}
+              {% endif %}
+            </div>
+
+            {% if mobile_image != blank %}
+              <div class="hotspots__imageWrap mobile-sm-only">
+                {%- capture sizes -%}
+                    100vw
+                {%- endcapture -%}
+                {{
+                  mobile_image
+                  | image_url: width: mobile_image.width
+                  | image_tag: sizes: sizes, widths: '500,700', class: 'hotspots__image'
+                }}
+              </div>
+            {% endif %}
+
+            {% comment %} Hotspots  {% endcomment %}
+            {% for block in hotspot_block %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+              {%- if forloop.first -%}
+                {% assign show_first_hotspot = section.settings.show_hotspots_in_first_hotspot %}
+              {%- else -%}
+                {% assign show_first_hotspot = false %}
+              {%- endif -%}
+
+              {% render 'product-hotspots',
+                product: block.settings.product,
+                x: block.settings.x,
+                y: block.settings.y,
+                x_mobile: block.settings.x_mobile,
+                y_mobile: block.settings.y_mobile,
+                show_hotspots_in_first_hotspot: show_first_hotspot,
+                hotspot_target: section.settings.hotspot_target
+              %}
+
+              {% comment %} Hidden product items {% endcomment %}
+
+              {% comment %} {%  render 'card-product-visually-hidden', product : block.settings.product %} {% endcomment %}
+            {% endfor %}
+            <template>
+              <div hidden-product-items>
+                {% for block in hotspot_block %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                  {% liquid
+                    if block.settings.product == blank and show_drawer
+                      assign show_drawer = false
+                    endif
+                  %}
+                  {% if show_drawer %}
+                    {% render 'card-product-visually-hidden', product: block.settings.product %}
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </template>
+            {% comment %} view all product  {% endcomment %}
+            {% if section.settings.show_product_button %}
+              {% if hotspot_block.size > 1 %}
+                <div class="hotspots__view-products">
+                  <button
+                    class="btn btn--fill btn--sm btn-icon-with-content"
+                    aria-label="{{ 'section.hotspot.button_text' | t }}"
+                    {% if show_drawer %}
+                      view-all-drawer-button
+                      drawer-to-open="view-all-products-drawer-{{ section.id }}"
+                    {% endif %}
+                  >
+                    {% render 'icon' with 'view-product' %}
+                    <span class="desktop-only"> {{ 'section.hotspot.button_text' | t }} </span>
+                  </button>
+                </div>
+              {% else %}
+                <div class="hotspots__view-products">
+                  {% liquid
+                    assign hotspot_block_first = hotspot_block | first
+                  %}
+                  <product-card
+                    product-handle="{{ hotspot_block_first.settings.product.handle }}"
+                    product-id="{{ hotspot_block_first.settings.product.selected_or_first_available_variant.id }}"
+                  >
+                    <button
+                      class="btn btn--fill btn--sm btn-icon-with-content"
+                      aria-label="{{ 'products.product.button_quick_view' | t }}"
+                      quick-view-button
+                    >
+                      {% render 'icon' with 'eye-icon' %}
+                      <span class="desktop-only"> {{ 'products.product.button_quick_view' | t }} </span>
+                    </button>
+                  </product-card>
+                </div>
+              {% endif %}
+            {% endif %}
+          </div>
+        </hotspot-component>
+      </div>
+      {% if image_blocks.size > 0 %}
+        <div class="hotspots__products {% if section.settings.image_position == 'right' %} place-first {% endif %}">
+          {% for block in image_blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+            {% case block.settings.shape %}
+              {% when 'full_width', 'recatangle' %}
+                {% capture size %}
+                  (min-width: {{ page_width }}px) calc ({{ page_width }}px / 2 - 10px), calc(100vw - 20px)
+                  {% endcapture %}
+              {% when 'square' %}
+                {% capture size %}
+                  (min-width: {{ page_width }}px) calc (({{ page_width }}px / 2) / 2 - 10px), calc(100vw / 2 - 10px )
+                  {% endcapture %}
+            {% endcase %}
+            <div
+              class="hotspots__product-imagewrp product-card product-card__{{ block.settings.shape }}"
+              hotspot-container
+              {{ block.shopify_attributes }}
+            >
+              <div class="product-card-layer">
+                <hotspot-component>
+                  <div class="product-card__content border-radius border-radius--block">
+                    {%- if block.settings.image != blank -%}
+                      {{
+                        block.settings.image
+                        | image_url: width: block.settings.image.width
+                        | image_tag: widths: '500,700,1024,1336', sizes: size, class: 'hotspots__product-image'
+                      }}
+                    {%- else -%}
+                      {{ 'hero-apparel-2' | placeholder_svg_tag: 'hotspots__product-image' }}
+                    {%- endif -%}
+                  </div>
+
+                  {% if block.settings.show_hotspots and block.settings.product_1 != blank %}
+                    {% render 'product-hotspots',
+                      product: block.settings.product_1,
+                      x: block.settings.x_product_1,
+                      y: block.settings.y_product_1,
+                      x_mobile: block.settings.x_product_1,
+                      y_mobile: block.settings.y_product_1,
+                      hotspot_target: section.settings.hotspot_target
+                    %}
+                  {% endif %}
+                  {% if block.settings.show_hotspots and block.settings.product_2 != blank %}
+                    {% render 'product-hotspots',
+                      product: block.settings.product_2,
+                      x: block.settings.x_product_2,
+                      y: block.settings.y_product_2,
+                      x_mobile: block.settings.x_product_2,
+                      y_mobile: block.settings.y_product_2,
+                      hotspot_target: section.settings.hotspot_target
+                    %}
+                  {% endif %}
+
+                  {% if block.settings.show_product_button %}
+                    <div class="hotspots__view-products">
+                      {% if block.settings.product_1 != blank
+                        and block.settings.product_2 != blank
+                        and block.settings.show_product_button
+                      %}
+                        <button
+                          class="btn btn btn--fill btn--sm btn-icon"
+                          view-all-drawer-button
+                          aria-label="{{ 'section.hotspot.button_text' | t }}"
+                          drawer-to-open="view-all-products-drawer-{{ section.id }}"
+                        >
+                          {% render 'icon' with 'view-product' %}
+                        </button>
+                      {% elsif block.settings.product_1 != blank %}
+                        <product-card
+                          product-handle="{{ block.settings.product_1.handle }}"
+                          product-id="{{ block.settings.product_1.selected_or_first_available_variant.id }}"
+                        >
+                          <button
+                            aria-label="{{ 'products.product.button_quick_view' | t }}"
+                            class="btn btn--no-style btn-icon"
+                            quick-view-button
+                          >
+                            {% render 'icon' with 'quick-view' %}
+                          </button>
+                        </product-card>
+                      {% elsif block.settings.product_2 != blank %}
+                        <product-card
+                          product-handle="{{ block.settings.product_2.handle }}"
+                          product-id="{{ block.settings.product_2.selected_or_first_available_variant.id }}"
+                        >
+                          <button
+                            aria-label="{{ 'products.product.button_quick_view' | t }}"
+                            class=" btn btn--no-style"
+                            quick-view-button
+                          >
+                            {% render 'icon' with 'quick-view' %}
+                          </button>
+                        </product-card>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+
+                  <template>
+                    <div hidden-product-items>
+                      {% render 'card-product-visually-hidden', product: block.settings.product_1 %}
+                      {% render 'card-product-visually-hidden', product: block.settings.product_2 %}
+                    </div>
+                  </template>
+                </hotspot-component>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'bottom' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-bottom"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+{% render 'view-all-product-drawer' %}
+
+{% schema %}
+{
+  "name": "Shoppable image",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Featured image"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Image",
+      "info": "2880 x 1280px .jpg recommended"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image_mobile",
+      "label": "Mobile image",
+      "info": "740 x 1100px .jpg recommended"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image size",
+      "info": "Only works when no image block is added",
+      "options": [
+        {
+          "label": "Adapt to image",
+          "value": "auto"
+        },
+        {
+          "label": "Small",
+          "value": "sm"
+        },
+        {
+          "label": "Medium",
+          "value": "md"
+        },
+        {
+          "label": "Large",
+          "value": "lg"
+        },
+        {
+          "label": "Fill screen",
+          "value": "fill"
+        }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "info": "Add an image block to change position",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_button",
+      "label": "Show view products button",
+      "info": "Only appears when product(s) are selected",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Hotspot settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_hotspots_in_first_hotspot",
+      "label": "Open first hotspot by default ",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "hotspot_target",
+      "label": "Hotspot target link",
+      "options": [
+        {
+          "value": "quick_view",
+          "label": "Quick view"
+        },
+        {
+          "value": "product_page",
+          "label": "Product page"
+        }
+      ],
+      "default": "quick_view"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 52
+    },
+    {
+      "type": "select",
+      "id": "border_size",
+      "label": "Border",
+      "options": [
+        {
+          "label": "Hide",
+          "value": "hide"
+        },
+        {
+          "label": "Full width",
+          "value": "full_width"
+        },
+        {
+          "label": "Fixed width",
+          "value": "fixed_width"
+        }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "select",
+      "id": "border_position",
+      "label": "Border position",
+      "options": [
+        {
+          "label": "Both",
+          "value": "both"
+        },
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "both"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Hotspot",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "This block adds a hotspot to the featured image"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "header",
+          "content": "Position"
+        },
+        {
+          "type": "range",
+          "id": "x",
+          "label": "Horizontal ",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "info": "Horizontal position of the hotspot"
+        },
+        {
+          "type": "range",
+          "id": "y",
+          "label": "Vertical",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "info": "Vertical position of the hotspot"
+        },
+        {
+          "type": "header",
+          "content": "Mobile position"
+        },
+        {
+          "type": "range",
+          "id": "x_mobile",
+          "label": "Horizontal ",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "info": "Horizontal position of the hotspot on mobile screens"
+        },
+        {
+          "type": "range",
+          "id": "y_mobile",
+          "label": "Vertical",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "info": "Vertical position of the hotspot on mobile screens"
+        }
+      ]
+    },
+    {
+      "name": "Image",
+      "type": "image",
+      "settings": [
+        {
+          "type": "select",
+          "label": "Shape",
+          "id": "shape",
+          "options": [
+            {
+              "value": "full_width",
+              "label": "Large square"
+            },
+            {
+              "value": "square",
+              "label": "Small square"
+            },
+            {
+              "value": "recatangle",
+              "label": "Rectangle"
+            }
+          ],
+          "default": "square"
+        },
+        {
+          "type": "image_picker",
+          "label": "Image",
+          "id": "image",
+          "info": " 1200 x 1200px (square & full width), 1200 x 576px (rectangle) recommended"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_product_button",
+          "label": "Show view products button",
+          "info": "Only appears when product(s) are selected",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Hotspot settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_hotspots",
+          "label": "Show hotspots",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Product 1"
+        },
+        {
+          "type": "product",
+          "label": "Product",
+          "id": "product_1"
+        },
+        {
+          "type": "range",
+          "id": "x_product_1",
+          "label": "Horizontal ",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "info": "Horizontal position of the hotspot"
+        },
+        {
+          "type": "range",
+          "id": "y_product_1",
+          "label": "Vertical",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "info": "Vertical position of the hotspot"
+        },
+        {
+          "type": "header",
+          "content": "Product 2"
+        },
+        {
+          "type": "product",
+          "label": "Product",
+          "id": "product_2"
+        },
+        {
+          "type": "range",
+          "id": "x_product_2",
+          "label": "Horizontal ",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "info": "Horizontal position of the hotspot"
+        },
+        {
+          "type": "range",
+          "id": "y_product_2",
+          "label": "Vertical",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "info": "Vertical position of the hotspot"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shoppable image",
+      "settings": {
+        "main_image": ""
+      },
+      "blocks": [
+        {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "x": 29,
+            "y": 41,
+            "x_mobile": 32,
+            "y_mobile": 35
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "x": 67,
+            "y": 46,
+            "x_mobile": 61,
+            "y_mobile": 50
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "x": 53,
+            "y": 32,
+            "x_mobile": 48,
+            "y_mobile": 30
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "x": 82,
+            "y": 68,
+            "x_mobile": 89,
+            "y_mobile": 65
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "shape": "square",
+            "show_hotspots": false
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "shape": "square",
+            "show_hotspots": false
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "shape": "recatangle",
+            "show_hotspots": false,
+            "x_product_1": 70,
+            "y_product_1": 41,
+            "x_product_2": 41,
+            "y_product_2": 50
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "shape": "recatangle",
+            "show_hotspots": false,
+            "x_product_1": 70,
+            "y_product_1": 41,
+            "x_product_2": 41,
+            "y_product_2": 50
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["*"]
+  }
+}
+{% endschema %}

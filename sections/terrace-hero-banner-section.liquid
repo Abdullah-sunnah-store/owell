@@ -1,0 +1,625 @@
+{% comment %}
+  Terrace Hero Banner Section
+  
+  Usage: Add this file to sections/ folder in your Shopify theme
+{% endcomment %}
+
+<style>
+  .terrace-hero-{{ section.id }} {
+    position: relative;
+    min-height: {{ section.settings.section_height }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-image: url('{{ section.settings.background_image | img_url: '2000x' }}');
+    background-size: cover;
+    background-position: {{ section.settings.bg_position }};
+    background-repeat: no-repeat;
+  }
+
+  .terrace-hero-overlay-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: {{ section.settings.overlay_color }};
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    z-index: 1;
+  }
+
+  .terrace-hero-content-{{ section.id }} {
+    position: relative;
+    z-index: 2;
+    max-width: {{ section.settings.content_width }}px;
+    padding: 60px 20px;
+    text-align: center;
+    background: {{ section.settings.content_bg_color }};
+    border-radius: {{ section.settings.content_border_radius }}px;
+    backdrop-filter: blur({{ section.settings.backdrop_blur }}px);
+    -webkit-backdrop-filter: blur({{ section.settings.backdrop_blur }}px);
+  }
+
+  .terrace-hero-title-{{ section.id }} {
+    font-size: {{ section.settings.title_font_size }}px;
+    font-weight: {{ section.settings.title_font_weight }};
+    color: {{ section.settings.title_color }};
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+  }
+
+  .terrace-hero-title-highlight-{{ section.id }} {
+    font-style: {{ section.settings.highlight_style }};
+  }
+
+  .terrace-hero-subtitle-{{ section.id }} {
+    font-size: {{ section.settings.subtitle_font_size }}px;
+    color: {{ section.settings.subtitle_color }};
+    line-height: 1.6;
+    margin: 0 0 40px 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .terrace-hero-buttons-{{ section.id }} {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .terrace-hero-cta-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: {{ section.settings.button_padding_v }}px {{ section.settings.button_padding_h }}px;
+    text-decoration: none;
+    font-size: {{ section.settings.button_font_size }}px;
+    font-weight: {{ section.settings.button_font_weight }};
+    border-radius: {{ section.settings.button_border_radius }}px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    min-width: 180px;
+  }
+
+  .terrace-hero-cta-primary-{{ section.id }} {
+    background: {{ section.settings.button_bg_color }};
+    color: {{ section.settings.button_text_color }};
+  }
+
+  .terrace-hero-cta-primary-{{ section.id }}:hover {
+    background: {{ section.settings.button_hover_bg }};
+    color: {{ section.settings.button_hover_text_color }};
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .terrace-hero-cta-secondary-{{ section.id }} {
+    background: {{ section.settings.button_2_bg_color }};
+    color: {{ section.settings.button_2_text_color }};
+  }
+
+  .terrace-hero-cta-secondary-{{ section.id }}:hover {
+    background: {{ section.settings.button_2_hover_bg }};
+    color: {{ section.settings.button_2_hover_text_color }};
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .terrace-hero-cta-tertiary-{{ section.id }} {
+    background: {{ section.settings.button_3_bg_color }};
+    color: {{ section.settings.button_3_text_color }};
+  }
+
+  .terrace-hero-cta-tertiary-{{ section.id }}:hover {
+    background: {{ section.settings.button_3_hover_bg }};
+    color: {{ section.settings.button_3_hover_text_color }};
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .terrace-hero-cta-icon-{{ section.id }} {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+  }
+
+  .terrace-hero-cta-{{ section.id }}:hover .terrace-hero-cta-icon-{{ section.id }} {
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 768px) {
+    .terrace-hero-{{ section.id }} {
+      min-height: {{ section.settings.mobile_height }}px;
+    }
+
+    .terrace-hero-content-{{ section.id }} {
+      padding: 40px 20px;
+    }
+
+    .terrace-hero-title-{{ section.id }} {
+      font-size: {{ section.settings.title_font_size | times: 0.7 }}px;
+    }
+
+    .terrace-hero-subtitle-{{ section.id }} {
+      font-size: {{ section.settings.subtitle_font_size | times: 0.9 }}px;
+      margin-bottom: 30px;
+    }
+
+    .terrace-hero-buttons-{{ section.id }} {
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .terrace-hero-cta-{{ section.id }} {
+      width: 100%;
+      max-width: 320px;
+      min-width: auto;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .terrace-hero-cta-{{ section.id }} {
+      font-size: {{ section.settings.button_font_size | times: 0.9 }}px;
+      padding: {{ section.settings.button_padding_v | times: 0.8 }}px {{ section.settings.button_padding_h | times: 0.8 }}px;
+    }
+  }
+</style>
+
+<section class="terrace-hero-{{ section.id }} terrace-hero-overlay-{{ section.id }}">
+  <div class="terrace-hero-content-{{ section.id }}">
+    {% if section.settings.title_part1 != blank or section.settings.title_part2 != blank or section.settings.title_part3 != blank or section.settings.title_part4 != blank %}
+      <h1 class="terrace-hero-title-{{ section.id }}">
+        {% if section.settings.title_part1 != blank %}{{ section.settings.title_part1 }}{% endif %}
+        {% if section.settings.title_part2 != blank %}<span class="terrace-hero-title-highlight-{{ section.id }}">{{ section.settings.title_part2 }}</span>{% endif %}
+        <br>
+        {% if section.settings.title_part3 != blank %}{{ section.settings.title_part3 }}{% endif %}
+        {% if section.settings.title_part4 != blank %}<span class="terrace-hero-title-highlight-{{ section.id }}">{{ section.settings.title_part4 }}</span>{% endif %}
+      </h1>
+    {% endif %}
+
+    {% if section.settings.subtitle != blank %}
+      <p class="terrace-hero-subtitle-{{ section.id }}">{{ section.settings.subtitle }}</p>
+    {% endif %}
+
+    <div class="terrace-hero-buttons-{{ section.id }}">
+      {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+        <a href="{{ section.settings.button_link }}" class="terrace-hero-cta-{{ section.id }} terrace-hero-cta-primary-{{ section.id }}">
+          {{ section.settings.button_text }}
+          {% if section.settings.show_arrow %}
+            <svg class="terrace-hero-cta-icon-{{ section.id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          {% endif %}
+        </a>
+      {% endif %}
+
+      {% if section.settings.button_2_text != blank and section.settings.button_2_link != blank %}
+        <a href="{{ section.settings.button_2_link }}" class="terrace-hero-cta-{{ section.id }} terrace-hero-cta-secondary-{{ section.id }}">
+          {{ section.settings.button_2_text }}
+          {% if section.settings.show_arrow_2 %}
+            <svg class="terrace-hero-cta-icon-{{ section.id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          {% endif %}
+        </a>
+      {% endif %}
+
+      {% if section.settings.button_3_text != blank and section.settings.button_3_link != blank %}
+        <a href="{{ section.settings.button_3_link }}" class="terrace-hero-cta-{{ section.id }} terrace-hero-cta-tertiary-{{ section.id }}">
+          {{ section.settings.button_3_text }}
+          {% if section.settings.show_arrow_3 %}
+            <svg class="terrace-hero-cta-icon-{{ section.id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          {% endif %}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Terrace Hero Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image",
+      "info": "Recommended: 2000x800px or larger"
+    },
+    {
+      "type": "select",
+      "id": "bg_position",
+      "label": "Background Position",
+      "options": [
+        { "value": "center center", "label": "Center" },
+        { "value": "top center", "label": "Top" },
+        { "value": "bottom center", "label": "Bottom" },
+        { "value": "left center", "label": "Left" },
+        { "value": "right center", "label": "Right" }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Desktop Height",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile Height",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "default": 500
+    },
+    {
+      "type": "header",
+      "content": "Content Box Settings"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "label": "Content Width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "default": 850
+    },
+    {
+      "type": "color",
+      "id": "content_bg_color",
+      "label": "Content Background",
+      "default": "rgba(255, 255, 255, 0.1)"
+    },
+    {
+      "type": "range",
+      "id": "content_border_radius",
+      "label": "Border Radius",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "backdrop_blur",
+      "label": "Background Blur",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Title Settings"
+    },
+    {
+      "type": "text",
+      "id": "title_part1",
+      "label": "Title Part 1",
+      "default": "Upgrade"
+    },
+    {
+      "type": "text",
+      "id": "title_part2",
+      "label": "Title Part 2 (Highlighted)",
+      "default": "Your Terrace"
+    },
+    {
+      "type": "text",
+      "id": "title_part3",
+      "label": "Title Part 3",
+      "default": "Without"
+    },
+    {
+      "type": "text",
+      "id": "title_part4",
+      "label": "Title Part 4 (Highlighted)",
+      "default": "Overpaying."
+    },
+    {
+      "type": "select",
+      "id": "highlight_style",
+      "label": "Highlight Style",
+      "options": [
+        { "value": "italic", "label": "Italic" },
+        { "value": "normal", "label": "Normal" }
+      ],
+      "default": "italic"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Title Font Size",
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title Font Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Subtitle Settings"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Upgrade your terrace — with discover a premium louvered pergola, engineered for quality and priced transparently — directly from the manufacturer"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_font_size",
+      "label": "Subtitle Font Size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "header",
+      "content": "Button Settings (Shared)"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button Font Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Button Font Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_v",
+      "label": "Button Vertical Padding",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_h",
+      "label": "Button Horizontal Padding",
+      "min": 16,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button Border Radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Button 1 (Primary)"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button 1 Text",
+      "default": "Get A Free Consultation"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button 1 Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrow",
+      "label": "Show Arrow Icon",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button 1 Background",
+      "default": "#00bfff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Button 1 Hover Background",
+      "default": "#0099cc"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button 1 Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Button 1 Hover Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Button 2 (Secondary)"
+    },
+    {
+      "type": "text",
+      "id": "button_2_text",
+      "label": "Button 2 Text",
+      "default": "View Products"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Button 2 Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrow_2",
+      "label": "Show Arrow Icon",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "button_2_bg_color",
+      "label": "Button 2 Background",
+      "default": "rgba(255, 255, 255, 0.2)"
+    },
+    {
+      "type": "color",
+      "id": "button_2_hover_bg",
+      "label": "Button 2 Hover Background",
+      "default": "rgba(255, 255, 255, 0.3)"
+    },
+    {
+      "type": "color",
+      "id": "button_2_text_color",
+      "label": "Button 2 Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_2_hover_text_color",
+      "label": "Button 2 Hover Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Button 3 (Tertiary)"
+    },
+    {
+      "type": "text",
+      "id": "button_3_text",
+      "label": "Button 3 Text",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_3_link",
+      "label": "Button 3 Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrow_3",
+      "label": "Show Arrow Icon",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "button_3_bg_color",
+      "label": "Button 3 Background",
+      "default": "rgba(0, 0, 0, 0.3)"
+    },
+    {
+      "type": "color",
+      "id": "button_3_hover_bg",
+      "label": "Button 3 Hover Background",
+      "default": "rgba(0, 0, 0, 0.5)"
+    },
+    {
+      "type": "color",
+      "id": "button_3_text_color",
+      "label": "Button 3 Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_3_hover_text_color",
+      "label": "Button 3 Hover Text Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Terrace Hero Banner",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}

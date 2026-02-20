@@ -1,0 +1,312 @@
+{% comment %} Filter Drawer {% endcomment %}
+<drawer-component
+  aria-modal="true"
+  class="d-block drawer color-{{ settings.drawer_color_scheme }}"
+  drawer-type="filter"
+  aria-label="{{ 'general.drawer.filter.drawer_text' | t }}"
+  id="filter-drawer"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="drawer__container">
+    <div class="drawer__overlay" drawer-overlay></div>
+
+    <div class="drawer__wrapper drawer__wrapper--animation-position-right">
+      {% comment %} Drawer Header Area {% endcomment %}
+      <div class="drawer__header">
+        <button
+          class="drawer__close__btn"
+          aria-label="{{ 'accessibility.close_drawer' | t }} {{ 'general.drawer.filter.drawer_text' | t }}"
+          close-drawer
+        >
+          {% render 'icon' with 'close-drawer' %}
+        </button>
+
+        <h2 aria-label="{{ 'general.drawer.filter.drawer_text' | t }}" class="drawer__head">
+          {{ 'general.drawer.filter.drawer_text' | t }}
+        </h2>
+      </div>
+
+      {% comment %} Drawer Content/Body area {% endcomment %}
+      <div class="drawer__body">
+        <div class="drawer__body__wrapper filter-container">
+          <filter-component class="filter-drawer">
+            <form class="" id="filter-drawer-form">
+              <div class=" filter-drawer__options" filter-options>
+                {%- if results.terms -%}
+                  <input
+                    name="q"
+                    type="hidden"
+                    value="{{ results.terms | escape }}"
+                  >
+                  <input
+                    name="options[prefix]"
+                    type="hidden"
+                    value="last"
+                  >
+                {%- endif -%}
+                <div class="filter-accordion">
+                  {% for filter in results.filters %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: filter %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                    {% case filter.type %}
+                      {% when 'boolean', 'list' %}
+                        {% capture filterOptionsAccordion %}
+                      <details accordionTab aria-expanded="false" class="filter-accordion__item accordion__item d-block" {% if filter_accordion == 'open' %} open {% else %}{% if filter_accordion == 'only_first' and forloop.index == 1 %} open {% endif %} {% endif %}>
+                        <summary
+                          
+                          aria-label="{{ filter.label }}"
+                          class=" filter-accordion__head ">
+                          <p class="fnt-16 clr-b m-0">
+                            {{ filter.label }}
+                          </p>
+                        </summary>
+                        <div accordionBody class="accordion__item__body filter-accordion__body">
+                          <show-more-ui show-number-of-element="10">
+                            <template>
+                              {% for value in filter.values %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: value %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                                  <li class="form-group {% if filter.presentation == 'swatch' %}d-inline-block {% if value.display.type == 'image' %}filter-color-swatch__image-parent {% else %} h-100 {% endif %} {% endif %}">
+                                    <input
+                                      class="js-filter-check visually-hidden"
+                                      value="{{ value.value }}"
+                                      name="{{ value.param_name }}"
+                                      id="Filter-{{ filter.param_name | escape }}-drawer-{{ forloop.index }}"
+                                      {% if value.active %}checked{% endif %}
+                                      type="checkbox" {% unless value.count > 0 or value.active %} disabled {% endunless %} >
+                                      {% if filter.presentation != 'swatch' %}
+                                        <label class="d-flex{% unless value.count > 0 or value.active %} disable-filter-option{% endunless %}" for="Filter-{{ filter.param_name | escape }}-drawer-{{ forloop.index }}">
+                                          <div class="d-flex align-item-center">{% render 'icon' with 'checkbox' %}</div>
+                                          <span class="filter-drawer__option-value">{{ value.label }}</span>
+
+                                          <span class="count__circular--style filter__option-count fnt-14 d-inline-flex justify-content-center align-item-center">
+                                            ({{ value.count }})
+                                          </span>
+                                        </label>
+                                      {% else %}
+                                          <label class="d-flex{% unless value.count > 0 or value.active %} disable-filter-option{% endunless %} filter-swatch-label" for="Filter-{{ filter.param_name | escape }}-drawer-{{ forloop.index }}" title="{{ value.label }}">
+                                            {% render 'filter-color-swatches',  value: value, shape: settings.swatch_style %}
+                                          </label>
+                                      {% endif %}
+                                  </li>
+                              {% endfor %}
+                            </template>
+                            <ul append-elements class="customCheckList {% if filter.presentation == 'swatch' %}color-swatch-elements row-wrp row-dir-r{% endif %}"></ul>
+                            <button
+                              class="link"
+                              elements--hidden
+                              show-more-button
+                              type="button">See all ({{ filter.values.size | minus: 10 }})</button>
+                          </show-more-ui>
+                        </div>
+                      </details>
+                    {% endcapture %}
+                        {%- if filter.param_name == 'filter.p.tag' -%}
+                          {%- if section.settings.show_product_tags_to_filter -%}
+                            {{ filterOptionsAccordion }}
+                          {%- endif -%}
+                        {%- else -%}
+                          {{ filterOptionsAccordion }}
+                        {%- endif -%}
+
+                      {% when 'price_range' %}
+                        {% liquid
+                          assign currencies_using_comma_decimals = 'ANG,ARS,BRL,BYN,BYR,CLF,CLP,COP,CRC,CZK,DKK,EUR,HRK,HUF,IDR,ISK,MZN,NOK,PLN,RON,RUB,SEK,TRY,UYU,VES,VND' | split: ','
+                          assign uses_comma_decimals = false
+                          if currencies_using_comma_decimals contains cart.currency.iso_code
+                            assign uses_comma_decimals = true
+                          endif
+                        %}
+
+                        <details
+                          accordionTab
+                          aria-expanded="false"
+                          class="filter-accordion__item accordion__item d-block"
+                          {% if filter_accordion == 'open' %}
+                            open
+                          {% else %}
+                            {%- if filter_accordion == 'only_first' and forloop.index == 1 %} open {% endif %}
+                          {% endif %}
+                        >
+                          <summary
+                            aria-label="{{ filter.label | escape }}"
+                            class=" filter-accordion__head"
+                          >
+                            <p class="fnt-16 clr-b m-0">
+                              {{ filter.label | escape }}
+                            </p>
+                          </summary>
+                          <div accordionBody class="accordion__item__body filter-accordion__body">
+                            <div class="" id="priceFilter-{{ forloop.index }}-{{ section.id }}">
+                              {% comment %}
+                                {%- assign max_price_amount = filter.range_max | money | strip_html | escape -%}
+                              {% endcomment %}
+                              <price-range class="priceFilter">
+                                <div class="range-slider">
+                                  <label for="range-Filter-{{ filter.label | escape }}-GTE" class="visually-hidden">
+                                    {{- filter.label | escape -}}
+                                    Min
+                                  </label>
+                                  <input
+                                    class="range-slider__input"
+                                    id="range-Filter-{{ filter.label | escape }}-GTE"
+                                    {%- if filter.min_value.value -%}
+                                      {%- if uses_comma_decimals -%}
+                                        value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                      {%- else -%}
+                                        value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                                      {%- endif %}
+                                    {%- endif -%}
+                                    type="range"
+                                    value="0"
+                                    min="0"
+                                    inputmode="decimal"
+                                    {%- if uses_comma_decimals -%}
+                                      max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                    {%- else -%}
+                                      max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                    {% endif %}
+                                  >
+                                  <label for="range-Filter-{{ filter.label | escape }}-LTE" class="visually-hidden">
+                                    {{- filter.label | escape -}}
+                                    Max
+                                  </label>
+                                  <input
+                                    class="range-slider__input"
+                                    id="range-Filter-{{ filter.label | escape }}-LTE"
+                                    {%- if filter.max_value.value -%}
+                                      {%- if uses_comma_decimals -%}
+                                        value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                      {%- else -%}
+                                        value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                                      {%- endif %}
+                                    {%- else -%}
+                                      {%- if uses_comma_decimals -%}
+                                        value="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                      {%- else -%}
+                                        value="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                      {%- endif %}
+                                    {%- endif -%}
+                                    type="range"
+                                    min="0"
+                                    inputmode="decimal"
+                                    {%- if uses_comma_decimals -%}
+                                      max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                    {%- else -%}
+                                      max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                    {% endif %}
+                                  >
+                                </div>
+                                <div class="priceFilter-inputWrp">
+                                  <div class="priceFilter--input">
+                                    <span class="field-currency d-flex align-item-center justify-content-space-btw">
+                                      <span>{{ cart.currency.symbol }}</span>
+                                      <label
+                                        class="visually-hidden"
+                                        for="drawer-Filter-{{ filter.label | escape }}-GTE"
+                                      >
+                                        {{- cart.currency.symbol -}}
+                                      </label>
+                                      <input
+                                        class="field__input"
+                                        data-name="{{ filter.min_value.param_name }}"
+                                        name="{%- if filter.min_value.value != nil or filter.max_value.value != nil -%}{{ filter.min_value.param_name }}{%- endif -%}"
+                                        type="number"
+                                        min="0"
+                                        inputmode="decimal"
+                                        id="drawer-Filter-{{ filter.label | escape }}-GTE"
+                                        {%- if filter.min_value.value -%}
+                                          {%- if uses_comma_decimals -%}
+                                            value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                          {%- else -%}
+                                            value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                                          {%- endif %}
+                                        {%- else -%}
+                                          value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                                        {%- endif -%}
+                                        {%- if uses_comma_decimals -%}
+                                          max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                        {%- else -%}
+                                          max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                        {% endif %}
+                                      >
+                                    </span>
+                                  </div>
+                                  <div class="filter-drawer-to-text">
+                                    <span>{{ 'general.filter.price_range_to' | t }}</span>
+                                  </div>
+                                  <div class="priceFilter--input">
+                                    <span class="field-currency d-flex align-item-center justify-content-space-btw">
+                                      <span>{{ cart.currency.symbol }} </span>
+                                      <label class="visually-hidden" for="drawer-Filter-{{ filter.label | escape }}-LTE"
+                                        ><span>{{ cart.currency.symbol }} </span>
+                                      </label>
+                                      <input
+                                        class="field__input"
+                                        data-name="{{ filter.max_value.param_name }}"
+                                        name="{%- if filter.min_value.value != nil or filter.max_value.value != nil -%}{{ filter.max_value.param_name }}{%- endif -%}"
+                                        id="drawer-Filter-{{ filter.label | escape }}-LTE"
+                                        {%- if filter.max_value.value -%}
+                                          {%- if uses_comma_decimals -%}
+                                            value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                          {%- else -%}
+                                            value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                                          {%- endif %}
+                                        {%- endif -%}
+                                        type="number"
+                                        min="0"
+                                        inputmode="decimal"
+                                        {%- if uses_comma_decimals -%}
+                                          value="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                          max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                                        {%- else -%}
+                                          value="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                          max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                        {% endif %}
+                                    ></span>
+                                  </div>
+                                </div>
+                              </price-range>
+                            </div>
+                          </div>
+                        </details>
+                    {% endcase %}
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="drawer__footer">
+                <button
+                  apply-filter
+                  aria-label="{{ 'general.filter.apply_button_text' | t }}"
+                  class="btn btn--fill w-100"
+                  type="submit"
+                >
+                  <div class="btn--preloader">
+                    <div class="btn--preloader--circular">
+                      <div class="checkmark draw"></div>
+                    </div>
+                  </div>
+                  <div class="btn--text">
+                    {{ 'general.filter.apply_button_text' | t }}
+                  </div>
+                </button>
+              </div>
+            </form>
+          </filter-component>
+        </div>
+      </div>
+    </div>
+  </div>
+</drawer-component>

@@ -1,0 +1,43 @@
+{% comment %}
+  - current_product: product
+  - remaining_count: number of custom badge to show
+{% endcomment %}
+
+{% assign custom_badge_count = 0 %}
+{% for i in (1..4) %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: i %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+  {% liquid
+    assign tag_id = 'custom_badge_tag_' | append: i
+    assign settings_tag_name = settings[tag_id] | capitalize
+    assign tag_bg = 'custom_badge_bg_color_' | append: i
+    assign tag_text = 'custom_badge_text_color_' | append: i
+  %}
+
+  {% if settings[tag_id] != blank %}
+    {% for tag in current_product.tags %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: tag %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+      {% assign product_tag = tag | capitalize %}
+      {% if settings_tag_name == product_tag and custom_badge_count < remaining_count %}
+        {% assign custom_badge_count = custom_badge_count | plus: 1 %}
+        <span
+          class="p_badge custom-product-tag"
+          style="--tag-background-color:{{ settings[tag_bg] }};--tag-text-color:{{ settings[tag_text] }} "
+        >
+          {{ tag }}
+        </span>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}

@@ -1,0 +1,648 @@
+{% comment %}
+  Image Grid Gallery Section (With Dynamic Links + Section Title + Image Collection Labels)
+  
+  Usage: Add this file to sections/ folder in your Shopify theme
+  Displays images in a responsive grid layout (2x2)
+  Images can optionally be clickable with custom links
+  Each image can have a bottom-left collection title overlay
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Image Grid Gallery",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Title"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Our Collections"
+    },
+    {
+      "type": "select",
+      "id": "title_alignment",
+      "label": "Title Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Title Font Size",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "title_margin_bottom",
+      "label": "Space Below Title",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Collection Label Settings"
+    },
+    {
+      "type": "color",
+      "id": "label_bg_color",
+      "label": "Label Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "label_text_color",
+      "label": "Label Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "label_font_size",
+      "label": "Label Font Size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "label_padding_x",
+      "label": "Label Horizontal Padding",
+      "min": 6,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "label_padding_y",
+      "label": "Label Vertical Padding",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "label_border_radius",
+      "label": "Label Border Radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "label_offset",
+      "label": "Label Offset from Edge",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "label": "Container Max Width",
+      "min": 900,
+      "max": 1800,
+      "step": 50,
+      "unit": "px",
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Section Padding Top",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Section Padding Bottom",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Gap Between Images",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "grid_layout",
+      "label": "Grid Layout",
+      "options": [
+        { "value": "2x2", "label": "2x2 (4 Images)" },
+        { "value": "3-col", "label": "3 Columns" },
+        { "value": "4-col", "label": "4 Columns" },
+        { "value": "masonry", "label": "Masonry (Mixed Heights)" }
+      ],
+      "default": "2x2"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Image Settings"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image Border Radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "image_shadow",
+      "label": "Enable Image Shadow",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hover_zoom",
+      "label": "Enable Hover Zoom Effect",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "hover_zoom_scale",
+      "label": "Hover Zoom Scale",
+      "min": 1,
+      "max": 1.2,
+      "step": 0.1,
+      "default": 1.1,
+      "info": "Only applies if hover zoom is enabled"
+    },
+    {
+      "type": "header",
+      "content": "Link Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_link_icon",
+      "label": "Show Link Icon on Hover",
+      "default": true,
+      "info": "Display an icon overlay when image has a link"
+    },
+    {
+      "type": "color",
+      "id": "link_icon_color",
+      "label": "Link Icon Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "link_overlay_color",
+      "label": "Link Hover Overlay Color",
+      "default": "rgba(0, 0, 0, 0.3)"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Mobile Columns",
+      "options": [
+        { "value": "1", "label": "1 Column (Stack)" },
+        { "value": "2", "label": "2 Columns" }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "label": "Mobile Gap Between Images",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Gallery Image",
+      "limit": 20,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Recommended: 800x600px or larger"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image Alt Text (SEO)",
+          "info": "Describe the image for accessibility"
+        },
+        {
+          "type": "header",
+          "content": "Collection Label"
+        },
+        {
+          "type": "text",
+          "id": "collection_title",
+          "label": "Collection Title",
+          "info": "Shown in the bottom-left corner of the image. Leave blank to hide."
+        },
+        {
+          "type": "header",
+          "content": "Link Settings"
+        },
+        {
+          "type": "url",
+          "id": "image_link",
+          "label": "Image Link (Optional)",
+          "info": "Leave empty to make image non-clickable"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_in_new_tab",
+          "label": "Open Link in New Tab",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "link_title",
+          "label": "Link Title (Accessibility)",
+          "info": "Optional: Describe where the link goes"
+        },
+        {
+          "type": "header",
+          "content": "Layout Settings"
+        },
+        {
+          "type": "select",
+          "id": "image_size",
+          "label": "Image Size (Grid Layout Only)",
+          "options": [
+            { "value": "normal", "label": "Normal" },
+            { "value": "large", "label": "Large (2x width)" },
+            { "value": "tall", "label": "Tall (2x height)" },
+            { "value": "featured", "label": "Featured (2x2)" }
+          ],
+          "default": "normal",
+          "info": "Only works with 3-col or 4-col layouts"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Grid Gallery",
+      "category": "Image Gallery",
+      "blocks": [
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<section
+  class="image-grid-gallery-{{ section.id }}"
+  style="background-color: {{ section.settings.background_color }};"
+>
+  <div class="igg-container-{{ section.id }}">
+
+    {%- if section.settings.section_title != blank -%}
+      <h2 class="igg-section-title-{{ section.id }}">{{ section.settings.section_title }}</h2>
+    {%- endif -%}
+
+    <div class="igg-grid-{{ section.id }} igg-layout-{{ section.settings.grid_layout }}">
+      {% for block in section.blocks %}
+        {% if block.type == 'image' %}
+          <div
+            class="igg-item-{{ section.id }} igg-size-{{ block.settings.image_size }}"
+            {{ block.shopify_attributes }}
+          >
+            {% if block.settings.image_link != blank %}
+              <a
+                href="{{ block.settings.image_link }}"
+                class="igg-image-wrapper-{{ section.id }} igg-has-link"
+                {% if block.settings.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+                {% if block.settings.link_title != blank %}
+                  title="{{ block.settings.link_title }}"
+                  aria-label="{{ block.settings.link_title }}"
+                {% else %}
+                  aria-label="View image"
+                {% endif %}
+              >
+                {% if block.settings.image %}
+                  {{ block.settings.image | image_url: width: 1200 | image_tag:
+                     loading: 'lazy',
+                     alt: block.settings.image_alt | default: block.settings.image.alt,
+                     class: 'igg-image' }}
+                {% else %}
+                  {{ 'image' | placeholder_svg_tag: 'igg-placeholder' }}
+                {% endif %}
+
+                {% if section.settings.show_link_icon %}
+                  <div class="igg-link-overlay-{{ section.id }}">
+                    <svg class="igg-link-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M18 13V19C18 19.5304 17.7893 20.0391 17.4142 20.4142C17.0391 20.7893 16.5304 21 16 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                {% endif %}
+
+                {% if block.settings.collection_title != blank %}
+                  <span class="igg-collection-label-{{ section.id }}">{{ block.settings.collection_title }}</span>
+                {% endif %}
+              </a>
+
+            {% else %}
+              <div class="igg-image-wrapper-{{ section.id }}">
+                {% if block.settings.image %}
+                  {{ block.settings.image | image_url: width: 1200 | image_tag:
+                     loading: 'lazy',
+                     alt: block.settings.image_alt | default: block.settings.image.alt,
+                     class: 'igg-image' }}
+                {% else %}
+                  {{ 'image' | placeholder_svg_tag: 'igg-placeholder' }}
+                {% endif %}
+
+                {% if block.settings.collection_title != blank %}
+                  <span class="igg-collection-label-{{ section.id }}">{{ block.settings.collection_title }}</span>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+{% style %}
+
+/* ── Section Title ── */
+.igg-section-title-{{ section.id }} {
+  font-size: {{ section.settings.title_font_size }}px;
+  color: {{ section.settings.title_color }};
+  text-align: {{ section.settings.title_alignment }};
+  margin: 0 0 {{ section.settings.title_margin_bottom }}px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@media screen and (max-width: 768px) {
+  .igg-section-title-{{ section.id }} {
+    font-size: {{ section.settings.title_font_size | times: 0.75 | round }}px;
+    margin-bottom: {{ section.settings.title_margin_bottom | times: 0.75 | round }}px;
+  }
+}
+
+/* ── Base Section ── */
+.image-grid-gallery-{{ section.id }} {
+  padding: {{ section.settings.section_padding_top }}px 20px {{ section.settings.section_padding_bottom }}px;
+}
+
+.igg-container-{{ section.id }} {
+  max-width: {{ section.settings.container_width }}px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ── Grid Layouts ── */
+.igg-grid-{{ section.id }} {
+  display: grid;
+  gap: {{ section.settings.grid_gap }}px;
+}
+
+.igg-layout-2x2 {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.igg-layout-3-col {
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 300px;
+}
+
+.igg-layout-4-col {
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 250px;
+}
+
+.igg-layout-masonry {
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 200px;
+}
+
+.igg-layout-masonry .igg-item-{{ section.id }}:nth-child(1) { grid-row: span 2; }
+.igg-layout-masonry .igg-item-{{ section.id }}:nth-child(3) { grid-row: span 2; }
+
+/* ── Grid Item ── */
+.igg-item-{{ section.id }} {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Image Size Variants ── */
+.igg-layout-3-col .igg-size-large,
+.igg-layout-4-col .igg-size-large  { grid-column: span 2; }
+
+.igg-layout-3-col .igg-size-tall,
+.igg-layout-4-col .igg-size-tall   { grid-row: span 2; }
+
+.igg-layout-3-col .igg-size-featured,
+.igg-layout-4-col .igg-size-featured { grid-column: span 2; grid-row: span 2; }
+
+/* ── Image Wrapper ── */
+.igg-image-wrapper-{{ section.id }} {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: {{ section.settings.image_border_radius }}px;
+  position: relative;
+  display: block;
+  {% if section.settings.image_shadow %}
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  {% endif %}
+}
+
+.igg-image-wrapper-{{ section.id }}.igg-has-link {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.igg-image-wrapper-{{ section.id }}.igg-has-link:focus {
+  outline: 3px solid #4A90E2;
+  outline-offset: 2px;
+}
+
+.igg-image-wrapper-{{ section.id }} img,
+.igg-image-wrapper-{{ section.id }} .igg-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  {% if section.settings.hover_zoom %}
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  {% endif %}
+}
+
+/* ── Hover Zoom ── */
+{% if section.settings.hover_zoom %}
+.igg-image-wrapper-{{ section.id }}:hover img {
+  transform: scale({{ section.settings.hover_zoom_scale }});
+}
+{% endif %}
+
+/* ── Link Overlay ── */
+.igg-link-overlay-{{ section.id }} {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: {{ section.settings.link_overlay_color }};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.igg-has-link:hover .igg-link-overlay-{{ section.id }} { opacity: 1; }
+
+.igg-link-icon {
+  color: {{ section.settings.link_icon_color }};
+  width: 48px;
+  height: 48px;
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+
+.igg-has-link:hover .igg-link-icon { transform: scale(1); }
+
+/* ── Collection Label (bottom-left) ── */
+.igg-collection-label-{{ section.id }} {
+  position: absolute;
+  bottom: {{ section.settings.label_offset }}px;
+  left: {{ section.settings.label_offset }}px;
+  background-color: {{ section.settings.label_bg_color }};
+  color: {{ section.settings.label_text_color }};
+  font-size: {{ section.settings.label_font_size }}px;
+  font-weight: 600;
+  line-height: 1;
+  padding: {{ section.settings.label_padding_y }}px {{ section.settings.label_padding_x }}px;
+  border-radius: {{ section.settings.label_border_radius }}px;
+  pointer-events: none;
+  z-index: 2;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+/* ── Tablet ── */
+@media screen and (max-width: 1024px) {
+  .igg-layout-3-col { grid-template-columns: repeat(2, 1fr); }
+  .igg-layout-4-col { grid-template-columns: repeat(3, 1fr); }
+  .igg-container-{{ section.id }} { padding: 0; }
+}
+
+/* ── Mobile ── */
+@media screen and (max-width: 768px) {
+  .image-grid-gallery-{{ section.id }} {
+    padding: {{ section.settings.section_padding_top | times: 0.6 | round }}px 20px {{ section.settings.section_padding_bottom | times: 0.6 | round }}px;
+  }
+
+  .igg-container-{{ section.id }} { padding: 0; }
+
+  .igg-grid-{{ section.id }} { gap: {{ section.settings.mobile_gap }}px; }
+
+  .igg-layout-2x2,
+  .igg-layout-3-col,
+  .igg-layout-4-col,
+  .igg-layout-masonry {
+    grid-template-columns: repeat({{ section.settings.mobile_columns }}, 1fr);
+    grid-auto-rows: 250px;
+  }
+
+  .igg-size-large,
+  .igg-size-tall,
+  .igg-size-featured { grid-column: auto; grid-row: auto; }
+
+  .igg-layout-masonry .igg-item-{{ section.id }} { grid-row: auto; }
+
+  .igg-link-icon { width: 36px; height: 36px; }
+
+  .igg-collection-label-{{ section.id }} {
+    font-size: {{ section.settings.label_font_size | minus: 2 }}px;
+    padding: {{ section.settings.label_padding_y | minus: 2 }}px {{ section.settings.label_padding_x | minus: 4 }}px;
+    bottom: 10px;
+    left: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .igg-layout-2x2,
+  .igg-layout-3-col,
+  .igg-layout-4-col,
+  .igg-layout-masonry { grid-auto-rows: 200px; }
+}
+{% endstyle %}

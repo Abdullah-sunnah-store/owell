@@ -1,0 +1,493 @@
+.drawer[drawer-type=options] .drawer__wrapper {
+  display: flex;
+}
+.drawer[drawer-type=options] .drawer__wrapper.list-view-drawer {
+  border-radius: 0;
+  overflow: visible;
+}
+.drawer[drawer-type=options] .drawer__wrapper .product__quick__view__list-view {
+  border-radius: var(--menu-drawer-border-radius) 0 0 var(--menu-drawer-border-radius);
+}
+.drawer[drawer-type=options] .drawer__body {
+  height: calc(100% - var(--set-container-height));
+  width: 100%;
+  flex: none;
+}
+.drawer[drawer-type=options] .video__section,
+.drawer[drawer-type=options] video {
+  position: absolute;
+  inset: 0;
+}
+
+.design__mode__layout .layout__message {
+  color: var(--COLOR-RED);
+  border: 1px solid var(--COLOR-RED);
+  padding: 6px 12px;
+  margin-bottom: 16px;
+}
+
+.product__quick__view product-carousel {
+  margin-right: -24px;
+}
+.product__quick__view product-carousel .sliderControl {
+  padding-right: 24px;
+}
+.product__quick__view product-carousel img {
+  border-radius: min(var(--block-border-radius), 24px);
+}
+.product__quick__view product-carousel:hover .sliderPagination__prev,
+.product__quick__view product-carousel:hover .sliderPagination__next {
+  opacity: 1;
+  transition: opacity 0.05s linear;
+}
+.product__quick__view product-carousel:hover .swiper-button-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.product__quick__view .swatch-input__label {
+  margin-right: 0px;
+  margin-bottom: 0px;
+}
+
+.product__quick__view {
+  overflow-y: auto;
+  padding-top: 0px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+.product__quick__view .drawer__body__wrapper {
+  padding: 16px 24px;
+  overflow: hidden auto;
+}
+@media screen and (min-width: 768px) {
+  .product__quick__view .drawer__body__wrapper .single-slide {
+    margin-right: 0;
+  }
+}
+@media screen and (max-width: 767px) {
+  .product__quick__view .drawer__body__wrapper .mobile_single-slide {
+    margin-right: 0;
+  }
+}
+.product__quick__view .play__icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.product__quick__view .sliderPagination__prev,
+.product__quick__view .sliderPagination__next {
+  position: absolute;
+  opacity: 0;
+  top: 50%;
+  z-index: 9;
+  cursor: pointer;
+  transition: opacity 0.05s linear;
+}
+.product__quick__view .sliderPagination__prev {
+  left: 25px;
+  transform: translate(-50%, -50%);
+}
+.product__quick__view .sliderPagination__next {
+  right: 25px;
+  transform: translate(50%, -50%);
+}
+.product__quick__view__image img {
+  object-fit: contain;
+}
+.product__quick__view__title {
+  font-weight: var(--font-header-weight);
+  font-size: calc(var(--font-heading-scale) * 24px);
+  color: var(--color-text);
+  display: block;
+  margin-top: 0;
+}
+@media screen and (max-width: 520px) {
+  .product__quick__view__title {
+    font-size: calc(var(--font-heading-scale) * 20px);
+  }
+}
+.product__quick__view__price__wrapper {
+  font-size: calc(var(--font-body-scale) * 18px);
+}
+@media screen and (max-width: 520px) {
+  .product__quick__view__price__wrapper {
+    font-size: calc(var(--font-body-scale) * 16px);
+  }
+}
+.product__quick__view__price__wrapper .price {
+  font-size: calc(var(--font-body-scale) * 18px);
+  font-weight: var(--font-body-weight-bold);
+  line-height: 23px;
+  color: var(--color-text);
+}
+@media screen and (max-width: 520px) {
+  .product__quick__view__price__wrapper .price {
+    font-size: calc(var(--font-heading-scale) * 16px);
+  }
+}
+.product__quick__view__price__wrapper .original-price {
+  color: rgba(var(--color-text-rgb)/0.5);
+  margin-left: 8px;
+}
+.product__quick__view__price__wrapper .offer {
+  color: var(--offer-text);
+}
+.product__quick__view__price__wrapper .offer .p_badge {
+  position: unset;
+}
+.product__quick__view__price__wrapper .product-price_top.add-bottom-spacing {
+  margin-bottom: 4px;
+}
+.product__quick__view__price__wrapper .product-price_top .p_badge {
+  position: relative;
+  margin: 0;
+}
+.product__quick__view__price__wrapper .product-price_top {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.product__quick__view__quantity__selector-wrapper .product-quantity__selector {
+  max-width: 100px;
+  width: 100%;
+  padding: 4px 10px;
+}
+.product__quick__view__quantity__selector-wrapper .product-quantity__selector input {
+  width: 32px;
+  border: none;
+}
+.product__quick__view .shopify-payment-button__button {
+  padding: 18px 32px;
+  height: auto;
+  font-family: var(--font-button-family);
+  font-weight: var(--font-button-weight);
+  font-size: calc(var(--font-button-scale) * 16px);
+  line-height: 19px;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  border-radius: var(--button-border-radius);
+  cursor: pointer;
+  text-transform: uppercase;
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  .product__quick__view .shopify-payment-button__button {
+    padding: 10px 16px;
+    font-size: calc(var(--font-body-scale) * 14px);
+  }
+}
+.product__quick__view .shopify-payment-button__button:not([aria-disabled=true])::after {
+  position: absolute;
+  content: "";
+  inset: -1px;
+  display: none;
+  border: 1px solid var(--color-button-border-outline);
+  border-radius: var(--button-border-radius);
+  transition: 0.5s ease all;
+}
+.product__quick__view .shopify-payment-button__button:not([aria-disabled=true]):hover::after {
+  display: block;
+  border-width: 2px;
+  z-index: -1;
+}
+.product__quick__view .shopify-payment-button__button[aria-disabled=true] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.product__quick__view .shopify-payment-button__button.shopify-payment-button__button--unbranded {
+  position: relative;
+  border: 1px solid var(--color-button-border);
+  color: var(--color-button-text);
+  background-color: var(--color-button-background);
+  transition: all 0.2s ease;
+  border-radius: var(--button-border-radius);
+}
+.product__quick__view .shopify-payment-button__button.shopify-payment-button__button--unbranded:hover {
+  opacity: 0.8;
+}
+@media screen and (max-width: 768px) {
+  .product__quick__view .shopify-payment-button__button.shopify-payment-button__button--unbranded {
+    padding: 14px 16px;
+  }
+}
+.product__quick__view .shopify-payment-button__button--branded {
+  padding: 0;
+}
+.product__quick__view .shopify-payment-button__button--branded [role=button] {
+  padding: 18px 32px !important;
+}
+@media screen and (max-width: 767px) {
+  .product__quick__view .shopify-payment-button__button--branded [role=button] {
+    padding: 10px 16px !important;
+  }
+}
+.product__quick__view .shopify-payment-button button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.product__quick__view variant-dropdown label {
+  display: block;
+  color: var(--color-text);
+}
+.product__quick__view variant-pills {
+  display: block;
+}
+.product__quick__view variant-pills fieldset {
+  border: 0;
+  padding: 0;
+  margin-bottom: 16px;
+}
+.product__quick__view variant-pills fieldset input[type=radio] {
+  width: 0;
+  height: 0;
+  position: absolute;
+  z-index: -1;
+}
+.product__quick__view variant-pills fieldset input[type=radio].disabled + label .swatch:after, .product__quick__view variant-pills fieldset input[type=radio].disabled + label:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70%;
+  height: 1px;
+  background: rgba(var(--color-input-variant-color)/1);
+  transform: translate(-50%, -50%);
+}
+.product__quick__view variant-pills fieldset input[type=radio].disabled + label .swatch--portrait:after {
+  top: -3px !important;
+  width: 150% !important;
+}
+.product__quick__view variant-pills fieldset input[type=radio].disabled + label .swatch--circle:after {
+  top: 0px !important;
+  width: 100% !important;
+}
+.product__quick__view variant-pills fieldset input[type=radio].disabled + label .swatch--landscape:after {
+  transform: rotate(323deg) translate(-62%, -71%) !important;
+  top: 0px !important;
+  width: 114% !important;
+}
+.product__quick__view variant-pills fieldset input[type=radio].disabled + label.swatch-input__label {
+  opacity: 0.6;
+}
+.product__quick__view variant-pills fieldset input[type=radio].disabled + label.swatch-input__label .swatch:after {
+  transform: rotate(314deg) translate(-72%, -50%);
+  background-color: var(--color-background);
+  top: -5px;
+  width: 120%;
+}
+.product__quick__view variant-pills fieldset input[type=radio].disabled + label.swatch-input__label::after {
+  display: none;
+}
+.product__quick__view variant-pills fieldset input[type=radio]:checked.disabled + label, .product__quick__view variant-pills fieldset input[type=radio].disabled + label {
+  color: rgba(var(--color-input-variant-color)/1);
+}
+.product__quick__view variant-pills fieldset input[type=radio]:checked.disabled + label:after {
+  background: rgba(var(--color-input-variant-color)/1);
+}
+.product__quick__view variant-pills fieldset input[type=radio]:checked + label {
+  position: relative;
+  border-color: transparent;
+}
+.product__quick__view variant-pills fieldset input[type=radio]:checked + label::before {
+  opacity: 1;
+}
+.product__quick__view variant-pills fieldset label {
+  padding: 13px 20px;
+  border: 1px solid rgba(var(--color-input-variant-color)/0.5);
+  display: inline-block;
+  cursor: pointer;
+  transition: 0.4s ease all;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  color: rgba(var(--color-input-variant-color)/1);
+}
+.product__quick__view variant-pills fieldset label::before {
+  transition: 0.4s ease opacity;
+  position: absolute;
+  content: "";
+  inset: 0;
+  color: rgba(var(--color-input-variant-color)/1);
+  border: 2px solid rgba(var(--color-input-variant-color)/1);
+  opacity: 0;
+  border-radius: 8px;
+}
+.product__quick__view__list-view {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  top: 0;
+  left: -325px;
+  bottom: 0;
+  padding: 24px;
+  background: var(--color-background) var(--gradient-background) 100% no-repeat;
+  width: 325px;
+  border-right: 1px solid rgba(var(--color-border)/1);
+  overflow: hidden;
+  transition: 0.5s ease all;
+  transform: translateX(100%);
+  z-index: -1;
+}
+.product__quick__view__list-view-container {
+  overflow-y: auto;
+}
+.product__quick__view__list-view-container .d-flex {
+  row-gap: 20px;
+}
+.product__quick__view__list-view-container img {
+  border-radius: min(var(--block-border-radius), 24px);
+}
+.product__quick__view .variant-pills-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.product__quick__view .variant-pills-wrapper-swatch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0px;
+}
+.product__quick__view dynamic-checkout .shopify-payment-button__button {
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.product__quick__view .product-inventory {
+  background-color: var(--background-color);
+  padding: 20px 16px;
+}
+.product__quick__view .product-inventory p span:first-child {
+  margin-right: 12px;
+}
+.product__quick__view .product-inventory p span svg {
+  display: block;
+  width: 20px;
+}
+.product__quick__view .product-inventory .progressBar {
+  max-width: 100%;
+  width: 100%;
+  height: 5px;
+  background: var(--progress-bar-color);
+  border-radius: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.product__quick__view .product-inventory .progressBar .progressBar__handle {
+  height: 100%;
+  background-color: var(--progress_bar_width_color);
+  display: block;
+  border-radius: 30px;
+  animation: progress 1s ease-in-out forwards;
+}
+@keyframes progress {
+  from {
+    width: 100%;
+  }
+}
+.product__quick__view .guide-popup {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+  background: var(--color-background) var(--gradient-background) no-repeat 100% 100%;
+  transition: 0.5s ease transform;
+  transform: translateY(100%);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 75%;
+  border-top: 1px solid rgba(var(--color-border)/1);
+}
+@media screen and (min-width: 768px) {
+  .product__quick__view .guide-popup {
+    max-height: 100%;
+    inset: 0;
+    transform: translateX(100%);
+  }
+}
+.product__quick__view .guide-popup.active {
+  transform: translateY(0);
+}
+@media screen and (min-width: 768px) {
+  .product__quick__view .guide-popup.active {
+    transform: translateX(0);
+  }
+}
+.product__quick__view .guide-popup__header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid rgba(var(--color-border)/1);
+}
+@media screen and (max-width: 767px) {
+  .product__quick__view .guide-popup__header {
+    justify-content: space-between;
+  }
+}
+.product__quick__view .guide-popup__close-icon {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background-color: var(--color-icon);
+  margin: 8px 0 8px 8px;
+}
+.product__quick__view .guide-popup__body {
+  padding: 16px 24px;
+  overflow-y: auto;
+}
+.product__quick__view .guide-popup__container {
+  overflow: auto;
+}
+.product__quick__view .guide-popup .guide-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.product__quick__view .sliderProgressBar {
+  margin-top: 16px;
+  margin-right: 0;
+}
+.product__quick__view variant-dropdown select {
+  padding: 8px;
+}
+.product__quick__view variant-pills fieldset label {
+  padding: 8px 12px;
+}
+.product__quick__view variant-pills fieldset label,
+.product__quick__view .product-quantity__selector input,
+.product__quick__view .select__label,
+.product__quick__view variant-dropdown select,
+.product__quick__view .product-quantity__selector-wrapper label,
+.product__quick__view span[product-variant-option-value] {
+  font-size: calc(var(--font-body-scale) * 14px);
+}
+
+.drawer-active .product__quick__view__list-view {
+  transform: translateX(0);
+}
+
+.product-quick-view__header {
+  padding: 16px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid rgba(var(--color-border)/1);
+}
+.product-quick-view__overlay {
+  background: rgba(0, 0, 0, 0.6);
+  transition: 0.5s ease all;
+  -webkit-backdrop-filter: blur(15px);
+          backdrop-filter: blur(15px);
+}
+
+.hide-design-mode-content .design__mode__layout {
+  display: none;
+}
+
+.product-main-slide-container .image-responsive {
+  object-fit: cover;
+}

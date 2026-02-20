@@ -1,0 +1,1071 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .custom-featured-collection {
+    background-color: {{ section.settings.background_color }};
+  }
+
+  .custom-featured-collection__header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .custom-featured-collection__badge {
+    display: inline-block;
+    padding: 8px 20px;
+    border: 1px solid {{ section.settings.accent_color }};
+    border-radius: 30px;
+    font-size: 14px;
+    color: {{ section.settings.accent_color }};
+    margin-bottom: 16px;
+    background: transparent;
+  }
+
+  .custom-featured-collection__title {
+    font-size: 42px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 16px 0;
+    line-height: 1.2;
+  }
+
+  .custom-featured-collection__title-highlight {
+    color: {{ section.settings.highlight_color }};
+    font-style: italic;
+  }
+
+  @media screen and (max-width: 749px) {
+    .custom-featured-collection__title {
+      font-size: 28px;
+    }
+  }
+
+  .custom-featured-collection__description {
+    font-size: 16px;
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .custom-featured-collection__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .custom-featured-collection__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .custom-featured-collection__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+  }
+
+  .custom-product-card {
+    background: #f7f6f37d;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .custom-product-card:hover {
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  }
+
+  .custom-product-card__media {
+    position: relative;
+    aspect-ratio: 1;
+    background: #f5f5f0;
+    overflow: hidden;
+    border-radius: 12px;
+    margin: 12px;
+  }
+
+  .custom-product-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .custom-product-card:hover .custom-product-card__media img {
+    transform: scale(1.05);
+  }
+
+  .custom-product-card__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #999;
+    font-size: 14px;
+  }
+
+  .custom-product-card__content {
+    padding: 0 16px 16px;
+  }
+
+  .custom-product-card__title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+  }
+
+  .custom-product-card__title a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .custom-product-card__title a:hover {
+    color: {{ section.settings.accent_color }};
+  }
+
+  .custom-product-card__excerpt {
+    font-size: 13px;
+    color: #888;
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .custom-product-card__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .custom-product-card__price {
+    font-size: 16px;
+    font-weight: 600;
+    color: {{ section.settings.accent_color }};
+  }
+
+  .custom-product-card__badge {
+    font-size: 12px;
+    color: #e74c3c;
+    font-weight: 500;
+  }
+
+  /* Quick View Button */
+  .custom-product-card__quick-add {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    background: #fff;
+    border: 2px solid {{ section.settings.accent_color }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 10;
+  }
+
+  .custom-product-card:hover .custom-product-card__quick-add {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .custom-product-card__quick-add:hover {
+    background: {{ section.settings.accent_color }};
+    transform: scale(1.1);
+  }
+
+  .custom-product-card__quick-add:hover svg {
+    stroke: #fff;
+  }
+
+  .custom-product-card__quick-add svg {
+    width: 20px;
+    height: 20px;
+    stroke: {{ section.settings.accent_color }};
+    stroke-width: 2;
+    fill: none;
+    transition: stroke 0.3s ease;
+  }
+
+  .custom-product-card__quick-add--disabled {
+    display: none !important;
+  }
+
+  /* Quick View Modal - Sidebar Drawer Style */
+  .quick-view-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+  }
+
+  .quick-view-modal.is-active {
+    display: block;
+  }
+
+  .quick-view-modal__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .quick-view-modal.is-active .quick-view-modal__overlay {
+    opacity: 1;
+  }
+
+  .quick-view-modal__content {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 480px;
+    max-width: 90vw;
+    height: 100vh;
+    background: #fff;
+    z-index: 1;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .quick-view-modal.is-active .quick-view-modal__content {
+    transform: translateX(0);
+  }
+
+  @media screen and (max-width: 749px) {
+    .quick-view-modal__content {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+
+  .quick-view-modal__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .quick-view-modal__close:hover {
+    background: #f5f5f5;
+  }
+
+  .quick-view-modal__close svg {
+    width: 20px;
+    height: 20px;
+    stroke: #333;
+    stroke-width: 2;
+  }
+
+  .quick-view-modal__body {
+    display: flex;
+    flex-direction: column;
+    padding: 60px 24px 24px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .quick-view-modal__body {
+      padding: 50px 20px 20px;
+    }
+  }
+
+  .quick-view-modal__gallery {
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .quick-view-modal__main-image {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f5f5f0;
+    margin-bottom: 12px;
+  }
+
+  .quick-view-modal__main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .quick-view-modal__thumbnails {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+  }
+
+  .quick-view-modal__thumbnail {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  .quick-view-modal__thumbnail:hover,
+  .quick-view-modal__thumbnail.is-active {
+    border-color: {{ section.settings.accent_color }};
+  }
+
+  .quick-view-modal__thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .quick-view-modal__info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .quick-view-modal__title {
+    font-size: 24px;
+    font-weight: 600;
+    color: {{ section.settings.accent_color }};
+    margin: 0 0 12px 0;
+    line-height: 1.3;
+  }
+
+  .quick-view-modal__price {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 16px 0;
+  }
+
+  .quick-view-modal__price .price-item--sale {
+    color: #e74c3c;
+    margin-right: 8px;
+  }
+
+  .quick-view-modal__price .price-item--regular {
+    color: #999;
+    text-decoration: line-through;
+    font-size: 16px;
+  }
+
+  .quick-view-modal__description {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    margin: 0 0 24px 0;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .quick-view-modal__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .quick-view-modal__variants {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .quick-view-modal__variant-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+  }
+
+  .quick-view-modal__variant-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .quick-view-modal__variant-option {
+    padding: 10px 20px;
+    border: 2px solid #e5e5e5;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    background: #fff;
+    transition: all 0.3s ease;
+  }
+
+  .quick-view-modal__variant-option:hover {
+    border-color: {{ section.settings.accent_color }};
+  }
+
+  .quick-view-modal__variant-option.is-active {
+    border-color: {{ section.settings.accent_color }};
+    background: {{ section.settings.accent_color }};
+    color: #fff;
+  }
+
+  .quick-view-modal__variant-option.is-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .quick-view-modal__quantity {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .quick-view-modal__quantity-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .quick-view-modal__quantity-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    overflow: hidden;
+    width: fit-content;
+  }
+
+  .quick-view-modal__quantity-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+    color: #666;
+  }
+
+  .quick-view-modal__quantity-btn:hover {
+    background: #f5f5f5;
+    color: #1a1a1a;
+  }
+
+  .quick-view-modal__quantity-value {
+    width: 60px;
+    height: 40px;
+    border: none;
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  .quick-view-modal__add-to-cart {
+    width: 100%;
+    padding: 16px 32px;
+    background: #4ECDC4;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .quick-view-modal__add-to-cart:hover {
+    background: #45b8b0;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(78, 205, 196, 0.3);
+  }
+
+  .quick-view-modal__add-to-cart:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .quick-view-modal__add-to-cart.is-loading {
+    position: relative;
+    color: transparent;
+  }
+
+  .quick-view-modal__add-to-cart.is-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 3px solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: quickViewSpin 0.8s linear infinite;
+  }
+
+  @keyframes quickViewSpin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  .quick-view-modal__view-full {
+    display: block;
+    text-align: center;
+    color: {{ section.settings.accent_color }};
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 16px;
+    transition: opacity 0.3s ease;
+  }
+
+  .quick-view-modal__view-full:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+  }
+
+  .quick-view-modal__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    min-height: 200px;
+  }
+
+  .quick-view-modal__spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f3f3f3;
+    border-top-color: {{ section.settings.accent_color }};
+    border-radius: 50%;
+    animation: quickViewSpin 1s linear infinite;
+  }
+{%- endstyle -%}
+
+<div class="custom-featured-collection section-{{ section.id }}-padding">
+  <div class="container page-width">
+    <div class="custom-featured-collection__header">
+      {%- if section.settings.badge_text != blank -%}
+        <span class="custom-featured-collection__badge">{{ section.settings.badge_text }}</span>
+      {%- endif -%}
+      {%- if section.settings.title != blank or section.settings.title_highlight != blank -%}
+        <h2 class="custom-featured-collection__title">
+          {{ section.settings.title }}
+          {%- if section.settings.title_highlight != blank -%}
+            <span class="custom-featured-collection__title-highlight">{{ section.settings.title_highlight }}</span>
+          {%- endif -%}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.description != blank -%}
+        <p class="custom-featured-collection__description">{{ section.settings.description }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="custom-featured-collection__grid">
+      {%- if section.settings.collection != blank and section.settings.collection.products.size > 0 -%}
+        {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
+          <div class="custom-product-card">
+            <div class="custom-product-card__media">
+              {%- if product.featured_media -%}
+                <a href="{{ product.url }}">
+                  <img
+                    src="{{ product.featured_media | image_url: width: 600 }}"
+                    alt="{{ product.featured_media.alt | escape }}"
+                    loading="lazy"
+                    width="{{ product.featured_media.width }}"
+                    height="{{ product.featured_media.height }}"
+                  >
+                </a>
+              {%- else -%}
+                <div class="custom-product-card__placeholder">No image</div>
+              {%- endif -%}
+              {%- if product.available -%}
+                <button
+                  type="button"
+                  class="custom-product-card__quick-add"
+                  data-product-handle="{{ product.handle }}"
+                  data-product-url="{{ product.url }}"
+                  aria-label="Quick view {{ product.title | escape }}"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              {%- endif -%}
+            </div>
+            <div class="custom-product-card__content">
+              <h3 class="custom-product-card__title">
+                <a href="{{ product.url }}">{{ product.title | escape }}</a>
+              </h3>
+              {%- if product.description != blank -%}
+                <p class="custom-product-card__excerpt">{{ product.description | strip_html | truncate: 80 }}</p>
+              {%- endif -%}
+              <div class="custom-product-card__footer">
+                <span class="custom-product-card__price">{{ product.price | money }}</span>
+                {%- unless product.available -%}
+                  <span class="custom-product-card__badge">Sold Out</span>
+                {%- endunless -%}
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..section.settings.products_to_show) -%}
+          <div class="custom-product-card">
+            <div class="custom-product-card__media">
+              <div class="custom-product-card__placeholder">No image</div>
+            </div>
+            <div class="custom-product-card__content">
+              <h3 class="custom-product-card__title">
+                <a href="#">Product Title</a>
+              </h3>
+              <p class="custom-product-card__excerpt">Product description goes here...</p>
+              <div class="custom-product-card__footer">
+                <span class="custom-product-card__price">$0.00</span>
+                <span class="custom-product-card__badge">Sold Out</span>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<!-- Quick View Modal -->
+<div class="quick-view-modal" id="quickViewModal">
+  <div class="quick-view-modal__overlay"></div>
+  <div class="quick-view-modal__content">
+    <button class="quick-view-modal__close" aria-label="Close quick view">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="quick-view-modal__loading">
+      <div class="quick-view-modal__spinner"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const quickViewButtons = document.querySelectorAll('.custom-product-card__quick-add');
+    const modal = document.getElementById('quickViewModal');
+    const modalContent = modal.querySelector('.quick-view-modal__content');
+    const closeBtn = modal.querySelector('.quick-view-modal__close');
+    const overlay = modal.querySelector('.quick-view-modal__overlay');
+
+    // Open quick view modal
+    quickViewButtons.forEach(button => {
+      button.addEventListener('click', async function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const productHandle = this.dataset.productHandle;
+        if (!productHandle) return;
+
+        // Show modal with loading state
+        modal.classList.add('is-active');
+        document.body.style.overflow = 'hidden';
+
+        try {
+          // Fetch product data
+          const response = await fetch(`/products/${productHandle}?view=quickview`);
+          
+          if (!response.ok) {
+            // Fallback: fetch full product page and extract data
+            const fallbackResponse = await fetch(`/products/${productHandle}`);
+            const html = await fallbackResponse.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            // Extract product JSON
+            const productJson = doc.querySelector('[data-product-json]');
+            if (productJson) {
+              const product = JSON.parse(productJson.textContent);
+              renderQuickView(product);
+            } else {
+              throw new Error('Product data not found');
+            }
+          } else {
+            const html = await response.text();
+            modalContent.innerHTML = html;
+            initializeQuickViewFunctionality();
+          }
+        } catch (error) {
+          console.error('Error loading quick view:', error);
+          modalContent.innerHTML = `
+            <div class="quick-view-modal__body">
+              <p style="text-align: center; padding: 40px;">
+                Unable to load product. 
+                <a href="${this.dataset.productUrl}" style="color: {{ section.settings.accent_color }};">View full product page</a>
+              </p>
+            </div>
+          `;
+        }
+      });
+    });
+
+    // Close modal
+    function closeModal() {
+      modal.classList.remove('is-active');
+      document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', closeModal);
+
+    // Close on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('is-active')) {
+        closeModal();
+      }
+    });
+
+    // Render quick view from product object
+    function renderQuickView(product) {
+      const firstVariant = product.variants[0];
+      const images = product.media || product.images || [];
+      
+      let imagesHTML = '';
+      if (images.length > 0) {
+        imagesHTML = `
+          <div class="quick-view-modal__main-image">
+            <img src="${images[0].src || images[0]}" alt="${product.title}">
+          </div>
+        `;
+        
+        if (images.length > 1) {
+          imagesHTML += '<div class="quick-view-modal__thumbnails">';
+          images.slice(0, 4).forEach((img, index) => {
+            const imgSrc = img.src || img;
+            imagesHTML += `
+              <div class="quick-view-modal__thumbnail ${index === 0 ? 'is-active' : ''}" data-image="${imgSrc}">
+                <img src="${imgSrc}" alt="${product.title}">
+              </div>
+            `;
+          });
+          imagesHTML += '</div>';
+        }
+      }
+
+      // Check if product is on sale
+      const comparePrice = firstVariant.compare_at_price;
+      const price = firstVariant.price;
+      const onSale = comparePrice && comparePrice > price;
+
+      let priceHTML = '';
+      if (onSale) {
+        priceHTML = `
+          <div class="quick-view-modal__price">
+            <span class="price-item--sale">${formatMoney(price)}</span>
+            <span class="price-item--regular">${formatMoney(comparePrice)}</span>
+          </div>
+        `;
+      } else {
+        priceHTML = `<div class="quick-view-modal__price">${formatMoney(price)}</div>`;
+      }
+
+      const html = `
+        <button class="quick-view-modal__close" aria-label="Close quick view">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <div class="quick-view-modal__body">
+          <div class="quick-view-modal__gallery">
+            ${imagesHTML}
+          </div>
+          <div class="quick-view-modal__info">
+            <h2 class="quick-view-modal__title">${product.title}</h2>
+            ${priceHTML}
+            ${product.description ? `<div class="quick-view-modal__description">${product.description}</div>` : ''}
+            
+            <form class="quick-view-modal__form">
+              <div class="quick-view-modal__quantity">
+                <label class="quick-view-modal__quantity-label">Quantity</label>
+                <div class="quick-view-modal__quantity-input">
+                  <button type="button" class="quick-view-modal__quantity-btn" data-action="decrease">−</button>
+                  <input type="number" class="quick-view-modal__quantity-value" value="1" min="1" readonly>
+                  <button type="button" class="quick-view-modal__quantity-btn" data-action="increase">+</button>
+                </div>
+              </div>
+              
+              <input type="hidden" name="id" value="${firstVariant.id}">
+              
+              <button type="submit" class="quick-view-modal__add-to-cart">
+                + Add to Cart
+              </button>
+            </form>
+            
+            <a href="${product.url || '/products/' + product.handle}" class="quick-view-modal__view-full">
+              View Full Details
+            </a>
+          </div>
+        </div>
+      `;
+
+      modalContent.innerHTML = html;
+      initializeQuickViewFunctionality();
+    }
+
+    // Initialize quick view functionality
+    function initializeQuickViewFunctionality() {
+      // Close button
+      const newCloseBtn = modalContent.querySelector('.quick-view-modal__close');
+      if (newCloseBtn) {
+        newCloseBtn.addEventListener('click', closeModal);
+      }
+
+      // Image thumbnails
+      const thumbnails = modalContent.querySelectorAll('.quick-view-modal__thumbnail');
+      const mainImage = modalContent.querySelector('.quick-view-modal__main-image img');
+      
+      thumbnails.forEach(thumb => {
+        thumb.addEventListener('click', function() {
+          thumbnails.forEach(t => t.classList.remove('is-active'));
+          this.classList.add('is-active');
+          if (mainImage) {
+            mainImage.src = this.dataset.image;
+          }
+        });
+      });
+
+      // Quantity controls
+      const qtyInput = modalContent.querySelector('.quick-view-modal__quantity-value');
+      const qtyBtns = modalContent.querySelectorAll('.quick-view-modal__quantity-btn');
+      
+      qtyBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const action = this.dataset.action;
+          let currentQty = parseInt(qtyInput.value);
+          
+          if (action === 'increase') {
+            qtyInput.value = currentQty + 1;
+          } else if (action === 'decrease' && currentQty > 1) {
+            qtyInput.value = currentQty - 1;
+          }
+        });
+      });
+
+      // Add to cart form
+      const form = modalContent.querySelector('.quick-view-modal__form');
+      if (form) {
+        form.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          
+          const submitBtn = this.querySelector('.quick-view-modal__add-to-cart');
+          const variantId = this.querySelector('input[name="id"]').value;
+          const quantity = parseInt(qtyInput.value);
+
+          submitBtn.classList.add('is-loading');
+          submitBtn.disabled = true;
+
+          try {
+            const response = await fetch('/cart/add.js', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                items: [{
+                  id: parseInt(variantId),
+                  quantity: quantity
+                }]
+              })
+            });
+
+            if (!response.ok) throw new Error('Failed to add to cart');
+
+            const data = await response.json();
+            
+            // Update cart
+            document.dispatchEvent(new CustomEvent('cart:updated'));
+            
+            // Success feedback
+            submitBtn.textContent = 'Added to Cart ✓';
+            submitBtn.style.background = '#27ae60';
+            
+            setTimeout(() => {
+              closeModal();
+              submitBtn.classList.remove('is-loading');
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Add to Cart';
+              submitBtn.style.background = '';
+            }, 1500);
+
+          } catch (error) {
+            console.error('Error adding to cart:', error);
+            submitBtn.classList.remove('is-loading');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Error - Try Again';
+            submitBtn.style.background = '#e74c3c';
+            
+            setTimeout(() => {
+              submitBtn.textContent = 'Add to Cart';
+              submitBtn.style.background = '';
+            }, 2000);
+          }
+        });
+      }
+    }
+
+    // Format money helper
+    function formatMoney(cents) {
+      if (typeof Shopify !== 'undefined' && Shopify.formatMoney) {
+        return Shopify.formatMoney(cents);
+      }
+      return '$' + (cents / 100).toFixed(2);
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Featured Showpieces",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "Our Collection"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured"
+    },
+    {
+      "type": "text",
+      "id": "title_highlight",
+      "label": "Heading highlighted text",
+      "default": "Showpieces"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Discover our handpicked selection of elegant decorative pieces, each crafted to add sophistication to your space."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 8,
+      "label": "Products to show"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#b8976b"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Heading highlight color",
+      "default": "#b8976b"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Showpieces"
+    }
+  ]
+}
+{% endschema %}

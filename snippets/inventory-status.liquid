@@ -1,0 +1,129 @@
+{% liquid
+  assign hideInventoryStatus = false
+  if product.selected_or_first_available_variant.inventory_management != 'shopify'
+    assign hideInventoryStatus = true
+  elsif block.settings.show_status == 'low'
+    if product.selected_or_first_available_variant.inventory_quantity > block.settings.inventory_threshold
+      assign hideInventoryStatus = true
+    elsif product.selected_or_first_available_variant.inventory_policy == 'continue'
+      assign hideInventoryStatus = true  
+    endif
+  endif
+%}
+
+
+<div
+  {{ block.shopify_attributes }}
+  id="Inventory-{{ section.id }}"
+  role="status"
+  style="--background-color: {{ block.settings.inventory_background_color }}; "
+>
+<div product-inventory class="product-inventory {% if hideInventoryStatus -%} d-none {%- endif -%}" style="margin-bottom: {{ block.settings.block_bottom_spacing }}px">
+  {%- if product.selected_or_first_available_variant.inventory_management == 'shopify' -%}
+    {%- if product.selected_or_first_available_variant.inventory_quantity > 0 -%}
+      {%- if product.selected_or_first_available_variant.inventory_quantity <= block.settings.inventory_threshold -%}
+        <p class="fnt-14 d-flex align-item-center {% if block.settings.show_inventory_progress -%} mb-20 {%- else -%} mb-0 {% endif %}">
+          {% capture lowstockRGBColor %}
+            rgb({{ block.settings.inventory_lowstock_color.rgb  }}/0.3)
+          {% endcapture %}
+          <span>
+            {% render 'icon' with 'icon-inventory-lowstock',
+              color_var_light: lowstockRGBColor,
+              color_var: block.settings.inventory_lowstock_color
+            %}
+          </span>
+          <span>
+            {%- if block.settings.show_inventory_quantity -%}
+              {{-
+                'products.product.inventory_low_stock_show_count'
+                | t: quantity: product.selected_or_first_available_variant.inventory_quantity
+              -}}
+            {%- else -%}
+              {{- 'products.product.inventory_low_stock' | t -}}
+            {%- endif -%}
+          </span>
+        </p>
+        {% comment %} Inventory progress bar {% endcomment %}
+        {%- if block.settings.show_inventory_progress -%}
+          {% render 'progress-bar' with value: product.selected_or_first_available_variant.inventory_quantity, maxvalue: block.settings.inventory_base_quantity, progress_bar_color: block.settings.inventory_lowstock_color %}
+        {%- endif -%}
+      {%- elsif block.settings.show_status == 'always' -%}
+        {% capture instockRGBColor %}
+      rgb({{ block.settings.inventory_instock_color.rgb  }}/0.3)
+      {% endcapture %}
+        <p class="fnt-14 d-flex align-item-center {% if block.settings.show_inventory_progress -%} mb-20 {%- else -%} mb-0 {% endif %}">
+          <span>
+            {% render 'icon' with 'icon-inventory-instock',
+              color_var: block.settings.inventory_instock_color,
+              color_var_light: instockRGBColor
+            -%}
+          </span>
+          <span>
+            {%- if block.settings.show_inventory_quantity -%}
+              {{-
+                'products.product.inventory_in_stock_show_count'
+                | t: quantity: product.selected_or_first_available_variant.inventory_quantity
+              -}}
+            {%- else -%}
+              {{- 'products.product.inventory_in_stock' | t -}}
+            {%- endif -%}
+          </span>
+        </p>
+        {% comment %} Inventory progress bar {% endcomment %}
+        {%- if block.settings.show_inventory_progress -%}
+          {% render 'progress-bar' with value: product.selected_or_first_available_variant.inventory_quantity , maxvalue: block.settings.inventory_base_quantity, progress_bar_color: block.settings.inventory_instock_color %}
+        {%- endif -%}
+      {%- endif -%}
+    {%- else -%}
+      {%- if block.settings.show_status == 'always' -%}
+        {%- if product.selected_or_first_available_variant.inventory_policy == 'continue' -%}
+          {% capture instockRGBColor %}
+          rgb({{ block.settings.inventory_instock_color.rgb  }}/0.3)
+          {% endcapture %}
+          <p class="fnt-14 d-flex align-item-center mb-0">
+            <span>
+              {% render 'icon' with 'icon-inventory-instock',
+                color_var: block.settings.inventory_instock_color,
+                color_var_light: instockRGBColor
+              -%}
+            </span>
+            <span>
+              {{- 'products.product.inventory_out_of_stock_continue_selling' | t -}}
+            </span>
+          </p>
+        {%- elsif product.selected_or_first_available_variant.inventory_policy == 'deny'  -%}
+          {% capture outOfstockRGBColor %}
+        rgb({{ block.settings.inventory_outofstock_color.rgb  }}/0.3)
+        {% endcapture %}
+          <p class="fnt-14 d-flex align-item-center mb-0">
+            <span>
+              {% render 'icon' with 'icon-inventory-outofstock',
+                color_var: block.settings.inventory_outofstock_color,
+                color_var_light: outOfstockRGBColor
+              %}
+            </span>
+            <span>
+              {{- 'products.product.inventory_out_of_stock' | t -}}
+            </span>
+          </p>
+        {%- endif -%}
+      {%- else -%}
+          {% capture outOfstockRGBColor %}
+        rgb({{ block.settings.inventory_outofstock_color.rgb  }}/0.3)
+        {% endcapture %}
+          <p class="fnt-14 d-flex align-item-center mb-0">
+            <span>
+              {% render 'icon' with 'icon-inventory-outofstock',
+                color_var: block.settings.inventory_outofstock_color,
+                color_var_light: outOfstockRGBColor
+              %}
+            </span>
+            <span>
+              {{- 'products.product.inventory_out_of_stock' | t -}}
+            </span>
+          </p>
+      {%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+</div>
+</div>

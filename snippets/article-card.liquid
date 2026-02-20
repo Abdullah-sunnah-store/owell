@@ -1,0 +1,339 @@
+{% comment %}
+  Renders an article card for a given blog with settings to either show the image or not.
+
+  Accepts:
+  - article: {Object} Article object
+  - media_aspect_ratio: {String} The setting changes the aspect ratio of the article image, if shown
+  - media_height: {String} The setting changes the height of the article image. Overrides media_aspect_ratio.
+  - show_date: {String} The setting either show the article date or not. If it's not included it will not show the image by default
+  - show_author: {String} The setting either show the article author or not. If it's not included it will not show the author by default
+  - show_badge: {String} The setting either show the blog badge or not.
+  - lazy_load: {Boolean} Image should be lazy loaded. Default: true (optional)
+
+  Usage:
+  {% render 'article-card' blog: blog, article: article %}
+{% endcomment %}
+
+{%- liquid
+  assign ratio = 1
+  if article.image and media_aspect_ratio == 'adapt'
+    assign ratio = article.image.aspect_ratio
+  endif
+
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign loading = 'lazy'
+  endif
+-%}
+
+{% if show_featured_blog %}
+  {% unless onboarding == true %}
+    <div class="row-wrp blogs__featured color-{{ section.settings.featured_color_scheme }}">
+      {% if article.image and show_image %}
+        <div class="col-50">
+          <a href="{{ article.url }}">
+            {% capture sizes %}
+          (min-width: {{ settings.page_width | append: "px" }}) {{ settings.page_width | divided_by: 2 | append: 'px' }}, calc(100vw - 30px)
+          {% endcapture %}
+            <div
+              class="blogs__moreArticlesImage aspect-ratio-{{ media_aspect_ratio }}"
+              style="{% if media_aspect_ratio == 'adapt' %}--aspect-ratio: {{ ratio }} {% endif %}"
+            >
+              {{
+                article.image
+                | image_url: width: article.image.width
+                | image_tag:
+                  widths: '400,600,900,1200,1600',
+                  sizes: sizes,
+                  alt: article.image.alt,
+                  loading: loading,
+                  fetchpriority: fetchpriority,
+                  class: 'blogs__img'
+              }}
+            </div>
+          </a>
+        </div>
+      {% endif %}
+      <div class="col-50 d-flex align-item-center">
+        <div class="blogs__featuredContent">
+          <div class="blogs__head fnt-14 mt-0">
+            {%- if show_author -%}
+              <span>{{ article.author }}</span>
+            {%- endif -%}
+            {%- if show_date -%}
+              <span class="date">{{ article.published_at | time_tag: format: 'date' }}</span>
+            {%- endif -%}
+          </div>
+          <div class="blogs__featuredHead">
+            <a href="{{ article.url }}">
+              <h2 class="h2 blogs__headText">
+                {% if show_title %}
+                  {{ article.title }}
+                {% endif %}
+              </h2>
+            </a>
+          </div>
+          {%- if show_excerpt -%}
+            <div class="blogs__featuredbody">
+              {%- if article.excerpt_or_content.size > 0 -%}
+                <p class="blogs__descpt">
+                  {{ article.excerpt_or_content | strip_html | truncatewords: 30 }}
+                </p>
+              {%- endif -%}
+            </div>
+          {% endif %}
+          {%- if show_tags and article.tags.size > 0 -%}
+            <ul class="tags" role="list">
+              {%- for tag in article.tags -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: tag %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+                <li class="tags__item fnt-14">
+                  <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+
+          {% if show_comments %}
+            <div class="blogs__featuredFooter">
+              {%- if article.comments_count > 0 and blog.comments_enabled? -%}
+                <div class="blogs__comments">
+                  <div class="comment-img d-v-center">
+                    {% render 'icon' with 'comment' %}
+                  </div>
+                  <p class="p-text">
+                    <span>{{ 'blogs.article.comments' | t: count: article.comments_count }}</span>
+                  </p>
+                </div>
+              {%- endif -%}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <div class="row-wrp blogs__featured color-{{ section.settings.featured_color_scheme }}">
+      {% if article.image and show_image %}
+        <div class="col-50">
+          <div
+            class="blogs__moreArticlesImage aspect-ratio-{{ media_aspect_ratio }}"
+            style="{% if media_aspect_ratio == 'adapt' %}--aspect-ratio: {{ ratio }} {% endif %}"
+          >
+            <div class="blogs__dummyImagWrap">
+              {%- assign placeholder_image_index = index | modulo: 3 | plus: 1 -%}
+              {%- assign placeholder_image = 'blog-apparel-' | append: placeholder_image_index -%}
+              {{ placeholder_image | placeholder_svg_tag: 'image--aspectSize' }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      <div class="col-50 d-flex align-item-center">
+        <div class="blogs__featuredContent">
+          <div class="blogs__featuredHead">
+            <h2 class="h3 blogs__headText">
+              {% if show_title %}
+                {{- 'general.on_boarding.blog_post_title' | t -}}
+              {% endif %}
+            </h2>
+            <div class="blogs__head">
+              {%- if show_author -%}
+                <span>{{- 'general.on_boarding.blog_post_author' | t -}}</span>
+              {%- endif -%}
+              {%- if show_date -%}
+                <span class="date">{{- 'general.on_boarding.blog_post_date' | t -}}</span>
+              {%- endif -%}
+            </div>
+            {%- if show_tags and article.tags.size > 0 -%}
+              <ul class="tags" role="list">
+                <li class="tags__item fnt-14">
+                  <a href="javascript:void(0)">tag</a>
+                </li>
+              </ul>
+            {%- endif -%}
+          </div>
+          <div class="blogs__featuredbody">
+            {%- if show_excerpt -%}
+              <p class="blogs__descpt">{{- 'general.on_boarding.blog_post_excerpt' | t -}}</p>
+            {% endif %}
+          </div>
+
+          {% if show_comments %}
+            <div class="blogs__featuredFooter">
+              {%- if article.comments_count > 0 and blog.comments_enabled? -%}
+                <div class="blogs__comments">
+                  <div class="comment-img d-v-center">
+                    {% render 'icon' with 'comment' %}
+                  </div>
+                  <p class="p-text">
+                    <span>{{ 'blogs.article.comments' | t: count: article.comments_count }}</span>
+                  </p>
+                </div>
+              {%- endif -%}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endunless %}
+{% else %}
+  {% unless onboarding == true %}
+    <div class="blogs__moreArticlesItem">
+      {% if settings.show_image %}
+        <a href="{{ article.url }}">
+          {% if article.image and show_image %}
+            <div
+              class="blogs__moreArticlesImage aspect-ratio-{{ media_aspect_ratio }}"
+              style="{% if media_aspect_ratio == 'adapt' %}--aspect-ratio: {{ ratio }} {% endif %}"
+            >
+              {% capture sizes %}
+              (min-width: {{ settings.page_width | append: "px" }}) {{ settings.page_width | minus: 30 | divided_by: 3 | append: 'px' }},(min-width: 768px) calc(100vw / 3 - 30px) ,calc(100vw - 30px)
+              {% endcapture %}
+              {{
+                article.image
+                | image_url: width: article.image.width
+                | image_tag:
+                  widths: '400,600,900,1200,1440,1600',
+                  sizes: sizes,
+                  alt: article.image.alt,
+                  loading: loading,
+                  fetchpriority: fetchpriority,
+                  class: 'blogs__moreArticlesImg'
+              }}
+            </div>
+          {% endif %}
+        </a>
+      {% endif %}
+      <div class="blogs__moreArticlesBody">
+        <div class="blogs__head fnt-14">
+          {%- if show_author -%}
+            <span>{{ article.author }}</span>
+          {%- endif -%}
+          {%- if show_date -%}
+            <span class="date">{{ article.published_at | time_tag: format: 'date' }}</span>
+          {%- endif -%}
+        </div>
+        <a href="{{ article.url }}">
+          <h2 class="h3 blogs__moreArticlesHead">
+            {% if show_title %}
+              {{ article.title }}
+            {% endif %}
+          </h2>
+        </a>
+        {%- if show_excerpt -%}
+          {%- if article.excerpt_or_content.size > 0 -%}
+            <p class="blogs__descpt">
+              {{- article.excerpt_or_content | strip_html | truncatewords: 15 -}}
+            </p>
+          {%- endif -%}
+        {% endif %}
+
+        {%- if show_tags and article.tags.size > 0 -%}
+          <ul class="tags" role="list">
+            {%- for tag in article.tags -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: tag %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+              <li class="tags__item">
+                <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
+      {% if show_comments %}
+        <div class="blogs__moreArticlesFooter">
+          {%- if article.comments_count > 0 and blog.comments_enabled? -%}
+            <div class="blogs__comments">
+              <div class="comment-img d-v-center">
+                {% render 'icon' with 'comment' %}
+              </div>
+              <p class="p-text">
+                <span>{{ 'blogs.article.comments' | t: count: article.comments_count }}</span>
+              </p>
+            </div>
+          {%- endif -%}
+        </div>
+      {% endif %}
+    </div>
+  {% else %}
+    <div class="blogs__moreArticlesItem">
+      <div
+        class="blogs__moreArticlesImage aspect-ratio-{{ media_aspect_ratio }}"
+        style="{% if media_aspect_ratio == 'adapt' %}--aspect-ratio: {{ ratio }} {% endif %}"
+      >
+        <div class="blogs__dummyImagWrap">
+          {%- assign placeholder_image_index = index | modulo: 3 | plus: 1 -%}
+          {%- assign placeholder_image = 'blog-apparel-' | append: placeholder_image_index -%}
+          {{ placeholder_image | placeholder_svg_tag }}
+        </div>
+      </div>
+
+      <div class="blogs__moreArticlesBody">
+        <h2 class="h3 blogs__moreArticlesHead">
+          {% if show_title %}
+            {{- 'general.on_boarding.blog_post_title' | t -}}
+          {% endif %}
+        </h2>
+
+        {%- if show_excerpt -%}
+          <p class="blogs__descpt">
+            {{- 'general.on_boarding.blog_post_excerpt' | t -}}
+          </p>
+        {% endif %}
+
+        <div class="blogs__head fnt-14">
+          {%- if show_author -%}
+            <span>{{- 'general.on_boarding.blog_post_author' | t -}}</span>
+          {%- endif -%}
+          {%- if show_date -%}
+            <span class="date">{{- 'general.on_boarding.blog_post_date' | t -}}</span>
+          {%- endif -%}
+        </div>
+        {%- if show_tags and article.tags.size > 0 -%}
+          <ul class="tags" role="list">
+            {%- for tag in article.tags -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: tag %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+              <li class="tags__item fnt-14">
+                <a href="javascript:void()">tag</a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
+      {% if show_comments %}
+        <div class="blogs__moreArticlesFooter">
+          {%- if article.comments_count > 0 and blog.comments_enabled? -%}
+            <div class="blogs__comments">
+              <div class="comment-img d-v-center">
+                {% render 'icon' with 'comment' %}
+              </div>
+              <p class="p-text">
+                <span>{{ 'blogs.article.comments' | t: count: 2 }}</span>
+              </p>
+            </div>
+          {%- endif -%}
+        </div>
+      {% endif %}
+    </div>
+  {% endunless %}
+{% endif %}

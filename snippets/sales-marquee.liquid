@@ -1,0 +1,53 @@
+{{ 'section-marquee.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+
+
+    /* Enable animation */
+    .enable-animation .marquee__content-{{ block.id }}{ 
+      animation: {{ block.settings.marquee_speed | append: 's linear infinite scroll;' }} 
+    }
+    .section-{{ block.id }}-marquee-padding {
+      padding-top: 9px;
+      padding-bottom: 9px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .item-{{ block.id }}-marquee-padding {
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+    }
+{% endstyle %}
+
+  <div
+    class="homeMarque section-{{ block.id }}-marquee-padding marquee-snippet mar_desk_content_left"
+    role="region" style="background-color: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }}">
+    <div aria-live="polite" class="marquee marquee--hover-pause enable-animation" {{ block.shopify_attributes }}>
+      <div class="marquee__content marquee__content-{{ block.id }}">
+            <div
+              aria-label="{{ block.settings.sale_text }}"
+              class="Marquee-tag marquee__text-color"
+              {{ block.shopify_attributes }}>
+              <p class="marquee-text--x-small marquee-text">{{ block.settings.sale_text }}</p>
+            </div>
+      </div>
+      {% for i in (1..9) %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: i %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+        <div aria-hidden="true" class="marquee__content marquee__content-{{ block.id }}">
+              <div
+                aria-label="{{ block.settings.sale_text }}"
+                class="Marquee-tag marquee__text-color"
+                >
+                <p class="marquee-text--x-small marquee-text">{{ block.settings.sale_text }}</p>
+              </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>

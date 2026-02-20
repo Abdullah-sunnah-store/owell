@@ -1,0 +1,389 @@
+{{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px;' }}
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px;' }}
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | append: 'px;' }}
+      padding-bottom: {{ section.settings.padding_bottom | append: 'px;' }}
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign loading = 'lazy'
+  endif
+-%}
+
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'top' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-top"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+<div
+  aria-label="Rich text Section"
+  class="rich-text {% if section.settings.container_size %} section-{{ section.id }}-padding full-width-container color-{{ section.settings.color_scheme }} {% endif %}"
+  role="region"
+>
+  <div class="container">
+    <div class="rich-text__wrp  {% if section.settings.container_size != true %} border-radius border-radius--block  section-{{ section.id }}-padding rich-text__wrp--fixed-width color-{{ section.settings.color_scheme }} {% endif %} rich-text__wrp--{{ section.id }}  rich-text__wrp--{{ section.settings.content_alignment }}">
+      <div class="rich-text__descption " style="--content-width:{{ section.settings.content_width }}px">
+        {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+          {% case block.type %}
+            {% when 'subheading' %}
+              <animation-reveal aoi-type="fade-up" aoi-duration="0.5" aoi-amount="0.3">
+                <p class="rich-text__subheading">
+                  {{ block.settings.subheading }}
+                </p>
+              </animation-reveal>
+            {% when 'heading' %}
+              <animation-reveal aoi-type="fade-up" aoi-duration="0.5" aoi-amount="0.3">
+                <h2 class="{{ block.settings.style }} fnt-heading m-0 text-{{ section.id }} mb-16">
+                  {{ block.settings.heading }}
+                </h2>
+              </animation-reveal>
+            {% when 'text' %}
+              <animation-reveal aoi-type="fade-up" aoi-duration="0.5" aoi-amount="0.3">
+                <div class="RTE-content">
+                  {{ block.settings.content }}
+                </div>
+              </animation-reveal>
+            {% when 'button' %}
+              <animation-reveal aoi-type="fade-up" aoi-duration="0.5" aoi-amount="0.3">
+                <a
+                  class="btn {% if block.settings.use_outline_button %}  btn--border {% else %} btn--fill {% endif %}"
+                  href="{{ block.settings.link }}"
+                  target="{{ block.settings.link_target }}"
+                >
+                  {{- block.settings.button_text -}}
+                </a>
+              </animation-reveal>
+
+            {% when 'image' %}
+              <animation-reveal aoi-type="fade-up" aoi-duration="0.5" aoi-amount="0.3">
+                {% if block.settings.image != blank %}
+                  {% style %}
+                    .rich-image--{{ block.id }}{
+                      max-width: {{ block.settings.image_width | append: 'px' }}
+                      ;
+
+
+                    }
+
+                    {% capture sizes %}
+                    {{ block.settings.image_width | append: 'px' }}
+                    {% endcapture %}
+                  {% endstyle %}
+                  {% capture imageClass %}
+                  rich-image--{{ block.id }} border-radius--block
+                {% endcapture %}
+                  <div class="rich-text__image-wrp">
+                    {{
+                      block.settings.image
+                      | image_url: width: block.settings.image.width
+                      | image_tag:
+                        class: imageClass,
+                        widths: '200,300,400,500,600,800',
+                        sizes: sizes,
+                        loading: loading,
+                        fetchpriority: fetchpriority
+                    }}
+                  </div>
+                {% endif %}
+              </animation-reveal>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'bottom' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-bottom"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+{% schema %}
+{
+  "name": "Rich text",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "container_size",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "range",
+      "label": "Content width",
+      "id": "content_width",
+      "min": 400,
+      "max": 1200,
+      "unit": "px",
+      "step": 20,
+      "default": 500
+    },
+    {
+      "type": "text_alignment",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 100
+    },
+    {
+      "type": "select",
+      "id": "border_size",
+      "label": "Border",
+      "options": [
+        {
+          "label": "Hide",
+          "value": "hide"
+        },
+        {
+          "label": "Full width",
+          "value": "full_width"
+        },
+        {
+          "label": "Fixed width",
+          "value": "fixed_width"
+        }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "select",
+      "id": "border_position",
+      "label": "Border position",
+      "options": [
+        {
+          "label": "Both",
+          "value": "both"
+        },
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "both"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-3",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Subheading",
+      "type": "subheading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Subheading"
+        }
+      ]
+    },
+    {
+      "name": "Heading",
+      "type": "heading",
+      "settings": [
+        {
+          "type": "text",
+          "label": "Heading",
+          "default": "Rich Text Heading",
+          "id": "heading"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Size",
+          "options": [
+            {
+              "label": "H1",
+              "value": "h1"
+            },
+            {
+              "label": "H2",
+              "value": "h2"
+            },
+            {
+              "label": "H3",
+              "value": "h3"
+            },
+            {
+              "label": "H4",
+              "value": "h4"
+            },
+            {
+              "label": "H5",
+              "value": "h5"
+            },
+            {
+              "label": "H6",
+              "value": "h6"
+            }
+          ],
+          "default": "h1"
+        }
+      ]
+    },
+    {
+      "name": "Paragraph",
+      "type": "text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Briefly describe what this heading is about.</p>"
+        }
+      ]
+    },
+    {
+      "name": "Button",
+      "type": "button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Label",
+          "default": "BUTTON LABEL"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "link_target",
+          "label": "Open link in",
+          "options": [
+            {
+              "label": "New tab",
+              "value": "_blank"
+            },
+            {
+              "label": "Same tab",
+              "value": "_top"
+            }
+          ],
+          "default": "_top"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_outline_button",
+          "label": "Use outline button style",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "1200 x 1200px .jpg recommended"
+        },
+        {
+          "type": "range",
+          "id": "image_width",
+          "label": "Image width",
+          "min": 50,
+          "max": 500,
+          "unit": "px",
+          "step": 50,
+          "default": 150
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rich text",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["*"]
+  }
+}
+{% endschema %}

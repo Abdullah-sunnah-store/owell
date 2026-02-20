@@ -1,0 +1,26 @@
+{% comment %} 
+
+Renders Section heading
+
+Accepts:
+- section: {Object} section object in which it render
+{% endcomment %}
+{%- if section.settings.heading != blank or section.settings.content != blank or section.settings.subheading != blank -%}
+    <div class="section-header d-flex justify-content-{{ section.settings.heading_content_alignment }} text-{{ section.settings.heading_content_alignment }}">
+        <div class="section-container">
+            {% if section.settings.subheading != blank %}
+                <p class="mb-2">{{ section.settings.subheading }}</p>
+            {% endif %}
+            {% if section.settings.heading != blank %}
+            <h2 class="h2 mb-0">{{ section.settings.heading }}</h2>
+            {% endif %}
+            {% if section.settings.content != blank %}
+                <div class="section__subContent">
+                    <div class="RTE-content">
+                    {{ section.settings.content }}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{%- endif -%}

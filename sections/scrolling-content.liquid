@@ -1,0 +1,392 @@
+{{ 'section-marquee.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+    /* Enable animation */
+    .enable-animation .marquee__content-{{ section.id }}{
+      animation: {{ section.settings.marquee_speed | append: 's linear infinite scroll;' }}
+
+    }
+
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px;' }}
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px;' }}
+    }
+    .marquee-text {
+      font-size: {{ section.settings.marquee_text_size | divided_by: 2 | append: 'px;' }};
+    }
+    @media screen and (min-width: 750px) {
+    .marquee-text {
+      font-size: {{ section.settings.marquee_text_size | append: 'px;' }};
+    }
+  }
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top | append: 'px;' }}
+        padding-bottom: {{ section.settings.padding_bottom | append: 'px;' }}
+      }
+    }
+    {% assign imageblock = section.blocks | where : 'type', 'image' %}
+
+    {% for block in imageblock %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+      #marquee-image--{{ block.id }}{
+        width: {{ block.settings.icon_width_mobile | append: 'px' }}
+      }
+
+      @media screen and (min-width: 750px) {
+        #marquee-image--{{ block.id }}{
+          width: {{ block.settings.icon_width | append: 'px' }}
+        }
+      }
+    {% endfor %}
+{% endstyle %}
+{% liquid
+  assign loading = 'eager'
+  assign fetchpriority = 'auto'
+  if section.index == 1
+    assign fetchpriority = 'high'
+  elsif section.index > 2
+    assign loading = 'lazy'
+  endif
+%}
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'top' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-top"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+{% unless section.settings.full_width %}
+  <div class="container">
+{% endunless %}
+<div
+  aria-label="Marquee Section"
+  class="homeMarque section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} {% unless section.settings.full_width %} border-radius border-radius--block {% endunless %}"
+  role="region"
+>
+  <div aria-live="polite" class="marquee marquee--hover-pause enable-animation">
+    <div class="marquee__content marquee__content-{{ section.id }}">
+      {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+        {% case block.type %}
+          {% when 'image' %}
+            {% if block.settings.marquee_image != blank %}
+              <div
+                aria-label="Marquee Section image"
+                class="Marquee-tag__image"
+                id="marquee-image--{{ block.id }}"
+                role="img"
+                {{ block.shopify_attributes }}
+              >
+                {% capture sizes %} 
+                (min-width:768px) {{ block.settings.icon_width | append: 'px' }}, {{ block.settings.icon_width_mobile | append: "px" }}
+              {% endcapture %}
+                {{
+                  block.settings.marquee_image
+                  | image_url: width: block.settings.marquee_image.width
+                  | image_tag:
+                    class: 'marquee-log',
+                    widths: '350,250,100',
+                    sizes: sizes,
+                    loading: 'lazy',
+                    alt: block.settings.marquee_image.alt,
+                    loading: loading,
+                    fetchpriority: fetchpriority
+                }}
+              </div>
+            {% else %}
+              <div
+                aria-label="Marquee Section image"
+                class="Marquee-tag__image"
+                id="marquee-image--{{ block.id }}"
+                role="img"
+              >
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          {% when 'content' %}
+            <div
+              aria-label="{{ block.settings.text }}"
+              class="Marquee-tag marquee__text-color"
+              {{ block.shopify_attributes }}
+            >
+              <p class="marquee-text">{{ block.settings.text }}</p>
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+    {% for i in (1..9) %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: i %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+      <div aria-hidden="true" class="marquee__content marquee__content-{{ section.id }}">
+        {% for block in section.blocks %}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
+{%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: block %}{%- endcapture -%}
+{%- if hide_resource == "true" -%}
+  {% continue %}
+{%- endif -%}
+{%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop End {%- endcomment -%}
+
+          {% case block.type %}
+            {% when 'image' %}
+              {% if block.settings.marquee_image != blank %}
+                <div
+                  aria-label="Marquee Section image"
+                  class="Marquee-tag__image"
+                  id="marquee-image--{{ block.id }}"
+                  role="img"
+                >
+                  {{
+                    block.settings.marquee_image
+                    | image_url: width: block.settings.marquee_image.width
+                    | image_tag:
+                      class: 'marquee-log',
+                      widths: '350,250,100',
+                      sizes: sizes,
+                      loading: 'lazy',
+                      alt: block.settings.marquee_image.alt,
+                      loading: loading,
+                      fetchpriority: fetchpriority
+                  }}
+                </div>
+              {% else %}
+                <div
+                  aria-label="Marquee Section image"
+                  class="Marquee-tag__image"
+                  id="marquee-image--{{ block.id }}"
+                  role="img"
+                >
+                  {{ 'image' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            {% when 'content' %}
+              <div
+                aria-label="{{ block.settings.text }}"
+                class="Marquee-tag marquee__text-color"
+
+                {{ block.shopify_attributes }}
+              >
+                <p class="marquee-text">{{ block.settings.text }}</p>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% unless section.settings.full_width %}
+  </div>
+{% endunless %}
+{% unless section.settings.border_size == 'hide' %}
+  {% if section.settings.border_position == 'both' or section.settings.border_position == 'bottom' %}
+    {% unless section.settings.border_size == 'full_width' %}
+      <div class="container">
+    {% endunless %}
+    <div class="spacer-wrapper color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacer border-bottom"
+      ></div>
+    </div>
+    {% unless section.settings.border_size == 'full_width' %}
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endunless %}
+{% schema %}
+{
+  "name": "Scrolling content",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "range",
+      "label": "Text size",
+      "id": "marquee_text_size",
+      "min": 12,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "marquee_speed",
+      "label": "Scroll speed",
+      "min": 3,
+      "max": 30,
+      "step": 1,
+      "unit": "sec",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "border_size",
+      "label": "Border",
+      "options": [
+        {
+          "label": "Hide",
+          "value": "hide"
+        },
+        {
+          "label": "Full width",
+          "value": "full_width"
+        },
+        {
+          "label": "Fixed width",
+          "value": "fixed_width"
+        }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "select",
+      "id": "border_position",
+      "label": "Border position",
+      "options": [
+        {
+          "label": "Both",
+          "value": "both"
+        },
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ],
+      "default": "both"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-3",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "name": "Content",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Promotion Text"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "marquee_image",
+          "label": "Image",
+          "info": "100 x 100px .png recommended"
+        },
+        {
+          "type": "range",
+          "id": "icon_width",
+          "label": "Width",
+          "min": 50,
+          "max": 200,
+          "unit": "px",
+          "step": 10,
+          "default": 90
+        },
+        {
+          "type": "range",
+          "id": "icon_width_mobile",
+          "label": "Mobile width",
+          "min": 50,
+          "max": 200,
+          "unit": "px",
+          "step": 10,
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scrolling content",
+      "blocks": [
+        {
+          "type": "content"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "content"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["*"],
+    "groups": ["footer"]
+  }
+}
+{% endschema %}

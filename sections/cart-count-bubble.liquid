@@ -1,0 +1,6 @@
+<div header-cart-bubble>
+  {%- if cart.item_count > 0 -%}
+    <span class="header__cart__icon-count">{{ cart.item_count }}</span>
+    <span class="visually-hidden">{{ cart.item_count }} items</span>
+  {%- endif -%}
+</div>

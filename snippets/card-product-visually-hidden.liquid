@@ -1,0 +1,12 @@
+{% comment %} product: product  {% endcomment %}
+
+  <div class="grid-item" grid-item>
+    {%- render 'card-product-view-all' 
+      , product: product
+      , product_image_loading: loading
+      , product_image_fetchpriority: fetchpriority
+      , section: section,
+      , index: forloop.index0,
+      , show_calltoaction_btn: false
+    -%}
+  </div>

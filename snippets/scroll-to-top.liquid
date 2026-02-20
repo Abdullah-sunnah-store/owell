@@ -1,0 +1,13 @@
+{{ 'scroll-to-top.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'scroll-to-top.js' | asset_url }}" defer></script>
+
+<scroll-to-top class="d-block scroll__to__top--parent {% if settings.scrolltotop_position == 'left' %} pos-left{% else %} pos-right{% endif %}">
+    <div class="container">
+        <button
+        class="scroll__to__top--button"
+        aria-label="Scroll to Top"
+        type="button">
+            {% render 'icon' with 'icon-scroll-to-top', circle_color: settings.scrollToTop_bg_color , arrow_color: settings.scrollToTop_arrow_color %}
+        </button>
+    </div>
+</scroll-to-top>
