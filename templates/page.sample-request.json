@@ -1,0 +1,36 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "sample-request-form",
+      "settings": {
+        "hero_background": "#026eb4",
+        "badge_text": "Qualified Businesses Only",
+        "heading": "Request a Complimentary Sample Box",
+        "subheading": "Designed for qualified businesses evaluating OWELL® for professional use.",
+        "form_title": "Sample Request",
+        "form_subtitle": "Fill out the form below and our team will ship your samples within 2-3 business days.",
+        "success_heading": "Sample Request Received!",
+        "success_message": "Our team will review your request and ship your samples within 2-3 business days. We'll follow up by email with your tracking details.",
+        "success_button_1_text": "Shop Gloves",
+        "success_button_1_link": "/collections/owell-disposable-gloves",
+        "success_button_2_text": "Apply for Business Account",
+        "success_button_2_link": "/pages/owell-wholesale-bulk-purchasing",
+        "padding_top": 0,
+        "padding_bottom": 60,
+        "color_scheme": "scheme-1"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

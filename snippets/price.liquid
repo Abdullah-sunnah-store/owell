@@ -1,11 +1,25 @@
 {%- style -%}
 .b2b-business-price {
-  color: #2e7d32; /* green color */
+  display: none;
+  color: #2e7d32;
   font-weight: bold;
   margin-top: 10px;
 }
-
+body.b2b-price-unlocked .b2b-business-price {
+  display: block;
+}
 {%- endstyle -%}
+<script>
+  (function () {
+    if (window.__owellB2BInit) return;
+    window.__owellB2BInit = true;
+    try {
+      if (localStorage.getItem('owell_b2b_access') === '1') {
+        document.body.classList.add('b2b-price-unlocked');
+      }
+    } catch (e) {}
+  })();
+</script>
 {% comment %} Wholesale_Hub_Product_Prices Start {% endcomment %}
 {% assign base_product = product %}
 {% assign base_variant = product.selected_or_first_available_variant %}
@@ -174,15 +188,15 @@
       {% comment %} Logic for prices to render on single product when known Variant {% endcomment %}
 
       {% comment %} For Price to be render on products page /Featured product {% endcomment %}
-      <span class="price"> 
+      <span class="price">
         {% if settings.currency_code_enabled %}
-          {{ WCProduct_Price | money_with_currency }}
+          {{ WCProduct_VariantPrice | money_with_currency }}
         {% else %}
-     {% if customer.tags.size > 0 %} 
-          {{ WCProduct_Price | money }} 
-          <del>{{ WCProduct_ComparePrice | money }}</del>
+     {% if customer.tags.size > 0 %}
+          {{ WCProduct_VariantPrice | money }}
+          {% comment %} <del>{{ WCProduct_VariantComparePrice | money }}</del> {% endcomment %}
           {% else %}
-          {{ WCProduct_Price | money }} 
+          {{ WCProduct_VariantPrice | money }}
           {% endif %}        {% endif %}
       </span>
       {%- if on_sale %}
@@ -299,9 +313,9 @@
         {% endif %}
 
   {% if product.tags contains "Listing-page-quick-order" %}
-    {% comment %} <div class="b2b-business-price">
+    <div class="b2b-business-price">
   <strong>Business price:</strong> $42.50
-</div> {% endcomment %}
+</div> 
 {% endif %}
 
 {{ product.metafields.wholesale_hub.prices.tier_1 }} 

@@ -1,1 +1,372 @@
-{"sections":{"banner":{"type":"main-collection-banner","disabled":true,"settings":{"full-width":true,"show_collection_title":true,"show_collection_description":true,"show_collection_image":true,"heading_size":"h1","content_alignment":"center","image_size":"sm","overlay_color":"#5052c5","overlay_opacity":0,"color_scheme":"scheme-2"}},"rich_text_dkMXQb":{"type":"rich-text","blocks":{"heading_MwKNCA":{"type":"heading","settings":{"heading":"Shop Professional-Grade Supplies","style":"h1"}},"text_DjiN6n":{"type":"text","settings":{"content":"<p>Browse gloves and essential supplies trusted across medical, food service, janitorial, retail, and laboratory environments.<\/p>"}},"button_RcqNhQ":{"type":"button","disabled":true,"settings":{"button_text":"","link":"","link_target":"_top","use_outline_button":false}}},"block_order":["heading_MwKNCA","text_DjiN6n","button_RcqNhQ"],"disabled":true,"name":"Rich text","settings":{"container_size":true,"content_width":1200,"content_alignment":"center","padding_top":40,"padding_bottom":40,"border_size":"hide","border_position":"both","color_scheme":"scheme-964d726f-6b0d-4b63-bb7c-3e64a3a98919"}},"collection_list_v2_TcCrx6":{"type":"collection-list-v2","blocks":{"collection_KYLMLt":{"type":"collection","settings":{"collection":"owell-disposable-gloves","image":"shopify:\/\/shop_images\/OWELLBlue3.2g_M_1000.jpg","title":"Disposable Gloves","description":""}},"collection_exiTeP":{"type":"collection","settings":{"collection":"owell-disinfecting-wipes-alcohol-prep-pads","image":"shopify:\/\/shop_images\/OWELLAlcoholPrepPads_100ct.....jpg","title":"Disinfecting Wipes","description":""}},"collection_AT7deg":{"type":"collection","settings":{"collection":"lancets-lancing-devices","image":"shopify:\/\/shop_images\/81wBRqaMklL._SX522.jpg","title":"Diabetes Care","description":""}},"collection_xLMg6x":{"type":"collection","settings":{"collection":"12-panel-drug-test-kits","title":"Drug Test Kits","description":""}}},"block_order":["collection_KYLMLt","collection_exiTeP","collection_AT7deg","collection_xLMg6x"],"disabled":true,"name":"Collection List V2","settings":{"color_scheme":"scheme-1","subheading":"","heading":"","heading_size":"h1","description":"","card_color_scheme":"","card_image_ratio":"1\/1","mobile_image_ratio":"4\/3","overlay_style":"below","content_alignment":"center","show_product_count":true,"show_icon":true,"columns_desktop":4,"column_gap":24,"enable_slider":false,"columns_mobile":"1","padding_top":56,"padding_bottom":56,"custom_class":""}},"product-grid":{"type":"main-collection-product-grid","settings":{"products_per_page":16,"columns_desktop":"5","columns_mobile":"2","show_sort_by":true,"show_filters":true,"show_filter_group_name":false,"show_product_tags_to_filter":false,"desktop_filter_type":"drawer","filter_accordion":"closed","padding_top":36,"padding_bottom":36,"color_scheme":""}},"business_benefits_section_FCzj8n":{"type":"business-benefits-section","disabled":true,"name":"Business Account Benefits","settings":{"section_title":"Business Account Benefits","benefit_1_title":"Better Pricing","benefit_1_description":"Tiered and bulk pricing designed for recurring business orders.","benefit_1_link":"shopify:\/\/pages\/owell-wholesale-bulk-purchasing","benefit_2_title":"Always Free Same-Day Shipping","benefit_2_description":"Fast, reliable fulfillment to keep your operation running without delays.","benefit_2_link":"shopify:\/\/pages\/owell-wholesale-bulk-purchasing","benefit_3_title":"Free Product Samples","benefit_3_description":"Test our gloves before committing to full orders.","benefit_3_link":"shopify:\/\/pages\/owell-wholesale-bulk-purchasing","benefit_4_title":"Priority Access to New Products","benefit_4_description":"Early access to new SKUs and product updates.","benefit_4_link":"shopify:\/\/pages\/owell-wholesale-bulk-purchasing","show_cta_section":true,"cta_spacing_top":50,"cta_alignment":"center","cta_gap":15}},"testimonials":{"type":"testimonials","blocks":{"testimonial_1":{"type":"testimonial","settings":{"show_rating":true,"rating":5,"author":"I keep coming back for more!","title":"Comfortable, lightweight and strong","content":"\"These 4 mil gloves are so much more comfortable and lightweight, without sacrificing durability and strength, then 7 mil gloves. Easy to put on, which is important if changing gloves often. Highly recommend\"","product":"","show_product_image":false}},"testimonial_2":{"type":"testimonial","settings":{"show_rating":true,"rating":5,"author":"Great lancets","title":"","content":"\"I have used several boxes of these before writing this review, these lancets always work and do not hurt to use, I always get a good drop of blood 🩸. These are my lancets I will continue to use some of the best you can buy for comfort, simplicity, and cost\"","product":"","show_product_image":false}},"testimonial_3":{"type":"testimonial","settings":{"show_rating":true,"rating":5,"author":"Great size and saturation.","title":"","content":"\"Sometimes when I buy alcohol wipes, the pads are too big, but these are a nice size. They’re small enough so you don’t get alcohol all over your hands which I find kind of yucky. These are the perfect size for prepping an earring or a tweezer which is what I bought these for.\n\"","product":"","show_product_image":false}}},"block_order":["testimonial_1","testimonial_2","testimonial_3"],"disabled":true,"settings":{"image_aspect_ratio":"square","subheading":"","heading":"Well Recieved","content":"","padding_top":36,"padding_bottom":36,"border_size":"hide","border_position":"both","color_scheme":"scheme-2454be0a-39e7-4408-b0a8-0660040d0030"}},"customer_reviews_Lpw4Cy":{"type":"customer-reviews","blocks":{"review_dpakdj":{"type":"review","settings":{"rating":5,"review_text":"\"Sometimes when I buy alcohol wipes, the pads are too big, but these are a nice size. They’re small enough so you don’t get alcohol all over your hands which I find kind of yucky. These are the perfect size for prepping an earring or a tweezer which is what I bought these for. \"","author_name":"Karan","review_date":"2 weeks ago"}},"review_kYWYH3":{"type":"review","settings":{"rating":5,"review_text":"\"These 4 mil gloves are so much more comfortable and lightweight, without sacrificing durability and strength, then 7 mil gloves. Easy to put on, which is important if changing gloves often. Highly recommend\"","author_name":"Catherine","review_date":"10 days ago"}},"review_K4Cbpc":{"type":"review","settings":{"rating":5,"review_text":"\"I have used several boxes of these before writing this review, these lancets always work and do not hurt to use, I always get a good drop of blood 🩸. These are my lancets I will continue to use some of the best you can buy for comfort, simplicity, and cost\"","author_name":"Peter","review_date":"1 week ago"}},"review_A7AhHE":{"type":"review","settings":{"rating":5,"review_text":"\"These 4 mil gloves are so much more comfortable and lightweight, without sacrificing durability and strength, then 7 mil gloves. Easy to put on, which is important if changing gloves often. Highly recommend\"","author_name":"Catherine","review_date":"10 days ago"}},"review_grFEjk":{"type":"review","settings":{"rating":5,"review_text":"\"I have used several boxes of these before writing this review, these lancets always work and do not hurt to use, I always get a good drop of blood 🩸. These are my lancets I will continue to use some of the best you can buy for comfort, simplicity, and cost\"","author_name":"Peter","review_date":"1 week ago"}},"review_E4BHa9":{"type":"review","settings":{"rating":5,"review_text":"\"Sometimes when I buy alcohol wipes, the pads are too big, but these are a nice size. They’re small enough so you don’t get alcohol all over your hands which I find kind of yucky. These are the perfect size for prepping an earring or a tweezer which is what I bought these for. \"","author_name":"Karan","review_date":"2 weeks ago"}}},"block_order":["review_dpakdj","review_kYWYH3","review_K4Cbpc","review_A7AhHE","review_grFEjk","review_E4BHa9"],"name":"Customer Reviews","settings":{"padding_top":60,"padding_bottom":60,"background_color":"#ffffff","container_width":1300,"show_heading":true,"heading":"Real Reviews. Real People","heading_size":36,"heading_color":"#000000","heading_weight":"600","show_subheading":true,"subheading":"","subheading_size":36,"subheading_color":"#000000","subheading_weight":"400","show_trustpilot":true,"trustpilot_rating":"4.9\/5","rating_size":18,"rating_color":"#000000","star_size":24,"show_trustpilot_logo":true,"trustpilot_logo":"shopify:\/\/shop_images\/stars-5.svg","logo_height":24,"show_review_count":true,"review_count_text":"Based on 56110 reviews","review_count_size":14,"review_count_color":"#666666","carousel_heading":"What our customers are saying","carousel_heading_size":24,"carousel_heading_color":"#000000","card_width":350,"card_bg_color":"#ffffff","card_border_color":"#e5e5e5","card_border_radius":12,"card_padding":24,"card_shadow":"0 2px 8px rgba(0,0,0,0.08)","card_hover_shadow":"0 8px 20px rgba(0,0,0,0.12)","show_review_card_logo":true,"review_card_trustpilot_logo":"shopify:\/\/shop_images\/stars-5.svg","review_card_logo_height":20,"review_star_size":18,"review_text_size":15,"review_text_color":"#333333","avatar_size":48,"author_name_size":15,"author_name_color":"#000000","author_date_size":13,"author_date_color":"#999999","control_bg_color":"#ffffff","control_border_color":"#e5e5e5","control_hover_bg":"#f5f5f5","control_icon_color":"#000000"}}},"order":["banner","rich_text_dkMXQb","collection_list_v2_TcCrx6","product-grid","business_benefits_section_FCzj8n","testimonials","customer_reviews_Lpw4Cy"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "full-width": true,
+        "show_collection_title": true,
+        "show_collection_description": true,
+        "show_collection_image": true,
+        "heading_size": "h1",
+        "content_alignment": "center",
+        "image_size": "sm",
+        "overlay_color": "#5052c5",
+        "overlay_opacity": 0,
+        "color_scheme": "scheme-2"
+      }
+    },
+    "rich_text_dkMXQb": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_MwKNCA": {
+          "type": "heading",
+          "settings": {
+            "heading": "Shop Professional-Grade Supplies",
+            "style": "h1"
+          }
+        },
+        "text_DjiN6n": {
+          "type": "text",
+          "settings": {
+            "content": "<p>Browse gloves and essential supplies trusted across medical, food service, janitorial, retail, and laboratory environments.</p>"
+          }
+        },
+        "button_RcqNhQ": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_text": "",
+            "link": "",
+            "link_target": "_top",
+            "use_outline_button": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_MwKNCA",
+        "text_DjiN6n",
+        "button_RcqNhQ"
+      ],
+      "disabled": true,
+      "name": "Rich text",
+      "settings": {
+        "container_size": true,
+        "content_width": 1200,
+        "content_alignment": "center",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "border_size": "hide",
+        "border_position": "both",
+        "color_scheme": "scheme-964d726f-6b0d-4b63-bb7c-3e64a3a98919"
+      }
+    },
+    "collection_list_v2_TcCrx6": {
+      "type": "collection-list-v2",
+      "blocks": {
+        "collection_KYLMLt": {
+          "type": "collection",
+          "settings": {
+            "collection": "owell-disposable-gloves",
+            "image": "shopify://shop_images/OWELLBlue3.2g_M_1000.jpg",
+            "title": "Disposable Gloves",
+            "description": ""
+          }
+        },
+        "collection_exiTeP": {
+          "type": "collection",
+          "settings": {
+            "collection": "owell-disinfecting-wipes-alcohol-prep-pads",
+            "image": "shopify://shop_images/OWELLAlcoholPrepPads_100ct.....jpg",
+            "title": "Disinfecting Wipes",
+            "description": ""
+          }
+        },
+        "collection_AT7deg": {
+          "type": "collection",
+          "settings": {
+            "collection": "lancets-lancing-devices",
+            "image": "shopify://shop_images/81wBRqaMklL._SX522.jpg",
+            "title": "Diabetes Care",
+            "description": ""
+          }
+        },
+        "collection_xLMg6x": {
+          "type": "collection",
+          "settings": {
+            "collection": "12-panel-drug-test-kits",
+            "title": "Drug Test Kits",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_KYLMLt",
+        "collection_exiTeP",
+        "collection_AT7deg",
+        "collection_xLMg6x"
+      ],
+      "disabled": true,
+      "name": "Collection List V2",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "subheading": "",
+        "heading": "",
+        "heading_size": "h1",
+        "description": "",
+        "card_color_scheme": "",
+        "card_image_ratio": "1/1",
+        "mobile_image_ratio": "4/3",
+        "overlay_style": "below",
+        "content_alignment": "center",
+        "show_product_count": true,
+        "show_icon": true,
+        "columns_desktop": 4,
+        "column_gap": 24,
+        "enable_slider": false,
+        "columns_mobile": "1",
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "custom_class": ""
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 16,
+        "columns_desktop": "5",
+        "columns_mobile": "2",
+        "show_sort_by": true,
+        "show_filters": true,
+        "show_filter_group_name": false,
+        "show_product_tags_to_filter": false,
+        "desktop_filter_type": "drawer",
+        "filter_accordion": "closed",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "color_scheme": ""
+      }
+    },
+    "business_benefits_section_FCzj8n": {
+      "type": "business-benefits-section",
+      "disabled": true,
+      "name": "Business Account Benefits",
+      "settings": {
+        "section_title": "Business Account Benefits",
+        "benefit_1_title": "Better Pricing",
+        "benefit_1_description": "Tiered and bulk pricing designed for recurring business orders.",
+        "benefit_1_link": "shopify://pages/owell-wholesale-bulk-purchasing",
+        "benefit_2_title": "Always Free Same-Day Shipping",
+        "benefit_2_description": "Fast, reliable fulfillment to keep your operation running without delays.",
+        "benefit_2_link": "shopify://pages/owell-wholesale-bulk-purchasing",
+        "benefit_3_title": "Free Product Samples",
+        "benefit_3_description": "Test our gloves before committing to full orders.",
+        "benefit_3_link": "shopify://pages/owell-wholesale-bulk-purchasing",
+        "benefit_4_title": "Priority Access to New Products",
+        "benefit_4_description": "Early access to new SKUs and product updates.",
+        "benefit_4_link": "shopify://pages/owell-wholesale-bulk-purchasing",
+        "show_cta_section": true,
+        "cta_spacing_top": 50,
+        "cta_alignment": "center",
+        "cta_gap": 15
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "show_rating": true,
+            "rating": 5,
+            "author": "I keep coming back for more!",
+            "title": "Comfortable, lightweight and strong",
+            "content": "\"These 4 mil gloves are so much more comfortable and lightweight, without sacrificing durability and strength, then 7 mil gloves. Easy to put on, which is important if changing gloves often. Highly recommend\"",
+            "product": "",
+            "show_product_image": false
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "show_rating": true,
+            "rating": 5,
+            "author": "Great lancets",
+            "title": "",
+            "content": "\"I have used several boxes of these before writing this review, these lancets always work and do not hurt to use, I always get a good drop of blood 🩸. These are my lancets I will continue to use some of the best you can buy for comfort, simplicity, and cost\"",
+            "product": "",
+            "show_product_image": false
+          }
+        },
+        "testimonial_3": {
+          "type": "testimonial",
+          "settings": {
+            "show_rating": true,
+            "rating": 5,
+            "author": "Great size and saturation.",
+            "title": "",
+            "content": "\"Sometimes when I buy alcohol wipes, the pads are too big, but these are a nice size. They’re small enough so you don’t get alcohol all over your hands which I find kind of yucky. These are the perfect size for prepping an earring or a tweezer which is what I bought these for.\n\"",
+            "product": "",
+            "show_product_image": false
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_1",
+        "testimonial_2",
+        "testimonial_3"
+      ],
+      "disabled": true,
+      "settings": {
+        "image_aspect_ratio": "square",
+        "subheading": "",
+        "heading": "Well Recieved",
+        "content": "",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "border_size": "hide",
+        "border_position": "both",
+        "color_scheme": "scheme-2454be0a-39e7-4408-b0a8-0660040d0030"
+      }
+    },
+    "customer_reviews_Lpw4Cy": {
+      "type": "customer-reviews",
+      "blocks": {
+        "review_dpakdj": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_text": "\"Sometimes when I buy alcohol wipes, the pads are too big, but these are a nice size. They’re small enough so you don’t get alcohol all over your hands which I find kind of yucky. These are the perfect size for prepping an earring or a tweezer which is what I bought these for. \"",
+            "author_name": "Karan",
+            "review_date": "2 weeks ago"
+          }
+        },
+        "review_kYWYH3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_text": "\"These 4 mil gloves are so much more comfortable and lightweight, without sacrificing durability and strength, then 7 mil gloves. Easy to put on, which is important if changing gloves often. Highly recommend\"",
+            "author_name": "Catherine",
+            "review_date": "10 days ago"
+          }
+        },
+        "review_K4Cbpc": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_text": "\"I have used several boxes of these before writing this review, these lancets always work and do not hurt to use, I always get a good drop of blood 🩸. These are my lancets I will continue to use some of the best you can buy for comfort, simplicity, and cost\"",
+            "author_name": "Peter",
+            "review_date": "1 week ago"
+          }
+        },
+        "review_A7AhHE": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_text": "\"These 4 mil gloves are so much more comfortable and lightweight, without sacrificing durability and strength, then 7 mil gloves. Easy to put on, which is important if changing gloves often. Highly recommend\"",
+            "author_name": "Catherine",
+            "review_date": "10 days ago"
+          }
+        },
+        "review_grFEjk": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_text": "\"I have used several boxes of these before writing this review, these lancets always work and do not hurt to use, I always get a good drop of blood 🩸. These are my lancets I will continue to use some of the best you can buy for comfort, simplicity, and cost\"",
+            "author_name": "Peter",
+            "review_date": "1 week ago"
+          }
+        },
+        "review_E4BHa9": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_text": "\"Sometimes when I buy alcohol wipes, the pads are too big, but these are a nice size. They’re small enough so you don’t get alcohol all over your hands which I find kind of yucky. These are the perfect size for prepping an earring or a tweezer which is what I bought these for. \"",
+            "author_name": "Karan",
+            "review_date": "2 weeks ago"
+          }
+        }
+      },
+      "block_order": [
+        "review_dpakdj",
+        "review_kYWYH3",
+        "review_K4Cbpc",
+        "review_A7AhHE",
+        "review_grFEjk",
+        "review_E4BHa9"
+      ],
+      "name": "Customer Reviews",
+      "settings": {
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "background_color": "#ffffff",
+        "container_width": 1300,
+        "show_heading": true,
+        "heading": "Real Reviews. Real People.",
+        "heading_size": 36,
+        "heading_color": "#000000",
+        "heading_weight": "600",
+        "show_subheading": true,
+        "subheading": "",
+        "subheading_size": 36,
+        "subheading_color": "#000000",
+        "subheading_weight": "400",
+        "show_trustpilot": true,
+        "trustpilot_rating": "4.9/5",
+        "rating_size": 18,
+        "rating_color": "#000000",
+        "star_size": 24,
+        "show_trustpilot_logo": true,
+        "trustpilot_logo": "shopify://shop_images/stars-5.svg",
+        "logo_height": 24,
+        "show_review_count": true,
+        "review_count_text": "Based on 56110 reviews",
+        "review_count_size": 14,
+        "review_count_color": "#666666",
+        "carousel_heading": "What our customers are saying",
+        "carousel_heading_size": 24,
+        "carousel_heading_color": "#000000",
+        "card_width": 350,
+        "card_bg_color": "#ffffff",
+        "card_border_color": "#e5e5e5",
+        "card_border_radius": 12,
+        "card_padding": 24,
+        "card_shadow": "0 2px 8px rgba(0,0,0,0.08)",
+        "card_hover_shadow": "0 8px 20px rgba(0,0,0,0.12)",
+        "show_review_card_logo": true,
+        "review_card_trustpilot_logo": "shopify://shop_images/stars-5.svg",
+        "review_card_logo_height": 20,
+        "review_star_size": 18,
+        "review_text_size": 15,
+        "review_text_color": "#333333",
+        "avatar_size": 48,
+        "author_name_size": 15,
+        "author_name_color": "#000000",
+        "author_date_size": 13,
+        "author_date_color": "#999999",
+        "control_bg_color": "#ffffff",
+        "control_border_color": "#e5e5e5",
+        "control_hover_bg": "#f5f5f5",
+        "control_icon_color": "#000000"
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "rich_text_dkMXQb",
+    "collection_list_v2_TcCrx6",
+    "product-grid",
+    "business_benefits_section_FCzj8n",
+    "testimonials",
+    "customer_reviews_Lpw4Cy"
+  ]
+}

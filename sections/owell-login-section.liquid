@@ -1,0 +1,204 @@
+{{ 'section-account-auth.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%} Capture recover password form state {%- endcomment -%}
+{%- form 'recover_customer_password' -%}
+  {%- assign _ls_recover_posted = form.posted_successfully? -%}
+  {%- assign _ls_recover_errors = form.errors -%}
+{%- endform -%}
+
+<div class="owell-auth owell-ls-{{ section.id }}">
+  <div class="owell-auth__container">
+
+    {%- comment -%} ── RECOVER PASSWORD PANEL ── {%- endcomment -%}
+    <div class="owell-auth__panel" id="owell-ls-recover-{{ section.id }}">
+
+      {%- form 'recover_customer_password' -%}
+        <h2 class="owell-auth__title">Reset Password</h2>
+        <p class="owell-auth__subtitle">Enter your email and we'll send you a reset link.</p>
+
+        {%- if _ls_recover_errors -%}
+          <div class="owell-auth__error">{{ _ls_recover_errors.messages.form }}</div>
+        {%- endif -%}
+        {%- if _ls_recover_posted -%}
+          <div class="owell-auth__success">{{ 'customer.recover_password.success' | t }}</div>
+        {%- endif -%}
+
+        <div class="owell-auth__field">
+          <label class="owell-auth__label" for="owell-ls-recover-email-{{ section.id }}">Email</label>
+          <input
+            class="owell-auth__input"
+            type="email"
+            name="email"
+            id="owell-ls-recover-email-{{ section.id }}"
+            autocomplete="email"
+            autocorrect="off"
+            autocapitalize="off"
+          >
+        </div>
+
+        <button type="submit" class="owell-auth__btn-primary">Send Reset Link</button>
+      {%- endform -%}
+
+      <div class="owell-auth__below-form" style="margin-top:20px;">
+        <a href="#" class="owell-ls-back-{{ section.id }}">← Back to Log In</a>
+      </div>
+    </div>
+
+    {%- comment -%} ── LOGIN PANEL ── {%- endcomment -%}
+    <div class="owell-auth__panel is-active" id="owell-ls-login-{{ section.id }}">
+
+      {%- form 'customer_login', novalidate: 'novalidate' -%}
+        <h2 class="owell-auth__title">{{ section.settings.login_heading }}</h2>
+        <p class="owell-auth__subtitle">{{ section.settings.login_subline }}</p>
+
+        {%- if _ls_recover_posted -%}
+          <div class="owell-auth__success">{{ 'customer.recover_password.success' | t }}</div>
+        {%- endif -%}
+        {%- if form.posted_successfully? -%}
+          <div class="owell-auth__success">{{ 'customer.reset_password.reset_message' | t }}</div>
+        {%- elsif form.errors -%}
+          <div class="owell-auth__error">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
+
+        <div class="owell-auth__field">
+          <label class="owell-auth__label" for="owell-ls-email-{{ section.id }}">Email</label>
+          <input
+            class="owell-auth__input{% if form.errors contains 'form' %} has-error{% endif %}"
+            type="email"
+            name="customer[email]"
+            id="owell-ls-email-{{ section.id }}"
+            autocomplete="email"
+            autocorrect="off"
+            autocapitalize="off"
+          >
+        </div>
+
+        {%- if form.password_needed -%}
+          <div class="owell-auth__field">
+            <label class="owell-auth__label" for="owell-ls-password-{{ section.id }}">Password</label>
+            <input
+              class="owell-auth__input{% if form.errors contains 'form' %} has-error{% endif %}"
+              type="password"
+              name="customer[password]"
+              id="owell-ls-password-{{ section.id }}"
+              autocomplete="current-password"
+            >
+          </div>
+        {%- endif -%}
+
+        <div class="owell-auth__forgot">
+          <a href="#" class="owell-ls-forgot-{{ section.id }}">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="owell-auth__btn-primary">{{ section.settings.login_button }}</button>
+      {%- endform -%}
+
+      <div class="owell-auth__divider"></div>
+
+      <p class="owell-auth__new-label">{{ section.settings.new_label }}</p>
+      <a href="{{ routes.account_register_url }}" class="owell-auth__btn-outline">
+        {{ section.settings.register_button }}
+      </a>
+
+      {%- if section.settings.business_account_url != blank -%}
+        <a href="{{ section.settings.business_account_url }}" class="owell-auth__business-link">
+          {{ section.settings.business_link_text }}
+        </a>
+      {%- endif -%}
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  var sid        = '{{ section.id }}';
+  var loginPanel   = document.getElementById('owell-ls-login-'   + sid);
+  var recoverPanel = document.getElementById('owell-ls-recover-' + sid);
+
+  function showRecover() {
+    loginPanel.classList.remove('is-active');
+    recoverPanel.classList.add('is-active');
+  }
+  function showLogin() {
+    recoverPanel.classList.remove('is-active');
+    loginPanel.classList.add('is-active');
+  }
+
+  document.querySelectorAll('.owell-ls-forgot-' + sid).forEach(function(el) {
+    el.addEventListener('click', function(e) { e.preventDefault(); showRecover(); });
+  });
+  document.querySelectorAll('.owell-ls-back-' + sid).forEach(function(el) {
+    el.addEventListener('click', function(e) { e.preventDefault(); showLogin(); });
+  });
+
+  if (window.location.hash === '#recover') showRecover();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Login Section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Login"
+    },
+    {
+      "type": "text",
+      "id": "login_heading",
+      "label": "Heading",
+      "default": "Account Login"
+    },
+    {
+      "type": "text",
+      "id": "login_subline",
+      "label": "Subline",
+      "default": "Access your orders, subscriptions, and account details."
+    },
+    {
+      "type": "text",
+      "id": "login_button",
+      "label": "Login button text",
+      "default": "Log In"
+    },
+    {
+      "type": "header",
+      "content": "New Account"
+    },
+    {
+      "type": "text",
+      "id": "new_label",
+      "label": "New customer label",
+      "default": "New to OWELL?"
+    },
+    {
+      "type": "text",
+      "id": "register_button",
+      "label": "Register button text",
+      "default": "Create Account"
+    },
+    {
+      "type": "header",
+      "content": "Business Account Link"
+    },
+    {
+      "type": "url",
+      "id": "business_account_url",
+      "label": "Business account page URL"
+    },
+    {
+      "type": "text",
+      "id": "business_link_text",
+      "label": "Business link text",
+      "default": "For structured pricing and volume purchasing: Open a Business Account →"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Login Section"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,891 @@
+{%- liquid
+  if section.settings.industries_bg == '#ffffff'
+    assign icard_bg = '#f8f9fb'
+  else
+    assign icard_bg = '#ffffff'
+  endif
+-%}
+{%- style -%}
+
+  /* ================================================
+     OWELL® About Us — {{ section.id }}
+  ================================================ */
+
+  .ab-wrap-{{ section.id }} {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Shared label / heading */
+  .ab-label-{{ section.id }} {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+    margin: 0 0 14px;
+  }
+  .ab-h2-{{ section.id }} {
+    font-size: clamp(22px, 3.2vw, 32px);
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 20px;
+    line-height: 1.2;
+  }
+  .ab-body-{{ section.id }} {
+    font-size: 15.5px;
+    color: #555;
+    line-height: 1.78;
+    margin: 0;
+  }
+
+  /* ──────────────────────────────────────────────
+     ① HERO
+  ────────────────────────────────────────────── */
+  .ab-hero-{{ section.id }} {
+    background: {{ section.settings.hero_bg }};
+    padding: {{ section.settings.padding_top }}px 24px 0px;
+    text-align: center;
+    color: #fff;
+  }
+  .ab-hero-eyebrow-{{ section.id }} {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin: 0 0 18px;
+  }
+  .ab-hero-h1-{{ section.id }} {
+    font-size: clamp(34px, 6.5vw, 42px);
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 14px;
+    letter-spacing: -0.8px;
+    line-height: 1.08;
+  }
+  .ab-hero-sub-{{ section.id }} {
+    font-size: clamp(15px, 2.2vw, 19px);
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.4px;
+    margin: 0 0 40px;
+  }
+  .ab-hero-rule-{{ section.id }} {
+    width: 44px;
+    height: 2px;
+    background: rgba(255,255,255,0.22);
+    margin: 0 auto 40px;
+    border: none;
+  }
+  .ab-hero-body-{{ section.id }} {
+    font-size: 16px;
+    color: rgba(255,255,255,0.72);
+    max-width: 740px;
+    margin: 0 auto 36px;
+    line-height: 1.8;
+    text-align: left;
+  }
+  .ab-hero-body-{{ section.id }} strong {
+    color: rgba(255,255,255,0.92);
+    font-weight: 700;
+  }
+  /* 3-column pain row */
+  .ab-pain-row-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 740px;
+    margin: 0 auto 40px;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .ab-pain-cell-{{ section.id }} {
+    padding: 20px 22px;
+    border-right: 1px solid rgba(255,255,255,0.14);
+    text-align: left;
+  }
+  .ab-pain-cell-{{ section.id }}:last-child {
+    border-right: none;
+  }
+  .ab-pain-ttl-{{ section.id }} {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.38);
+    margin-bottom: 7px;
+  }
+  .ab-pain-txt-{{ section.id }} {
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.68);
+    line-height: 1.55;
+    margin: 0;
+  }
+  /* Stat callout */
+  .ab-stat-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 10px;
+    padding: 20px 30px;
+  }
+  .ab-stat-num-{{ section.id }} {
+    font-size: 30px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  .ab-stat-lbl-{{ section.id }} {
+    font-size: 13px;
+    color: rgba(255,255,255,0.62);
+    line-height: 1.45;
+    text-align: left;
+    max-width: 220px;
+  }
+
+  /* ──────────────────────────────────────────────
+     ② MANUFACTURER-LED
+  ────────────────────────────────────────────── */
+  .ab-mfg-{{ section.id }} {
+    background: {{ section.settings.mfg_bg }};
+    padding: 92px 24px;
+  }
+  .ab-two-col-{{ section.id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: flex-start;
+  }
+  .ab-pillars-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-top: 8px;
+  }
+  .ab-pillar-{{ section.id }} {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .ab-pillar-num-{{ section.id }} {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: {{ section.settings.accent_color }};
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .ab-pillar-strong-{{ section.id }} {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111;
+    display: block;
+    margin-bottom: 5px;
+    line-height: 1.3;
+  }
+  .ab-pillar-span-{{ section.id }} {
+    font-size: 13.5px;
+    color: #666;
+    line-height: 1.65;
+  }
+
+  /* ──────────────────────────────────────────────
+     ③ STRUCTURE / DISCIPLINE
+  ────────────────────────────────────────────── */
+  .ab-structure-{{ section.id }} {
+    background: {{ section.settings.structure_bg }};
+    padding: 92px 24px;
+  }
+  .ab-discipline-{{ section.id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 8px;
+  }
+  .ab-discipline-{{ section.id }} li {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+  }
+  .ab-check-{{ section.id }} {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: {{ section.settings.accent_color }}14;
+    color: {{ section.settings.accent_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .ab-structure-note-{{ section.id }} {
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px solid #e3eaf1;
+    font-size: 14px;
+    font-style: italic;
+    color: #888;
+    line-height: 1.7;
+  }
+
+  /* ──────────────────────────────────────────────
+     ④ INDUSTRIES
+  ────────────────────────────────────────────── */
+  .ab-industries-{{ section.id }} {
+    background: {{ section.settings.industries_bg }};
+    padding: 92px 24px;
+  }
+  .ab-industries-hdr-{{ section.id }} {
+    text-align: center;
+    margin-bottom: 52px;
+  }
+  .ab-industries-hdr-{{ section.id }} .ab-label-{{ section.id }} {
+    color: {{ section.settings.accent_color }};
+  }
+  .ab-industries-hdr-{{ section.id }} .ab-h2-{{ section.id }} {
+    margin-bottom: 0;
+  }
+  .ab-industry-grid-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  .ab-icard-{{ section.id }} {
+    background: {{ icard_bg }};
+    border: 1.5px solid #e3eaf1;
+    border-top: 3px solid {{ section.settings.accent_color }};
+    border-radius: 12px;
+    padding: 26px 20px;
+    transition: border-color 0.2s;
+  }
+  .ab-icard-{{ section.id }}:hover {
+    border-color: {{ section.settings.accent_color }};
+    border-top-color: {{ section.settings.accent_color }};
+  }
+  .ab-icard-title-{{ section.id }} {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 10px;
+    line-height: 1.3;
+  }
+  .ab-icard-body-{{ section.id }} {
+    font-size: 13px;
+    color: #666;
+    margin: 0;
+    line-height: 1.65;
+  }
+  .ab-industries-note-{{ section.id }} {
+    margin-top: 44px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    letter-spacing: 0.1px;
+  }
+
+  /* ──────────────────────────────────────────────
+     ⑤ BUILT FOR GROWING OPERATIONS
+  ────────────────────────────────────────────── */
+  .ab-growing-{{ section.id }} {
+    background: {{ section.settings.growing_bg }};
+    padding: 92px 24px;
+  }
+  .ab-wefill-card-{{ section.id }} {
+    background: {{ section.settings.accent_color }};
+    border-radius: 18px;
+    padding: 44px 38px;
+    color: #fff;
+    text-align: center;
+  }
+  .ab-wf-badge-{{ section.id }} {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin: 0 0 16px;
+  }
+  .ab-wf-title-{{ section.id }} {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 14px;
+    line-height: 1.2;
+  }
+  .ab-wf-body-{{ section.id }} {
+    font-size: 14px;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.72;
+    margin: 0 0 26px;
+  }
+  .ab-wf-link-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.22);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 12px 24px;
+    border-radius: 7px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .ab-wf-link-{{ section.id }}:hover {
+    background: rgba(255,255,255,0.22);
+  }
+
+  /* ──────────────────────────────────────────────
+     ⑥ OUR COMMITMENT
+  ────────────────────────────────────────────── */
+  .ab-commitment-{{ section.id }} {
+    background: {{ section.settings.commitment_bg }};
+    padding: 96px 24px {{ section.settings.padding_bottom }}px;
+    text-align: center;
+    color: #fff;
+  }
+  .ab-commitment-label-{{ section.id }} {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin: 0 0 20px;
+  }
+  .ab-commitment-h2-{{ section.id }} {
+    font-size: clamp(24px, 3.8vw, 38px);
+    font-weight: 700;
+    color: #fff;
+    margin: 0 auto 22px;
+    line-height: 1.18;
+    max-width: 680px;
+  }
+  .ab-commitment-body-{{ section.id }} {
+    font-size: 16px;
+    color: rgba(255,255,255,0.68);
+    max-width: 620px;
+    margin: 0 auto 36px;
+    line-height: 1.8;
+  }
+  .ab-commitment-rule-{{ section.id }} {
+    width: 44px;
+    height: 2px;
+    background: rgba(255,255,255,0.18);
+    margin: 0 auto 30px;
+    border: none;
+  }
+  .ab-commitment-sign-{{ section.id }} {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.3px;
+  }
+
+  /* ──────────────────────────────────────────────
+     RESPONSIVE
+  ────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .ab-industry-grid-{{ section.id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 768px) {
+    .ab-two-col-{{ section.id }} {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .ab-pain-row-{{ section.id }} {
+      grid-template-columns: 1fr;
+    }
+    .ab-pain-cell-{{ section.id }} {
+      border-right: none;
+      border-bottom: 1px solid rgba(255,255,255,0.14);
+    }
+    .ab-pain-cell-{{ section.id }}:last-child {
+      border-bottom: none;
+    }
+  }
+  /* ® superscript — consistent sizing */
+  .ab-hero-{{ section.id }} sup,
+  .ab-commitment-{{ section.id }} sup {
+    font-size: 0.5em;
+    top: -0.65em;
+    position: relative;
+    vertical-align: baseline;
+    line-height: 0;
+  }
+
+  @media (max-width: 540px) {
+    .ab-industry-grid-{{ section.id }} {
+      grid-template-columns: 1fr;
+    }
+    .ab-stat-{{ section.id }} {
+      flex-direction: column;
+      text-align: center;
+    }
+    .ab-stat-lbl-{{ section.id }} {
+      text-align: center;
+    }
+  }
+
+{%- endstyle -%}
+
+
+{%- comment -%} ═══════════════════════════════════
+   ① HERO
+═══════════════════════════════════ {%- endcomment -%}
+<div class="ab-hero-{{ section.id }}">
+  <div class="ab-wrap-{{ section.id }}">
+    <h1 class="ab-hero-h1-{{ section.id }}">{{ section.settings.hero_heading | replace: '®', '<sup>®</sup>' }}</h1>
+    <p class="ab-hero-sub-{{ section.id }}">{{ section.settings.hero_sub }}</p>
+    <hr class="ab-hero-rule-{{ section.id }}">
+  </div>
+</div>
+
+<!-- Part 2: White background block -->
+<div style="background: #ffffff; padding: 56px 24px;">
+  <div class="ab-wrap-{{ section.id }}">
+
+    <p class="ab-hero-body-{{ section.id }}" style="color: #444;">
+      OWELL<sup style="font-size:0.5em; position:relative; top:-0.65em; line-height:0; vertical-align:baseline;">®</sup> was founded in 2016 with a simple belief: Gloves should not be treated as a "one size fits all" commodity.
+      After years operating within the industry, our Founder &amp; CEO, <strong style="color: #111;">{{ section.settings.founder_name }}</strong>,
+      began noticing a pattern. Businesses weren't struggling to find gloves — they were struggling to find consistency.
+    </p>
+
+    <div class="ab-pain-row-{{ section.id }}" style="border-color: #e3eaf1;">
+      <div class="ab-pain-cell-{{ section.id }}" style="border-color: #e3eaf1;">
+        <p class="ab-pain-ttl-{{ section.id }}" style="color: #aab4be;">Consistency</p>
+        <p class="ab-pain-txt-{{ section.id }}" style="color: #555;">Quality between shipments varied without accountability.</p>
+      </div>
+      <div class="ab-pain-cell-{{ section.id }}" style="border-color: #e3eaf1;">
+        <p class="ab-pain-ttl-{{ section.id }}" style="color: #aab4be;">Pricing</p>
+        <p class="ab-pain-txt-{{ section.id }}" style="color: #555;">Costs fluctuated without predictability or structure.</p>
+      </div>
+      <div class="ab-pain-cell-{{ section.id }}" style="border-color: #e3eaf1;">
+        <p class="ab-pain-ttl-{{ section.id }}" style="color: #aab4be;">Accountability</p>
+        <p class="ab-pain-txt-{{ section.id }}" style="color: #555;">Gloves were treated as commodities — not engineered tools.</p>
+      </div>
+    </div>
+
+    <p class="ab-hero-body-{{ section.id }}" style="color: #444; margin-top: 32px;">
+      Healthcare, dental, food service, janitorial, retail, and laboratory environments each operate under different demands.
+      When consistency fails, operations slow down. OWELL® was built to remove that uncertainty — and since 2016,
+      we've delivered over one million professional orders grounded in structured standards and disciplined supply.
+    </p>
+
+  </div>
+</div>
+
+<!-- Part 3: Blue background stat -->
+<!-- Part 3: Stat callout - white background, blue text -->
+<div style="background: #ffffff; padding: 0 24px 96px; text-align: center;">
+  <div class="ab-wrap-{{ section.id }}">
+    <div class="ab-stat-{{ section.id }}" style="background: #026eb4; border: 1.5px solid #e3eaf1;">
+      <div class="ab-stat-num-{{ section.id }}" style="color: #fff;">{{ section.settings.stat_number }}</div>
+      <div class="ab-stat-lbl-{{ section.id }}" style="color: #fff;">{{ section.settings.stat_label }}</div>
+    </div>
+  </div>
+</div>
+
+{%- comment -%} ═══════════════════════════════════
+   ② MANUFACTURER-LED APPROACH
+═══════════════════════════════════ {%- endcomment -%}
+<div class="ab-mfg-{{ section.id }}">
+  <div class="ab-wrap-{{ section.id }}">
+    <div class="ab-two-col-{{ section.id }}">
+
+      <div>
+        <p class="ab-label-{{ section.id }}">Our Approach</p>
+        <h2 class="ab-h2-{{ section.id }}">A Manufacturer-Led Approach</h2>
+        <p class="ab-body-{{ section.id }}">
+          OWELL® was never designed to be a reseller of open-market inventory. We operate as a manufacturer-led brand,
+          with control embedded into every stage of the process. Fit. Grip. Strength. Barrier integrity.
+          Packaging functionality. Every detail is intentional — because professionals require engineered dependability,
+          not generic supply.
+        </p>
+      </div>
+
+      <div class="ab-pillars-{{ section.id }}">
+        <div class="ab-pillar-{{ section.id }}">
+          <div class="ab-pillar-num-{{ section.id }}">1</div>
+          <div>
+            <strong class="ab-pillar-strong-{{ section.id }}">Define Before Production</strong>
+            <span class="ab-pillar-span-{{ section.id }}">We define specifications before production begins — fit, grip, strength, barrier integrity, and packaging functionality.</span>
+          </div>
+        </div>
+        <div class="ab-pillar-{{ section.id }}">
+          <div class="ab-pillar-num-{{ section.id }}">2</div>
+          <div>
+            <strong class="ab-pillar-strong-{{ section.id }}">Align with Qualified Facilities</strong>
+            <span class="ab-pillar-span-{{ section.id }}">We partner directly with highly qualified manufacturing facilities operating under documented production standards.</span>
+          </div>
+        </div>
+        <div class="ab-pillar-{{ section.id }}">
+          <div class="ab-pillar-num-{{ section.id }}">3</div>
+          <div>
+            <strong class="ab-pillar-strong-{{ section.id }}">Engineer for Real-World Demands</strong>
+            <span class="ab-pillar-span-{{ section.id }}">Products are engineered around real-world performance requirements — not generic catalog listings.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+{%- comment -%} ═══════════════════════════════════
+   ③ STRUCTURE CREATES RELIABILITY
+═══════════════════════════════════ {%- endcomment -%}
+<div class="ab-structure-{{ section.id }}">
+  <div class="ab-wrap-{{ section.id }}">
+    <div class="ab-two-col-{{ section.id }}">
+
+      <div>
+        <p class="ab-label-{{ section.id }}">How We Operate</p>
+        <h2 class="ab-h2-{{ section.id }}">Structure Creates Reliability</h2>
+        <p class="ab-body-{{ section.id }}">
+          Direct sourcing is only the beginning. Reliability comes from discipline. From raw material selection
+          to final delivery, each step is managed with purpose — not for short-term volume, but for long-term performance.
+        </p>
+        <p class="ab-structure-note-{{ section.id }}">
+          "Markets shift. Supply chains tighten. Demand changes. Our standards do not."
+        </p>
+      </div>
+
+      <ul class="ab-discipline-{{ section.id }}">
+        {%- assign disciplines = section.settings.discipline_items | split: '|' -%}
+        {%- for item in disciplines -%}
+          {%- if item != blank -%}
+            <li>
+              <span class="ab-check-{{ section.id }}" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </span>
+              {{ item | strip }}
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+{%- comment -%} ═══════════════════════════════════
+   ④ INDUSTRIES
+═══════════════════════════════════ {%- endcomment -%}
+<div class="ab-industries-{{ section.id }}">
+  <div class="ab-wrap-{{ section.id }}">
+
+    <div class="ab-industries-hdr-{{ section.id }}">
+      <p class="ab-label-{{ section.id }}">Who We Serve</p>
+      <h2 class="ab-h2-{{ section.id }}">Designed for Real Operational Demands</h2>
+    </div>
+
+    <div class="ab-industry-grid-{{ section.id }}">
+      {%- for i in (1..4) -%}
+        {%- assign t_key = 'ind_' | append: i | append: '_title' -%}
+        {%- assign b_key = 'ind_' | append: i | append: '_body' -%}
+        <div class="ab-icard-{{ section.id }}">
+          <p class="ab-icard-title-{{ section.id }}">{{ section.settings[t_key] }}</p>
+          <p class="ab-icard-body-{{ section.id }}">{{ section.settings[b_key] }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <p class="ab-industries-note-{{ section.id }}">{{ section.settings.industries_note }}</p>
+
+  </div>
+</div>
+
+
+{%- comment -%} ═══════════════════════════════════
+   ⑤ BUILT FOR GROWING OPERATIONS
+═══════════════════════════════════ {%- endcomment -%}
+<div class="ab-growing-{{ section.id }}">
+  <div class="ab-wrap-{{ section.id }}">
+    <div class="ab-two-col-{{ section.id }}">
+
+      <div>
+        <p class="ab-label-{{ section.id }}">Scale & Reach</p>
+        <h2 class="ab-h2-{{ section.id }}">Built for Growing Operations</h2>
+        <p class="ab-body-{{ section.id }}">
+          OWELL® supports independent practices, regional operators, and multi-location enterprises alike.
+          Our operational structure spans product development, production alignment, packaging innovation,
+          pricing strategy, inventory planning, and fulfillment logistics.
+        </p>
+        <p class="ab-body-{{ section.id }}" style="margin-top:20px">
+          Reliability is not a marketing phrase. It is built into the system.
+        </p>
+      </div>
+
+      <div class="ab-wefill-card-{{ section.id }}">
+        <p class="ab-wf-badge-{{ section.id }}">Program</p>
+        <p class="ab-wf-title-{{ section.id }}">WeFill™ Auto-Replenishment</p>
+        <p class="ab-wf-body-{{ section.id }}">
+          Through WeFill™, we extend operational control further — automating recurring supply on your
+          schedule with 10% additional savings stacked automatically on top of Business and volume pricing.
+        </p>
+        <a href="{{ section.settings.wefill_url | default: '#' }}" class="ab-wf-link-{{ section.id }}">
+          Learn About WeFill™
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+{%- comment -%} ═══════════════════════════════════
+   ⑥ OUR COMMITMENT
+═══════════════════════════════════ {%- endcomment -%}
+<div class="ab-commitment-{{ section.id }}">
+  <div class="ab-wrap-{{ section.id }}">
+
+    <p class="ab-commitment-label-{{ section.id }}">Our Commitment</p>
+    <h2 class="ab-commitment-h2-{{ section.id }}">{{ section.settings.commitment_heading }}</h2>
+    <p class="ab-commitment-body-{{ section.id }}">{{ section.settings.commitment_body }}</p>
+    <hr class="ab-commitment-rule-{{ section.id }}">
+    <p class="ab-commitment-sign-{{ section.id }}">{{ section.settings.commitment_sign }}</p>
+
+  </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "OWELL® About Us",
+  "settings": [
+    {
+      "type": "header",
+      "content": "① Hero"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "H1 heading",
+      "default": "About OWELL®"
+    },
+    {
+      "type": "text",
+      "id": "hero_sub",
+      "label": "Subheadline",
+      "default": "Manufacturer-Led. Reliability Engineered."
+    },
+    {
+      "type": "text",
+      "id": "founder_name",
+      "label": "Founder name",
+      "default": "Sol Samet"
+    },
+    {
+      "type": "text",
+      "id": "stat_number",
+      "label": "Stat number",
+      "default": "1,000,000+"
+    },
+    {
+      "type": "text",
+      "id": "stat_label",
+      "label": "Stat label",
+      "default": "Professional orders delivered since 2016, grounded in structured standards and disciplined supply."
+    },
+    {
+      "type": "header",
+      "content": "③ Structure — Discipline List"
+    },
+    {
+      "type": "textarea",
+      "id": "discipline_items",
+      "label": "Discipline items (separate with |)",
+      "info": "Each item appears with a checkmark.",
+      "default": "Documented production standards|Ongoing quality verification|Patented dispensing and packaging innovation|Structured business pricing|Planned inventory allocation|Structured fulfillment and same-day execution"
+    },
+    {
+      "type": "header",
+      "content": "④ Industries"
+    },
+    {
+      "type": "text",
+      "id": "ind_1_title",
+      "label": "Industry 1 — Title",
+      "default": "Healthcare & Dental Practices"
+    },
+    {
+      "type": "textarea",
+      "id": "ind_1_body",
+      "label": "Industry 1 — Description",
+      "default": "Precision and barrier integrity engineered for clinical environments."
+    },
+    {
+      "type": "text",
+      "id": "ind_2_title",
+      "label": "Industry 2 — Title",
+      "default": "Food Service"
+    },
+    {
+      "type": "textarea",
+      "id": "ind_2_body",
+      "label": "Industry 2 — Description",
+      "default": "Durability and grip under constant motion and high-volume handling."
+    },
+    {
+      "type": "text",
+      "id": "ind_3_title",
+      "label": "Industry 3 — Title",
+      "default": "Janitorial"
+    },
+    {
+      "type": "textarea",
+      "id": "ind_3_body",
+      "label": "Industry 3 — Description",
+      "default": "Chemical resistance and extended wear for demanding cleaning environments."
+    },
+    {
+      "type": "text",
+      "id": "ind_4_title",
+      "label": "Industry 4 — Title",
+      "default": "Retail & Laboratories"
+    },
+    {
+      "type": "textarea",
+      "id": "ind_4_body",
+      "label": "Industry 4 — Description",
+      "default": "Consistency and packaging efficiency for high-throughput operations."
+    },
+    {
+      "type": "text",
+      "id": "industries_note",
+      "label": "Industries closing note",
+      "default": "Gloves should not be interchangeable. They should be built for the environment in which they are used."
+    },
+    {
+      "type": "header",
+      "content": "⑤ WeFill™ Card"
+    },
+    {
+      "type": "url",
+      "id": "wefill_url",
+      "label": "WeFill™ page URL"
+    },
+    {
+      "type": "header",
+      "content": "⑥ Our Commitment"
+    },
+    {
+      "type": "text",
+      "id": "commitment_heading",
+      "label": "Heading",
+      "default": "Markets shift. Supply chains tighten. Our standards do not."
+    },
+    {
+      "type": "textarea",
+      "id": "commitment_body",
+      "label": "Body",
+      "default": "We remain committed to delivering consistent quality, disciplined oversight, and reliable fulfillment to every business we serve — independent practices, regional operators, and multi-location enterprises alike. That commitment is not seasonal. It is structural."
+    },
+    {
+      "type": "text",
+      "id": "commitment_sign",
+      "label": "Sign-off line",
+      "default": "OWELL® — Founded 2016 · Quality & Reliability You Can Count On"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent blue",
+      "default": "#026eb4"
+    },
+    {
+      "type": "color",
+      "id": "hero_bg",
+      "label": "Hero background",
+      "default": "#026eb4"
+    },
+    {
+      "type": "color",
+      "id": "mfg_bg",
+      "label": "Manufacturer section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "structure_bg",
+      "label": "Structure section background",
+      "default": "#f0f7fd"
+    },
+    {
+      "type": "color",
+      "id": "industries_bg",
+      "label": "Industries section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "growing_bg",
+      "label": "Growing Operations background",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "commitment_bg",
+      "label": "Commitment background",
+      "default": "#025a94"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top (hero)",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom (commitment)",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "OWELL® About Us"
+    }
+  ]
+}
+{% endschema %}

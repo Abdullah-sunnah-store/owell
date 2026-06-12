@@ -1,0 +1,243 @@
+/* ===== OWELL Account Auth — Login & Register ===== */
+
+.owell-auth {
+  background: #fff;
+  min-height: calc(100vh - 180px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 24px;
+  box-sizing: border-box;
+}
+
+.owell-auth__container {
+  width: 100%;
+  max-width: 560px;
+}
+
+/* Heading */
+.owell-auth__title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #026eb4;
+  margin: 0 0 10px;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.owell-auth__subtitle {
+  font-size: 15px;
+  color: #555;
+  text-align: center;
+  margin: 0 0 32px;
+  line-height: 1.65;
+}
+
+/* Fields */
+.owell-auth__field {
+  margin-bottom: 18px;
+}
+
+.owell-auth__label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 6px;
+  letter-spacing: 0.1px;
+}
+
+.owell-auth__input {
+  width: 100%;
+  height: 50px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  padding: 0 14px;
+  font-size: 15px;
+  font-family: inherit;
+  color: #111;
+  background: #fff;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  appearance: none;
+}
+
+.owell-auth__input:focus {
+  border-color: #026eb4;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(2, 110, 180, 0.1);
+}
+
+.owell-auth__input.has-error {
+  border-color: #c62828;
+}
+
+/* Forgot password */
+.owell-auth__forgot {
+  text-align: right;
+  margin: -10px 0 24px;
+}
+
+.owell-auth__forgot a {
+  font-size: 13px;
+  color: #026eb4;
+  text-decoration: none;
+}
+
+.owell-auth__forgot a:hover {
+  text-decoration: underline;
+}
+
+/* Buttons */
+.owell-auth__btn-primary {
+  display: block;
+  width: 100%;
+  height: 52px;
+  background: #026eb4;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-align: center;
+  line-height: 52px;
+  text-decoration: none;
+}
+
+.owell-auth__btn-primary:hover {
+  background: #025a96;
+  color: #fff;
+}
+
+.owell-auth__btn-outline {
+  display: block;
+  width: 100%;
+  height: 52px;
+  background: #fff;
+  color: #026eb4;
+  border: 2px solid #026eb4;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-align: center;
+  line-height: 48px;
+  text-decoration: none;
+}
+
+.owell-auth__btn-outline:hover {
+  background: #f0f7ff;
+  color: #026eb4;
+}
+
+/* Divider */
+.owell-auth__divider {
+  height: 1px;
+  background: #eee;
+  margin: 32px 0;
+}
+
+/* Secondary section */
+.owell-auth__new-label {
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+  margin: 0 0 14px;
+}
+
+/* Business account link */
+.owell-auth__business-link {
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  color: #026eb4;
+  text-decoration: none;
+  margin-top: 22px;
+  line-height: 1.5;
+}
+
+.owell-auth__business-link:hover {
+  text-decoration: underline;
+}
+
+/* Below-form text (register page) */
+.owell-auth__below-form {
+  text-align: center;
+  margin-top: 28px;
+  font-size: 14px;
+  color: #555;
+}
+
+.owell-auth__below-form a {
+  color: #026eb4;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.owell-auth__below-form a:hover {
+  text-decoration: underline;
+}
+
+/* Alerts */
+.owell-auth__error {
+  background: #fdf2f2;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 22px;
+  font-size: 14px;
+  color: #c62828;
+  line-height: 1.5;
+}
+
+.owell-auth__success {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 22px;
+  font-size: 14px;
+  color: #166534;
+  line-height: 1.5;
+}
+
+/* Panel toggle */
+.owell-auth__panel {
+  display: none;
+}
+
+.owell-auth__panel.is-active {
+  display: block;
+}
+
+/* Name row — register */
+.owell-auth__name-row {
+  display: flex;
+  gap: 16px;
+}
+
+.owell-auth__name-row .owell-auth__field {
+  flex: 1;
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 749px) {
+  .owell-auth {
+    padding: 40px 20px;
+    min-height: calc(100vh - 120px);
+  }
+
+  .owell-auth__title {
+    font-size: 26px;
+  }
+
+  .owell-auth__name-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}

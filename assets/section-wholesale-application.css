@@ -1,0 +1,411 @@
+/* ===== Wholesale Application Form Section ===== */
+.wholesale-application {
+  padding-top: 50px !important;
+}
+
+/* Hero Section */
+.wholesale-application__hero {
+  padding: 48px 40px 44px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.wholesale-application__badge {
+  display: inline-block;
+  background: #fff;
+  border: 1px solid #fff;
+  color: #026eb4;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 40px;
+  margin-bottom: 16px;
+}
+
+.wholesale-application__title {
+  font-size: clamp(24px, 4vw, 38px);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  margin: 0 0 12px;
+}
+
+.wholesale-application__subtitle {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 460px;
+  margin: 0 auto;
+  line-height: 1.65;
+}
+
+/* Form Wrapper */
+.wholesale-form-wrapper {
+  max-width: 800px;
+  margin: 30px auto 60px;
+  padding: 40px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px #00000069;
+}
+
+/* Progress Steps */
+.wholesale-progress-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  position: relative;
+}
+
+.wholesale-progress-steps::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 25%;
+  right: 25%;
+  height: 2px;
+  background: #ddd;
+  z-index: 0;
+  transition: background 0.3s ease;
+}
+
+.wholesale-progress-steps.step-2::before {
+  background: #4a8df6;
+}
+
+.wholesale-step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.wholesale-step-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #999;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.wholesale-step-item.active .wholesale-step-circle,
+.wholesale-step-item.completed .wholesale-step-circle {
+  background: #4a8df6;
+  border-color: #4a8df6;
+  color: #fff;
+}
+
+.wholesale-step-label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.wholesale-step-item.active .wholesale-step-label {
+  color: #4a8df6;
+  font-weight: 600;
+}
+
+/* Form Title & Subtitle */
+.wholesale-form__title {
+  font-size: 28px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #111;
+  text-align: center;
+}
+
+.wholesale-form__subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Form Steps */
+.wholesale-form-step {
+  display: none;
+  animation: wholesaleFadeIn 0.4s ease;
+}
+
+.wholesale-form-step.active {
+  display: block;
+}
+
+@keyframes wholesaleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form Groups */
+.wholesale-form-wrapper .form-group {
+  margin-bottom: 20px;
+}
+
+.wholesale-form-wrapper .field__label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+
+.wholesale-form-wrapper .field__label.optional {
+  color: #666;
+  font-weight: 400;
+}
+
+.wholesale-form-wrapper .field__input,
+.wholesale-form-wrapper select,
+.wholesale-form-wrapper textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.wholesale-form-wrapper .field__input:focus,
+.wholesale-form-wrapper select:focus,
+.wholesale-form-wrapper textarea:focus {
+  border-color: #4a8df6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 141, 246, 0.1);
+}
+
+.wholesale-form-wrapper .field__input.field-error,
+.wholesale-form-wrapper select.field-error {
+  border-color: #c62828;
+  box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.08);
+}
+
+.wholesale-radio-group.radio-error {
+  padding: 6px 10px;
+  border: 1px solid #c62828;
+  border-radius: 6px;
+  background: rgba(198, 40, 40, 0.04);
+}
+
+/* Section Divider */
+.wholesale-form-wrapper .form-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #026eb4;
+  border-bottom: 1px solid #e0ecf9;
+  padding-bottom: 8px;
+  margin: 0 0 20px;
+}
+
+/* Three-column row */
+.wholesale-form-wrapper .form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.wholesale-form-wrapper .form-row > .form-group {
+  flex: 1;
+}
+
+/* Radio Buttons */
+.wholesale-radio-group {
+  display: flex;
+  gap: 24px;
+  margin-top: 4px;
+}
+
+.wholesale-radio-option {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  gap: 8px;
+}
+
+.wholesale-radio-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #4a8df6;
+}
+
+/* Form Buttons */
+.wholesale-form-wrapper .form-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.wholesale-form-wrapper .btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  border: none;
+}
+
+.wholesale-form-wrapper .btn--fill {
+  background: #4a8df6;
+  color: #fff;
+}
+
+.wholesale-form-wrapper .btn--fill:hover {
+  background: #3a75d6;
+}
+
+.wholesale-form-wrapper .btn--outline {
+  background: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.wholesale-form-wrapper .btn--outline:hover {
+  background: #e8e8e8;
+}
+
+/* Success Message */
+.wholesale-success {
+  text-align: center;
+  display: none;
+}
+
+.wholesale-success.active {
+  display: block;
+  animation: wholesaleFadeIn 0.4s ease;
+}
+
+.wholesale-success .success-icon {
+  width: 80px;
+  height: 80px;
+  background: #e6f4ea;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  margin: 0 auto 20px;
+}
+
+.wholesale-success .success-icon svg {
+  width: 40px;
+  height: 40px;
+  color: #1e7e34;
+}
+
+.wholesale-success h2 {
+  color: #1e7e34;
+  margin-bottom: 15px;
+}
+
+.wholesale-success p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.wholesale-success .success-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.wholesale-success .success-buttons a {
+  flex: 1;
+  padding: 14px 20px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.wholesale-success .btn-shop {
+  background: #4a8df6;
+  color: #fff;
+}
+
+.wholesale-success .btn-shop:hover {
+  background: #3a75d6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 141, 246, 0.3);
+}
+
+.wholesale-success .btn-apply {
+  background: #fff;
+  color: #4a8df6;
+  border: 2px solid #4a8df6;
+}
+
+.wholesale-success .btn-apply:hover {
+  background: #f0f7ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 141, 246, 0.2);
+}
+
+/* Field Error */
+.wholesale-application__field-error {
+  margin-top: 4px;
+}
+
+.wholesale-application__field-error .error-text {
+  color: #c62828;
+  font-size: 13px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .wholesale-application {
+    padding-top: 50px;
+  }
+
+  .wholesale-application__hero {
+    padding: 32px 20px;
+  }
+
+  .wholesale-form-wrapper {
+    padding: 30px 20px;
+    margin: 0 15px 40px;
+  }
+
+  .wholesale-form-wrapper .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .wholesale-success .success-buttons {
+    flex-direction: column;
+  }
+
+  .wholesale-form-wrapper .form-buttons {
+    flex-direction: column;
+  }
+}

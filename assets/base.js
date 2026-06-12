@@ -2918,8 +2918,8 @@ class VariantDropdown extends HTMLElement {
     }
 
     onVariantChange(e) {
-        this.variantSKU =
-            this.closest('[product-info]').querySelector('variant-sku');
+        this.variantSKUs =
+            document.querySelectorAll(`[data-section-id="${this.dataset.section}"] variant-sku`);
         this.updateOptions();
         this.updateMasterId();
         this.toggleAddButton(true, '');
@@ -2927,7 +2927,7 @@ class VariantDropdown extends HTMLElement {
         this.updatePickupAvailability();
         this.removeErrorMessage();
         this.updateVariantLabel(e);
-        this.variantSKU && this.variantSKU.hide();
+        this.variantSKUs.forEach(el => el.hide());
 
         if (!this.currentVariant) {
             this.toggleAddButton(true, '');
@@ -2946,7 +2946,7 @@ class VariantDropdown extends HTMLElement {
             this.updateVariantInput();
             this.renderProductInfo();
             this.updateQuantityRule();
-            this.variantSKU && this.variantSKU.update(this.currentVariant.sku);
+            this.variantSKUs.forEach(el => el.update(this.currentVariant.sku));
         }
     }
 

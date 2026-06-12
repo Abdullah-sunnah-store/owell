@@ -1,0 +1,601 @@
+/* =====================================================
+   OWELL® Enterprise Footer — Premium Design
+   section-footer-enterprise.css
+   ===================================================== */
+
+/* ── Brand Token Override for Footer Scope ────────── */
+:root {
+  --owell-deep-bg:        #026eb4;   /* #026eb4 brand blue darkened ~18% */
+  --owell-cta-bg:         #026eb4;   /* CTA strip — slightly less dark */
+  --owell-navy:           #026eb4;   /* confirmed brand primary blue */
+  --owell-green:          #56c2b3;   /* accent — hover/CTA only */
+  --owell-green-dark:     #56c2b3;
+  --owell-text-primary:   #ffffff;   /* pure white */
+  --owell-text-secondary: rgba(255, 255, 255, 1); /* muted white */
+  --owell-divider:        rgba(255, 255, 255, 1);
+  --owell-divider-strong: rgba(255, 255, 255, 1);
+}
+
+/* =====================================================
+   ENTERPRISE CTA STRIP
+   ===================================================== */
+.owell-cta-strip {
+  background-color: var(--owell-cta-bg);
+  padding: 60px 0 0;
+  text-align: center;
+}
+
+.owell-cta-strip__inner {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.owell-cta-strip__headline {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--owell-text-primary);
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.owell-cta-strip__subtext {
+  font-size: 1rem;
+  color: var(--owell-text-secondary);
+  margin: 0 0 32px;
+  line-height: 1.6;
+}
+
+.owell-cta-strip__buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.owell-cta-btn {
+  display: inline-block;
+  padding: 13px 28px;
+  border: 2px solid var(--owell-text-primary);
+  color: var(--owell-text-primary);
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.owell-cta-btn:hover,
+.owell-cta-btn:focus-visible {
+  background-color: var(--owell-green);
+  border-color: var(--owell-green);
+  color: #ffffff;
+  outline: none;
+}
+
+@media (max-width: 767px) {
+  .owell-cta-strip {
+    padding: 44px 0;
+  }
+
+  .owell-cta-strip__headline {
+    font-size: 1.5rem;
+  }
+
+  .owell-cta-strip__buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .owell-cta-btn {
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+  }
+}
+
+/* =====================================================
+   MAIN FOOTER SHELL
+   ===================================================== */
+.owell-footer {
+  background-color: var(--owell-deep-bg) !important;
+  background-image: none !important;
+  color: var(--owell-text-primary);
+}
+
+.owell-footer .container {
+  padding-top: 56px;
+  padding-bottom: 0;
+}
+
+/* =====================================================
+   5-COLUMN GRID
+   ===================================================== */
+.owell-footer__grid {
+      display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 40px 32px;
+    padding: 0;
+    justify-items: center;
+}
+
+@media (max-width: 1199px) {
+  .owell-footer__grid {
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 991px) {
+  .owell-footer__grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px 24px;
+  }
+
+  .owell-footer__col--brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 767px) {
+  .owell-footer__grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-bottom: 24px;
+  }
+
+  .owell-footer__col--brand {
+    grid-column: auto;
+    padding: 20px 20px 20px 20px !important;
+    margin-bottom: 8px;
+  }
+}
+
+/* =====================================================
+   BRAND COLUMN
+   ===================================================== */
+.owell-footer__col--brand {
+    padding: 20px 0 20px 20px;
+    background: #70a9cd2b;
+    border-radius: 20px;
+}
+
+.owell-footer__logo {
+  margin-bottom: 20px;
+  display: block;
+  width: var(--footer-logo-width, 120px);
+}
+
+.owell-footer__logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.owell-footer__logo a {
+  display: inline-block;
+}
+
+.owell-footer__tagline {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--owell-text-primary);
+  margin: 0 0 10px;
+  line-height: 1.4;
+}
+
+.owell-footer__descriptor {
+  font-size: 0.8125rem;
+  color: var(--owell-text-secondary);
+  margin: 0 0 18px;
+  line-height: 1.6;
+}
+
+.owell-footer__trust {
+  font-size: 0.75rem;
+  color: var(--owell-text-secondary);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.owell-footer__social {
+  margin-top: 4px;
+}
+
+.owell-footer__social .social-links {
+  gap: 12px;
+}
+
+.owell-footer__social .social-links__item a {
+  color: var(--owell-text-secondary) !important;
+  transition: color 0.2s ease;
+}
+
+.owell-footer__social .social-links__item a:hover {
+  color: var(--owell-green) !important;
+}
+
+/* =====================================================
+   MENU COLUMNS
+   ===================================================== */
+.owell-footer__col-title {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--owell-text-primary);
+  margin: 0 0 16px;
+  line-height: 1.3;
+}
+
+.owell-footer__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.owell-footer__links li {
+  margin-bottom: 0;
+}
+
+.owell-footer__link {
+  display: block;
+  padding: 6px 0;
+  font-size: 0.8125rem;
+  color: var(--owell-text-secondary);
+  text-decoration: none;
+  line-height: 1.4;
+  transition: color 0.15s ease;
+}
+
+.owell-footer__link:hover,
+.owell-footer__link.active {
+  color: var(--owell-text-primary);
+}
+
+.owell-footer__link.active {
+  color: var(--owell-green);
+}
+
+/* =====================================================
+   NEWSLETTER BLOCK (minimal)
+   ===================================================== */
+.owell-footer__col--newsletter .owell-footer__text-content {
+  font-size: 0.8125rem;
+  color: var(--owell-text-secondary);
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+
+.owell-footer__col--newsletter .owell-footer__text-content p {
+  margin: 0;
+}
+
+.owell-newsletter__group {
+  display: flex;
+  gap: 0;
+}
+
+.owell-newsletter__input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--owell-divider-strong);
+  border-right: none;
+  color: var(--owell-text-primary);
+  font-size: 0.8125rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.owell-newsletter__input::placeholder {
+  color: var(--owell-text-secondary);
+}
+
+.owell-newsletter__input:focus {
+  border-color: var(--owell-green);
+}
+
+.owell-newsletter__btn {
+  padding: 10px 18px;
+  background: var(--owell-green);
+  border: 1px solid var(--owell-green);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.owell-newsletter__btn:hover {
+  background: var(--owell-green-dark);
+  border-color: var(--owell-green-dark);
+}
+
+.owell-newsletter__success {
+  margin: 10px 0 0;
+  font-size: 0.8125rem;
+  color: var(--owell-green);
+}
+
+/* =====================================================
+   MOBILE ACCORDION
+   ===================================================== */
+.owell-footer__accordion {
+}
+
+.owell-footer__accordion-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.owell-footer__accordion-head::-webkit-details-marker,
+.owell-footer__accordion-head::marker {
+  display: none;
+}
+
+.owell-footer__accordion-head .owell-footer__col-title {
+  margin: 0;
+}
+
+/* Chevron indicator */
+.owell-footer__accordion-head::after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--owell-text-secondary);
+  border-bottom: 2px solid var(--owell-text-secondary);
+  transform: rotate(45deg);
+  transition: transform .2s ease;
+  flex-shrink: 0;
+  margin-left: 12px;
+  margin-bottom: 4px;
+}
+
+.owell-footer__accordion[open] .owell-footer__accordion-head::after {
+  transform: rotate(-135deg);
+  margin-bottom: -4px;
+}
+
+.owell-footer__accordion-body {
+  padding-bottom: 16px;
+}
+
+.owell-footer__accordion-body .owell-footer__links {
+  padding-top: 4px;
+}
+
+.owell-footer__accordion-body .owell-footer__link {
+  padding: 9px 0;
+  font-size: 0.875rem;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+/* =====================================================
+   BOTTOM CONTACT STRIP
+   ===================================================== */
+.owell-footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    padding: 20px 0;
+    flex-wrap: wrap;
+}
+
+.owell-footer__bottom-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.owell-footer__shop-link {
+  color: var(--owell-text-secondary) !important;
+  text-decoration: none;
+}
+
+.owell-footer__bottom-left span,
+.owell-footer__bottom-left small {
+  font-size: 0.75rem;
+  color: var(--owell-text-secondary);
+  line-height: 1.5;
+}
+
+.owell-footer__poweredby {
+  opacity: 0.45;
+  font-size: 0.6875rem;
+}
+
+.owell-footer__poweredby a {
+  color: var(--owell-text-secondary) !important;
+  text-decoration: none;
+}
+
+.owell-footer__bottom-right {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+  color: var(--owell-text-secondary);
+}
+
+.owell-footer__bottom-right span,
+.owell-footer__bottom-right a {
+  color: var(--owell-text-secondary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+  font-size: 0.75rem;
+}
+
+.owell-footer__bottom-right a:hover {
+  color: var(--owell-text-primary);
+}
+
+/* Pipe separators between contact items */
+.owell-footer__bottom-right > * + *::before {
+  content: ' | ';
+  color: var(--owell-divider-strong);
+  margin: 0 8px;
+  display: inline;
+}
+
+@media (max-width: 767px) {
+  .owell-footer__bottom {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 20px 0 24px;
+    }
+
+  .owell-footer__bottom-right{
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+  .owell-footer__bottom-right > * + *::before {
+    display: none;
+  }
+}
+
+/* =====================================================
+   SUPPLEMENTAL: PAYMENT + LOCALIZATION
+   ===================================================== */
+.owell-footer__supplemental {
+    display: grid;
+    grid-template-columns: 1fr 3fr 2fr;
+    justify-content: space-between;
+}
+
+.owell-footer__localization {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Style localization dropdowns for dark background */
+.owell-footer .localization-dropdown__btn {
+  color: var(--owell-text-secondary) !important;
+  border-color: var(--owell-divider-strong) !important;
+  background: transparent !important;
+  font-size: 0.8125rem;
+}
+
+.owell-footer .localization-dropdown__btn:hover {
+  color: var(--owell-text-primary) !important;
+}
+
+.owell-footer .localization-dropdown__list {
+  background: #024f82 !important;
+  border: 1px solid var(--owell-divider-strong) !important;
+}
+
+.owell-footer .localization-dropdown__item-link {
+  color: var(--owell-text-secondary) !important;
+  font-size: 0.8125rem;
+}
+
+.owell-footer .localization-dropdown__item-link:hover {
+  color: var(--owell-text-primary) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Payment icons */
+.owell-footer__payment {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.owell-footer .list-payment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.owell-footer .list-payment__item {
+  opacity: 0.65;
+  transition: opacity 0.15s ease;
+}
+
+.owell-footer .list-payment__item:hover {
+  opacity: 1;
+}
+
+.owell-footer .list-payment__item svg,
+.owell-footer .list-payment__item img {
+  height: 22px;
+  width: auto;
+  display: block;
+}
+
+@media (max-width: 767px) {
+     .owell-footer__supplemental {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        display: flex;
+    }
+}
+
+/* =====================================================
+   FOLLOW ON SHOP
+   ===================================================== */
+.owell-footer__followshop {
+  display: flex;
+  align-items: center;
+}
+
+/* =====================================================
+   RTE CONTENT IN FOOTER
+   ===================================================== */
+.owell-footer .RTE-content p {
+  margin: 0 0 8px;
+  font-size: 0.8125rem;
+  color: var(--owell-text-secondary);
+  line-height: 1.6;
+}
+
+.owell-footer .RTE-content a {
+  color: var(--owell-text-secondary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.owell-footer .RTE-content a:hover {
+  color: var(--owell-text-primary);
+}
+
+/* =====================================================
+   OVERRIDE: strip any inherited color-scheme backgrounds
+   ===================================================== */
+.owell-footer.color-scheme-1,
+.owell-footer[class*="color-"] {
+  background-color: var(--owell-deep-bg) !important;
+  --color-background: var(--owell-deep-bg);
+  --color-foreground: 255 255 255;
+  --color-base-text: 255 255 255;
+}

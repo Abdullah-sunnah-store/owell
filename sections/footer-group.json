@@ -1,1 +1,98 @@
-{"name":"Footer","type":"footer","sections":{"footer":{"type":"footer","blocks":{"brand_hJUKrE":{"type":"brand","settings":{"footer_logo":"shopify:\/\/shop_images\/1-02_f41e9298-69ff-40cc-853f-71dcd119b4de.png","image_width":80,"heading":"","content":"","brand_social_media_icons":true}},"menu_Pee7a3":{"type":"menu","settings":{"show_menu_title":false,"heading":"Information","menu":"footer-links"}},"menu-1":{"type":"menu","settings":{"show_menu_title":false,"heading":"More Menu","menu":"footer"}},"newsletter":{"type":"newsletter","settings":{"newsletter_header":"Newsletter","newsletter_subtext":"<p>Subscribe to get notified about product launches, special offers and company news<\/p>"}}},"block_order":["brand_hJUKrE","menu_Pee7a3","menu-1","newsletter"],"settings":{"show_locale_selector":true,"show_country_selector":true,"show_country_flag":true,"show_country_name":false,"payment_enable":true,"enable_follow_on_shop":true,"padding_top":36,"padding_bottom":0,"color_scheme":"scheme-908807d3-4fe4-4afb-a47b-54985fa39a69","pno_info_tag":"","email_info_tag":"","use_outline_button_styles":true,"enable_sublinks":true,"custom_link_1_heading":"","custom_link_1_url":"","custom_link_2_heading":"","custom_link_2_url":"","custom_link_3_heading":"","custom_link_3_url":"","bottom_image":"","bottom_image_width":100,"bottom_image_margin_bottom":0}}},"order":["footer"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "Footer",
+  "type": "footer",
+  "sections": {
+    "owell-enterprise-footer": {
+      "type": "owell-enterprise-footer",
+      "blocks": {
+        "brand_hJUKrE": {
+          "type": "brand",
+          "settings": {
+            "footer_logo": "shopify://shop_images/1-02_f41e9298-69ff-40cc-853f-71dcd119b4de.png",
+            "image_width": 90,
+            "tagline": "Quality & Reliability You Can Count On",
+            "descriptor": "Brand-direct manufacturer of professional-grade essentials.",
+            "trust_row": "1M+ Orders Delivered  <br>  Established 2016  <br>  Direct Manufacturing Partnerships  <br>  Same-Day Shipping",
+            "heading": "",
+            "content": "",
+            "brand_social_media_icons": true
+          }
+        },
+        "menu_industries": {
+          "type": "menu",
+          "settings": {
+            "show_menu_title": false,
+            "heading": "Industries",
+            "menu": "industries"
+          }
+        },
+        "menu_solutions": {
+          "type": "menu",
+          "settings": {
+            "show_menu_title": false,
+            "heading": "Business Solutions",
+            "menu": "business-solutions"
+          }
+        },
+        "menu_company": {
+          "type": "menu",
+          "settings": {
+            "show_menu_title": false,
+            "heading": "Company",
+            "menu": "company"
+          }
+        },
+        "menu_account": {
+          "type": "menu",
+          "settings": {
+            "show_menu_title": false,
+            "heading": "Account",
+            "menu": "account"
+          }
+        }
+      },
+      "block_order": [
+        "brand_hJUKrE",
+        "menu_industries",
+        "menu_solutions",
+        "menu_company",
+        "menu_account"
+      ],
+      "settings": {
+        "show_cta_strip": true,
+        "cta_headline": "Supply Without Disruption.",
+        "cta_subtext": "Professional-grade products. Predictable pricing. Controlled inventory.",
+        "cta_btn1_text": "Open a Business Account",
+        "cta_btn1_url": "/pages/wholesale",
+        "cta_btn2_text": "Shop Products",
+        "cta_btn2_url": "/collections/all",
+        "copyright_entity": "OWELL LLC",
+        "footer_address": "Freehold, NJ 07728",
+        "footer_phone": "212.227.9355",
+        "footer_email": "info@owell.com",
+        "powered_by_enable": false,
+        "show_locale_selector": true,
+        "show_country_selector": true,
+        "show_country_flag": true,
+        "show_country_name": false,
+        "payment_enable": true,
+        "enable_follow_on_shop": false,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "color_scheme": "scheme-4"
+      }
+    }
+  },
+  "order": [
+    "owell-enterprise-footer"
+  ]
+}

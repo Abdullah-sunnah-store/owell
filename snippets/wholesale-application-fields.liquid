@@ -1,0 +1,337 @@
+<!-- Progress Steps -->
+<div class="wholesale-progress-steps" id="wholesaleProgressSteps">
+  <div class="wholesale-step-item active" data-step="1">
+    <div class="wholesale-step-circle">1</div>
+    <span class="wholesale-step-label">Business Info</span>
+  </div>
+  <div class="wholesale-step-item" data-step="2">
+    <div class="wholesale-step-circle">2</div>
+    <span class="wholesale-step-label">Legal Details</span>
+  </div>
+</div>
+
+<h2 class="wholesale-form__title">{{ section.settings.form_title }}</h2>
+<p class="wholesale-form__subtitle">{{ section.settings.form_subtitle }}</p>
+
+<!-- Step 1: Business Information -->
+<div class="wholesale-form-step active" id="wholesaleStep1">
+  <div class="form-section-title">Contact & Business Details</div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label class="field__label" for="WholesaleApplicationForm-first-name">
+        First Name <span aria-hidden="true">*</span>
+      </label>
+      <input
+        type="text"
+        id="WholesaleApplicationForm-first-name"
+        class="field__input"
+        name="contact[First Name]"
+        placeholder="Jane"
+        required
+        aria-required="true"
+        autocomplete="given-name"
+        value="{% if customer %}{{ customer.first_name }}{% endif %}"
+      >
+    </div>
+    <div class="form-group">
+      <label class="field__label" for="WholesaleApplicationForm-last-name">
+        Last Name <span aria-hidden="true">*</span>
+      </label>
+      <input
+        type="text"
+        id="WholesaleApplicationForm-last-name"
+        class="field__input"
+        name="contact[Last Name]"
+        placeholder="Smith"
+        required
+        aria-required="true"
+        autocomplete="family-name"
+        value="{% if customer %}{{ customer.last_name }}{% endif %}"
+      >
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="field__label" for="WholesaleApplicationForm-business-name">
+      Business Name <span aria-hidden="true">*</span>
+    </label>
+    <input
+      type="text"
+      id="WholesaleApplicationForm-business-name"
+      class="field__input"
+      name="contact[Business Name]"
+      placeholder="Your Company Inc."
+      required
+      aria-required="true"
+      autocomplete="organization"
+    >
+  </div>
+
+  <div class="form-group">
+    <label class="field__label" for="WholesaleApplicationForm-business-address">
+      Business Address <span aria-hidden="true">*</span>
+    </label>
+    <input
+      type="text"
+      id="WholesaleApplicationForm-business-address"
+      class="field__input"
+      name="contact[Business Address]"
+      placeholder="123 Main St, City, State, ZIP"
+      required
+      aria-required="true"
+      autocomplete="street-address"
+    >
+  </div>
+
+  <div class="form-group">
+    <label class="field__label" for="WholesaleApplicationForm-email">
+      Business Email Address <span aria-hidden="true">*</span>
+    </label>
+    <input
+      type="email"
+      id="WholesaleApplicationForm-email"
+      class="field__input"
+      name="contact[email]"
+      placeholder="jane@yourcompany.com"
+      required
+      aria-required="true"
+      autocomplete="email"
+      spellcheck="false"
+      autocapitalize="off"
+      value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+      {% if form.errors contains 'email' %}
+        aria-invalid="true"
+        aria-describedby="WholesaleApplicationForm-email-error"
+      {% endif %}
+    >
+    {%- if form.errors contains 'email' -%}
+      <div class="wholesale-application__field-error" id="WholesaleApplicationForm-email-error">
+        <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+        <span class="error-text field-error-text">
+          {{ form.errors.translated_fields.email | capitalize }}
+          {{ form.errors.messages.email -}}
+        </span>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="form-group">
+    <label class="field__label" for="WholesaleApplicationForm-phone">
+      Phone Number <span aria-hidden="true">*</span>
+    </label>
+    <input
+      type="tel"
+      id="WholesaleApplicationForm-phone"
+      class="field__input"
+      name="contact[Phone]"
+      placeholder="(555) 000-0000"
+      required
+      aria-required="true"
+      autocomplete="tel"
+    >
+  </div>
+
+  <div class="form-group">
+    <label class="field__label" for="WholesaleApplicationForm-business-type">
+      Business Type <span aria-hidden="true">*</span>
+    </label>
+    <select
+      id="WholesaleApplicationForm-business-type"
+      class="field__input"
+      name="contact[Business Type]"
+      required
+      aria-required="true"
+    >
+      <option value="">Select your business type</option>
+      <option value="Medical / Dental">Medical / Dental</option>
+      <option value="Food Service / Hospitality">Food Service / Hospitality</option>
+      <option value="Janitorial / Facility">Janitorial / Facility</option>
+      <option value="Retail">Retail</option>
+      <option value="Laboratory / Drug Testing">Laboratory / Drug Testing</option>
+      <option value="Distributor">Distributor</option>
+      <option value="Government">Government</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label class="field__label" for="WholesaleApplicationForm-order-frequency">
+      How Often Do You Order Supplies? <span aria-hidden="true">*</span>
+    </label>
+    <select
+      id="WholesaleApplicationForm-order-frequency"
+      class="field__input"
+      name="contact[Order Frequency]"
+      required
+      aria-required="true"
+    >
+      <option value="">Select frequency</option>
+      <option value="Weekly">Weekly</option>
+      <option value="Bi-Weekly">Bi-Weekly</option>
+      <option value="Monthly">Monthly</option>
+      <option value="Quarterly">Quarterly</option>
+      <option value="As Needed">As Needed</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label class="field__label optional" for="WholesaleApplicationForm-referral">
+      How did you hear about us? (Optional)
+    </label>
+    <input
+      type="text"
+      id="WholesaleApplicationForm-referral"
+      class="field__input"
+      name="contact[Referral Source]"
+      placeholder="Google, referral, social media..."
+    >
+  </div>
+
+  <div class="form-buttons">
+    <button type="button" class="btn btn--fill w-100" onclick="wholesaleGoToStep2()">Next →</button>
+  </div>
+</div>
+
+<!-- Step 2: Legal & Shipping Details -->
+<div class="wholesale-form-step" id="wholesaleStep2">
+  <div class="form-section-title">Legal & Shipping Details</div>
+
+  <div class="form-group">
+    <label class="field__label" for="WholesaleApplicationForm-legal-name">
+      Legal Business Name <span aria-hidden="true">*</span>
+    </label>
+    <input
+      type="text"
+      id="WholesaleApplicationForm-legal-name"
+      class="field__input"
+      name="contact[Legal Business Name]"
+      placeholder="Your Company LLC"
+    >
+  </div>
+
+  <div class="form-group">
+    <label class="field__label" for="WholesaleApplicationForm-tax-id">
+      Tax ID / EIN <span aria-hidden="true">*</span>
+    </label>
+    <input
+      type="text"
+      id="WholesaleApplicationForm-tax-id"
+      class="field__input"
+      name="contact[Tax ID / EIN]"
+      placeholder="XX-XXXXXXX"
+    >
+  </div>
+
+  <div class="form-group">
+    <label class="field__label" for="WholesaleApplicationForm-shipping-address">
+      Shipping Address (physical address only — no PO Boxes) <span aria-hidden="true">*</span>
+    </label>
+    <input
+      type="text"
+      id="WholesaleApplicationForm-shipping-address"
+      class="field__input"
+      name="contact[Shipping Address]"
+      placeholder="123 Main St"
+      autocomplete="street-address"
+    >
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label class="field__label" for="WholesaleApplicationForm-city">
+        City <span aria-hidden="true">*</span>
+      </label>
+      <input
+        type="text"
+        id="WholesaleApplicationForm-city"
+        class="field__input"
+        name="contact[City]"
+        autocomplete="address-level2"
+      >
+    </div>
+    <div class="form-group">
+      <label class="field__label" for="WholesaleApplicationForm-state">
+        State / Province <span aria-hidden="true">*</span>
+      </label>
+      <input
+        type="text"
+        id="WholesaleApplicationForm-state"
+        class="field__input"
+        name="contact[State]"
+        autocomplete="address-level1"
+      >
+    </div>
+    <div class="form-group">
+      <label class="field__label" for="WholesaleApplicationForm-zip">
+        ZIP / Postal Code <span aria-hidden="true">*</span>
+      </label>
+      <input
+        type="text"
+        id="WholesaleApplicationForm-zip"
+        class="field__input"
+        name="contact[ZIP Code]"
+        autocomplete="postal-code"
+      >
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="field__label">Is this a commercial location? <span aria-hidden="true">*</span></label>
+    <div class="wholesale-radio-group">
+      <label class="wholesale-radio-option">
+        <input type="radio" name="contact[Commercial Location]" value="Yes">
+        Yes
+      </label>
+      <label class="wholesale-radio-option">
+        <input type="radio" name="contact[Commercial Location]" value="No">
+        No
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="field__label">Loading Dock Available? <span aria-hidden="true">*</span></label>
+    <div class="wholesale-radio-group">
+      <label class="wholesale-radio-option">
+        <input type="radio" name="contact[Loading Dock]" value="Yes">
+        Yes
+      </label>
+      <label class="wholesale-radio-option">
+        <input type="radio" name="contact[Loading Dock]" value="No">
+        No
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="field__label" for="WholesaleApplicationForm-business-hours">
+      Business Hours <span aria-hidden="true">*</span>
+    </label>
+    <input
+      type="text"
+      id="WholesaleApplicationForm-business-hours"
+      class="field__input"
+      name="contact[Business Hours]"
+      placeholder="e.g., Mon-Fri 9AM-5PM"
+    >
+  </div>
+
+  <div class="form-group">
+    <label class="field__label optional" for="WholesaleApplicationForm-notes">
+      Notes / Special Instructions (Optional)
+    </label>
+    <textarea
+      id="WholesaleApplicationForm-notes"
+      class="field__input text-area"
+      name="contact[body]"
+      rows="4"
+      placeholder="Any special requests or notes..."
+    >{{ form.body }}</textarea>
+  </div>
+
+  <div class="form-buttons">
+    <button type="button" class="btn btn--outline" onclick="wholesaleGoToStep1()">← Back</button>
+    <button type="submit" class="btn btn--fill">Submit Application</button>
+  </div>
+</div>

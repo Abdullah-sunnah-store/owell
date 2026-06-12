@@ -1,0 +1,271 @@
+<!-- quote -->
+
+<h2 class="quote-form__title">{{ section.settings.form_title }}</h2>
+<p class="form-subtitle">{{ section.settings.form_subtitle }}</p>
+
+<!-- Contact Info Section -->
+<div class="quote-section-title">Contact Information</div>
+
+<div class="form-row">
+  <div class="form-group">
+    <label class="field__label" for="SampleRequestFormNoQty-first-name">
+      First Name <span aria-hidden="true">*</span>
+    </label>
+    <input
+      type="text"
+      id="SampleRequestFormNoQty-first-name"
+      class="field__input"
+      name="contact[First Name]"
+      placeholder="Jane"
+      required
+      aria-required="true"
+      autocomplete="given-name"
+      value="{% if customer %}{{ customer.first_name }}{% endif %}"
+    >
+  </div>
+  <div class="form-group">
+    <label class="field__label" for="SampleRequestFormNoQty-last-name">
+      Last Name <span aria-hidden="true">*</span>
+    </label>
+    <input
+      type="text"
+      id="SampleRequestFormNoQty-last-name"
+      class="field__input"
+      name="contact[Last Name]"
+      placeholder="Smith"
+      required
+      aria-required="true"
+      autocomplete="family-name"
+      value="{% if customer %}{{ customer.last_name }}{% endif %}"
+    >
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="field__label" for="SampleRequestFormNoQty-business-name">
+    Business Name <span aria-hidden="true">*</span>
+  </label>
+  <input
+    type="text"
+    id="SampleRequestFormNoQty-business-name"
+    class="field__input"
+    name="contact[Business Name]"
+    placeholder="Your Company Inc."
+    required
+    aria-required="true"
+    autocomplete="organization"
+  >
+</div>
+
+<div class="form-group">
+  <label class="field__label" for="SampleRequestFormNoQty-business-address">
+    Business Address <span aria-hidden="true">*</span>
+  </label>
+  <input
+    type="text"
+    id="SampleRequestFormNoQty-business-address"
+    class="field__input"
+    name="contact[Business Address]"
+    placeholder="123 Main St, City, State, ZIP"
+    required
+    aria-required="true"
+    autocomplete="street-address"
+  >
+</div>
+
+<div class="form-group">
+  <label class="field__label" for="SampleRequestFormNoQty-email">
+    Business Email Address <span aria-hidden="true">*</span>
+  </label>
+  <input
+    type="email"
+    id="SampleRequestFormNoQty-email"
+    class="field__input"
+    name="contact[email]"
+    placeholder="jane@yourcompany.com"
+    required
+    aria-required="true"
+    autocomplete="email"
+    spellcheck="false"
+    autocapitalize="off"
+    value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+    {% if form.errors contains 'email' %}
+      aria-invalid="true"
+      aria-describedby="SampleRequestFormNoQty-email-error"
+    {% endif %}
+  >
+  {%- if form.errors contains 'email' -%}
+    <div class="quote-request__field-error" id="SampleRequestFormNoQty-email-error">
+      <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+      <span class="error-text field-error-text">
+        {{ form.errors.translated_fields.email | capitalize }}
+        {{ form.errors.messages.email -}}
+      </span>
+    </div>
+  {%- endif -%}
+</div>
+
+<div class="form-group">
+  <label class="field__label" for="SampleRequestFormNoQty-phone">
+    Business Phone Number <span aria-hidden="true">*</span>
+  </label>
+  <input
+    type="tel"
+    id="SampleRequestFormNoQty-phone"
+    class="field__input"
+    name="contact[Phone]"
+    placeholder="(555) 000-0000"
+    required
+    aria-required="true"
+    autocomplete="tel"
+  >
+</div>
+
+<div class="form-group">
+  <label class="field__label" for="SampleRequestFormNoQty-business-type">
+    Business Type <span aria-hidden="true">*</span>
+  </label>
+  <select
+    id="SampleRequestFormNoQty-business-type"
+    class="field__input"
+    name="contact[Business Type]"
+    required
+    aria-required="true"
+  >
+    <option value="">Select your business type</option>
+    <option value="Medical / Dental">Medical / Dental</option>
+    <option value="Food Service / Hospitality">Food Service / Hospitality</option>
+    <option value="Janitorial / Facility">Janitorial / Facility</option>
+    <option value="Retail">Retail</option>
+    <option value="Laboratory / Drug Testing">Laboratory / Drug Testing</option>
+    <option value="Distributor">Distributor</option>
+    <option value="Government">Government</option>
+    <option value="Other">Other</option>
+  </select>
+</div>
+
+<!-- Order Details Section -->
+<div class="quote-section-title">Order Details</div>
+
+<div class="form-group">
+  <label class="field__label" for="SampleRequestFormNoQty-shipping-address">
+    Shipping Address <span aria-hidden="true">*</span>
+  </label>
+  <input
+    type="text"
+    id="SampleRequestFormNoQty-shipping-address"
+    class="field__input"
+    name="contact[Shipping Address]"
+    placeholder="Same as business address or enter shipping address"
+    required
+    aria-required="true"
+  >
+</div>
+
+<div class="form-group">
+  <label class="field__label" for="SampleRequestFormNoQty-purchase-date">
+    Expected Purchase Date <span aria-hidden="true">*</span>
+  </label>
+  <input
+    type="date"
+    id="SampleRequestFormNoQty-purchase-date"
+    class="field__input"
+    name="contact[Expected Purchase Date]"
+    required
+    aria-required="true"
+  >
+</div>
+
+<!-- Items Requested Section -->
+<div class="quote-section-title">Items Requested</div>
+
+<div id="sampleItemsNoQty">
+  <div class="quote-item" data-item="1">
+    <div class="quote-item-number">1</div>
+    <div class="quote-item-body">
+      <div class="form-group">
+        <label class="field__label" for="SampleRequestFormNoQty-item-1">
+          Item # <span aria-hidden="true">*</span>
+        </label>
+        <input
+          type="text"
+          id="SampleRequestFormNoQty-item-1"
+          class="field__input"
+          name="contact[Sample Item 1 - SKU]"
+          placeholder="e.g. OW-GL-100"
+          required
+          aria-required="true"
+        >
+      </div>
+      <div class="form-group">
+        <label class="field__label" for="SampleRequestFormNoQty-size-1">
+          Size <span aria-hidden="true">*</span>
+        </label>
+        <input
+          type="text"
+          id="SampleRequestFormNoQty-size-1"
+          class="field__input"
+          name="contact[Sample Item 1 - Size]"
+          placeholder="e.g. M, L, XL"
+          required
+          aria-required="true"
+        >
+        <span class="quote-size-hint">e.g. S, M, L, XL, One Size</span>
+      </div>
+      <div class="form-group">
+        <label class="field__label" for="SampleRequestFormNoQty-qty-1">
+          Qty <span aria-hidden="true">*</span>
+        </label>
+        <input
+          type="text"
+          id="SampleRequestFormNoQty-qty-1"
+          class="field__input"
+          name="contact[Sample Item 1 - Qty]"
+          placeholder="e.g. 1 box, 50 pcs"
+          required
+          aria-required="true"
+        >
+      </div>
+      <div class="form-group">
+        <label class="field__label" for="SampleRequestFormNoQty-target-price-1">
+          Target Price
+        </label>
+        <input
+          type="text"
+          id="SampleRequestFormNoQty-target-price-1"
+          class="field__input"
+          name="contact[Sample Item 1 - Target Price]"
+          placeholder="e.g. $12.50 / case"
+        >
+      </div>
+    </div>
+    <button type="button" class="quote-item-remove" onclick="removeNoQtyItem(this)" disabled title="Remove">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<button type="button" class="add-item-btn" id="addNoQtyItemBtn" onclick="addNoQtyItem()">+ Add Another</button>
+<div class="sample-counter">Items: <span id="noQtyItemCount">1</span></div>
+
+<!-- Additional Comments -->
+<div class="form-group">
+  <label class="field__label" for="SampleRequestFormNoQty-comments">
+    Additional Comments (Optional)
+  </label>
+  <textarea
+    id="SampleRequestFormNoQty-comments"
+    class="field__input text-area"
+    name="contact[Additional Comments]"
+    placeholder="Any special requests or notes..."
+    rows="4"
+  >{{ form.body }}</textarea>
+</div>
+
+<div class="form-buttons">
+  <button type="submit" class="btn btn--fill w-100" aria-label="Submit Sample Request">
+    Submit Request
+  </button>
+</div>

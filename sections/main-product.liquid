@@ -1,7 +1,6 @@
 {%- comment -%} Wholesale_Hub_Product_Visibility_Resource_Page Start {%- endcomment -%}
 {%- style -%}
 
-
 {%- endstyle -%}
 
 {%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility" %}{%- endcapture -%}
@@ -186,7 +185,27 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }}
     ;
   }
+  @media screen and (min-width: 750px) {
+    .seal-col, .seal-col:empty {
+        display: flex !important;
+        align-items: center;
+        padding-right: 0 !important;
+        justify-content: space-between;
+    }
+    .seal-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+    }
+}
+.sls-selling-plan-description-content {
+    display: none !important;
+}
   .breadcrumbs__list {
+    display: none;
+}
+span.money.conversion-bear-money.seal-money.ht-money {
     display: none;
 }
 
@@ -234,8 +253,8 @@
   }
 
   .product-feature-highlights__icon svg {
-    width: 30px;
-    height: 30px;
+    width: 45px;
+    height: 45px;
   }
 
   .product-feature-highlights__text {
@@ -260,21 +279,75 @@
 
 @media screen and (min-width: 750px) {
   .product-feature-highlights--desktop-only {
-    display: grid;
+    display: none;
     grid-template-columns: repeat(3, 1fr);
     margin-top: 50px;
   }
   .product-feature-highlights--mobile-only {
     display: none !important;
   }
+ .seal-col, .seal-col:empty {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 20px;
+}
+.seal-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sls-description-button {
+    display: none;
+}
+.sealsubs-container .sls-purchase-options-container .sls-option-container.sls-active, .sealsubs-container .sls-option-container.sls-active {
+    border: 2px solid rgb(2, 110, 180);
+}
+.sealsubs-container .sls-purchase-options-container .sls-option-container, .sealsubs-container .sls-option-container {
+    border: 2px solid rgb(2, 110, 180);
+}
+.sealsubs-target-element .sls-custom-radio, .sls-option[type="radio"] + span.sls-custom-radio {
+    width: 0px;
+    height: 20px;
+}
+.deliverydate.sb_delivery {
+    padding: unset !important;
+}
 }
   /* Mobile: hide the desktop copy, show the mobile-only copy */
   @media screen and (max-width: 749px) {
+    .sls-description-button {
+    display: none;
+}
+.seal-row {
+    display: flex;
+    align-items: center;
+}
+ .seal-col, .seal-col:empty {
+        display: flex !important;
+        vertical-align: baseline;
+        align-items: center;
+        justify-content: space-between;
+        padding-right: 10px;
+  }
+  .sealsubs-target-element .sls-custom-radio, .sls-option[type="radio"] + span.sls-custom-radio {
+    width: 0px;
+    height: 20px;
+}
+.sls-discount-description-container.seal-col {
+    padding-left: 8px;
+}
+.deliverydate.sb_delivery {
+    padding: unset !important;
+}
+    .sealsubs-container .sls-option-container .sls-select-container {
+    padding-left: 0;
+}
     .product-feature-highlights--desktop-only {
       display: none !important;
     }
     .product-feature-highlights--mobile-only {
-      display: grid !important;
+      display: none !important;
       grid-template-columns: repeat(2, 1fr);
       gap: 8px;
       padding: 15px;
@@ -287,12 +360,12 @@
       gap: 10px;
     }
     .product-feature-highlights--mobile-only .product-feature-highlights__icon {
-      width: 26px;
-      height: 26px;
+      width: 30px;
+      height: 30px;
     }
     .product-feature-highlights--mobile-only .product-feature-highlights__icon svg {
-      width: 24px;
-      height: 24px;
+      width: 30px;
+      height: 30px;
     }
     .product-feature-highlights--mobile-only .product-feature-highlights__text {
       font-size: 11px;
@@ -490,6 +563,7 @@
                 </button>
               {%- endif -%}
             {% endcomment %}
+             
             {% if product_media.size > 1 %}
               <div class="sliderControl has-thumbnail-slider">
                 {% comment %} <div class="sliderProgressBar" slide-progress></div> {% endcomment %}
@@ -508,49 +582,18 @@
                   </div>
                 </div>
               </div>
-              {% comment %} ============================================ {% endcomment %}
-                {% comment %} FEATURE HIGHLIGHTS — DESKTOP ONLY (before quantity selector) {% endcomment %}
-                {% comment %} ============================================ {% endcomment %}
-                <div class="product-feature-highlights product-feature-highlights--desktop-only">
-                  <div class="product-feature-highlights__item">
-                    <span class="product-feature-highlights__icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-                    </span>
-                    <span class="product-feature-highlights__text">FDA Registered</span>
-                  </div>
-                  <div class="product-feature-highlights__item">
-                    <span class="product-feature-highlights__icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
-                    </span>
-                    <span class="product-feature-highlights__text">Food Safe Certified</span>
-                  </div>
-                  <div class="product-feature-highlights__item">
-                    <span class="product-feature-highlights__icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                    </span>
-                    <span class="product-feature-highlights__text">3mil / 4mil</span>
-                  </div>
-                  <div class="product-feature-highlights__item">
-                    <span class="product-feature-highlights__icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
-                    </span>
-                    <span class="product-feature-highlights__text">Kosher Certified</span>
-                  </div>
-                  <div class="product-feature-highlights__item">
-                    <span class="product-feature-highlights__icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
-                    </span>
-                    <span class="product-feature-highlights__text">Latex-Free</span>
-                  </div>
-                  <div class="product-feature-highlights__item">
-                    <span class="product-feature-highlights__icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-                    </span>
-                    <span class="product-feature-highlights__text">Powder-Free</span>
-                  </div>
-                </div>
-                {% comment %} END FEATURE HIGHLIGHTS DESKTOP {% endcomment %}
             {% endif %}
+          {%- comment -%} Dynamic feature icons — directly under product images {%- endcomment -%}
+          {%- assign _fi_block = nil -%}
+          {%- for _b in section.blocks -%}
+            {%- if _b.type == 'feature_icons' -%}
+              {%- assign _fi_block = _b -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if _fi_block != nil -%}
+            {%- render 'product-feature-icons', product: product, block: _fi_block -%}
+          {%- endif -%}
           </product-carousel>
           <noscript>
             {%- assign firstMedia = product.selected_or_first_available_variant.feature_image -%}
@@ -585,6 +628,7 @@
                     section: section,
                     media_custom_identifier: 'grid'
                   %}
+                  
                 </div>
                 {% for media in medias %}
                     {%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
@@ -616,52 +660,10 @@
                 
               </div>
           {%- endcase -%}
+
           
 
         </div>
-
-        {% comment %} ============================================ {% endcomment %}
-        {% comment %} FEATURE HIGHLIGHTS — MOBILE ONLY (after product image) {% endcomment %}
-        {% comment %} ============================================ {% endcomment %}
-        <div class="product-feature-highlights product-feature-highlights--mobile-only">
-          <div class="product-feature-highlights__item">
-            <span class="product-feature-highlights__icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-            </span>
-            <span class="product-feature-highlights__text">FDA Registered</span>
-          </div>
-          <div class="product-feature-highlights__item">
-            <span class="product-feature-highlights__icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
-            </span>
-            <span class="product-feature-highlights__text">Food Safe Certified</span>
-          </div>
-          <div class="product-feature-highlights__item">
-            <span class="product-feature-highlights__icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            </span>
-            <span class="product-feature-highlights__text">3mil / 4mil</span>
-          </div>
-          <div class="product-feature-highlights__item">
-            <span class="product-feature-highlights__icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
-            </span>
-            <span class="product-feature-highlights__text">Kosher Certified</span>
-          </div>
-          <div class="product-feature-highlights__item">
-            <span class="product-feature-highlights__icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
-            </span>
-            <span class="product-feature-highlights__text">Latex-Free</span>
-          </div>
-          <div class="product-feature-highlights__item">
-            <span class="product-feature-highlights__icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-            </span>
-            <span class="product-feature-highlights__text">Powder-Free</span>
-          </div>
-        </div>
-        {% comment %} END FEATURE HIGHLIGHTS MOBILE {% endcomment %}
           
       {% endif %}
       <div class="main-product__info fnt-16 {% unless product_media.size > 0 %}no-image {% endunless %}">
@@ -696,8 +698,8 @@
               {% comment %} Product Title {% endcomment %}
               
               {% comment %} Brand name above title {% endcomment %}
-              <p class="main-product__brand-name" style="font-size: 20px; font-weight: 600; color: #026eb4; margin: 0; letter-spacing: 0.7px;">
-                OWELL®
+              <p class="main-product__brand-name" style="font-size: 16px; font-weight: 600; color: #000; margin: 0; letter-spacing: 0.7px;">
+                OWELL<sup style="font-size:0.5em;top:-0.65em;position:relative;vertical-align:baseline;line-height:0;">®</sup>
               </p>
               
               <h1
@@ -709,12 +711,15 @@
                 {{ product.title }}
               </h1>
               
-              {% comment %} Item # SKU below title {% endcomment %}
-              {% if product.selected_or_first_available_variant.sku != blank %}
+              {% comment %} Item # SKU below title — updates dynamically on variant change {% endcomment %}
+              <variant-sku
+                {% if product.selected_or_first_available_variant.sku == blank %}hidden{% endif %}
+                class="owell-inline-sku"
+              >
                 <p class="main-product__sku" style="font-size: 14px; color: #666; margin: 0 0 {{ block.settings.block_bottom_spacing }}px 0;">
-                  Item #: {{ product.selected_or_first_available_variant.sku }}
+                  Item #: <span sku-code>{{ product.selected_or_first_available_variant.sku }}</span>
                 </p>
-              {% endif %}
+              </variant-sku>
 
               {%- when 'price' -%}
                 {% comment %} Product Price {% endcomment %}
@@ -776,6 +781,232 @@
                     product_title: product.title
                   %}
                 </div>
+
+              {%- when 'subscribe_save' -%}
+                {%- style -%}
+                  .subscribe-save-block-{{ block.id }} {
+                    padding-bottom: {{ block.settings.block_bottom_spacing | append: 'px' }};
+                  }
+                  .ss-toggle-{{ block.id }} {
+                    display: flex;
+                    align-items: center;
+                    gap: 14px;
+                    width: 100%;
+                    background: #fff;
+                    border: 2px solid #e5e5e5;
+                    border-radius: 12px;
+                    padding: 14px 16px;
+                    cursor: pointer;
+                    text-align: left;
+                    transition: border-color 0.2s ease, background 0.2s ease;
+                    font-family: inherit;
+                  }
+                  .ss-toggle-{{ block.id }}:hover {
+                    border-color: {{ block.settings.accent_color }};
+                    background: #f8fcff;
+                  }
+                  .ss-toggle-{{ block.id }}.selected {
+                    border-color: {{ block.settings.accent_color }};
+                    background: #f0f9ff;
+                  }
+                  .ss-icon-{{ block.id }} {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    background: {{ block.settings.accent_color }};
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                    color: #fff;
+                  }
+                  .ss-content-{{ block.id }} {
+                    flex: 1;
+                    min-width: 0;
+                  }
+                  .ss-header-{{ block.id }} {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    flex-wrap: wrap;
+                    margin-bottom: 3px;
+                  }
+                  .ss-title-{{ block.id }} {
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: #111;
+                  }
+                  .ss-badge-{{ block.id }} {
+                    font-size: 11px;
+                    font-weight: 700;
+                    letter-spacing: 0.5px;
+                    text-transform: uppercase;
+                    background: #e6f4ea;
+                    color: #1e7e34;
+                    padding: 2px 8px;
+                    border-radius: 20px;
+                  }
+                  .ss-desc-{{ block.id }} {
+                    font-size: 12px;
+                    color: #666;
+                    margin: 0;
+                    line-height: 1.4;
+                  }
+                  .ss-check-{{ block.id }} {
+                    width: 22px;
+                    height: 22px;
+                    border-radius: 50%;
+                    border: 2px solid #ddd;
+                    flex-shrink: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s ease;
+                    background: #fff;
+                  }
+                  .ss-toggle-{{ block.id }}.selected .ss-check-{{ block.id }} {
+                    background: {{ block.settings.accent_color }};
+                    border-color: {{ block.settings.accent_color }};
+                  }
+                  .ss-check-{{ block.id }} svg {
+                    display: none;
+                  }
+                  .ss-toggle-{{ block.id }}.selected .ss-check-{{ block.id }} svg {
+                    display: block;
+                  }
+                {%- endstyle -%}
+
+                <div class="subscribe-save-block-{{ block.id }}" {{ block.shopify_attributes }}>
+                  <button
+                    type="button"
+                    class="ss-toggle-{{ block.id }}"
+                    id="ss-btn-{{ block.id }}"
+                    aria-pressed="false"
+                    data-section="{{ section.id }}"
+                    data-discount="{{ block.settings.discount_percent }}"
+                    data-discount-code="{{ block.settings.discount_code }}"
+                  >
+                    <div class="ss-icon-{{ block.id }}">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                      </svg>
+                    </div>
+                    <div class="ss-content-{{ block.id }}">
+                      <div class="ss-header-{{ block.id }}">
+                        <span class="ss-title-{{ block.id }}">{{ block.settings.title }}</span>
+                        <span class="ss-badge-{{ block.id }}">Save {{ block.settings.discount_percent }}%</span>
+                      </div>
+                      <p class="ss-desc-{{ block.id }}">{{ block.settings.description }}</p>
+                    </div>
+                    <div class="ss-check-{{ block.id }}">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="2 6 5 9 10 3"></polyline>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+
+                <script>
+                (function() {
+                  var blockId = '{{ block.id }}';
+                  var sectionId = '{{ section.id }}';
+                  var discountPct = {{ block.settings.discount_percent }};
+                  var moneyFormat = {{ shop.money_format | json }};
+                  var isSelected = false;
+                  var discountCode = '{{ block.settings.discount_code | escape }}';
+
+                  function formatMoney(cents) {
+                    if (window.Shopify && window.Shopify.formatMoney) {
+                      return window.Shopify.formatMoney(cents, moneyFormat);
+                    }
+                    return '$' + (cents / 100).toFixed(2);
+                  }
+
+                  function getVariants() {
+                    var el = document.querySelector(
+                      'variant-dropdown[data-section="' + sectionId + '"] [type="application/json"],' +
+                      'variant-pills[data-section="' + sectionId + '"] [type="application/json"]'
+                    );
+                    if (!el) return [];
+                    try { return JSON.parse(el.textContent); } catch(e) { return []; }
+                  }
+
+                  function getCurrentVariantPrice() {
+                    var form = document.getElementById('product-form-' + sectionId);
+                    if (!form) return null;
+                    var input = form.querySelector('input[name="id"]');
+                    if (!input) return null;
+                    var variantId = parseInt(input.value);
+                    var variants = getVariants();
+                    var variant = variants.find(function(v) { return v.id === variantId; });
+                    return variant ? variant.price : null;
+                  }
+
+                  function applyDiscount(active) {
+                    var priceWrap = document.getElementById('price-' + sectionId);
+                    if (!priceWrap) return;
+                    var priceEl = priceWrap.querySelector('.price');
+                    if (!priceEl) return;
+
+                    if (!active) {
+                      if (priceEl.dataset.ssOriginal) {
+                        priceEl.innerHTML = priceEl.dataset.ssOriginal;
+                        delete priceEl.dataset.ssOriginal;
+                      }
+                      // Clear discount code from session
+                      if (discountCode) {
+                        fetch('/discount/?discount=', {credentials: 'same-origin'});
+                      }
+                      return;
+                    }
+
+                    // Already showing discounted price — don't reapply
+                    if (priceEl.dataset.ssOriginal) return;
+
+                    var basePrice = getCurrentVariantPrice();
+                    if (basePrice === null) return;
+
+                    var discounted = Math.round(basePrice * (1 - discountPct / 100));
+                    priceEl.dataset.ssOriginal = priceEl.innerHTML;
+                    priceEl.innerHTML = formatMoney(discounted)
+                      + ' <del style="opacity:0.55;font-size:0.85em;font-weight:400">'
+                      + formatMoney(basePrice) + '</del>';
+
+                    // Apply discount code to Shopify session so it carries to checkout
+                    if (discountCode) {
+                      fetch('/discount/' + encodeURIComponent(discountCode), {credentials: 'same-origin'});
+                    }
+                  }
+
+                  document.addEventListener('DOMContentLoaded', function() {
+                    var btn = document.getElementById('ss-btn-' + blockId);
+                    if (!btn) return;
+
+                    // After variant change the theme re-renders #price-{id} innerHTML.
+                    // The new .price element won't have data-ss-original, so re-apply.
+                    var priceWrap = document.getElementById('price-' + sectionId);
+                    if (priceWrap) {
+                      new MutationObserver(function() {
+                        if (!isSelected) return;
+                        var priceEl = priceWrap.querySelector('.price');
+                        // Only re-apply if this is a fresh render (no ssOriginal)
+                        if (priceEl && !priceEl.dataset.ssOriginal) {
+                          applyDiscount(true);
+                        }
+                      }).observe(priceWrap, { childList: true, subtree: true });
+                    }
+
+                    btn.addEventListener('click', function() {
+                      isSelected = !isSelected;
+                      btn.setAttribute('aria-pressed', String(isSelected));
+                      btn.classList.toggle('selected', isSelected);
+                      applyDiscount(isSelected);
+                    });
+                  });
+                })();
+                </script>
 
               {%- when 'variant_picker' -%}
                 <div style="padding-bottom: {{ block.settings.block_bottom_spacing | append: 'px' }}" product-info>
@@ -897,7 +1128,12 @@
                   .bundle-content-{{ block.id }} {
                     flex: 1;
                     min-width: 0;
+                    display: grid;
+                    justify-content: flex-start;
+                    align-items: center;
+                    grid-template-columns: 1fr 1.3fr;
                   }
+                                  
 
                   .bundle-title-{{ block.id }} {
                     font-size: 16px;
@@ -1007,277 +1243,177 @@
 
                   <!-- Bundle Options -->
                   <div class="bundle-options-{{ block.id }}" id="bundle-selector-{{ block.id }}">
-                    
-                    <!-- Bundle 1 -->
-                    <label class="bundle-option-{{ block.id }} selected" data-quantity="{{ block.settings.bundle_1_quantity }}" data-bundle-index="0">
+
+                    <!-- Option 1: Buy 1 -->
+                    <label class="bundle-option-{{ block.id }} selected" data-quantity="1" data-bundle-index="0">
                       <input type="radio" name="bundle-{{ block.id }}" value="1" checked>
-                      
-                      {% if block.settings.bundle_1_image %}
-                        <img src="{{ block.settings.bundle_1_image | image_url: width: 120 }}" 
-                            alt="{{ block.settings.bundle_1_title }}" 
-                            class="bundle-image-{{ block.id }}">
-                      {% endif %}
-                      
                       <div class="bundle-content-{{ block.id }}">
                         <h4 class="bundle-title-{{ block.id }}">{{ block.settings.bundle_1_title }}</h4>
                         <p class="bundle-savings-{{ block.id }}">{{ block.settings.bundle_1_savings }}</p>
                       </div>
-                      
                       <div class="bundle-pricing-{{ block.id }}">
                         <p class="bundle-price-{{ block.id }}" data-bundle-price>Loading...</p>
                         <p class="bundle-compare-price-{{ block.id }}" data-bundle-compare style="display:none;">-</p>
                       </div>
-
-                      {% if block.settings.bundle_1_label != blank %}
-                        <span class="bundle-label-{{ block.id }}" style="background: {{ block.settings.bundle_1_label_bg }};">
-                          {{ block.settings.bundle_1_label }}
-                        </span>
-                      {% endif %}
                     </label>
 
-                    <!-- Bundle 2 -->
+                    <!-- Option 2: Buy 4+ (Save 5%) -->
                     <label class="bundle-option-{{ block.id }}" data-quantity="{{ block.settings.bundle_2_quantity }}" data-bundle-index="1">
                       <input type="radio" name="bundle-{{ block.id }}" value="2">
-                      
-                      {% if block.settings.bundle_2_image %}
-                        <img src="{{ block.settings.bundle_2_image | image_url: width: 120 }}" 
-                            alt="{{ block.settings.bundle_2_title }}" 
-                            class="bundle-image-{{ block.id }}">
-                      {% endif %}
-                      
                       <div class="bundle-content-{{ block.id }}">
                         <h4 class="bundle-title-{{ block.id }}">{{ block.settings.bundle_2_title }}</h4>
                         <p class="bundle-savings-{{ block.id }}">{{ block.settings.bundle_2_savings }}</p>
                       </div>
-                      
                       <div class="bundle-pricing-{{ block.id }}">
                         <p class="bundle-price-{{ block.id }}" data-bundle-price>Loading...</p>
                         <p class="bundle-compare-price-{{ block.id }}" data-bundle-compare style="display:none;">-</p>
                       </div>
-
-                      {% if block.settings.bundle_2_label != blank %}
-                        <span class="bundle-label-{{ block.id }}" style="background: {{ block.settings.bundle_2_label_bg }};">
-                          {{ block.settings.bundle_2_label }}
-                        </span>
-                      {% endif %}
-                    </label>
-
-                    <!-- Bundle 3 -->
-                    <label class="bundle-option-{{ block.id }}" data-quantity="{{ block.settings.bundle_3_quantity }}" data-bundle-index="2">
-                      <input type="radio" name="bundle-{{ block.id }}" value="3">
-                      
-                      {% if block.settings.bundle_3_image %}
-                        <img src="{{ block.settings.bundle_3_image | image_url: width: 120 }}" 
-                            alt="{{ block.settings.bundle_3_title }}" 
-                            class="bundle-image-{{ block.id }}">
-                      {% endif %}
-                      
-                      <div class="bundle-content-{{ block.id }}">
-                        <h4 class="bundle-title-{{ block.id }}">{{ block.settings.bundle_3_title }}</h4>
-                        <p class="bundle-savings-{{ block.id }}">{{ block.settings.bundle_3_savings }}</p>
-                      </div>
-                      
-                      <div class="bundle-pricing-{{ block.id }}">
-                        <p class="bundle-price-{{ block.id }}" data-bundle-price>Loading...</p>
-                        <p class="bundle-compare-price-{{ block.id }}" data-bundle-compare style="display:none;">-</p>
-                      </div>
-
-                      {% if block.settings.bundle_3_label != blank %}
-                        <span class="bundle-label-{{ block.id }}" style="background: {{ block.settings.bundle_3_label_bg }};">
-                          {{ block.settings.bundle_3_label }}
-                        </span>
-                      {% endif %}
+                      <span class="bundle-label-{{ block.id }}" style="background: {{ block.settings.bundle_2_label_bg }};">
+                        {{ block.settings.bundle_2_label }}
+                      </span>
                     </label>
 
                   </div>
                 </div>
 
                 <script>
-                  (function() {
-                    const bundleSelector = document.getElementById('bundle-selector-{{ block.id }}');
-                    const bundleOptions = bundleSelector.querySelectorAll('.bundle-option-{{ block.id }}');
-                    
-                    // Get variant info from main product form instead of hidden selector
-                    const mainVariantSelector = document.querySelector('select[name="id"]') || document.querySelector('input[name="id"]:checked') || document.querySelector('input[name="id"]');
-                    
-                    // Bundle configuration from Liquid settings
-                    const bundleConfig = [
-                      {
-                        quantity: {{ block.settings.bundle_1_quantity }},
-                        discount: {{ block.settings.bundle_1_discount | default: 0 }},
-                        fixedPrice: {% if block.settings.bundle_1_price != blank %}{{ block.settings.bundle_1_price }}{% else %}null{% endif %},
-                        fixedComparePrice: {% if block.settings.bundle_1_compare_price != blank %}{{ block.settings.bundle_1_compare_price }}{% else %}null{% endif %}
-                      },
-                      {
-                        quantity: {{ block.settings.bundle_2_quantity }},
-                        discount: {{ block.settings.bundle_2_discount | default: 33 }},
-                        fixedPrice: {% if block.settings.bundle_2_price != blank %}{{ block.settings.bundle_2_price }}{% else %}null{% endif %},
-                        fixedComparePrice: {% if block.settings.bundle_2_compare_price != blank %}{{ block.settings.bundle_2_compare_price }}{% else %}null{% endif %}
-                      },
-                      {
-                        quantity: {{ block.settings.bundle_3_quantity }},
-                        discount: {{ block.settings.bundle_3_discount | default: 40 }},
-                        fixedPrice: {% if block.settings.bundle_3_price != blank %}{{ block.settings.bundle_3_price }}{% else %}null{% endif %},
-                        fixedComparePrice: {% if block.settings.bundle_3_compare_price != blank %}{{ block.settings.bundle_3_compare_price }}{% else %}null{% endif %}
-                      }
-                    ];
-                    
-                    let selectedQuantity = {{ block.settings.bundle_1_quantity }};
-                    let selectedVariantId = mainVariantSelector ? mainVariantSelector.value : {{ product.selected_or_first_available_variant.id }};
-                    let selectedVariantPrice = {{ product.selected_or_first_available_variant.price }};
-                    
-                    // Shopify money format helper
-                    function formatMoney(cents) {
-                      if (typeof Shopify !== 'undefined' && Shopify.formatMoney) {
-                        return Shopify.formatMoney(cents, {{ shop.money_format | json }});
-                      }
-                      
-                      // Fallback formatting
-                      const dollars = (cents / 100).toFixed(2);
-                      return '$' + dollars;
+                document.addEventListener('DOMContentLoaded', function() {
+                  var bundleSelector = document.getElementById('bundle-selector-{{ block.id }}');
+                  if (!bundleSelector) return;
+                  var bundleOptions = Array.from(bundleSelector.querySelectorAll('.bundle-option-{{ block.id }}'));
+
+                  var variantPrices = {
+                    {% for variant in product.variants %}
+                      {{ variant.id }}: {{ variant.price }}{% unless forloop.last %},{% endunless %}
+                    {% endfor %}
+                  };
+
+                  var bundleConfig = [
+                    { quantity: 1,                                      discount: 0 },
+                    { quantity: {{ block.settings.bundle_2_quantity }}, discount: {{ block.settings.bundle_2_discount | default: 5 }} }
+                  ];
+
+                  var selectedVariantPrice = {{ product.selected_or_first_available_variant.price }};
+                  var moneyFormat = {{ shop.money_format | json }};
+
+                  function formatMoney(cents) {
+                    if (window.Shopify && window.Shopify.formatMoney) {
+                      return window.Shopify.formatMoney(cents, moneyFormat);
                     }
-                    
-                    // Update bundle prices based on selected variant
-                    function updateBundlePrices() {
-                      bundleOptions.forEach((option, index) => {
-                        const config = bundleConfig[index];
-                        const priceElement = option.querySelector('[data-bundle-price]');
-                        const comparePriceElement = option.querySelector('[data-bundle-compare]');
-                        
-                        if (!priceElement) return;
-                        
-                        // Use fixed price if set, otherwise calculate dynamically
-                        if (config.fixedPrice !== null) {
-                          // FIXED PRICING MODE
-                          const fixedPriceCents = Math.round(parseFloat(config.fixedPrice) * 100);
-                          priceElement.textContent = formatMoney(fixedPriceCents);
-                          
-                          if (comparePriceElement && config.fixedComparePrice !== null) {
-                            const fixedCompareCents = Math.round(parseFloat(config.fixedComparePrice) * 100);
-                            comparePriceElement.textContent = formatMoney(fixedCompareCents);
-                            comparePriceElement.style.display = 'block';
-                          } else if (comparePriceElement) {
-                            comparePriceElement.style.display = 'none';
-                          }
+                    return '$' + (cents / 100).toFixed(2);
+                  }
+
+                  function updateBundlePrices() {
+                    bundleOptions.forEach(function(option, index) {
+                      var config = bundleConfig[index];
+                      var priceEl   = option.querySelector('[data-bundle-price]');
+                      var compareEl = option.querySelector('[data-bundle-compare]');
+                      if (!priceEl) return;
+
+                      var fullPrice      = selectedVariantPrice * config.quantity;
+                      var discounted     = Math.round(fullPrice * (1 - config.discount / 100));
+
+                      priceEl.textContent = formatMoney(discounted);
+
+                      if (compareEl) {
+                        if (config.discount > 0) {
+                          compareEl.textContent    = formatMoney(fullPrice);
+                          compareEl.style.display  = 'block';
                         } else {
-                          // DYNAMIC PRICING MODE
-                          const quantity = config.quantity;
-                          const discount = config.discount;
-                          
-                          // Calculate bundle price (variant price × quantity)
-                          const fullBundlePrice = selectedVariantPrice * quantity;
-                          
-                          // Calculate discounted price
-                          const discountedPrice = Math.round(fullBundlePrice * (1 - (discount / 100)));
-                          
-                          // Update price display
-                          priceElement.textContent = formatMoney(discountedPrice);
-                          
-                          // Show compare price if there's a discount
-                          if (comparePriceElement) {
-                            if (discount > 0) {
-                              comparePriceElement.textContent = formatMoney(fullBundlePrice);
-                              comparePriceElement.style.display = 'block';
-                            } else {
-                              comparePriceElement.style.display = 'none';
-                            }
-                          }
+                          compareEl.style.display  = 'none';
                         }
+                      }
+                    });
+                  }
+
+                  function setQuantity(qty) {
+                    // Try all common quantity input selectors
+                    var selectors = [
+                      'input[name="quantity"]',
+                      '.quantity__input',
+                      '[data-quantity-input]',
+                      'input[type="number"][min]'
+                    ];
+                    var input = null;
+                    for (var i = 0; i < selectors.length; i++) {
+                      input = document.querySelector(selectors[i]);
+                      if (input) break;
+                    }
+                    if (!input) return;
+
+                    // Use native setter so framework-controlled inputs detect the change
+                    var nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+                    nativeSetter.call(input, qty);
+                    input.dispatchEvent(new Event('input',  { bubbles: true }));
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                  }
+
+                  function handleVariantChange(variantId) {
+                    variantId = parseInt(variantId);
+                    if (variantPrices[variantId] !== undefined) {
+                      selectedVariantPrice = variantPrices[variantId];
+                      updateBundlePrices();
+                    }
+                  }
+
+                  // Watch hidden variant input (attribute + value change)
+                  var productForm = document.getElementById('{{ product_form_id }}');
+                  if (productForm) {
+                    var variantInput = productForm.querySelector('input[name="id"]');
+                    if (variantInput) {
+                      new MutationObserver(function() {
+                        handleVariantChange(variantInput.value);
+                      }).observe(variantInput, { attributes: true, attributeFilter: ['value'] });
+                      variantInput.addEventListener('change', function() {
+                        handleVariantChange(this.value);
                       });
                     }
-                    
-                    // Handle bundle selection
-                    bundleOptions.forEach((option, index) => {
-                      option.addEventListener('click', function() {
-                        // Remove selected class from all options
-                        bundleOptions.forEach(opt => opt.classList.remove('selected'));
-                        
-                        // Add selected class to clicked option
-                        this.classList.add('selected');
-                        
-                        // Get quantity
-                        selectedQuantity = bundleConfig[index].quantity;
-                        
-                        // Update quantity selector if exists
-                        updateQuantitySelector();
-                        
-                        console.log('Bundle selected:', { 
-                          bundleIndex: index,
-                          quantity: selectedQuantity,
-                          variantId: selectedVariantId,
-                          variantPrice: selectedVariantPrice
-                        });
+                  }
+
+                  // Variant custom element events
+                  ['variant-dropdown', 'variant-pills'].forEach(function(tag) {
+                    var el = document.querySelector(tag);
+                    if (!el) return;
+                    ['change', 'variant:changed', 'on:variant:change'].forEach(function(evt) {
+                      el.addEventListener(evt, function(e) {
+                        var id = (e.detail && (e.detail.variant && e.detail.variant.id || e.detail.id)) || e.target.value;
+                        if (id) handleVariantChange(id);
                       });
                     });
+                  });
+                  ['variant:changed', 'on:variant:change'].forEach(function(evt) {
+                    document.addEventListener(evt, function(e) {
+                      var id = e.detail && (e.detail.variant && e.detail.variant.id || e.detail.id);
+                      if (id) handleVariantChange(id);
+                    });
+                  });
 
-                    // Listen to main variant selector changes (if it exists)
-                    if (mainVariantSelector) {
-                      // Handle variant selection from main product form
-                      mainVariantSelector.addEventListener('change', function() {
-                        selectedVariantId = this.value;
-                        
-                        // Get price from variant - check if it's a select or radio
-                        if (this.tagName === 'SELECT') {
-                          const option = this.options[this.selectedIndex];
-                          selectedVariantPrice = parseInt(option.dataset.price || option.getAttribute('data-price') || {{ product.selected_or_first_available_variant.price }});
-                        } else {
-                          // For radio buttons, find the corresponding variant price
-                          const variantId = parseInt(this.value);
-                          {% for variant in product.variants %}
-                            if (variantId === {{ variant.id }}) {
-                              selectedVariantPrice = {{ variant.price }};
-                            }
-                          {% endfor %}
-                        }
-                        
-                        // Update bundle prices
-                        updateBundlePrices();
-                        
-                        console.log('Main variant changed:', { 
-                          variantId: selectedVariantId,
-                          variantPrice: selectedVariantPrice,
-                          quantity: selectedQuantity 
-                        });
-                      });
-                      
-                      // Also listen to radio button changes if pills style is used
-                      document.querySelectorAll('input[name="id"]').forEach(radio => {
-                        radio.addEventListener('change', function() {
-                          if (this.checked) {
-                            selectedVariantId = this.value;
-                            const variantId = parseInt(this.value);
-                            {% for variant in product.variants %}
-                              if (variantId === {{ variant.id }}) {
-                                selectedVariantPrice = {{ variant.price }};
-                              }
-                            {% endfor %}
-                            updateBundlePrices();
-                          }
-                        });
-                      });
+                  // Polling fallback
+                  var lastVariantId = {{ product.selected_or_first_available_variant.id }};
+                  setInterval(function() {
+                    var form = document.getElementById('{{ product_form_id }}');
+                    if (!form) return;
+                    var inp = form.querySelector('input[name="id"]');
+                    if (!inp) return;
+                    var cur = parseInt(inp.value);
+                    if (cur && cur !== lastVariantId) {
+                      lastVariantId = cur;
+                      handleVariantChange(cur);
                     }
+                  }, 300);
 
-                    function updateQuantitySelector() {
-                      const quantityInput = document.querySelector('input[name="quantity"]');
-                      if (quantityInput) {
-                        quantityInput.value = selectedQuantity;
-                        
-                        // Trigger change event to update price displays
-                        const event = new Event('change', { bubbles: true });
-                        quantityInput.dispatchEvent(event);
-                      }
-                    }
-                    
-                    // Initialize bundle prices on load
-                    updateBundlePrices();
+                  // Bundle click handler
+                  bundleOptions.forEach(function(option, index) {
+                    option.addEventListener('click', function() {
+                      bundleOptions.forEach(function(o) { o.classList.remove('selected'); });
+                      option.classList.add('selected');
+                      setQuantity(bundleConfig[index].quantity);
+                    });
+                  });
 
-                    // Store bundle data for form submission
-                    window.bundleData_{{ block.id }} = {
-                      getSelectedVariant: () => selectedVariantId,
-                      getSelectedQuantity: () => selectedQuantity,
-                      getSelectedVariantPrice: () => selectedVariantPrice
-                    };
-                  })();
+                  // Init
+                  updateBundlePrices();
+                });
                 </script>
               {% endif %}
 
@@ -1586,6 +1722,8 @@ window.location.href = '/cart';
                     <span sku-code>{{ product.selected_or_first_available_variant.sku -}}</span>
                   </div>
                 </variant-sku>
+              {%- when 'feature_icons' -%}
+                {%- comment -%} Rendered under product images — see product-media-container above {%- endcomment -%}
               {%- when 'badges' -%}
                 {% render 'product-badges', block: block %}
               {%- when 'inventory' -%}
@@ -2102,6 +2240,56 @@ window.location.href = '/cart';
       ]
     },
     {
+      "name": "Subscribe & Save",
+      "type": "subscribe_save",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "WeFill™ - Subscribe and Save"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Save 5% With Automatic Refills! Cancel anytime."
+        },
+        {
+          "type": "range",
+          "id": "discount_percent",
+          "label": "Discount %",
+          "min": 1,
+          "max": 50,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "color",
+          "id": "accent_color",
+          "label": "Accent color",
+          "default": "#026eb4"
+        },
+        {
+          "type": "text",
+          "id": "discount_code",
+          "label": "Discount code for cart",
+          "info": "Create a discount code in Shopify admin (e.g. SUBSCRIBE5) and enter it here. It will be silently applied at checkout when subscribe is selected."
+        },
+        {
+          "type": "range",
+          "id": "block_bottom_spacing",
+          "min": 5,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "label": "Bottom spacing",
+          "default": 16
+        }
+      ]
+    },
+    {
       "name": "Variant picker",
       "type": "variant_picker",
       "limit": 1,
@@ -2193,157 +2381,59 @@ window.location.href = '/cart';
         },
         {
           "type": "header",
-          "content": "Bundle 1"
+          "content": "Option 1 — Buy 1"
         },
         {
           "type": "text",
           "id": "bundle_1_title",
-          "label": "Bundle 1 Title",
-          "default": "Buy One"
-        },
-        {
-          "type": "image_picker",
-          "id": "bundle_1_image",
-          "label": "Bundle 1 Image"
-        },
-        {
-          "type": "number",
-          "id": "bundle_1_quantity",
-          "label": "Bundle 1 Quantity",
-          "default": 1
-        },
-        {
-          "type": "text",
-          "id": "bundle_1_price",
-          "label": "Bundle 1 Price",
-          "default": "3750.00",
-          "info": "Enter price without currency symbol"
-        },
-        {
-          "type": "text",
-          "id": "bundle_1_compare_price",
-          "label": "Bundle 1 Compare Price",
-          "default": "7500.00"
+          "label": "Title",
+          "default": "Buy 1"
         },
         {
           "type": "text",
           "id": "bundle_1_savings",
-          "label": "Bundle 1 Savings Text",
-          "default": "You save 50%"
-        },
-        {
-          "type": "text",
-          "id": "bundle_1_label",
-          "label": "Bundle 1 Label (Optional)",
-          "info": "Leave empty for no label"
-        },
-        {
-          "type": "color",
-          "id": "bundle_1_label_bg",
-          "label": "Bundle 1 Label Background",
-          "default": "#0d6e5f"
+          "label": "Savings text",
+          "default": "No discount"
         },
         {
           "type": "header",
-          "content": "Bundle 2"
+          "content": "Option 2 — Buy 4 or more"
         },
         {
           "type": "text",
           "id": "bundle_2_title",
-          "label": "Bundle 2 Title",
-          "default": "Buy 2, Get 1 FREE"
-        },
-        {
-          "type": "image_picker",
-          "id": "bundle_2_image",
-          "label": "Bundle 2 Image"
+          "label": "Title",
+          "default": "Buy 4 or more"
         },
         {
           "type": "number",
           "id": "bundle_2_quantity",
-          "label": "Bundle 2 Quantity",
-          "default": 3
-        },
-        {
-          "type": "text",
-          "id": "bundle_2_price",
-          "label": "Bundle 2 Price",
-          "default": "7500.00"
-        },
-        {
-          "type": "text",
-          "id": "bundle_2_compare_price",
-          "label": "Bundle 2 Compare Price",
-          "default": "22400.00"
-        },
-        {
-          "type": "text",
-          "id": "bundle_2_savings",
-          "label": "Bundle 2 Savings Text",
-          "default": "You save 67%"
-        },
-        {
-          "type": "text",
-          "id": "bundle_2_label",
-          "label": "Bundle 2 Label",
-          "default": "Most Popular"
-        },
-        {
-          "type": "color",
-          "id": "bundle_2_label_bg",
-          "label": "Bundle 2 Label Background",
-          "default": "#0d6e5f"
-        },
-        {
-          "type": "header",
-          "content": "Bundle 3"
-        },
-        {
-          "type": "text",
-          "id": "bundle_3_title",
-          "label": "Bundle 3 Title",
-          "default": "Buy 3, Get 2 FREE"
-        },
-        {
-          "type": "image_picker",
-          "id": "bundle_3_image",
-          "label": "Bundle 3 Image"
+          "label": "Minimum quantity",
+          "default": 4
         },
         {
           "type": "number",
-          "id": "bundle_3_quantity",
-          "label": "Bundle 3 Quantity",
+          "id": "bundle_2_discount",
+          "label": "Discount %",
           "default": 5
         },
         {
           "type": "text",
-          "id": "bundle_3_price",
-          "label": "Bundle 3 Price",
-          "default": "11250.00"
+          "id": "bundle_2_savings",
+          "label": "Savings text",
+          "default": "Save 5% on every box"
         },
         {
           "type": "text",
-          "id": "bundle_3_compare_price",
-          "label": "Bundle 3 Compare Price",
-          "default": "37500.00"
-        },
-        {
-          "type": "text",
-          "id": "bundle_3_savings",
-          "label": "Bundle 3 Savings Text",
-          "default": "You save 70%"
-        },
-        {
-          "type": "text",
-          "id": "bundle_3_label",
-          "label": "Bundle 3 Label",
-          "default": "Free Shipping"
+          "id": "bundle_2_label",
+          "label": "Badge label",
+          "default": "Save 5%"
         },
         {
           "type": "color",
-          "id": "bundle_3_label_bg",
-          "label": "Bundle 3 Label Background",
-          "default": "#0d6e5f"
+          "id": "bundle_2_label_bg",
+          "label": "Badge color",
+          "default": "#026eb4"
         },
         {
           "type": "header",
@@ -2487,7 +2577,7 @@ window.location.href = '/cart';
         {
           "type": "range",
           "id": "block_bottom_spacing",
-          "min": 5,
+          "min": 0,
           "max": 30,
           "step": 1,
           "unit": "px",
@@ -3459,6 +3549,27 @@ window.location.href = '/cart';
           "unit": "px",
           "label": "Bottom spacing",
           "default": 16
+        }
+      ]
+    },
+    {
+      "name": "Feature Icons",
+      "type": "feature_icons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Add one collection-name tag to each product to show its icons. Supported tags: 'Medical Exam Gloves', 'Food Service Gloves', 'Trash Liners', 'Drug Test Cups', 'Alcohol Prep Pads'"
+        },
+        {
+          "type": "range",
+          "id": "block_bottom_spacing",
+          "min": 0,
+          "max": 40,
+          "step": 2,
+          "unit": "px",
+          "label": "Bottom spacing",
+          "default": 20
         }
       ]
     }

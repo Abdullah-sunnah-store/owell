@@ -1,0 +1,620 @@
+<div class="owell-sample-section">
+
+  <div class="owell-sample-hero" style="background: {{ section.settings.hero_bg_color }};">
+    <div class="owell-sample-hero__badge">{{ section.settings.badge_text }}</div>
+    <h1 class="owell-sample-hero__title">{{ section.settings.hero_title }}</h1>
+    <p class="owell-sample-hero__subtitle">{{ section.settings.hero_subtitle }}</p>
+  </div>
+
+  <div class="sample-form-wrapper">
+
+    <form id="owellSampleForm">
+      <h2>{{ section.settings.form_title }}</h2>
+      <p class="form-subtitle">{{ section.settings.form_subtitle }}</p>
+
+      <label for="owell_first_name">First Name *</label>
+      <input type="text" id="owell_first_name" name="first_name" required placeholder="Jane">
+
+      <label for="owell_last_name">Last Name *</label>
+      <input type="text" id="owell_last_name" name="last_name" required placeholder="Smith">
+
+      <label for="owell_email">Business Email Address *</label>
+      <input type="email" id="owell_email" name="email" required placeholder="jane@yourcompany.com">
+
+      <label for="owell_business_name">Business Name *</label>
+      <input type="text" id="owell_business_name" name="business_name" required placeholder="Your Company Inc.">
+
+      <label for="owell_business_type">Business Type *</label>
+      <select id="owell_business_type" name="business_type" required>
+        <option value="">Select your business type</option>
+        <option value="Medical / Dental">Medical / Dental</option>
+        <option value="Food Service / Hospitality">Food Service / Hospitality</option>
+        <option value="Janitorial / Facility">Janitorial / Facility</option>
+        <option value="Retail">Retail</option>
+        <option value="Laboratory / Drug Testing">Laboratory / Drug Testing</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label for="owell_shipping_address">Shipping Address *</label>
+      <textarea id="owell_shipping_address" name="shipping_address" required placeholder="123 Main St, City, State, ZIP" rows="3"></textarea>
+
+      <label for="owell_expected_purchase_date">Expected Purchase Date *</label>
+      <input type="date" id="owell_expected_purchase_date" name="expected_purchase_date" required>
+
+      <label>Sample Items Requested *</label>
+      <div class="sample-policy">
+        <strong>Sample Policy:</strong> Up to <strong>3 sample items</strong> per request. <strong>1 sample per product category</strong> (e.g. one glove style, one trash bag style). Enter the Item # as listed on our website or catalog.
+      </div>
+
+      <div id="owellSampleItems">
+        <div class="sample-item" data-item="1">
+          <div class="sample-item-body">
+            <div>
+              <label>Category *</label>
+              <select name="category_1">
+                <option value="">Select category…</option>
+                <option value="Gloves">Gloves</option>
+                <option value="Trash Bags">Trash Bags</option>
+                <option value="Masks / PPE">Masks / PPE</option>
+                <option value="Lab Supplies">Lab Supplies</option>
+                <option value="Cleaning Supplies">Cleaning Supplies</option>
+                <option value="Food Service Supplies">Food Service Supplies</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label>Item # *</label>
+              <input type="text" name="item_1" placeholder="e.g. OW-GL-100" required>
+            </div>
+            <div>
+              <label>Size *</label>
+              <input type="text" name="size_1" placeholder="e.g. M, L, XL, 10 gal…" required>
+              <span class="size-hint">Type your size (e.g. S, M, L, XL, One Size)</span>
+            </div>
+          </div>
+          <button type="button" class="sample-item-remove" onclick="owellRemoveItem(this)" disabled title="Remove">✕</button>
+        </div>
+      </div>
+
+      <button type="button" class="add-item-btn" id="owellAddItemBtn" onclick="owellAddItem()">+ Add Another Sample</button>
+      <div class="sample-counter">Items selected: <span id="owellItemCount">1</span> / 3</div>
+      <div class="sample-error" id="owellSampleError">Please select at least one sample category.</div>
+
+      <div class="form-buttons">
+        <button type="submit" class="btn btn-primary">{{ section.settings.submit_label }}</button>
+      </div>
+    </form>
+
+    <!-- Success Message -->
+    <div class="sample-success" id="owellSuccessMessage">
+      <div class="success-icon">✓</div>
+      <h2>{{ section.settings.success_title }}</h2>
+      <p>{{ section.settings.success_message }}</p>
+      <div class="success-buttons">
+        <a href="{{ section.settings.success_btn1_url }}" class="btn-shop">{{ section.settings.success_btn1_label }}</a>
+        <a href="{{ section.settings.success_btn2_url }}" class="btn-apply">{{ section.settings.success_btn2_label }}</a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+.owell-sample-section {
+  font-family: inherit;
+}
+
+/* ===== Hero ===== */
+.owell-sample-hero {
+  padding: 48px 40px 44px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+.owell-sample-hero__badge {
+  display: inline-block;
+  background: #fff;
+  border: 1px solid #fff;
+  color: #026eb4;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 10px 16px 7px;
+  border-radius: 40px;
+  margin-bottom: 16px;
+}
+.owell-sample-hero__title {
+  font-size: clamp(24px, 4vw, 38px);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  margin: 0 0 12px;
+}
+.owell-sample-hero__subtitle {
+  font-size: 15px;
+  color: rgba(255,255,255,0.65);
+  max-width: 460px;
+  margin: 0 auto;
+  line-height: 1.65;
+}
+
+/* ===== Form Wrapper ===== */
+.sample-form-wrapper {
+  max-width: 800px;
+  margin: 0 auto 60px;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+.sample-form-wrapper h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #111;
+  text-align: center;
+}
+.sample-form-wrapper .form-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.sample-form-wrapper label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+.sample-form-wrapper input,
+.sample-form-wrapper textarea,
+.sample-form-wrapper select {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  box-sizing: border-box;
+  background: #fff;
+  color: #333;
+}
+.sample-form-wrapper input:focus,
+.sample-form-wrapper textarea:focus,
+.sample-form-wrapper select:focus {
+  border-color: #4a8df6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74,141,246,0.1);
+}
+.sample-form-wrapper input.field-error,
+.sample-form-wrapper textarea.field-error,
+.sample-form-wrapper select.field-error {
+  border-color: #c62828;
+}
+
+/* ===== Sample Policy ===== */
+.sample-policy {
+  background: #eef4ff;
+  border: 1px solid #c0d4f9;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: #2550a8;
+  line-height: 1.6;
+}
+.sample-policy strong { font-weight: 600; }
+
+/* ===== Sample Items ===== */
+.sample-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.sample-item-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  margin-top: 28px;
+}
+.sample-item-body {
+  flex: 1;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.sample-item-body > div {
+  flex: 1;
+  min-width: 120px;
+}
+.sample-item-body label { margin-bottom: 6px; }
+.sample-item-body input,
+.sample-item-body select { margin-bottom: 0; }
+.size-hint {
+  font-size: 11px;
+  color: #999;
+  margin-top: 4px;
+  display: block;
+}
+.sample-item-remove {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
+  color: #999;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 28px;
+}
+.sample-item-remove:hover { border-color: #c62828; color: #c62828; background: #fff5f5; }
+.sample-item-remove:disabled { opacity: 0.3; cursor: not-allowed; }
+.sample-item-remove:disabled:hover { border-color: #ddd; color: #999; background: none; }
+
+.add-item-btn {
+  width: 100%;
+  padding: 12px;
+  background: none;
+  border: 1px dashed #4a8df6;
+  border-radius: 8px;
+  color: #4a8df6;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  margin-bottom: 6px;
+}
+.add-item-btn:hover { background: #f0f7ff; }
+.add-item-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.add-item-btn:disabled:hover { background: none; }
+
+.sample-counter {
+  font-size: 12px;
+  color: #999;
+  text-align: right;
+  margin-bottom: 20px;
+}
+.sample-error {
+  font-size: 13px;
+  color: #c62828;
+  margin-bottom: 16px;
+  display: none;
+}
+
+/* ===== Buttons ===== */
+.form-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+.btn {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+.btn-primary { background: #4a8df6; color: #fff; }
+.btn-primary:hover { background: #3a75d6; }
+
+/* ===== Success ===== */
+.sample-success {
+  text-align: center;
+  display: none;
+}
+.sample-success.active {
+  display: block;
+  animation: owellFadeIn 0.4s ease;
+}
+@keyframes owellFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background: #e6f4ea;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  margin: 0 auto 20px;
+}
+.sample-success h2 { color: #1e7e34; margin-bottom: 15px; }
+.sample-success p { color: #666; font-size: 16px; line-height: 1.6; margin-bottom: 30px; }
+.success-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+.success-buttons a {
+  flex: 1;
+  padding: 14px 20px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.btn-shop { background: #4a8df6; color: #fff; }
+.btn-shop:hover { background: #3a75d6; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(74,141,246,0.3); }
+.btn-apply { background: #fff; color: #4a8df6; border: 2px solid #4a8df6; }
+.btn-apply:hover { background: #f0f7ff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(74,141,246,0.2); }
+
+@media (max-width: 768px) {
+  .owell-sample-hero { padding: 36px 20px; }
+  .sample-form-wrapper { padding: 30px 20px; }
+  .sample-item-body { flex-direction: column; gap: 0; }
+  .success-buttons { flex-direction: column; }
+  .form-buttons { flex-direction: column; }
+  .sample-form-wrapper h2 { text-align: center; }
+  .sample-item-icon { margin-top: 0; }
+  .sample-item-remove { margin-top: 0; }
+}
+</style>
+
+<script>
+(function() {
+  var owellItemCount = 1;
+  var OWELL_MAX_ITEMS = 3;
+
+  var categoryOptions = [
+    '<option value="">Select category…</option>',
+    '<option value="Gloves">Gloves</option>',
+    '<option value="Trash Bags">Trash Bags</option>',
+    '<option value="Masks / PPE">Masks / PPE</option>',
+    '<option value="Lab Supplies">Lab Supplies</option>',
+    '<option value="Cleaning Supplies">Cleaning Supplies</option>',
+    '<option value="Food Service Supplies">Food Service Supplies</option>',
+    '<option value="Other">Other</option>'
+  ].join('');
+
+  function owellUpdateUI() {
+    document.getElementById('owellItemCount').textContent = owellItemCount;
+    document.getElementById('owellAddItemBtn').disabled = owellItemCount >= OWELL_MAX_ITEMS;
+    var items = document.querySelectorAll('#owellSampleItems .sample-item');
+    items.forEach(function(item) {
+      item.querySelector('.sample-item-remove').disabled = items.length === 1;
+    });
+  }
+
+  window.owellAddItem = function() {
+    if (owellItemCount >= OWELL_MAX_ITEMS) return;
+    owellItemCount++;
+    var container = document.getElementById('owellSampleItems');
+    var div = document.createElement('div');
+    div.className = 'sample-item';
+    div.dataset.item = owellItemCount;
+    div.innerHTML =
+      '<div class="sample-item-icon">📦</div>' +
+      '<div class="sample-item-body">' +
+        '<div>' +
+          '<label>Category *</label>' +
+          '<select name="category_' + owellItemCount + '">' + categoryOptions + '</select>' +
+        '</div>' +
+        '<div>' +
+          '<label>Item # *</label>' +
+          '<input type="text" name="item_' + owellItemCount + '" placeholder="e.g. OW-GL-100" required>' +
+        '</div>' +
+        '<div>' +
+          '<label>Size *</label>' +
+          '<input type="text" name="size_' + owellItemCount + '" placeholder="e.g. M, L, XL, 10 gal…" required>' +
+          '<span class="size-hint">Type your size (e.g. S, M, L, XL, One Size)</span>' +
+        '</div>' +
+      '</div>' +
+      '<button type="button" class="sample-item-remove" onclick="owellRemoveItem(this)" title="Remove">✕</button>';
+    container.appendChild(div);
+    div.querySelector('select').focus();
+    owellUpdateUI();
+  };
+
+  window.owellRemoveItem = function(btn) {
+    var items = document.querySelectorAll('#owellSampleItems .sample-item');
+    if (items.length <= 1) return;
+    btn.closest('.sample-item').remove();
+    owellItemCount--;
+    owellUpdateUI();
+  };
+
+  document.getElementById('owellSampleForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var allValid = true;
+
+    // Validate required fields
+    this.querySelectorAll('[required]').forEach(function(field) {
+      if (!field.value.trim()) {
+        allValid = false;
+        field.classList.add('field-error');
+      } else {
+        field.classList.remove('field-error');
+      }
+    });
+
+    // Validate text inputs inside sample items
+    document.querySelectorAll('#owellSampleItems input[type="text"]').forEach(function(input) {
+      if (!input.value.trim()) {
+        allValid = false;
+        input.classList.add('field-error');
+      } else {
+        input.classList.remove('field-error');
+      }
+    });
+
+    // Validate email format
+    var emailField = this.querySelector('[name="email"]');
+    if (emailField.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailField.value)) {
+      allValid = false;
+      emailField.classList.add('field-error');
+    }
+
+    // Validate sample categories
+    var selects = document.querySelectorAll('#owellSampleItems select[name^="category_"]');
+    var anySelected = false;
+    var hasDupe = false;
+    var seen = [];
+    selects.forEach(function(sel) {
+      if (sel.value) {
+        if (seen.indexOf(sel.value) !== -1) hasDupe = true;
+        seen.push(sel.value);
+        anySelected = true;
+      }
+    });
+
+    var sampleError = document.getElementById('owellSampleError');
+    if (!anySelected) {
+      sampleError.textContent = 'Please select at least one sample category.';
+      sampleError.style.display = 'block';
+      allValid = false;
+    } else if (hasDupe) {
+      sampleError.textContent = 'Only 1 sample per category allowed. Please remove the duplicate.';
+      sampleError.style.display = 'block';
+      allValid = false;
+    } else {
+      sampleError.style.display = 'none';
+    }
+
+    if (!allValid) {
+      var firstErr = document.querySelector('#owellSampleForm .field-error');
+      if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // Collect form data (for custom submission / Shopify integration)
+    var formData = new FormData(e.target);
+    // TODO: Replace with your preferred submission method, e.g.:
+    // fetch('/apps/your-form-handler', { method: 'POST', body: formData })
+
+    // Show success state
+    document.getElementById('owellSampleForm').style.display = 'none';
+    document.getElementById('owellSuccessMessage').classList.add('active');
+    document.querySelector('.sample-form-wrapper').scrollIntoView({ behavior: 'smooth' });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "sample request copy",
+  "tag": "section",
+  "class": "owell-sample-request-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Banner"
+    },
+    {
+      "type": "color",
+      "id": "hero_bg_color",
+      "label": "Hero Background Color",
+      "default": "#026eb4"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "Qualified Businesses Only"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "Request a Complimentary Sample Box"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subtitle",
+      "label": "Hero Subtitle",
+      "default": "Designed for qualified businesses evaluating OWELL® for professional use."
+    },
+    {
+      "type": "header",
+      "content": "Form"
+    },
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Form Title",
+      "default": "Sample Request"
+    },
+    {
+      "type": "text",
+      "id": "form_subtitle",
+      "label": "Form Subtitle",
+      "default": "Fill out the form below and our team will ship your samples within 2–3 business days."
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit Button Label",
+      "default": "Submit Sample Request"
+    },
+    {
+      "type": "header",
+      "content": "Success State"
+    },
+    {
+      "type": "text",
+      "id": "success_title",
+      "label": "Success Title",
+      "default": "Sample Request Received!"
+    },
+    {
+      "type": "textarea",
+      "id": "success_message",
+      "label": "Success Message",
+      "default": "Our team will review your request and ship your samples within 2–3 business days. We'll follow up by email with your tracking details."
+    },
+    {
+      "type": "header",
+      "content": "Success Buttons"
+    },
+    {
+      "type": "text",
+      "id": "success_btn1_label",
+      "label": "Button 1 Label",
+      "default": "Shop Gloves"
+    },
+    {
+      "type": "url",
+      "id": "success_btn1_url",
+      "label": "Button 1 URL"
+    },
+    {
+      "type": "text",
+      "id": "success_btn2_label",
+      "label": "Button 2 Label",
+      "default": "Apply for Business Account"
+    },
+    {
+      "type": "url",
+      "id": "success_btn2_url",
+      "label": "Button 2 URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "sample request copy"
+    }
+  ]
+}
+{% endschema %}

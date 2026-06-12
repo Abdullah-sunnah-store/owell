@@ -1,1 +1,262 @@
-{"sections":{"core_areas_section_H7jcNB":{"type":"core-areas-section","blocks":{"core_area_M66egX":{"type":"core_area","settings":{"title":"Our Products","description":"Premium product selection curated for excellence and innovation.","more_info":"<p>At Owell, we offer a carefully curated range of premium products designed to meet modern consumer needs. Each product is selected for its quality, performance, and innovation, ensuring value and reliability in every purchase.<\/p>","custom_image":"shopify:\/\/shop_images\/close-up-hand-holding-coffee-cup.jpg","icon":"products"}},"core_area_czxbpx":{"type":"core_area","settings":{"title":"Our Supply Chain","description":"End-to-end supply chain management ensuring efficiency and reliability.","more_info":"<p>Our end-to-end supply chain is built for efficiency and transparency. From sourcing raw materials to final distribution, we maintain strict control at every stage to ensure consistency, cost-effectiveness, and dependable delivery.<\/p>","custom_image":"shopify:\/\/shop_images\/ae13a4f9-592a-40ca-a95c-85941391666d.jpg","icon":"supply-chain"}},"core_area_m4inUY":{"type":"core_area","settings":{"title":"Quality & Compliance","description":"Rigorous quality standards and regulatory compliance across all operations.","more_info":"<p>Quality is at the core of everything we do. We follow rigorous international standards and regulatory requirements to ensure our products meet safety, performance, and compliance benchmarks across all markets.<\/p>","custom_image":"shopify:\/\/shop_images\/1-01.png","icon":"quality"}},"core_area_yFdgNF":{"type":"core_area","settings":{"title":"Fulfillment & Logistics","description":"Streamlined fulfillment and logistics for timely delivery worldwide.","more_info":"<p>Our streamlined fulfillment and logistics network ensures fast, accurate, and secure delivery worldwide. With optimized warehousing and distribution systems, we guarantee timely shipments and smooth order processing.<\/p>","custom_image":"shopify:\/\/shop_images\/van.png","icon":"fulfillment"}}},"block_order":["core_area_M66egX","core_area_czxbpx","core_area_m4inUY","core_area_yFdgNF"],"name":"Core Areas","settings":{"section_title":"OUR CORE AREAS","background_color":"#ffffff","text_color":"#000000","badge_border_color":"#56c2b3"}},"main":{"type":"main-page","settings":{"content_width":1000,"padding_top":28,"padding_bottom":28,"color_scheme":""}},"image_text_sectionn_Dgt8Lp":{"type":"image-text-sectionn","blocks":{"cta_button_aXRcLz":{"type":"cta_button","disabled":true,"settings":{"button_text":"SHOP Well","button_link":"shopify:\/\/products\/owell-black-nitrile-gloves-food-medical-1000-per-case","button_style":"rounded","button_bg_color":"#6cc6c0","button_text_color":"#ffffff","button_hover_effect":"custom","button_hover_bg":"#5ab5af","button_hover_text":"#ffffff","button_font_size":14,"button_font_weight":"600","button_padding_v":20,"button_padding_h":20,"button_border_radius":10}}},"block_order":["cta_button_aXRcLz"],"disabled":true,"name":"Image Text Section","settings":{"layout":"image-right","image_width":50,"container_width":1300,"section_padding_top":80,"section_padding_bottom":80,"column_gap":60,"vertical_alignment":"center","background_color":"#ffffff","media_type":"image","image":"shopify:\/\/shop_images\/OWELLBlackFoodPrepNitrileGloves_LifeStyle.2.png","video_url":"","media_border_radius":12,"media_shadow":true,"play_button_color":"#ffffff","play_button_bg":"#00000099","media_timestamp":"","timestamp_color":"#ffffff","timestamp_bg_color":"#0000004d","label":"","label_color":"#10c69e","label_size":16,"label_weight":"500","label_line":false,"label_line_color":"#87c643","label_line_width":60,"label_line_height":3,"heading":"Why Open a Business Account?","heading_size":48,"heading_size_mobile":32,"heading_weight":"700","heading_color":"#000000","heading_line_height":1.2,"accent_line":true,"accent_line_color":"#3eb7ed","accent_line_width":140,"accent_line_height":4,"accent_line_spacing":30,"show_bullet_points":true,"bullet_points":"","show_bullet_border":true,"bullet_border_color":"#e5e5e5","bullet_border_width":2,"bullet_bg_color":"#ffffff","bullet_border_radius":8,"bullet_padding":25,"bullet_spacing":25,"bullet_color":"#87c643","bullet_text_color":"#333333","bullet_font_size":16,"description":"<ul><li>Tier & bulk pricing<\/li><li>Always free same-day shipping<\/li><li>Free product samples<\/li><li>Priority access to new products<\/li><li>Dedicated support for recurring orders<\/li><\/ul>","description_size":16,"description_color":"#666666","description_line_height":1.6,"description_spacing":30,"buttons_spacing":30,"buttons_gap":15,"buttons_alignment":"flex-start","mobile_layout":"image-top","mobile_gap":40}},"wholesale_BRXTQt":{"type":"wholesale","disabled":true,"name":"Login","settings":{"enable_sign_in_with_shop":false,"padding_top":36,"padding_bottom":36,"color_scheme":""}},"custom_liquid_QMcNnL":{"type":"custom-liquid","disabled":true,"name":"Custom liquid","settings":{"section_width":true,"custom_liquid":"<style>\n\/* ===== Application Form Styling ===== *\/\n.application-form-wrapper {\n  max-width: 800px;\n  margin: 60px auto;\n  padding: 40px;\n  background: #ffffff;\n  border-radius: 12px;\n  box-shadow: 0 10px 30px rgba(0,0,0,0.06);\n}\n\n\/* Progress Steps *\/\n.progress-steps {\n  display: flex;\n  justify-content: space-between;\n  margin-bottom: 40px;\n  position: relative;\n}\n.progress-steps::before {\n  content: '';\n  position: absolute;\n  top: 20px;\n  left: 25%;\n  right: 25%;\n  height: 2px;\n  background: #ddd;\n  z-index: 0;\n}\n.progress-steps.step-2::before {\n  background: #4a8df6;\n}\n.step-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  position: relative;\n  z-index: 1;\n  flex: 1;\n}\n.step-circle {\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background: #fff;\n  border: 2px solid #ddd;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 600;\n  color: #999;\n  margin-bottom: 8px;\n  transition: all 0.3s ease;\n}\n.step-item.active .step-circle {\n  background: #4a8df6;\n  border-color: #4a8df6;\n  color: #fff;\n}\n.step-item.completed .step-circle {\n  background: #4a8df6;\n  border-color: #4a8df6;\n  color: #fff;\n}\n.step-label {\n  font-size: 14px;\n  color: #666;\n  font-weight: 500;\n}\n.step-item.active .step-label {\n  color: #4a8df6;\n  font-weight: 600;\n}\n\n\/* Form Sections *\/\n.form-step {\n  display: none;\n}\n.form-step.active {\n  display: block;\n  animation: fadeIn 0.4s ease;\n}\n@keyframes fadeIn {\n  from { opacity: 0; transform: translateY(10px); }\n  to { opacity: 1; transform: translateY(0); }\n}\n\n.application-form-wrapper h2 {\n  font-size: 28px;\n  margin-bottom: 30px;\n  font-weight: 600;\n  color: #111;\n}\n.application-form-wrapper label {\n  display: block;\n  margin-bottom: 6px;\n  font-weight: 500;\n  font-size: 14px;\n  color: #333;\n}\n.application-form-wrapper label.optional {\n  color: #666;\n  font-weight: 400;\n}\n.application-form-wrapper input,\n.application-form-wrapper textarea,\n.application-form-wrapper select {\n  width: 100%;\n  padding: 12px 14px;\n  margin-bottom: 20px;\n  border: 1px solid #ddd;\n  border-radius: 8px;\n  font-size: 14px;\n  transition: all 0.3s ease;\n  font-family: inherit;\n}\n.application-form-wrapper input:focus,\n.application-form-wrapper textarea:focus,\n.application-form-wrapper select:focus {\n  border-color: #4a8df6;\n  outline: none;\n  box-shadow: 0 0 0 3px rgba(74,141,246,0.1);\n}\n.application-row {\n  display: flex;\n  gap: 20px;\n}\n.application-col {\n  flex: 1;\n}\n\n\/* Radio Buttons *\/\n.radio-group {\n  display: flex;\n  gap: 20px;\n  margin-bottom: 20px;\n}\n.radio-option {\n  display: flex;\n  align-items: center;\n  cursor: pointer;\n}\n.radio-option input[type=\"radio\"] {\n  width: 18px;\n  height: 18px;\n  margin: 0 8px 0 0;\n  cursor: pointer;\n}\n\n\/* Buttons *\/\n.form-buttons {\n  display: flex;\n  gap: 15px;\n  margin-top: 30px;\n}\n.btn {\n  flex: 1;\n  padding: 14px;\n  border: none;\n  border-radius: 8px;\n  font-size: 15px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.3s ease;\n}\n.btn-primary {\n  background: #4a8df6;\n  color: #fff;\n}\n.btn-primary:hover {\n  background: #3a75d6;\n}\n.btn-secondary {\n  background: #f5f5f5;\n  color: #333;\n}\n.btn-secondary:hover {\n  background: #e5e5e5;\n}\n\n\/* Success Message *\/\n.application-success {\n  text-align: center;\n  display: none;\n}\n.application-success.active {\n  display: block;\n  animation: fadeIn 0.4s ease;\n}\n.success-icon {\n  width: 80px;\n  height: 80px;\n  background: #e6f4ea;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 40px;\n  margin: 0 auto 20px;\n}\n.application-success h2 {\n  color: #1e7e34;\n  margin-bottom: 15px;\n}\n.application-success p {\n  color: #666;\n  font-size: 16px;\n  line-height: 1.6;\n  margin-bottom: 30px;\n}\n.success-buttons {\n  display: flex;\n  gap: 15px;\n  margin-top: 30px;\n}\n.success-buttons a {\n  flex: 1;\n  padding: 14px 20px;\n  text-align: center;\n  text-decoration: none;\n  border-radius: 8px;\n  font-size: 15px;\n  font-weight: 600;\n  transition: all 0.3s ease;\n}\n.btn-shop {\n  background: #4a8df6;\n  color: #fff;\n}\n.btn-shop:hover {\n  background: #3a75d6;\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(74,141,246,0.3);\n}\n.btn-sample {\n  background: #fff;\n  color: #4a8df6;\n  border: 2px solid #4a8df6;\n}\n.btn-sample:hover {\n  background: #f0f7ff;\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(74,141,246,0.2);\n}\n\n@media (max-width: 768px) {\n  .application-form-wrapper {\n    padding: 30px 20px;\n  }\n  .application-row {\n    flex-direction: column;\n  }\n  .success-buttons {\n    flex-direction: column;\n  }\n  .form-buttons {\n    flex-direction: column;\n  }\n}\n<\/style>\n\n<div class=\"application-form-wrapper\">\n  <!-- Progress Steps -->\n  <div class=\"progress-steps\" id=\"progressSteps\">\n    <div class=\"step-item active\" data-step=\"1\">\n      <div class=\"step-circle\">1<\/div>\n      <span class=\"step-label\">Business Info<\/span>\n    <\/div>\n    <div class=\"step-item\" data-step=\"2\">\n      <div class=\"step-circle\">2<\/div>\n      <span class=\"step-label\">Legal Details<\/span>\n    <\/div>\n  <\/div>\n\n  <form id=\"applicationForm\">\n    <!-- Step 1: Business Information -->\n    <div class=\"form-step active\" id=\"step1\">\n      <h2>Business Information<\/h2>\n      \n      <label>Business Name *<\/label>\n      <input type=\"text\" name=\"business_name\" required>\n      \n      <label>Business Email Address *<\/label>\n      <input type=\"email\" name=\"business_email\" required>\n      \n      <label>Phone Number *<\/label>\n      <input type=\"tel\" name=\"phone\" required>\n      \n      <label>Business Type *<\/label>\n      <select name=\"business_type\" required>\n        <option value=\"\">Select your business type<\/option>\n        <option value=\"Medical \/ Dental\">Medical \/ Dental<\/option>\n        <option value=\"Food Service \/ Hospitality\">Food Service \/ Hospitality<\/option>\n        <option value=\"Janitorial \/ Facility\">Janitorial \/ Facility<\/option>\n        <option value=\"Retail\">Retail<\/option>\n        <option value=\"Laboratory \/ Drug Testing\">Laboratory \/ Drug Testing<\/option>\n        <option value=\"Other\">Other<\/option>\n      <\/select>\n      \n      <label>How Often Do You Order Supplies? *<\/label>\n      <select name=\"order_frequency\" required>\n        <option value=\"\">Select frequency<\/option>\n        <option value=\"Weekly\">Weekly<\/option>\n        <option value=\"Bi-Weekly\">Bi-Weekly<\/option>\n        <option value=\"Monthly\">Monthly<\/option>\n        <option value=\"Quarterly\">Quarterly<\/option>\n        <option value=\"As Needed\">As Needed<\/option>\n      <\/select>\n      \n      <label class=\"optional\">How did you hear about us? (Optional)<\/label>\n      <input type=\"text\" name=\"referral\">\n      \n      <div class=\"form-buttons\">\n        <button type=\"button\" class=\"btn btn-primary\" onclick=\"goToStep2()\">Next →<\/button>\n      <\/div>\n    <\/div>\n\n    <!-- Step 2: Legal Details -->\n    <div class=\"form-step\" id=\"step2\">\n      <h2>Legal & Shipping Details<\/h2>\n      \n      <label>Legal Business Name *<\/label>\n      <input type=\"text\" name=\"legal_business_name\" required>\n      \n      <label>Tax ID \/ EIN *<\/label>\n      <input type=\"text\" name=\"tax_id\" required placeholder=\"XX-XXXXXXX\">\n      \n      <label>Shipping Address (physical address only — no PO Boxes) *<\/label>\n      <input type=\"text\" name=\"shipping_address\" required>\n      \n      <div class=\"application-row\">\n        <div class=\"application-col\">\n          <label>City *<\/label>\n          <input type=\"text\" name=\"city\" required>\n        <\/div>\n        <div class=\"application-col\">\n          <label>State \/ Province *<\/label>\n          <input type=\"text\" name=\"state\" required>\n        <\/div>\n        <div class=\"application-col\">\n          <label>ZIP \/ Postal Code *<\/label>\n          <input type=\"text\" name=\"zip\" required>\n        <\/div>\n      <\/div>\n      \n      <label>Is this a commercial location? *<\/label>\n      <div class=\"radio-group\">\n        <label class=\"radio-option\">\n          <input type=\"radio\" name=\"commercial_location\" value=\"Yes\" required>\n          Yes\n        <\/label>\n        <label class=\"radio-option\">\n          <input type=\"radio\" name=\"commercial_location\" value=\"No\" required>\n          No\n        <\/label>\n      <\/div>\n      \n      <label>Loading Dock Available? *<\/label>\n      <div class=\"radio-group\">\n        <label class=\"radio-option\">\n          <input type=\"radio\" name=\"loading_dock\" value=\"Yes\" required>\n          Yes\n        <\/label>\n        <label class=\"radio-option\">\n          <input type=\"radio\" name=\"loading_dock\" value=\"No\" required>\n          No\n        <\/label>\n      <\/div>\n      \n      <label>Business Hours *<\/label>\n      <input type=\"text\" name=\"business_hours\" required placeholder=\"e.g., Mon-Fri 9AM-5PM\">\n      \n      <label class=\"optional\">Notes \/ Special Instructions (Optional)<\/label>\n      <textarea name=\"notes\" rows=\"4\"><\/textarea>\n      \n      <div class=\"form-buttons\">\n        <button type=\"button\" class=\"btn btn-secondary\" onclick=\"goToStep1()\">← Back<\/button>\n        <button type=\"submit\" class=\"btn btn-primary\">Submit Application<\/button>\n      <\/div>\n    <\/div>\n  <\/form>\n\n  <!-- Success Message -->\n  <div class=\"application-success\" id=\"successMessage\">\n    <div class=\"success-icon\">✓<\/div>\n    <h2>Thank You for Applying!<\/h2>\n    <p>\n      Our team will review your application and follow up shortly.<br>\n      <strong>Most business accounts are approved within one business day.<\/strong>\n    <\/p>\n    <div class=\"success-buttons\">\n      <a href=\"https:\/\/owell.com\/collections\/owell-disposable-gloves\" class=\"btn-shop\">\n         Shop Gloves\n      <\/a>\n      <a href=\"https:\/\/owell.com\/pages\/owell-wholesale-bulk-purchasing\" class=\"btn-sample\">\n         Request Free Sample\n      <\/a>\n    <\/div>\n  <\/div>\n<\/div>\n\n<script>\nfunction goToStep2() {\n  \/\/ Validate Step 1 fields\n  const step1 = document.getElementById('step1');\n  const requiredFields = step1.querySelectorAll('[required]');\n  let allValid = true;\n  \n  requiredFields.forEach(field => {\n    if (!field.value.trim()) {\n      allValid = false;\n      field.style.borderColor = '#c62828';\n    } else {\n      field.style.borderColor = '#ddd';\n    }\n  });\n  \n  if (!allValid) {\n    alert('Please fill in all required fields');\n    return;\n  }\n  \n  \/\/ Move to Step 2\n  document.getElementById('step1').classList.remove('active');\n  document.getElementById('step2').classList.add('active');\n  \n  \/\/ Update progress\n  document.querySelector('[data-step=\"1\"]').classList.add('completed');\n  document.querySelector('[data-step=\"1\"]').classList.remove('active');\n  document.querySelector('[data-step=\"2\"]').classList.add('active');\n  document.getElementById('progressSteps').classList.add('step-2');\n  \n  \/\/ Scroll to top\n  document.querySelector('.application-form-wrapper').scrollIntoView({ behavior: 'smooth' });\n}\n\nfunction goToStep1() {\n  \/\/ Move back to Step 1\n  document.getElementById('step2').classList.remove('active');\n  document.getElementById('step1').classList.add('active');\n  \n  \/\/ Update progress\n  document.querySelector('[data-step=\"1\"]').classList.remove('completed');\n  document.querySelector('[data-step=\"1\"]').classList.add('active');\n  document.querySelector('[data-step=\"2\"]').classList.remove('active');\n  document.getElementById('progressSteps').classList.remove('step-2');\n  \n  \/\/ Scroll to top\n  document.querySelector('.application-form-wrapper').scrollIntoView({ behavior: 'smooth' });\n}\n\ndocument.getElementById('applicationForm').addEventListener('submit', function(e) {\n  e.preventDefault();\n  \n  \/\/ Here you would normally send the form data to your server\n  \/\/ For now, we'll just show the success message\n  \n  \/\/ Hide the form\n  document.getElementById('progressSteps').style.display = 'none';\n  document.getElementById('step2').style.display = 'none';\n  \n  \/\/ Show success message\n  document.getElementById('successMessage').classList.add('active');\n  \n  \/\/ Scroll to top\n  document.querySelector('.application-form-wrapper').scrollIntoView({ behavior: 'smooth' });\n});\n<\/script>","padding_top":52,"padding_bottom":52,"color_scheme":""}},"business_benefits_section_kiMQW3":{"type":"business-benefits-section","disabled":true,"name":"Business Account Benefits","settings":{"section_title":"Business Account Benefits","benefit_1_title":"Better Pricing","benefit_1_description":"Tiered and bulk pricing designed for recurring business orders.","benefit_1_link":"shopify:\/\/pages\/owell-wholesale-bulk-purchasing","benefit_2_title":"Always Free Same-Day Shipping","benefit_2_description":"Fast, reliable fulfillment to keep your operation running without delays.","benefit_2_link":"shopify:\/\/pages\/owell-wholesale-bulk-purchasing","benefit_3_title":"Free Product Samples","benefit_3_description":"Test our gloves before committing to full orders.","benefit_3_link":"shopify:\/\/pages\/owell-wholesale-bulk-purchasing","benefit_4_title":"Priority Access to New Products","benefit_4_description":"Early access to new SKUs and product updates.","benefit_4_link":"shopify:\/\/pages\/owell-wholesale-bulk-purchasing","show_cta_section":true,"cta_spacing_top":50,"cta_alignment":"center","cta_gap":15}}},"order":["core_areas_section_H7jcNB","main","image_text_sectionn_Dgt8Lp","wholesale_BRXTQt","custom_liquid_QMcNnL","business_benefits_section_kiMQW3"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "core_areas_section_H7jcNB": {
+      "type": "core-areas-section",
+      "blocks": {
+        "core_area_M66egX": {
+          "type": "core_area",
+          "settings": {
+            "title": "Our Products",
+            "description": "Premium product selection curated for excellence and innovation.",
+            "more_info": "<p>At Owell, we offer a carefully curated range of premium products designed to meet modern consumer needs. Each product is selected for its quality, performance, and innovation, ensuring value and reliability in every purchase.</p>",
+            "custom_image": "shopify://shop_images/close-up-hand-holding-coffee-cup.jpg",
+            "icon": "products"
+          }
+        },
+        "core_area_czxbpx": {
+          "type": "core_area",
+          "settings": {
+            "title": "Our Supply Chain",
+            "description": "End-to-end supply chain management ensuring efficiency and reliability.",
+            "more_info": "<p>Our end-to-end supply chain is built for efficiency and transparency. From sourcing raw materials to final distribution, we maintain strict control at every stage to ensure consistency, cost-effectiveness, and dependable delivery.</p>",
+            "custom_image": "shopify://shop_images/ae13a4f9-592a-40ca-a95c-85941391666d.jpg",
+            "icon": "supply-chain"
+          }
+        },
+        "core_area_m4inUY": {
+          "type": "core_area",
+          "settings": {
+            "title": "Quality & Compliance",
+            "description": "Rigorous quality standards and regulatory compliance across all operations.",
+            "more_info": "<p>Quality is at the core of everything we do. We follow rigorous international standards and regulatory requirements to ensure our products meet safety, performance, and compliance benchmarks across all markets.</p>",
+            "custom_image": "shopify://shop_images/1-01.png",
+            "icon": "quality"
+          }
+        },
+        "core_area_yFdgNF": {
+          "type": "core_area",
+          "settings": {
+            "title": "Fulfillment & Logistics",
+            "description": "Streamlined fulfillment and logistics for timely delivery worldwide.",
+            "more_info": "<p>Our streamlined fulfillment and logistics network ensures fast, accurate, and secure delivery worldwide. With optimized warehousing and distribution systems, we guarantee timely shipments and smooth order processing.</p>",
+            "custom_image": "shopify://shop_images/van.png",
+            "icon": "fulfillment"
+          }
+        }
+      },
+      "block_order": [
+        "core_area_M66egX",
+        "core_area_czxbpx",
+        "core_area_m4inUY",
+        "core_area_yFdgNF"
+      ],
+      "disabled": true,
+      "name": "Core Areas",
+      "settings": {
+        "section_title": "OUR CORE AREAS",
+        "background_color": "#ffffff",
+        "text_color": "#000000",
+        "badge_border_color": "#56c2b3"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": 1000,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "color_scheme": ""
+      }
+    },
+    "image_text_sectionn_Dgt8Lp": {
+      "type": "image-text-sectionn",
+      "blocks": {
+        "cta_button_aXRcLz": {
+          "type": "cta_button",
+          "disabled": true,
+          "settings": {
+            "button_text": "SHOP Well",
+            "button_link": "shopify://products/owell-black-nitrile-gloves-food-medical-1000-per-case",
+            "button_style": "rounded",
+            "button_bg_color": "#6cc6c0",
+            "button_text_color": "#ffffff",
+            "button_hover_effect": "custom",
+            "button_hover_bg": "#5ab5af",
+            "button_hover_text": "#ffffff",
+            "button_font_size": 14,
+            "button_font_weight": "600",
+            "button_padding_v": 20,
+            "button_padding_h": 20,
+            "button_border_radius": 10
+          }
+        }
+      },
+      "block_order": [
+        "cta_button_aXRcLz"
+      ],
+      "disabled": true,
+      "name": "Image Text Section",
+      "settings": {
+        "layout": "image-right",
+        "image_width": 50,
+        "container_width": 1300,
+        "section_padding_top": 80,
+        "section_padding_bottom": 80,
+        "column_gap": 60,
+        "vertical_alignment": "center",
+        "background_color": "#ffffff",
+        "media_type": "image",
+        "image": "shopify://shop_images/OWELLBlackFoodPrepNitrileGloves_LifeStyle.2.png",
+        "video_url": "",
+        "media_border_radius": 12,
+        "media_shadow": true,
+        "play_button_color": "#ffffff",
+        "play_button_bg": "#00000099",
+        "media_timestamp": "",
+        "timestamp_color": "#ffffff",
+        "timestamp_bg_color": "#0000004d",
+        "label": "",
+        "label_color": "#10c69e",
+        "label_size": 16,
+        "label_weight": "500",
+        "label_line": false,
+        "label_line_color": "#87c643",
+        "label_line_width": 60,
+        "label_line_height": 3,
+        "heading": "Why Open a Business Account?",
+        "heading_size": 48,
+        "heading_size_mobile": 32,
+        "heading_weight": "700",
+        "heading_color": "#000000",
+        "heading_line_height": 1.2,
+        "accent_line": true,
+        "accent_line_color": "#3eb7ed",
+        "accent_line_width": 140,
+        "accent_line_height": 4,
+        "accent_line_spacing": 30,
+        "show_bullet_points": true,
+        "bullet_points": "",
+        "show_bullet_border": true,
+        "bullet_border_color": "#e5e5e5",
+        "bullet_border_width": 2,
+        "bullet_bg_color": "#ffffff",
+        "bullet_border_radius": 8,
+        "bullet_padding": 25,
+        "bullet_spacing": 25,
+        "bullet_color": "#87c643",
+        "bullet_text_color": "#333333",
+        "bullet_font_size": 16,
+        "description": "<ul><li>Tier & bulk pricing</li><li>Always free same-day shipping</li><li>Free product samples</li><li>Priority access to new products</li><li>Dedicated support for recurring orders</li></ul>",
+        "description_size": 16,
+        "description_color": "#666666",
+        "description_line_height": 1.6,
+        "description_spacing": 30,
+        "buttons_spacing": 30,
+        "buttons_gap": 15,
+        "buttons_alignment": "flex-start",
+        "mobile_layout": "image-top",
+        "mobile_gap": 40
+      }
+    },
+    "wholesale_BRXTQt": {
+      "type": "wholesale",
+      "disabled": true,
+      "name": "Login",
+      "settings": {
+        "enable_sign_in_with_shop": false,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "color_scheme": ""
+      }
+    },
+    "custom_liquid_QMcNnL": {
+      "type": "custom-liquid",
+      "disabled": true,
+      "name": "Custom liquid",
+      "settings": {
+        "section_width": true,
+        "custom_liquid": "<style>\n/* ===== Application Form Styling ===== */\n.application-form-wrapper {\n  max-width: 800px;\n  margin: 60px auto;\n  padding: 40px;\n  background: #ffffff;\n  border-radius: 12px;\n  box-shadow: 0 10px 30px rgba(0,0,0,0.06);\n}\n\n/* Progress Steps */\n.progress-steps {\n  display: flex;\n  justify-content: space-between;\n  margin-bottom: 40px;\n  position: relative;\n}\n.progress-steps::before {\n  content: '';\n  position: absolute;\n  top: 20px;\n  left: 25%;\n  right: 25%;\n  height: 2px;\n  background: #ddd;\n  z-index: 0;\n}\n.progress-steps.step-2::before {\n  background: #4a8df6;\n}\n.step-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  position: relative;\n  z-index: 1;\n  flex: 1;\n}\n.step-circle {\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background: #fff;\n  border: 2px solid #ddd;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 600;\n  color: #999;\n  margin-bottom: 8px;\n  transition: all 0.3s ease;\n}\n.step-item.active .step-circle {\n  background: #4a8df6;\n  border-color: #4a8df6;\n  color: #fff;\n}\n.step-item.completed .step-circle {\n  background: #4a8df6;\n  border-color: #4a8df6;\n  color: #fff;\n}\n.step-label {\n  font-size: 14px;\n  color: #666;\n  font-weight: 500;\n}\n.step-item.active .step-label {\n  color: #4a8df6;\n  font-weight: 600;\n}\n\n/* Form Sections */\n.form-step {\n  display: none;\n}\n.form-step.active {\n  display: block;\n  animation: fadeIn 0.4s ease;\n}\n@keyframes fadeIn {\n  from { opacity: 0; transform: translateY(10px); }\n  to { opacity: 1; transform: translateY(0); }\n}\n\n.application-form-wrapper h2 {\n  font-size: 28px;\n  margin-bottom: 30px;\n  font-weight: 600;\n  color: #111;\n}\n.application-form-wrapper label {\n  display: block;\n  margin-bottom: 6px;\n  font-weight: 500;\n  font-size: 14px;\n  color: #333;\n}\n.application-form-wrapper label.optional {\n  color: #666;\n  font-weight: 400;\n}\n.application-form-wrapper input,\n.application-form-wrapper textarea,\n.application-form-wrapper select {\n  width: 100%;\n  padding: 12px 14px;\n  margin-bottom: 20px;\n  border: 1px solid #ddd;\n  border-radius: 8px;\n  font-size: 14px;\n  transition: all 0.3s ease;\n  font-family: inherit;\n}\n.application-form-wrapper input:focus,\n.application-form-wrapper textarea:focus,\n.application-form-wrapper select:focus {\n  border-color: #4a8df6;\n  outline: none;\n  box-shadow: 0 0 0 3px rgba(74,141,246,0.1);\n}\n.application-row {\n  display: flex;\n  gap: 20px;\n}\n.application-col {\n  flex: 1;\n}\n\n/* Radio Buttons */\n.radio-group {\n  display: flex;\n  gap: 20px;\n  margin-bottom: 20px;\n}\n.radio-option {\n  display: flex;\n  align-items: center;\n  cursor: pointer;\n}\n.radio-option input[type=\"radio\"] {\n  width: 18px;\n  height: 18px;\n  margin: 0 8px 0 0;\n  cursor: pointer;\n}\n\n/* Buttons */\n.form-buttons {\n  display: flex;\n  gap: 15px;\n  margin-top: 30px;\n}\n.btn {\n  flex: 1;\n  padding: 14px;\n  border: none;\n  border-radius: 8px;\n  font-size: 15px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.3s ease;\n}\n.btn-primary {\n  background: #4a8df6;\n  color: #fff;\n}\n.btn-primary:hover {\n  background: #3a75d6;\n}\n.btn-secondary {\n  background: #f5f5f5;\n  color: #333;\n}\n.btn-secondary:hover {\n  background: #e5e5e5;\n}\n\n/* Success Message */\n.application-success {\n  text-align: center;\n  display: none;\n}\n.application-success.active {\n  display: block;\n  animation: fadeIn 0.4s ease;\n}\n.success-icon {\n  width: 80px;\n  height: 80px;\n  background: #e6f4ea;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 40px;\n  margin: 0 auto 20px;\n}\n.application-success h2 {\n  color: #1e7e34;\n  margin-bottom: 15px;\n}\n.application-success p {\n  color: #666;\n  font-size: 16px;\n  line-height: 1.6;\n  margin-bottom: 30px;\n}\n.success-buttons {\n  display: flex;\n  gap: 15px;\n  margin-top: 30px;\n}\n.success-buttons a {\n  flex: 1;\n  padding: 14px 20px;\n  text-align: center;\n  text-decoration: none;\n  border-radius: 8px;\n  font-size: 15px;\n  font-weight: 600;\n  transition: all 0.3s ease;\n}\n.btn-shop {\n  background: #4a8df6;\n  color: #fff;\n}\n.btn-shop:hover {\n  background: #3a75d6;\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(74,141,246,0.3);\n}\n.btn-sample {\n  background: #fff;\n  color: #4a8df6;\n  border: 2px solid #4a8df6;\n}\n.btn-sample:hover {\n  background: #f0f7ff;\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(74,141,246,0.2);\n}\n\n@media (max-width: 768px) {\n  .application-form-wrapper {\n    padding: 30px 20px;\n  }\n  .application-row {\n    flex-direction: column;\n  }\n  .success-buttons {\n    flex-direction: column;\n  }\n  .form-buttons {\n    flex-direction: column;\n  }\n}\n</style>\n\n<div class=\"application-form-wrapper\">\n  <!-- Progress Steps -->\n  <div class=\"progress-steps\" id=\"progressSteps\">\n    <div class=\"step-item active\" data-step=\"1\">\n      <div class=\"step-circle\">1</div>\n      <span class=\"step-label\">Business Info</span>\n    </div>\n    <div class=\"step-item\" data-step=\"2\">\n      <div class=\"step-circle\">2</div>\n      <span class=\"step-label\">Legal Details</span>\n    </div>\n  </div>\n\n  <form id=\"applicationForm\">\n    <!-- Step 1: Business Information -->\n    <div class=\"form-step active\" id=\"step1\">\n      <h2>Business Information</h2>\n      \n      <label>Business Name *</label>\n      <input type=\"text\" name=\"business_name\" required>\n      \n      <label>Business Email Address *</label>\n      <input type=\"email\" name=\"business_email\" required>\n      \n      <label>Phone Number *</label>\n      <input type=\"tel\" name=\"phone\" required>\n      \n      <label>Business Type *</label>\n      <select name=\"business_type\" required>\n        <option value=\"\">Select your business type</option>\n        <option value=\"Medical / Dental\">Medical / Dental</option>\n        <option value=\"Food Service / Hospitality\">Food Service / Hospitality</option>\n        <option value=\"Janitorial / Facility\">Janitorial / Facility</option>\n        <option value=\"Retail\">Retail</option>\n        <option value=\"Laboratory / Drug Testing\">Laboratory / Drug Testing</option>\n        <option value=\"Other\">Other</option>\n      </select>\n      \n      <label>How Often Do You Order Supplies? *</label>\n      <select name=\"order_frequency\" required>\n        <option value=\"\">Select frequency</option>\n        <option value=\"Weekly\">Weekly</option>\n        <option value=\"Bi-Weekly\">Bi-Weekly</option>\n        <option value=\"Monthly\">Monthly</option>\n        <option value=\"Quarterly\">Quarterly</option>\n        <option value=\"As Needed\">As Needed</option>\n      </select>\n      \n      <label class=\"optional\">How did you hear about us? (Optional)</label>\n      <input type=\"text\" name=\"referral\">\n      \n      <div class=\"form-buttons\">\n        <button type=\"button\" class=\"btn btn-primary\" onclick=\"goToStep2()\">Next →</button>\n      </div>\n    </div>\n\n    <!-- Step 2: Legal Details -->\n    <div class=\"form-step\" id=\"step2\">\n      <h2>Legal & Shipping Details</h2>\n      \n      <label>Legal Business Name *</label>\n      <input type=\"text\" name=\"legal_business_name\" required>\n      \n      <label>Tax ID / EIN *</label>\n      <input type=\"text\" name=\"tax_id\" required placeholder=\"XX-XXXXXXX\">\n      \n      <label>Shipping Address (physical address only — no PO Boxes) *</label>\n      <input type=\"text\" name=\"shipping_address\" required>\n      \n      <div class=\"application-row\">\n        <div class=\"application-col\">\n          <label>City *</label>\n          <input type=\"text\" name=\"city\" required>\n        </div>\n        <div class=\"application-col\">\n          <label>State / Province *</label>\n          <input type=\"text\" name=\"state\" required>\n        </div>\n        <div class=\"application-col\">\n          <label>ZIP / Postal Code *</label>\n          <input type=\"text\" name=\"zip\" required>\n        </div>\n      </div>\n      \n      <label>Is this a commercial location? *</label>\n      <div class=\"radio-group\">\n        <label class=\"radio-option\">\n          <input type=\"radio\" name=\"commercial_location\" value=\"Yes\" required>\n          Yes\n        </label>\n        <label class=\"radio-option\">\n          <input type=\"radio\" name=\"commercial_location\" value=\"No\" required>\n          No\n        </label>\n      </div>\n      \n      <label>Loading Dock Available? *</label>\n      <div class=\"radio-group\">\n        <label class=\"radio-option\">\n          <input type=\"radio\" name=\"loading_dock\" value=\"Yes\" required>\n          Yes\n        </label>\n        <label class=\"radio-option\">\n          <input type=\"radio\" name=\"loading_dock\" value=\"No\" required>\n          No\n        </label>\n      </div>\n      \n      <label>Business Hours *</label>\n      <input type=\"text\" name=\"business_hours\" required placeholder=\"e.g., Mon-Fri 9AM-5PM\">\n      \n      <label class=\"optional\">Notes / Special Instructions (Optional)</label>\n      <textarea name=\"notes\" rows=\"4\"></textarea>\n      \n      <div class=\"form-buttons\">\n        <button type=\"button\" class=\"btn btn-secondary\" onclick=\"goToStep1()\">← Back</button>\n        <button type=\"submit\" class=\"btn btn-primary\">Submit Application</button>\n      </div>\n    </div>\n  </form>\n\n  <!-- Success Message -->\n  <div class=\"application-success\" id=\"successMessage\">\n    <div class=\"success-icon\">✓</div>\n    <h2>Thank You for Applying!</h2>\n    <p>\n      Our team will review your application and follow up shortly.<br>\n      <strong>Most business accounts are approved within one business day.</strong>\n    </p>\n    <div class=\"success-buttons\">\n      <a href=\"https://owell.com/collections/owell-disposable-gloves\" class=\"btn-shop\">\n         Shop Gloves\n      </a>\n      <a href=\"https://owell.com/pages/owell-wholesale-bulk-purchasing\" class=\"btn-sample\">\n         Request Free Sample\n      </a>\n    </div>\n  </div>\n</div>\n\n<script>\nfunction goToStep2() {\n  // Validate Step 1 fields\n  const step1 = document.getElementById('step1');\n  const requiredFields = step1.querySelectorAll('[required]');\n  let allValid = true;\n  \n  requiredFields.forEach(field => {\n    if (!field.value.trim()) {\n      allValid = false;\n      field.style.borderColor = '#c62828';\n    } else {\n      field.style.borderColor = '#ddd';\n    }\n  });\n  \n  if (!allValid) {\n    alert('Please fill in all required fields');\n    return;\n  }\n  \n  // Move to Step 2\n  document.getElementById('step1').classList.remove('active');\n  document.getElementById('step2').classList.add('active');\n  \n  // Update progress\n  document.querySelector('[data-step=\"1\"]').classList.add('completed');\n  document.querySelector('[data-step=\"1\"]').classList.remove('active');\n  document.querySelector('[data-step=\"2\"]').classList.add('active');\n  document.getElementById('progressSteps').classList.add('step-2');\n  \n  // Scroll to top\n  document.querySelector('.application-form-wrapper').scrollIntoView({ behavior: 'smooth' });\n}\n\nfunction goToStep1() {\n  // Move back to Step 1\n  document.getElementById('step2').classList.remove('active');\n  document.getElementById('step1').classList.add('active');\n  \n  // Update progress\n  document.querySelector('[data-step=\"1\"]').classList.remove('completed');\n  document.querySelector('[data-step=\"1\"]').classList.add('active');\n  document.querySelector('[data-step=\"2\"]').classList.remove('active');\n  document.getElementById('progressSteps').classList.remove('step-2');\n  \n  // Scroll to top\n  document.querySelector('.application-form-wrapper').scrollIntoView({ behavior: 'smooth' });\n}\n\ndocument.getElementById('applicationForm').addEventListener('submit', function(e) {\n  e.preventDefault();\n  \n  // Here you would normally send the form data to your server\n  // For now, we'll just show the success message\n  \n  // Hide the form\n  document.getElementById('progressSteps').style.display = 'none';\n  document.getElementById('step2').style.display = 'none';\n  \n  // Show success message\n  document.getElementById('successMessage').classList.add('active');\n  \n  // Scroll to top\n  document.querySelector('.application-form-wrapper').scrollIntoView({ behavior: 'smooth' });\n});\n</script>",
+        "padding_top": 52,
+        "padding_bottom": 52,
+        "color_scheme": ""
+      }
+    },
+    "business_benefits_section_kiMQW3": {
+      "type": "business-benefits-section",
+      "disabled": true,
+      "name": "Business Account Benefits",
+      "settings": {
+        "section_title": "Business Account Benefits",
+        "benefit_1_title": "Better Pricing",
+        "benefit_1_description": "Tiered and bulk pricing designed for recurring business orders.",
+        "benefit_1_link": "shopify://pages/owell-wholesale-bulk-purchasing",
+        "benefit_2_title": "Always Free Same-Day Shipping",
+        "benefit_2_description": "Fast, reliable fulfillment to keep your operation running without delays.",
+        "benefit_2_link": "shopify://pages/owell-wholesale-bulk-purchasing",
+        "benefit_3_title": "Free Product Samples",
+        "benefit_3_description": "Test our gloves before committing to full orders.",
+        "benefit_3_link": "shopify://pages/owell-wholesale-bulk-purchasing",
+        "benefit_4_title": "Priority Access to New Products",
+        "benefit_4_description": "Early access to new SKUs and product updates.",
+        "benefit_4_link": "shopify://pages/owell-wholesale-bulk-purchasing",
+        "show_cta_section": true,
+        "cta_spacing_top": 50,
+        "cta_alignment": "center",
+        "cta_gap": 15
+      }
+    },
+    "owell_about_us_BRgfVX": {
+      "type": "owell-about-us",
+      "name": "OWELL® About Us",
+      "settings": {
+        "hero_heading": "About OWELL®",
+        "hero_sub": "Manufacturer-Led. Reliability Engineered.",
+        "founder_name": "Sol Samet",
+        "stat_number": "1,000,000 +",
+        "stat_label": "Professional orders delivered since 2016, grounded in structured standards and disciplined supply.",
+        "discipline_items": "Documented production standards|Ongoing quality verification|Patented dispensing and packaging innovation|Structured business pricing|Planned inventory allocation|Structured fulfillment and same-day execution",
+        "ind_1_title": "Healthcare & Dental Practices",
+        "ind_1_body": "Precision and barrier integrity engineered for clinical environments.",
+        "ind_2_title": "Food Service",
+        "ind_2_body": "Durability and grip under constant motion and high-volume handling.",
+        "ind_3_title": "Janitorial",
+        "ind_3_body": "Chemical resistance and extended wear for demanding cleaning environments.",
+        "ind_4_title": "Retail & Laboratories",
+        "ind_4_body": "Consistency and packaging efficiency for high-throughput operations.",
+        "industries_note": "Gloves should not be interchangeable. They should be built for the environment in which they are used.",
+        "wefill_url": "shopify://pages/owell-wefill-auto-replenishment",
+        "commitment_heading": "Markets shift. Supply chains tighten. Our standards do not.",
+        "commitment_body": "We remain committed to delivering consistent quality, disciplined oversight, and reliable fulfillment to every business we serve — independent practices, regional operators, and multi-location enterprises alike. That commitment is not seasonal. It is structural.",
+        "commitment_sign": "OWELL - Quality & Reliability You Can Count On - Since 2016",
+        "accent_color": "#026eb4",
+        "hero_bg": "#026eb4",
+        "mfg_bg": "#ffffff",
+        "structure_bg": "#f0f7fd",
+        "industries_bg": "#ffffff",
+        "growing_bg": "#f8f9fa",
+        "commitment_bg": "#025a94",
+        "padding_top": 32,
+        "padding_bottom": 100
+      }
+    }
+  },
+  "order": [
+    "core_areas_section_H7jcNB",
+    "main",
+    "image_text_sectionn_Dgt8Lp",
+    "wholesale_BRXTQt",
+    "custom_liquid_QMcNnL",
+    "business_benefits_section_kiMQW3",
+    "owell_about_us_BRgfVX"
+  ]
+}

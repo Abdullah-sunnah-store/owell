@@ -1,236 +1,582 @@
-<style>
-    .trust-badges-section-v2{
-        background-color: #fff;
-        margin-top: 60px;
-        padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px 20px;
+{% style %}
+  /* ─────────────────────────────────────────
+     Section wrapper
+  ───────────────────────────────────────── */
+  .trust-badges-section-v2 {
+    background-color: #ffffff;
+    margin-top: 60px;
+    padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px 20px;
+  }
+
+  .trust-badges-container-v2 {
+    display: flex;
+    flex-direction: column;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .trust-badges-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .trust-badges-eyebrow {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #1a1a1a;
+    margin: 0 0 0.5rem 0;
+    text-transform: uppercase;
+  }
+
+  .trust-badges-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #4a4a4a;
+    margin: 0 0 0.75rem;
+    line-height: 1.3;
+  }
+
+  .trust-badges-subtitle {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0 auto;
+    line-height: 1.6;
+    max-width: 60rem;
+  }
+
+  /* ─────────────────────────────────────────
+     Grid
+  ───────────────────────────────────────── */
+  .trust-badges-grid-v2 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: #e0e0e0;
+    border: 1px solid #e0e0e0;
+  }
+
+  /* ─────────────────────────────────────────
+     Flip-card outer wrapper
+  ───────────────────────────────────────── */
+  .trust-badge-flip-wrapper {
+    perspective: 1200px;
+    min-height: 200px;
+    background: #ffffff;
+  }
+
+  .trust-badge-flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  }
+
+  .trust-badge-flip-wrapper:hover .trust-badge-flip-inner {
+    transform: rotateY(180deg);
+  }
+
+  .trust-badge-flip-wrapper.is-flipped .trust-badge-flip-inner {
+    transform: rotateY(180deg);
+  }
+
+  /* ─────────────────────────────────────────
+     Front & Back — shared
+  ───────────────────────────────────────── */
+  .trust-badge-flip-front,
+  .trust-badge-flip-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    box-sizing: border-box;
+  }
+
+  .trust-badge-flip-front {
+    background: #ffffff;
+    text-align: center;
+  }
+
+  .trust-badge-flip-back {
+    transform: rotateY(180deg);
+    background: #005bd3;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+    overflow-y: auto;
+    padding: 1.5rem 1.5rem 1.25rem;
+    scrollbar-width: thin;
+    scrollbar-color: #026eb4 transparent;
+  }
+
+  .trust-badge-flip-back::-webkit-scrollbar       { width: 4px; }
+  .trust-badge-flip-back::-webkit-scrollbar-track  { background: transparent; }
+  .trust-badge-flip-back::-webkit-scrollbar-thumb  { background: #026eb4; border-radius: 4px; }
+
+  /* ─────────────────────────────────────────
+     Front tile typography
+  ───────────────────────────────────────── */
+  .trust-badge-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .trust-badge-description {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.55;
+    margin: 0;
+    text-align: center;
+  }
+
+  /* ─────────────────────────────────────────
+     Back-face content
+  ───────────────────────────────────────── */
+  .badge-back-heading {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 0.6rem 0;
+  }
+
+  .badge-back-subheading {
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0.75rem 0 0.35rem;
+  }
+
+  .badge-back-body {
+    font-size: 14px;
+    color: #ffffff;
+    line-height: 1.6;
+    margin: 0 0 0.4rem;
+  }
+
+  .badge-back-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .badge-back-list li {
+    font-size: 12.5px;
+    color: #ffffff;
+    line-height: 1.55;
+    padding: 0.2rem 0 0.2rem 1.1rem;
+    position: relative;
+  }
+
+  .badge-back-list li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    font-size: 8px;
+    color: #ffffff;
+  }
+
+  /* Back action button */
+  .badge-back-btn {
+    display: block;
+    margin-top: 1rem;
+    padding: 0.55rem 1.25rem;
+    background: transparent;
+    color: #eceeef !important;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 6px;
+    letter-spacing: 0.03em;
+    text-align: center;
+    transition: background 0.2s ease, color 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #fff;
+    cursor: pointer;
+  }
+
+  .badge-back-btn:hover {
+    background: #56c2b3;
+    color: #ffffff !important;
+  }
+
+  /* Contact info block */
+  .badge-back-contact {
+    margin-top: 0.85rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    width: 100%;
+  }
+
+  .badge-back-contact-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    font-size: 12px;
+    color: #ffffff;
+    line-height: 1.5;
+    margin-bottom: 0.3rem;
+  }
+
+  .badge-back-contact-label {
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 1;
+    flex-shrink: 0;
+  }
+
+  .badge-back-contact-value {
+    color:rgb(255, 255, 255);
+    word-break: break-all;
+    text-decoration: unset;
+  }
+
+  /* Mobile close hint */
+  .badge-back-close-hint {
+    display: none;
+    margin-top: 0.85rem;
+    font-size: 12px;
+    font-weight: 600;
+    color: #56c2b3;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .badge-back-close-hint svg {
+    width: 13px;
+    height: 13px;
+    stroke: #56c2b3;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  /* ─────────────────────────────────────────
+     CTA Buttons
+  ───────────────────────────────────────── */
+  .trust-badges-cta-section-{{ section.id }} {
+    margin-top: {{ section.settings.cta_spacing_top }}px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: {{ section.settings.cta_gap }}px;
+    justify-content: {{ section.settings.cta_alignment }};
+    align-items: center;
+  }
+
+  .trust-badges-cta-button-{{ section.id }} {
+    display: inline-block;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    white-space: nowrap;
+    border: 2px solid transparent;
+  }
+
+  .trust-badges-cta-button-{{ section.id }}.cta-style-solid,
+  .trust-badges-cta-button-{{ section.id }}.cta-style-rounded {
+    border-radius: 6px;
+  }
+
+  .trust-badges-cta-button-{{ section.id }}.cta-style-outline,
+  .trust-badges-cta-button-{{ section.id }}.cta-style-rounded-outline {
+    background: transparent;
+  }
+
+  .trust-badges-cta-button-{{ section.id }}.cta-style-rounded:hover,
+  .trust-badges-cta-button-{{ section.id }}.cta-style-rounded-outline:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* ─────────────────────────────────────────
+     Responsive — Tablet (≤1024px)
+  ───────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .trust-badges-grid-v2 {
+      grid-template-columns: repeat(2, 1fr);
     }
-    .trust-badges-container-v2{
-        display: flex;
-        flex-direction: column;
-        max-width: 120rem;
-        margin: 0 auto;
-    }
-    .trust-badges-header{
-        text-align: center;
-        margin-bottom: 50px;
-    }
-    .trust-badges-title{
-        font-size: 40px;
-        font-weight: 700;
-        color: #000;
-        margin: 0 0 15px 0;
-        line-height: 1.2;
-    }
-    .trust-badges-subtitle{
-        font-size: 18px;
-        color: rgba(0, 0, 0, 0.7);
-        margin: 0;
-        line-height: 1.5;
-        max-width: 70rem;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .trust-badges-grid-v2{
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 30px;
-        justify-content: center;
-    }
-    .trust-badge-item-v2{
-        display: flex;
-        flex-direction: column;
-        background: #ffffff;
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 35px 25px;
-        transition: all 0.3s ease;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        height: 100%;
-    }
-    .trust-badge-item-v2:hover{
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        border-color: #d1d5db;
-    }
-    .trust-badge-link-v2{
-        display: flex;
-        flex-direction: column;
-        text-decoration: none;
-        color: inherit;
-        height: 100%;
-    }
-    .trust-badge-item-v2 h3{
-        color: #000;
-        font-weight: 600;
-        font-size: 22px;
-        margin: 0 0 15px 0;
-        line-height: 1.4;
-    }
-    .trust-badge-item-v2 p{
-        line-height: 1.6;
-        margin: 0;
-        color: rgba(0, 0, 0, 0.7);
-        font-size: 16px;
-        flex-grow: 1;
-    }
-    .trust-badge-cta{
-        display: inline-flex;
-        align-items: center;
-        margin-top: 20px;
-        color: #2563eb;
-        font-weight: 500;
-        font-size: 15px;
-        transition: color 0.2s ease;
-    }
-    .trust-badge-cta:hover{
-        color: #1d4ed8;
-    }
-    .trust-badge-cta svg{
-        margin-left: 8px;
-        transition: transform 0.2s ease;
-    }
-    .trust-badge-item-v2:hover .trust-badge-cta svg{
-        transform: translateX(4px);
+  }
+
+  /* ─────────────────────────────────────────
+     Responsive — Mobile (≤640px)
+  ───────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .trust-badges-section-v2 {
+      margin-top: 30px;
+      padding: {{ section.settings.padding_top_mobile }}px 15px {{ section.settings.padding_bottom_mobile }}px 15px;
     }
 
-    /* Tablet styles */
-    @media screen and (max-width: 992px) {
-        .trust-badges-section-v2{
-            margin-top: 40px;
-            padding: {{ section.settings.padding_top_tablet }}px 15px {{ section.settings.padding_bottom_tablet }}px 15px;
-        }
-        .trust-badges-header{
-            margin-bottom: 40px;
-        }
-        .trust-badges-title{
-            font-size: 35px;
-        }
-        .trust-badges-subtitle{
-            font-size: 17px;
-        }
-        .trust-badges-grid-v2{
-            gap: 25px;
-        }
-        .trust-badge-item-v2{
-            padding: 30px 22px;
-        }
-        .trust-badge-item-v2 h3{
-            font-size: 20px;
-        }
-        .trust-badge-item-v2 p{
-            font-size: 15px;
-        }
+    .trust-badges-grid-v2 {
+      grid-template-columns: 1fr;
     }
 
-    /* Mobile styles */
-    @media screen and (max-width: 768px) {
-        .trust-badges-section-v2{
-            margin-top: 30px;
-            padding: {{ section.settings.padding_top_mobile }}px 15px {{ section.settings.padding_bottom_mobile }}px 15px;
-        }
-        .trust-badges-header{
-            margin-bottom: 35px;
-        }
-        .trust-badges-title{
-            font-size: 28px;
-            margin-bottom: 12px;
-        }
-        .trust-badges-subtitle{
-            font-size: 16px;
-        }
-        .trust-badges-grid-v2{
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-        .trust-badge-item-v2{
-            padding: 28px 20px;
-        }
-        .trust-badge-item-v2 h3{
-            font-size: 19px;
-            margin-bottom: 12px;
-        }
-        .trust-badge-item-v2 p{
-            font-size: 15px;
-        }
-        .trust-badge-cta{
-            font-size: 14px;
-            margin-top: 16px;
-        }
+    .trust-badge-flip-wrapper {
+      perspective: none;
+      min-height: auto;
     }
 
-    /* Small mobile styles */
-    @media screen and (max-width: 480px) {
-        .trust-badges-section-v2{
-            margin-top: 20px;
-        }
-        .trust-badges-header{
-            margin-bottom: 30px;
-        }
-        .trust-badges-title{
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        .trust-badges-subtitle{
-            font-size: 15px;
-        }
-        .trust-badge-item-v2{
-            padding: 25px 18px;
-        }
-        .trust-badge-item-v2 h3{
-            font-size: 18px;
-        }
-        .trust-badge-item-v2 p{
-            font-size: 14px;
-        }
+    .trust-badge-flip-inner {
+      transform-style: flat;
+      transform: none !important;
+      transition: none;
+      min-height: auto;
     }
-</style>
 
-<div class="container trust-badges-section-v2">
-    <div class="trust-badges-container-v2">
-        {% if section.settings.section_title != blank or section.settings.section_subtitle != blank %}
-        <div class="trust-badges-header">
-            {% if section.settings.section_title != blank %}
-            <h2 class="trust-badges-title">{{ section.settings.section_title }}</h2>
-            {% endif %}
-            {% if section.settings.section_subtitle != blank %}
-            <p class="trust-badges-subtitle">{{ section.settings.section_subtitle }}</p>
-            {% endif %}
-        </div>
+    .trust-badge-flip-front,
+    .trust-badge-flip-back {
+      position: relative;
+      inset: auto;
+      backface-visibility: visible;
+      -webkit-backface-visibility: visible;
+      transform: none !important;
+      min-height: auto;
+      padding: 1.5rem 1.25rem;
+    }
+
+    .trust-badge-flip-back {
+      display: none;
+      overflow-y: visible;
+    }
+
+    .trust-badge-flip-wrapper.is-flipped .trust-badge-flip-back {
+      display: flex;
+    }
+
+    .badge-back-close-hint {
+      display: inline-flex;
+    }
+
+    .trust-badges-cta-section-{{ section.id }} {
+      flex-direction: column;
+      align-items: stretch;
+      margin-top: {{ section.settings.cta_spacing_top | times: 0.7 }}px;
+    }
+
+    .trust-badges-cta-button-{{ section.id }} {
+      width: 100%;
+      text-align: center;
+    }
+  }
+{% endstyle %}
+
+<section class="trust-badges-section-v2">
+  <div class="trust-badges-container-v2">
+
+    {% if section.settings.section_title != blank or section.settings.section_subtitle != blank %}
+      <div class="trust-badges-header">
+        {% if section.settings.eyebrow_text != blank %}
+          <p class="trust-badges-eyebrow">{{ section.settings.eyebrow_text }}</p>
         {% endif %}
-        
-        <div class="trust-badges-grid-v2">
-            {% for block in section.blocks %}
-                {% case block.type %}
-                    {% when 'badge' %}
-                        {% if block.settings.title != blank %}
-                        <div class="trust-badge-item-v2" {{ block.shopify_attributes }}>
-                            {% if block.settings.link != blank %}
-                            <a href="{{ block.settings.link }}" class="trust-badge-link-v2">
-                                <h3>{{ block.settings.title }}</h3>
-                                <p>{{ block.settings.text }}</p>
-                                {% if block.settings.link_text != blank %}
-                                <span class="trust-badge-cta">
-                                    {{ block.settings.link_text }}
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </span>
-                                {% endif %}
-                            </a>
-                            {% else %}
-                            <div class="trust-badge-link-v2">
-                                <h3>{{ block.settings.title }}</h3>
-                                <p>{{ block.settings.text }}</p>
-                            </div>
-                            {% endif %}
-                        </div>
+        {% if section.settings.section_title != blank %}
+          <h2 class="trust-badges-title">{{ section.settings.section_title }}</h2>
+        {% endif %}
+        {% if section.settings.section_subtitle != blank %}
+          <p class="trust-badges-subtitle">{{ section.settings.section_subtitle }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="trust-badges-grid-v2">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'badge' %}
+            {% if block.settings.title != blank %}
+              <div class="trust-badge-flip-wrapper js-trust-flip-card" {{ block.shopify_attributes }}>
+                <div class="trust-badge-flip-inner">
+
+                  {%- comment -%} ── FRONT ── {%- endcomment -%}
+                  <div class="trust-badge-flip-front">
+                    <h3 class="trust-badge-title">{{ block.settings.title }}</h3>
+                    {% if block.settings.description != blank %}
+                      <p class="trust-badge-description">{{ block.settings.description }}</p>
+                    {% endif %}
+                  </div>
+
+                  {%- comment -%} ── BACK ── {%- endcomment -%}
+                  <div class="trust-badge-flip-back">
+                    {% if block.settings.back_heading != blank %}
+                      <p class="badge-back-heading">{{ block.settings.back_heading }}</p>
+                    {% endif %}
+                    {% if block.settings.back_body != blank %}
+                      <p class="badge-back-body">{{ block.settings.back_body }}</p>
+                    {% endif %}
+                    {% if block.settings.back_subheading != blank %}
+                      <p class="badge-back-subheading">{{ block.settings.back_subheading }}</p>
+                    {% endif %}
+                    {% if block.settings.back_list != blank %}
+                      <ul class="badge-back-list">
+                        {% assign list_items = block.settings.back_list | split: '|' %}
+                        {% for item in list_items %}
+                          {% assign trimmed = item | strip %}
+                          {% if trimmed != blank %}
+                            <li>{{ trimmed }}</li>
+                          {% endif %}
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                    {% if block.settings.back_cta_text != blank %}
+                      {% if block.settings.back_cta_link != blank %}
+                        <a href="{{ block.settings.back_cta_link }}" class="badge-back-btn">{{ block.settings.back_cta_text }}</a>
+                      {% else %}
+                        <button type="button" class="badge-back-btn">{{ block.settings.back_cta_text }}</button>
+                      {% endif %}
+                    {% endif %}
+                    {% if block.settings.back_email != blank or block.settings.back_phone != blank %}
+                      <div class="badge-back-contact">
+                        {% if block.settings.back_email != blank %}
+                          <div class="badge-back-contact-row">
+                            <span class="badge-back-contact-label">Email:</span>
+                            <a href="mailto:{{ block.settings.back_email }}" class="badge-back-contact-value">{{ block.settings.back_email }}</a>
+                          </div>
                         {% endif %}
-                {% endcase %}
-            {% endfor %}
-        </div>
+                        {% if block.settings.back_phone != blank %}
+                          <div class="badge-back-contact-row">
+                            <span class="badge-back-contact-label">Call / Text / WhatsApp:</span>
+                            <a href="tel:{{ block.settings.back_phone | remove: ' ' | remove: '.' }}" class="badge-back-contact-value">{{ block.settings.back_phone }}</a>
+                          </div>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                    <span class="badge-back-close-hint js-trust-flip-close">
+                      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      Back
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+            {% endif %}
+        {% endcase %}
+      {% endfor %}
     </div>
-</div>
-    
+
+    {% if section.settings.show_cta_section and section.blocks.size > 0 %}
+      <div class="trust-badges-cta-section-{{ section.id }}">
+        {% for block in section.blocks %}
+          {% if block.type == 'cta_button' and block.settings.button_text != blank %}
+            <a
+              href="{{ block.settings.button_link | default: '#' }}"
+              class="trust-badges-cta-button-{{ section.id }} cta-style-{{ block.settings.button_style }}"
+              {{ block.shopify_attributes }}
+              {% if block.settings.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+              data-block-id="{{ block.id }}"
+            >
+              {{ block.settings.button_text }}
+            </a>
+
+            <style>
+              {%- liquid
+                assign bg_color = block.settings.button_bg_color
+
+                if block.settings.button_hover_effect == 'darken'
+                  assign r = bg_color | slice: 1, 2 | hex_to_decimal
+                  assign g = bg_color | slice: 3, 2 | hex_to_decimal
+                  assign b = bg_color | slice: 5, 2 | hex_to_decimal
+                  assign hover_r = r | times: 0.9 | floor
+                  assign hover_g = g | times: 0.9 | floor
+                  assign hover_b = b | times: 0.9 | floor
+                  assign hover_bg = 'rgb(' | append: hover_r | append: ',' | append: hover_g | append: ',' | append: hover_b | append: ')'
+                elsif block.settings.button_hover_effect == 'lighten'
+                  assign r = bg_color | slice: 1, 2 | hex_to_decimal
+                  assign g = bg_color | slice: 3, 2 | hex_to_decimal
+                  assign b = bg_color | slice: 5, 2 | hex_to_decimal
+                  assign hover_r = r | plus: 25 | at_most: 255
+                  assign hover_g = g | plus: 25 | at_most: 255
+                  assign hover_b = b | plus: 25 | at_most: 255
+                  assign hover_bg = 'rgb(' | append: hover_r | append: ',' | append: hover_g | append: ',' | append: hover_b | append: ')'
+                else
+                  assign hover_bg = block.settings.button_hover_bg
+                endif
+              -%}
+
+              .trust-badges-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"] {
+                font-size: {{ block.settings.button_font_size }}px;
+                font-weight: {{ block.settings.button_font_weight }};
+                padding: {{ block.settings.button_padding_v }}px {{ block.settings.button_padding_h }}px;
+                border-radius: {{ block.settings.button_border_radius }}px;
+              }
+
+              .trust-badges-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-solid,
+              .trust-badges-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-rounded {
+                background: {{ block.settings.button_bg_color }};
+                color: {{ block.settings.button_text_color }};
+                border-color: {{ block.settings.button_bg_color }};
+              }
+
+              .trust-badges-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-solid:hover,
+              .trust-badges-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-rounded:hover {
+                background: {{ hover_bg }};
+                color: {{ block.settings.button_hover_text }};
+                border-color: {{ hover_bg }};
+              }
+
+              .trust-badges-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-outline,
+              .trust-badges-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-rounded-outline {
+                background: transparent;
+                color: {{ block.settings.button_bg_color }};
+                border-color: {{ block.settings.button_bg_color }};
+              }
+
+              .trust-badges-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-outline:hover,
+              .trust-badges-cta-button-{{ section.id }}[data-block-id="{{ block.id }}"].cta-style-rounded-outline:hover {
+                background: {{ block.settings.button_bg_color }};
+                color: {{ block.settings.button_hover_text }};
+                border-color: {{ block.settings.button_bg_color }};
+              }
+            </style>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<script>
+  (function () {
+    function isMobile() {
+      return window.innerWidth <= 640;
+    }
+    document.querySelectorAll('.js-trust-flip-card').forEach(function (wrapper) {
+      var front    = wrapper.querySelector('.trust-badge-flip-front');
+      var closeBtn = wrapper.querySelector('.js-trust-flip-close');
+      if (front) {
+        front.addEventListener('click', function () {
+          if (!isMobile()) return;
+          wrapper.classList.add('is-flipped');
+        });
+      }
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          wrapper.classList.remove('is-flipped');
+        });
+      }
+    });
+  })();
+</script>
+
 {% schema %}
 {
   "name": "Trust Badges Cards",
@@ -246,6 +592,13 @@
     },
     {
       "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow Text (above title)",
+      "default": "WHY CHOOSE US",
+      "info": "Small all-caps label shown above the section title"
+    },
+    {
+      "type": "text",
       "id": "section_title",
       "label": "Section Title",
       "default": "Why Choose Us"
@@ -255,6 +608,47 @@
       "id": "section_subtitle",
       "label": "Section Subtitle",
       "default": "We're committed to providing you with the best experience possible"
+    },
+    {
+      "type": "header",
+      "content": "CTA Buttons Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta_section",
+      "label": "Show CTA Buttons",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "cta_spacing_top",
+      "label": "CTA Section Top Spacing",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "select",
+      "id": "cta_alignment",
+      "label": "CTA Buttons Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center",     "label": "Center" },
+        { "value": "flex-end",   "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "cta_gap",
+      "label": "Gap Between CTA Buttons",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 15
     },
     {
       "type": "header",
@@ -279,26 +673,6 @@
       "unit": "px",
       "label": "Padding Bottom (Desktop)",
       "default": 40
-    },
-    {
-      "type": "range",
-      "id": "padding_top_tablet",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding Top (Tablet)",
-      "default": 32
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom_tablet",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding Bottom (Tablet)",
-      "default": 32
     },
     {
       "type": "range",
@@ -327,6 +701,10 @@
       "name": "Trust Badge Card",
       "settings": [
         {
+          "type": "header",
+          "content": "Front Face"
+        },
+        {
           "type": "text",
           "id": "title",
           "label": "Card Title",
@@ -334,22 +712,196 @@
         },
         {
           "type": "textarea",
-          "id": "text",
+          "id": "description",
           "label": "Card Description",
           "default": "Add your trust badge description here to build customer confidence."
         },
         {
-          "type": "url",
-          "id": "link",
-          "label": "Card Link (Optional)",
-          "info": "Leave empty if you don't want this card to be clickable"
+          "type": "header",
+          "content": "Back Face"
         },
         {
           "type": "text",
-          "id": "link_text",
-          "label": "Card Link Text",
-          "default": "Learn more",
-          "info": "Only shows if link URL is provided"
+          "id": "back_heading",
+          "label": "Back Heading",
+          "default": "More Details",
+          "info": "Bold all-caps heading shown at the top of the flipped card"
+        },
+        {
+          "type": "textarea",
+          "id": "back_body",
+          "label": "Back Body Text",
+          "default": "Add supporting detail here to reinforce this benefit."
+        },
+        {
+          "type": "text",
+          "id": "back_subheading",
+          "label": "Back Sub-heading (optional)",
+          "info": "Smaller label shown above the bullet list"
+        },
+        {
+          "type": "textarea",
+          "id": "back_list",
+          "label": "Back Bullet List (optional)",
+          "info": "Separate each item with a pipe | character. E.g. Item one | Item two | Item three"
+        },
+        {
+          "type": "header",
+          "content": "Back CTA Button"
+        },
+        {
+          "type": "text",
+          "id": "back_cta_text",
+          "label": "CTA Button Text",
+          "info": "Leave blank to hide the button"
+        },
+        {
+          "type": "url",
+          "id": "back_cta_link",
+          "label": "CTA Button Link",
+          "info": "Leave blank to render as a plain button (for popup triggers etc.)"
+        },
+        {
+          "type": "header",
+          "content": "Back Contact Info"
+        },
+        {
+          "type": "text",
+          "id": "back_email",
+          "label": "Email Address",
+          "info": "Shown as a mailto: link. Leave blank to hide."
+        },
+        {
+          "type": "text",
+          "id": "back_phone",
+          "label": "Phone / WhatsApp",
+          "default": "1.212.227.9355",
+          "info": "Shown as a tel: link. Leave blank to hide."
+        }
+      ]
+    },
+    {
+      "type": "cta_button",
+      "name": "CTA Button",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Get Started"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_in_new_tab",
+          "label": "Open in New Tab",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button Style",
+          "options": [
+            { "value": "solid",           "label": "Solid" },
+            { "value": "outline",         "label": "Outline" },
+            { "value": "rounded",         "label": "Rounded Solid" },
+            { "value": "rounded-outline", "label": "Rounded Outline" }
+          ],
+          "default": "rounded"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_color",
+          "label": "Button Background Color",
+          "default": "#005bd3"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color",
+          "label": "Button Text Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "select",
+          "id": "button_hover_effect",
+          "label": "Button Hover Effect",
+          "options": [
+            { "value": "custom",  "label": "Custom Color" },
+            { "value": "darken",  "label": "Auto Darken (10%)" },
+            { "value": "lighten", "label": "Auto Lighten (10%)" }
+          ],
+          "default": "darken",
+          "info": "Choose how button color changes on hover"
+        },
+        {
+          "type": "color",
+          "id": "button_hover_bg",
+          "label": "Hover Background (Custom)",
+          "default": "#004ba0",
+          "info": "Only used when 'Custom Color' is selected"
+        },
+        {
+          "type": "color",
+          "id": "button_hover_text",
+          "label": "Button Hover Text Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "range",
+          "id": "button_font_size",
+          "label": "Button Font Size",
+          "min": 12,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 16
+        },
+        {
+          "type": "select",
+          "id": "button_font_weight",
+          "label": "Button Font Weight",
+          "options": [
+            { "value": "400", "label": "Normal" },
+            { "value": "500", "label": "Medium" },
+            { "value": "600", "label": "Semi Bold" },
+            { "value": "700", "label": "Bold" }
+          ],
+          "default": "600"
+        },
+        {
+          "type": "range",
+          "id": "button_padding_v",
+          "label": "Button Vertical Padding",
+          "min": 8,
+          "max": 30,
+          "step": 2,
+          "unit": "px",
+          "default": 14
+        },
+        {
+          "type": "range",
+          "id": "button_padding_h",
+          "label": "Button Horizontal Padding",
+          "min": 20,
+          "max": 60,
+          "step": 4,
+          "unit": "px",
+          "default": 32
+        },
+        {
+          "type": "range",
+          "id": "button_border_radius",
+          "label": "Button Border Radius",
+          "min": 0,
+          "max": 50,
+          "step": 2,
+          "unit": "px",
+          "default": 24
         }
       ]
     }
@@ -361,25 +913,87 @@
         {
           "type": "badge",
           "settings": {
-            "title": "90-Day Money Back Guarantee",
-            "text": "If you're not absolutely thrilled with the results, we don't want your money. No hassles, no questions asked.",
-            "link_text": "Learn more"
+            "title": "Sales & Business Accounts",
+            "description": "Looking to place a larger order or open a business account?",
+            "back_heading": "Sales & Business Accounts",
+            "back_body": "Our business customers receive preferred pricing, volume discounts, and priority service. We'll help you find the right products based on your industry and usage.",
+            "back_list": "Business account setup | Bulk & pallet pricing | Custom quotes | Product recommendations",
+            "back_email": "sales@owell.com",
+            "back_phone": "1.212.227.9355"
           }
         },
         {
           "type": "badge",
           "settings": {
-            "title": "Fast & Free Shipping",
-            "text": "We offer fast and free 4-8 day delivery on all orders to the USA.",
-            "link_text": "Learn more"
+            "title": "Samples & Product Questions",
+            "description": "Want to try before you buy or need help selecting the right product?",
+            "back_heading": "Samples & Product Inquiries",
+            "back_body": "Qualified businesses can request product samples (up to 3 items) to evaluate quality, fit, and performance before placing an order.",
+            "back_list": "Sample requests | Product recommendations | Certifications & compliance | Industry-specific guidance",
+            "back_email": "info@owell.com",
+            "back_phone": "1.212.227.9355"
           }
         },
         {
           "type": "badge",
           "settings": {
-            "title": "Guaranteed High Quality",
-            "text": "All products are made of high quality materials. Enjoy consistent, trouble-free performance for a long time.",
-            "link_text": "Learn more"
+            "title": "Orders & Shipping Support",
+            "description": "Need help with an existing order?",
+            "back_heading": "Order & Shipping Support",
+            "back_body": "We process and ship orders quickly, with full tracking and reliable delivery.",
+            "back_list": "Order status updates | Lost shipments | Damaged or defective items | Shipping questions | Delivery timing | Payment verification",
+            "back_email": "cs@owell.com",
+            "back_phone": "1.212.227.9355"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "title": "Returns & Refunds",
+            "description": "We stand behind the quality of every OWELL® product.",
+            "back_heading": "Returns & Refunds",
+            "back_body": "If something isn't right, we'll work with you to make it right — quickly and fairly.",
+            "back_list": "Return approvals | Damaged or defective items | Refund processing | Replacement orders",
+            "back_email": "cs@owell.com",
+            "back_phone": "1.212.227.9355"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "title": "Track My Order",
+            "description": "Once your order ships, you'll receive a tracking number via email.",
+            "back_heading": "Track My Order",
+            "back_body": "Use your tracking number to follow your shipment from dispatch to delivery.",
+            "back_list": "Check your spam or junk folder | Contact us and we'll resend it promptly",
+            "back_email": "cs@owell.com",
+            "back_phone": "1.212.227.9355"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "title": "WeFill™ Auto-Replenishment",
+            "description": "Never run out of essential supplies.",
+            "back_heading": "WeFill™ Auto-Replenishment",
+            "back_body": "Our WeFill™ program lets you schedule recurring deliveries while saving on every order.",
+            "back_list": "Setting up auto-replenishment | Updating delivery frequency | Skipping or pausing shipments | Managing your subscription",
+            "back_email": "info@owell.com",
+            "back_phone": "1.212.227.9355"
+          }
+        },
+        {
+          "type": "cta_button",
+          "settings": {
+            "button_text": "Apply for Business Account",
+            "button_style": "rounded"
+          }
+        },
+        {
+          "type": "cta_button",
+          "settings": {
+            "button_text": "Contact Us",
+            "button_style": "rounded-outline"
           }
         }
       ]

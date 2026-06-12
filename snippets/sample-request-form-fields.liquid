@@ -1,0 +1,282 @@
+<h2 class="sample-form__title">{{ section.settings.form_title }}</h2>
+<p class="form-subtitle">{{ section.settings.form_subtitle }}</p>
+
+<!-- Contact Info sample Section -->
+<div class="form-section-title">Contact Information</div>
+
+<div class="form-row">
+  <div class="form-group">
+    <label class="field__label" for="SampleRequestForm-first-name">
+      First Name <span aria-hidden="true">*</span>
+    </label>
+    <input
+      type="text"
+      id="SampleRequestForm-first-name"
+      class="field__input"
+      name="contact[First Name]"
+      placeholder="Jane"
+      required
+      aria-required="true"
+      autocomplete="given-name"
+      value="{% if customer %}{{ customer.first_name }}{% endif %}"
+    >
+  </div>
+  <div class="form-group">
+    <label class="field__label" for="SampleRequestForm-last-name">
+      Last Name <span aria-hidden="true">*</span>
+    </label>
+    <input
+      type="text"
+      id="SampleRequestForm-last-name"
+      class="field__input"
+      name="contact[Last Name]"
+      placeholder="Smith"
+      required
+      aria-required="true"
+      autocomplete="family-name"
+      value="{% if customer %}{{ customer.last_name }}{% endif %}"
+    >
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="field__label" for="SampleRequestForm-business-name">
+    Business Name <span aria-hidden="true">*</span>
+  </label>
+  <input
+    type="text"
+    id="SampleRequestForm-business-name"
+    class="field__input"
+    name="contact[Business Name]"
+    placeholder="Your Company Inc."
+    required
+    aria-required="true"
+    autocomplete="organization"
+  >
+</div>
+
+<div class="form-group">
+  <label class="field__label" for="SampleRequestForm-business-address">
+    Business Address <span aria-hidden="true">*</span>
+  </label>
+  <input
+    type="text"
+    id="SampleRequestForm-business-address"
+    class="field__input"
+    name="contact[Business Address]"
+    placeholder="123 Main St, City, State, ZIP"
+    required
+    aria-required="true"
+    autocomplete="street-address"
+  >
+</div>
+
+<div class="form-group">
+  <label class="field__label" for="SampleRequestForm-email">
+    Business Email Address <span aria-hidden="true">*</span>
+  </label>
+  <input
+    type="email"
+    id="SampleRequestForm-email"
+    class="field__input"
+    name="contact[email]"
+    placeholder="jane@yourcompany.com"
+    required
+    aria-required="true"
+    autocomplete="email"
+    spellcheck="false"
+    autocapitalize="off"
+    value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+    {% if form.errors contains 'email' %}
+      aria-invalid="true"
+      aria-describedby="SampleRequestForm-email-error"
+    {% endif %}
+  >
+  {%- if form.errors contains 'email' -%}
+    <div class="sample-request__field-error" id="SampleRequestForm-email-error">
+      <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+      <span class="error-text field-error-text">
+        {{ form.errors.translated_fields.email | capitalize }}
+        {{ form.errors.messages.email -}}
+      </span>
+    </div>
+  {%- endif -%}
+</div>
+
+<div class="form-group">
+  <label class="field__label" for="SampleRequestForm-phone">
+    Business Phone Number <span aria-hidden="true">*</span>
+  </label>
+  <input
+    type="tel"
+    id="SampleRequestForm-phone"
+    class="field__input"
+    name="contact[Phone]"
+    placeholder="(555) 000-0000"
+    required
+    aria-required="true"
+    autocomplete="tel"
+  >
+</div>
+
+<div class="form-group">
+  <label class="field__label" for="SampleRequestForm-business-type">
+    Business Type <span aria-hidden="true">*</span>
+  </label>
+  <select
+    id="SampleRequestForm-business-type"
+    class="field__input"
+    name="contact[Business Type]"
+    required
+    aria-required="true"
+  >
+    <option value="">Select your business type</option>
+    <option value="Medical / Dental">Medical / Dental</option>
+    <option value="Food Service / Hospitality">Food Service / Hospitality</option>
+    <option value="Janitorial / Facility">Janitorial / Facility</option>
+    <option value="Retail">Retail</option>
+    <option value="Laboratory / Drug Testing">Laboratory / Drug Testing</option>
+    <option value="Distributor">Distributor</option>
+    <option value="Government">Government</option>
+    <option value="Other">Other</option>
+  </select>
+</div>
+
+<!-- Order Details Section -->
+<div class="form-section-title">Order Details</div>
+
+<div class="form-group">
+  <label class="field__label" for="SampleRequestForm-shipping-address">
+    Shipping Address <span aria-hidden="true">*</span>
+  </label>
+  <input
+    type="text"
+    id="SampleRequestForm-shipping-address"
+    class="field__input"
+    name="contact[Shipping Address]"
+    placeholder="Same as business address or enter shipping address"
+    required
+    aria-required="true"
+  >
+</div>
+
+<div class="form-group">
+  <label class="field__label" for="SampleRequestForm-purchase-date">
+    Expected Purchase Date <span aria-hidden="true">*</span>
+  </label>
+  <input
+    type="date"
+    id="SampleRequestForm-purchase-date"
+    class="field__input"
+    name="contact[Expected Purchase Date]"
+    required
+    aria-required="true"
+  >
+</div>
+
+<!-- Sample Items Section -->
+<div class="form-section-title">Items Requested</div>
+
+<div class="sample-policy">
+  <strong>Sample Policy:</strong> Up to <strong>3 sample items</strong> per request. <strong>1 sample per product category</strong> (e.g. one glove style, one trash bag style). Enter the Item # as listed on our website or catalog.
+</div>
+
+<div id="sampleItems">
+  <div class="sample-item" data-item="1">
+    <div class="sample-item-number">1</div>
+    <div class="sample-item-body">
+      <div class="form-group">
+        <label class="field__label" for="SampleRequestForm-item-1">
+          Item # <span aria-hidden="true">*</span>
+        </label>
+        <input
+          type="text"
+          id="SampleRequestForm-item-1"
+          class="field__input"
+          name="contact[Sample Item 1 - SKU]"
+          placeholder="e.g. OW-GL-100"
+          required
+          aria-required="true"
+        >
+      </div>
+      <div class="form-group">
+        <label class="field__label" for="SampleRequestForm-size-1">
+          Size <span aria-hidden="true">*</span>
+        </label>
+        <input
+          type="text"
+          id="SampleRequestForm-size-1"
+          class="field__input"
+          name="contact[Sample Item 1 - Size]"
+          placeholder="e.g. M, L, XL"
+          required
+          aria-required="true"
+        >
+        <span class="size-hint">e.g. S, M, L, XL, One Size</span>
+      </div>
+    </div>
+    <button type="button" class="sample-item-remove" onclick="removeSampleItem(this)" disabled title="Remove">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<button type="button" class="add-item-btn" id="addItemBtn" onclick="addSampleItem()">+ Add Another</button>
+<div class="sample-counter">Items: <span id="itemCount">1</span> / 3</div>
+
+<!-- Additional Comments -->
+<div class="form-group">
+  <label class="field__label" for="SampleRequestForm-comments">
+    Additional Comments (Optional)
+  </label>
+  <textarea
+    id="SampleRequestForm-comments"
+    class="field__input text-area"
+    name="contact[Additional Comments]"
+    placeholder="Any special requests or notes..."
+    rows="4"
+  >{{ form.body }}</textarea>
+</div>
+
+<div class="form-buttons">
+  <button type="submit" class="btn btn--fill w-100" aria-label="Submit Sample Request">
+    Submit Request
+  </button>
+</div>
+
+<style>
+.sample-policy {
+  background: #eef4ff;
+  border: 1px solid #c0d4f9;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: #2550a8;
+  line-height: 1.6;
+}
+.sample-policy strong {
+  font-weight: 600;
+}
+.sample-item-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 50%;
+  background: #026eb4;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 28px;
+}
+.optional-label {
+  font-weight: 400;
+  color: #999;
+  font-size: 12px;
+}
+</style>

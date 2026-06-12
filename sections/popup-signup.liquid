@@ -1,0 +1,613 @@
+{% if section.settings.enable_popup %}
+
+{%- assign _popup_form_class = 'popup-signup__body-' | append: section.id -%}
+
+{%- form 'contact', class: _popup_form_class -%}
+  {%- assign _popup_posted_ok = form.posted_successfully? -%}
+  {%- assign _popup_has_error = false -%}
+  {%- if form.errors contains 'email' -%}
+    {%- assign _popup_has_error = true -%}
+    {%- assign _popup_email_error = form.errors.messages.email | capitalize -%}
+  {%- endif -%}
+{%- endform -%}
+
+{%- style -%}
+  #popup-signup-overlay-{{ section.id }} {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+  }
+  #popup-signup-overlay-{{ section.id }}.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .popup-signup__modal-{{ section.id }} {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    max-width: 480px;
+    width: 100%;
+    position: relative;
+    transform: translateY(24px) scale(0.97);
+    transition: transform 0.35s ease;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  }
+  #popup-signup-overlay-{{ section.id }}.is-open .popup-signup__modal-{{ section.id }} {
+    transform: translateY(0) scale(1);
+  }
+  .popup-signup__close-{{ section.id }} {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0,0,0,0.07);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: background 0.2s;
+    padding: 0;
+  }
+  .popup-signup__close-{{ section.id }}:hover {
+    background: rgba(0,0,0,0.14);
+  }
+  .popup-signup__image-{{ section.id }} {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+  }
+  .popup-signup__body-{{ section.id }} {
+    padding: 36px 32px 30px;
+    text-align: center;
+  }
+  .popup-signup__badge-{{ section.id }} {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+    background: {{ section.settings.accent_color }}18;
+    border-radius: 20px;
+    padding: 4px 14px;
+    margin-bottom: 14px;
+  }
+  .popup-signup__heading-{{ section.id }} {
+    font-size: 22px;
+    font-weight: 700;
+    color: {{ section.settings.accent_color }};
+    margin: 0 0 10px;
+    line-height: 1.25;
+  }
+  .popup-signup__desc-{{ section.id }} {
+    font-size: 14px;
+    color: #333;
+    margin: 0 0 24px;
+    line-height: 1.6;
+  }
+  .popup-signup__input-row-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .popup-signup__input-{{ section.id }} {
+    width: 100%;
+    height: 46px;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    padding: 0 14px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #111;
+    outline: none;
+    transition: border-color 0.2s;
+    background: #fafafa;
+    box-sizing: border-box;
+  }
+  .popup-signup__input-{{ section.id }}:focus {
+    border-color: {{ section.settings.accent_color }};
+    background: #fff;
+  }
+  .popup-signup__input-{{ section.id }}.has-error {
+    border-color: #c62828;
+  }
+  .popup-signup__btn-{{ section.id }} {
+    width: 100%;
+    height: 46px;
+    padding: 0 22px;
+    background: {{ section.settings.accent_color }};
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.2s;
+    box-sizing: border-box;
+  }
+  .popup-signup__btn-{{ section.id }}:hover {
+    opacity: 0.88;
+  }
+  .popup-signup__subtext-{{ section.id }} {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #888;
+    letter-spacing: 0.02em;
+  }
+  .popup-signup__error-{{ section.id }} {
+    font-size: 12px;
+    color: #c62828;
+    text-align: left;
+    margin-top: 4px;
+    display: none;
+  }
+  .popup-signup__error-{{ section.id }}.active {
+    display: block;
+  }
+  .popup-signup__skip-{{ section.id }} {
+    display: block;
+    margin-top: 14px;
+    font-size: 12px;
+    color: #aaa;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: inherit;
+    text-decoration: underline;
+    padding: 0;
+  }
+  .popup-signup__skip-{{ section.id }}:hover {
+    color: #666;
+  }
+  .popup-signup__success-{{ section.id }} {
+    padding: 44px 32px 36px;
+    text-align: center;
+    display: none;
+  }
+  .popup-signup__success-{{ section.id }}.active {
+    display: block;
+  }
+  .popup-signup__success-icon-{{ section.id }} {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: {{ section.settings.accent_color }}18;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+  }
+  .popup-signup__success-heading-{{ section.id }} {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 700;
+    color: {{ section.settings.accent_color }};
+  }
+  .popup-signup__success-msg-{{ section.id }} {
+    margin: 0 0 24px;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+  }
+  .popup-signup__continue-{{ section.id }} {
+    display: inline-block;
+    height: 44px;
+    line-height: 44px;
+    padding: 0 28px;
+    background: {{ section.settings.accent_color }};
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .popup-signup__continue-{{ section.id }}:hover {
+    opacity: 0.88;
+    color: #fff;
+  }
+  @media (max-width: 480px) {
+    .popup-signup__modal-{{ section.id }} {
+      border-radius: 10px;
+    }
+    .popup-signup__body-{{ section.id }} {
+      padding: 28px 20px 24px;
+    }
+    .popup-signup__heading-{{ section.id }} {
+      font-size: 18px;
+    }
+    .popup-signup__success-{{ section.id }} {
+      padding: 36px 20px 28px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="popup-signup-overlay-{{ section.id }}"
+  role="dialog"
+  aria-modal="true"
+  aria-label="{{ section.settings.heading | escape }}"
+  data-posted="{{ _popup_posted_ok }}"
+>
+  <div class="popup-signup__modal-{{ section.id }}">
+
+    <button class="popup-signup__close-{{ section.id }}" id="popup-close-{{ section.id }}" aria-label="Close">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round">
+        <line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/>
+      </svg>
+    </button>
+
+    {%- if section.settings.image != blank -%}
+      <img
+        class="popup-signup__image-{{ section.id }}"
+        src="{{ section.settings.image | image_url: width: 960 }}"
+        alt="{{ section.settings.image.alt | default: section.settings.heading | escape }}"
+        loading="eager"
+        width="480"
+        height="200"
+      >
+    {%- endif -%}
+
+    <!-- Success state -->
+    <div class="popup-signup__success-{{ section.id }}{% if _popup_posted_ok %} active{% endif %}" id="popup-success-{{ section.id }}">
+      <div class="popup-signup__success-icon-{{ section.id }}">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="4 13 10 19 22 7"/>
+        </svg>
+      </div>
+      <h3 class="popup-signup__success-heading-{{ section.id }}">{{ section.settings.success_heading }}</h3>
+      <p class="popup-signup__success-msg-{{ section.id }}">{{ section.settings.success_message }}</p>
+      {%- if section.settings.continue_text != blank -%}
+        <a href="{{ section.settings.continue_url | default: '/collections/all' }}" class="popup-signup__continue-{{ section.id }}" id="popup-continue-{{ section.id }}">
+          {{ section.settings.continue_text }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    <!-- Form state -->
+    {%- unless _popup_posted_ok -%}
+    <div class="popup-signup__body-{{ section.id }}" id="popup-body-{{ section.id }}">
+      {%- if section.settings.badge_text != blank -%}
+        <div class="popup-signup__badge-{{ section.id }}">{{ section.settings.badge_text }}</div>
+      {%- endif -%}
+      <h2 class="popup-signup__heading-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {%- if section.settings.description != blank -%}
+        <p class="popup-signup__desc-{{ section.id }}">{{ section.settings.description }}</p>
+      {%- endif -%}
+
+      <form
+        action="/contact#popup-signup-overlay-{{ section.id }}"
+        method="post"
+        id="popup-form-{{ section.id }}"
+      >
+        <input type="hidden" name="form_type" value="contact">
+        <input type="hidden" name="utf8" value="✓">
+        <input type="hidden" name="contact[Form Type]" value="Newsletter Signup">
+
+        <div class="popup-signup__input-row-{{ section.id }}">
+          <input
+            class="popup-signup__input-{{ section.id }}"
+            type="text"
+            name="contact[First Name]"
+            id="popup-name-{{ section.id }}"
+            placeholder="{{ section.settings.name_placeholder }}"
+            autocomplete="given-name"
+            aria-label="{{ section.settings.name_placeholder }}"
+          >
+          <input
+            class="popup-signup__input-{{ section.id }}{% if _popup_has_error %} has-error{% endif %}"
+            type="email"
+            name="contact[email]"
+            id="popup-email-{{ section.id }}"
+            placeholder="{{ section.settings.email_placeholder }}"
+            autocomplete="email"
+            aria-label="{{ section.settings.email_placeholder }}"
+            required
+          >
+          <button type="submit" class="popup-signup__btn-{{ section.id }}">
+            {{ section.settings.button_text }}
+          </button>
+        </div>
+
+        <p class="popup-signup__error-{{ section.id }}{% if _popup_has_error %} active{% endif %}">
+          {%- if _popup_has_error -%}{{ _popup_email_error }}{%- else -%}Please enter a valid email address.{%- endif -%}
+        </p>
+
+        {%- if section.settings.below_button_text != blank -%}
+          <p class="popup-signup__subtext-{{ section.id }}">{{ section.settings.below_button_text }}</p>
+        {%- endif -%}
+      </form>
+
+      <button type="button" class="popup-signup__skip-{{ section.id }}" id="popup-skip-{{ section.id }}">
+        {{ section.settings.skip_text }}
+      </button>
+    </div>
+    {%- endunless -%}
+
+  </div>
+</div>
+
+<script>
+(function() {
+  var sectionId = '{{ section.id }}';
+  var delayMs = {{ section.settings.delay_seconds | times: 1000 }};
+  var scrollPct = {{ section.settings.scroll_trigger_pct }};
+  var storageKey = 'popup_signup_dismissed';
+  var overlay = document.getElementById('popup-signup-overlay-' + sectionId);
+  if (!overlay) return;
+
+  var postedOk = overlay.dataset.posted === 'true';
+  var autoTriggered = false;
+
+  function show() {
+    overlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePopup(remember) {
+    overlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+    if (remember) {
+      try { localStorage.setItem(storageKey, Date.now().toString()); } catch(e) {}
+    }
+  }
+
+  // Manual trigger from other sections — always works regardless of suppression
+  document.addEventListener('owell:open-popup', function() { show(); });
+
+  // Close handlers — always registered
+  var closeBtn = document.getElementById('popup-close-' + sectionId);
+  if (closeBtn) closeBtn.addEventListener('click', function() { closePopup(true); });
+
+  var skipBtn = document.getElementById('popup-skip-' + sectionId);
+  if (skipBtn) skipBtn.addEventListener('click', function() { closePopup(true); });
+
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closePopup(true);
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && overlay.classList.contains('is-open')) closePopup(true);
+  });
+
+  // AJAX form submit — prevents page redirect, shows success inline
+  var form = document.getElementById('popup-form-' + sectionId);
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.style.opacity = '0.6'; }
+
+      fetch('/contact', {
+        method: 'POST',
+        body: new FormData(form)
+      }).then(function() {
+        var bodyEl = document.getElementById('popup-body-' + sectionId);
+        var successEl = document.getElementById('popup-success-' + sectionId);
+        if (bodyEl) bodyEl.style.display = 'none';
+        if (successEl) successEl.classList.add('active');
+        try { localStorage.setItem(storageKey, Date.now().toString()); } catch(e) {}
+      }).catch(function() {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = ''; }
+      });
+    });
+  }
+
+  // Another contact form on this page just submitted — clean up any stale success state and skip auto-trigger
+  // (Popup's own form uses AJAX and handles its success inline — server-side postedOk is always from another form)
+  if (postedOk) {
+    var successElCleanup = document.getElementById('popup-success-' + sectionId);
+    var bodyElCleanup = document.getElementById('popup-body-' + sectionId);
+    if (successElCleanup) successElCleanup.classList.remove('active');
+    if (bodyElCleanup) bodyElCleanup.style.display = '';
+    return;
+  }
+
+  function shouldShow() {
+    {%- if section.settings.show_once -%}
+    try {
+      var dismissed = localStorage.getItem(storageKey);
+      if (dismissed) {
+        var daysSince = (Date.now() - parseInt(dismissed, 10)) / (1000 * 60 * 60 * 24);
+        if (daysSince < {{ section.settings.reshow_days }}) return false;
+      }
+    } catch(e) {}
+    {%- endif -%}
+    return true;
+  }
+
+  // Auto-triggers only fire if not suppressed
+  if (!shouldShow()) return;
+
+  function onScroll() {
+    if (autoTriggered) return;
+    var scrolled = window.scrollY || document.documentElement.scrollTop;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (docHeight > 0 && (scrolled / docHeight) * 100 >= scrollPct) {
+      autoTriggered = true;
+      window.removeEventListener('scroll', onScroll);
+      show();
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  setTimeout(function() {
+    if (autoTriggered) return;
+    autoTriggered = true;
+    window.removeEventListener('scroll', onScroll);
+    show();
+  }, delayMs);
+})();
+</script>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Sign-Up Popup",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_popup",
+      "label": "Enable popup",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Timing"
+    },
+    {
+      "type": "range",
+      "id": "delay_seconds",
+      "label": "Time delay (seconds)",
+      "info": "Popup shows after this many seconds OR at scroll threshold — whichever comes first.",
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "default": 7
+    },
+    {
+      "type": "range",
+      "id": "scroll_trigger_pct",
+      "label": "Scroll trigger (%)",
+      "info": "Show popup when visitor scrolls this far down the page.",
+      "min": 10,
+      "max": 80,
+      "step": 5,
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "show_once",
+      "label": "Suppress after dismissed",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "reshow_days",
+      "label": "Days before showing again",
+      "min": 1,
+      "max": 90,
+      "step": 1,
+      "default": 7
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner image (optional)"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "Join OWELL®"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Stay Stocked. Stay Informed."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Be the first to hear about new arrivals, product updates, and trusted essentials for everyday and professional use."
+    },
+    {
+      "type": "text",
+      "id": "name_placeholder",
+      "label": "First name placeholder",
+      "default": "Your first name"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "Your email address"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Join the OWELL List"
+    },
+    {
+      "type": "text",
+      "id": "below_button_text",
+      "label": "Small text below button",
+      "default": "Professional products. Reliable updates."
+    },
+    {
+      "type": "text",
+      "id": "skip_text",
+      "label": "Skip link text",
+      "default": "No thanks"
+    },
+    {
+      "type": "header",
+      "content": "After Submission"
+    },
+    {
+      "type": "text",
+      "id": "success_heading",
+      "label": "Success heading",
+      "default": "Thank you for joining OWELL\u00ae."
+    },
+    {
+      "type": "textarea",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "You\u2019re now on our list for product updates, supply news, and new arrivals."
+    },
+    {
+      "type": "text",
+      "id": "continue_text",
+      "label": "Continue button text (optional)",
+      "default": "Continue Shopping"
+    },
+    {
+      "type": "url",
+      "id": "continue_url",
+      "label": "Continue button link",
+      "info": "Defaults to /collections/all if left blank."
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Brand accent color",
+      "default": "#026eb4"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sign-Up Popup"
+    }
+  ]
+}
+{% endschema %}

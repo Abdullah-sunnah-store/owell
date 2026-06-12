@@ -1,1 +1,145 @@
-{"name":"Header group","type":"header","sections":{"announcement_banner_section_Qad6ye":{"type":"announcement-banner-section","disabled":true,"name":"Announcement Bar cus","settings":{"line_1":"15-25% off Business Account","line_2":"Free Same Day Shipping","background_color":"#5dbaaa","text_color":"#ffffff","enable_sticky":true}},"announcement-bar":{"type":"announcement-bar","blocks":{"announcement_86UHdJ":{"type":"announcement","settings":{"text":"SAVE 15 – 30% WITH A BUSINESS ACCOUNT  — FREE SAME-DAY SHIPPING","text_2":"","announcement_link":"shopify:\/\/pages\/owell-wholesale-bulk-purchasing"}}},"block_order":["announcement_86UHdJ"],"custom_css":[],"settings":{"enable_sticky":true,"navigation":"slider","scroll_speed":30,"show_locale_selector":false,"show_country_selector":false,"show_country_flag":false,"show_country_name":false,"enable_sublinks":false,"sublink":"social","custom_link_heading_1":"","custom_link_url_1":"","custom_link_heading_2":"","custom_link_url_2":"#","custom_link_heading_3":"","custom_link_url_3":"#","color_scheme":"scheme-1598565b-872d-4fb4-a9bd-8fc07c8b45ec"}},"header":{"type":"header","blocks":{"mega_menu_collections_YnnHVF":{"type":"mega_menu_collections","settings":{"mega_menu_trigger":"Drug Test","heading":"Heading","submenu_level":"level-2","column_count":"4","image_ratio":"adapt","content_alignment":"left","show_link":false,"link_text":"View all","link":"","link_target":"_blank"}}},"block_order":["mega_menu_collections_YnnHVF"],"settings":{"logo_position":"logo-left-menu-left","dropdown_trigger_type":"hover","enable_sticky":true,"sticky_header_style":"always","bottom_box_shadow":true,"header_logo":"shopify:\/\/shop_images\/Asset_2hat.png","logo_width":90,"logo_mobile_width":80,"menu":"header-menu","highlight_heading":"","highlight_link":"","use_outline_button_style":false,"enable_transparent_header":false,"show_on_only_homepage":false,"transparent_header_text_color":"#000000","hamberger_menu":"header-mobile-menu","show_locale_selector":false,"show_country_selector":false,"show_country_flag":false,"show_country_name":false,"color_scheme":"scheme-2b05cf5f-4ae5-495c-a1b3-53c53c0ac55a","color_scheme-menu":"scheme-2454be0a-39e7-4408-b0a8-0660040d0030"}},"header_navigation_Uek444":{"type":"header-navigation","disabled":true,"name":"Header Navigation","settings":{"menu":"header-menu","sticky_header":true,"sticky_scroll_threshold":200,"sticky_bg_color":"","max_width":1400,"menu_spacing":3,"padding_y":1.2,"font_size":0.9,"font_weight":"700","letter_spacing":0.1,"bg_color":"#000000","text_color":"#ffffff","hover_color":"#ffffff","active_color":"#ffffff","flash_color":"#ffd700","flash_hover_color":"#ffed4e","track_color":"#00ff88","track_hover_color":"#5fffa8","submenu_bg":"#000000","submenu_text":"#ffffff","submenu_hover_text":"#ffffff","show_flash_icon":true,"show_dropdown_arrows":true}}},"order":["announcement_banner_section_Qad6ye","announcement-bar","header","header_navigation_Uek444"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "Header group",
+  "type": "header",
+  "sections": {
+    "announcement_banner_section_Qad6ye": {
+      "type": "announcement-banner-section",
+      "disabled": true,
+      "name": "Announcement Bar cus",
+      "settings": {
+        "line_1": "15-25% off Business Account",
+        "line_2": "Free Same Day Shipping",
+        "background_color": "#5dbaaa",
+        "text_color": "#ffffff",
+        "enable_sticky": true
+      }
+    },
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_86UHdJ": {
+          "type": "announcement",
+          "settings": {
+            "text": "SAVE 15 – 30% WITH A BUSINESS ACCOUNT  — FREE SAME-DAY SHIPPING",
+            "text_2": "",
+            "announcement_link": "shopify://pages/owell-wholesale-bulk-purchasing"
+          }
+        }
+      },
+      "block_order": [
+        "announcement_86UHdJ"
+      ],
+      "custom_css": [],
+      "settings": {
+        "enable_sticky": true,
+        "navigation": "slider",
+        "scroll_speed": 30,
+        "show_locale_selector": false,
+        "show_country_selector": false,
+        "show_country_flag": false,
+        "show_country_name": false,
+        "enable_sublinks": false,
+        "sublink": "social",
+        "custom_link_heading_1": "",
+        "custom_link_url_1": "",
+        "custom_link_heading_2": "",
+        "custom_link_url_2": "#",
+        "custom_link_heading_3": "",
+        "custom_link_url_3": "#",
+        "color_scheme": "scheme-1598565b-872d-4fb4-a9bd-8fc07c8b45ec"
+      }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "mega_menu_collections_YnnHVF": {
+          "type": "mega_menu_collections",
+          "settings": {
+            "mega_menu_trigger": "Drug Test",
+            "heading": "Heading",
+            "submenu_level": "level-2",
+            "column_count": "4",
+            "image_ratio": "adapt",
+            "content_alignment": "left",
+            "show_link": false,
+            "link_text": "View all",
+            "link": "",
+            "link_target": "_blank"
+          }
+        }
+      },
+      "block_order": [
+        "mega_menu_collections_YnnHVF"
+      ],
+      "settings": {
+        "logo_position": "logo-left-menu-left",
+        "dropdown_trigger_type": "hover",
+        "enable_sticky": true,
+        "sticky_header_style": "always",
+        "bottom_box_shadow": true,
+        "header_logo": "shopify://shop_images/Asset_2hat.png",
+        "logo_width": 90,
+        "logo_mobile_width": 80,
+        "menu": "header-menu",
+        "highlight_heading": "",
+        "highlight_link": "",
+        "use_outline_button_style": false,
+        "enable_transparent_header": false,
+        "show_on_only_homepage": false,
+        "transparent_header_text_color": "#000000",
+        "hamberger_menu": "header-mobile-menu",
+        "show_locale_selector": false,
+        "show_country_selector": false,
+        "show_country_flag": false,
+        "show_country_name": false,
+        "color_scheme": "scheme-2b05cf5f-4ae5-495c-a1b3-53c53c0ac55a",
+        "color_scheme-menu": "scheme-2454be0a-39e7-4408-b0a8-0660040d0030"
+      }
+    },
+    "header_navigation_Uek444": {
+      "type": "header-navigation",
+      "disabled": true,
+      "name": "Header Navigation",
+      "settings": {
+        "menu": "header-menu",
+        "sticky_header": true,
+        "sticky_scroll_threshold": 200,
+        "sticky_bg_color": "",
+        "max_width": 1400,
+        "menu_spacing": 3,
+        "padding_y": 1.2,
+        "font_size": 0.9,
+        "font_weight": "700",
+        "letter_spacing": 0.1,
+        "bg_color": "#000000",
+        "text_color": "#ffffff",
+        "hover_color": "#ffffff",
+        "active_color": "#ffffff",
+        "flash_color": "#ffd700",
+        "flash_hover_color": "#ffed4e",
+        "track_color": "#00ff88",
+        "track_hover_color": "#5fffa8",
+        "submenu_bg": "#000000",
+        "submenu_text": "#ffffff",
+        "submenu_hover_text": "#ffffff",
+        "show_flash_icon": true,
+        "show_dropdown_arrows": true
+      }
+    }
+  },
+  "order": [
+    "announcement_banner_section_Qad6ye",
+    "announcement-bar",
+    "header",
+    "header_navigation_Uek444"
+  ]
+}

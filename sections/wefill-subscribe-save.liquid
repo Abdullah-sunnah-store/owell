@@ -1,0 +1,687 @@
+{%- style -%}
+
+  /* ================================================
+     WeFill™ — Subscribe & Save — {{ section.id }}
+  ================================================ */
+
+  .wfss-wrap-{{ section.id }} {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .wfss-h2-{{ section.id }} {
+    font-size: clamp(22px, 3.2vw, 32px);
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 24px;
+    line-height: 1.2;
+  }
+
+  /* ── Shared CTA button ── */
+  .wfss-btn-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: #fff;
+    color: {{ section.settings.accent_color }};
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    padding: 16px 38px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 2px solid #fff;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    line-height: 1;
+  }
+  .wfss-btn-{{ section.id }}:hover {
+    background: {{ section.settings.green_accent }};
+    border-color: {{ section.settings.green_accent }};
+    color: #fff;
+  }
+  .wfss-btn-lg-{{ section.id }} {
+    font-size: 18px;
+    padding: 12px 20px;
+  }
+
+  /* ──────────────────────────────────────────────
+     ① HERO
+  ────────────────────────────────────────────── */
+  .wfss-hero-{{ section.id }} {
+    background: {{ section.settings.hero_bg }};
+    padding: {{ section.settings.padding_top }}px 24px 88px;
+    text-align: center;
+    color: #fff;
+  }
+  .wfss-hero-badge-{{ section.id }} {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.82);
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 20px;
+    padding: 5px 18px;
+    margin-bottom: 22px;
+  }
+  .wfss-hero-h1-{{ section.id }} {
+    font-size: clamp(30px, 5.5vw, 36px);
+    font-weight: 500;
+    color: #fff;
+    margin: 0 0 18px;
+    letter-spacing: -0.5px;
+    line-height: 1.12;
+  }
+  .wfss-hero-lead-{{ section.id }} {
+    font-size: clamp(17px, 2.6vw, 22px);
+    font-weight: 500;
+    color: rgba(255,255,255,1);
+    margin: 0 0 18px;
+  }
+  .wfss-hero-desc-{{ section.id }} {
+    font-size: 16px;
+    color: rgba(255,255,255,1);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    line-height: 1.72;
+  }
+  .wfss-hero-{{ section.id }} sup {
+    font-size: 0.5em;
+    top: -0.65em;
+    position: relative;
+    vertical-align: baseline;
+    line-height: 0;
+  }
+
+  /* ──────────────────────────────────────────────
+     ② PROBLEM
+  ────────────────────────────────────────────── */
+  .wfss-problem-{{ section.id }} {
+    background: {{ section.settings.problem_bg }};
+    padding: 84px 24px;
+  }
+  .wfss-problem-inner-{{ section.id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .wfss-pain-list-{{ section.id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .wfss-pain-list-{{ section.id }} li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    color: #444;
+    font-weight: 500;
+  }
+  .wfss-pain-x-{{ section.id }} {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fee2e2;
+    color: #dc2626;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .wfss-friction-line-{{ section.id }} {
+    font-size: 17px;
+    font-weight: 700;
+    color: {{ section.settings.accent_color }};
+    margin: 0;
+    line-height: 1.4;
+  }
+  .wfss-callout-{{ section.id }} {
+    background: {{ section.settings.accent_color }};
+    border-radius: 18px;
+    padding: 44px 36px;
+    color: #fff;
+    text-align: center;
+  }
+  .wfss-callout-pct-{{ section.id }} {
+    font-size: 80px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -2px;
+    margin-bottom: 12px;
+  }
+  .wfss-callout-label-{{ section.id }} {
+    font-size: 15px;
+    opacity: 1;
+    line-height: 1.6;
+    max-width: 260px;
+    margin: 0 auto;
+  }
+
+  /* ──────────────────────────────────────────────
+     ③ HOW IT WORKS
+  ────────────────────────────────────────────── */
+  .wfss-how-{{ section.id }} {
+    background: {{ section.settings.how_bg }};
+    padding: 84px 24px;
+  }
+  .wfss-how-header-{{ section.id }} {
+    text-align: center;
+    margin-bottom: 52px;
+  }
+  .wfss-how-header-{{ section.id }} .wfss-h2-{{ section.id }} {
+    margin-bottom: 0;
+  }
+  .wfss-steps-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-bottom: 36px;
+  }
+  .wfss-step-{{ section.id }} {
+    background: #fff;
+    border: 1.5px solid #e3eaf1;
+    border-radius: 14px;
+    padding: 30px 22px 26px;
+    text-align: center;
+  }
+  .wfss-step-num-{{ section.id }} {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: {{ section.settings.accent_color }};
+    color: #fff;
+    font-size: 19px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+  }
+  .wfss-step-title-{{ section.id }} {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+  .wfss-step-body-{{ section.id }} {
+    font-size: 13.5px;
+    color: #666;
+    margin: 0;
+    line-height: 1.65;
+  }
+  .wfss-manage-note-{{ section.id }} {
+    background: {{ section.settings.accent_color }}0e;
+    border: 1.5px solid {{ section.settings.accent_color }}28;
+    border-radius: 10px;
+    padding: 20px 28px;
+    text-align: center;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.65;
+  }
+  .wfss-manage-note-{{ section.id }} strong {
+    color: {{ section.settings.accent_color }};
+    font-weight: 700;
+  }
+
+  /* ──────────────────────────────────────────────
+     ④ BENEFITS
+  ────────────────────────────────────────────── */
+  .wfss-benefits-{{ section.id }} {
+    background: {{ section.settings.benefits_bg }};
+    padding: 84px 24px;
+  }
+  .wfss-benefits-header-{{ section.id }} {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .wfss-benefits-header-{{ section.id }} .wfss-h2-{{ section.id }} {
+    margin-bottom: 0;
+  }
+  .wfss-benefits-grid-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 52px;
+  }
+  .wfss-benefit-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fff;
+    border: 1.5px solid #eaeef3;
+    border-radius: 12px;
+    padding: 22px 18px;
+    transition: border-color 0.2s;
+  }
+  .wfss-benefit-{{ section.id }}:hover {
+    border-color: {{ section.settings.accent_color }}55;
+  }
+  .wfss-benefit-icon-{{ section.id }} {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: {{ section.settings.accent_color }}14;
+    color: {{ section.settings.accent_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .wfss-benefit-label-{{ section.id }} {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.45;
+    margin: 0;
+  }
+  .wfss-closing-{{ section.id }} {
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+    color: #333;
+    letter-spacing: 0.15px;
+  }
+
+  /* ──────────────────────────────────────────────
+     ⑤ CTA FOOTER STRIP
+  ────────────────────────────────────────────── */
+  .wfss-cta-section-{{ section.id }} {
+    background: {{ section.settings.cta_bg }};
+    padding: 80px 24px {{ section.settings.padding_bottom }}px;
+    text-align: center;
+  }
+  .wfss-cta-eyebrow-{{ section.id }} {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,1);
+    margin: 0 0 22px;
+  }
+
+  /* ──────────────────────────────────────────────
+     RESPONSIVE
+  ────────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .wfss-problem-inner-{{ section.id }} {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .wfss-btn-lg-{{ section.id }} {
+    font-size: 14px;
+    padding: 12px 20px;
+  }
+    .wfss-steps-{{ section.id }} {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .wfss-benefits-grid-{{ section.id }} {
+      grid-template-columns: 1fr 1fr;
+    }
+    .wfss-callout-pct-{{ section.id }} {
+      font-size: 60px;
+    }
+  }
+  @media (max-width: 500px) {
+    .wfss-benefits-grid-{{ section.id }} {
+      grid-template-columns: 1fr;
+    }
+    .wfss-btn-{{ section.id }},
+    .wfss-btn-lg-{{ section.id }} {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+{%- endstyle -%}
+
+{%- comment -%} ① HERO {%- endcomment -%}
+<div class="wfss-hero-{{ section.id }}">
+  <div class="wfss-wrap-{{ section.id }}">
+    <h1 class="wfss-hero-h1-{{ section.id }}">{{ section.settings.hero_heading }}</h1>
+    <p class="wfss-hero-lead-{{ section.id }}">{{ section.settings.hero_lead }}</p>
+    <p class="wfss-hero-desc-{{ section.id }}">{{ section.settings.hero_desc }}</p>
+    {% comment %} <a href="{{ section.settings.cta_url | default: '#' }}" class="wfss-btn-{{ section.id }} wfss-btn-lg-{{ section.id }}">
+      {{- section.settings.cta_label -}}
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+    </a> {% endcomment %}
+  </div>
+</div>
+
+{%- comment -%} ② PROBLEM {%- endcomment -%}
+<div class="wfss-problem-{{ section.id }}">
+  <div class="wfss-wrap-{{ section.id }}">
+    <div class="wfss-problem-inner-{{ section.id }}">
+
+      <div>
+        <h2 class="wfss-h2-{{ section.id }}">{{ section.settings.problem_heading }}</h2>
+        <ul class="wfss-pain-list-{{ section.id }}">
+          {%- assign pains = section.settings.pain_points | split: '|' -%}
+          {%- for pain in pains -%}
+            {%- if pain != blank -%}
+              <li>
+                <span class="wfss-pain-x-{{ section.id }}" aria-hidden="true">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </span>
+                {{ pain | strip }}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+        <p class="wfss-friction-line-{{ section.id }}">{{ section.settings.friction_line }}</p>
+      </div>
+
+      <div class="wfss-callout-{{ section.id }}" aria-hidden="true">
+        <div class="wfss-callout-pct-{{ section.id }}">10 %</div>
+        <p class="wfss-callout-label-{{ section.id }}">{{ section.settings.callout_label }}</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{%- comment -%} ③ HOW IT WORKS {%- endcomment -%}
+<div class="wfss-how-{{ section.id }}">
+  <div class="wfss-wrap-{{ section.id }}">
+    <div class="wfss-how-header-{{ section.id }}">
+      <h2 class="wfss-h2-{{ section.id }}">{{ section.settings.how_heading }}</h2>
+    </div>
+
+    <div class="wfss-steps-{{ section.id }}">
+      {%- for i in (1..3) -%}
+        {%- assign t_key = 'step_' | append: i | append: '_title' -%}
+        {%- assign d_key = 'step_' | append: i | append: '_desc' -%}
+        <div class="wfss-step-{{ section.id }}">
+          <div class="wfss-step-num-{{ section.id }}">{{ i }}</div>
+          <p class="wfss-step-title-{{ section.id }}">{{ section.settings[t_key] }}</p>
+          <p class="wfss-step-body-{{ section.id }}">{{ section.settings[d_key] }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="wfss-manage-note-{{ section.id }}">
+      {{ section.settings.manage_note }}
+    </div>
+  </div>
+</div>
+
+{%- comment -%} ④ BENEFITS {%- endcomment -%}
+<div class="wfss-benefits-{{ section.id }}">
+  <div class="wfss-wrap-{{ section.id }}">
+    <div class="wfss-benefits-header-{{ section.id }}">
+      <h2 class="wfss-h2-{{ section.id }}">{{ section.settings.benefits_heading }}</h2>
+    </div>
+
+    <div class="wfss-benefits-grid-{{ section.id }}">
+      {%- assign items = section.settings.benefit_items | split: '|' -%}
+      {%- for item in items -%}
+        {%- if item != blank -%}
+          <div class="wfss-benefit-{{ section.id }}">
+            <span class="wfss-benefit-icon-{{ section.id }}" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </span>
+            <p class="wfss-benefit-label-{{ section.id }}">{{ item | strip }}</p>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <p class="wfss-closing-{{ section.id }}">{{ section.settings.closing_line }}</p>
+  </div>
+</div>
+
+{%- comment -%} ⑤ CTA FOOTER STRIP {%- endcomment -%}
+<div class="wfss-cta-section-{{ section.id }}">
+  <div class="wfss-wrap-{{ section.id }}">
+    <p class="wfss-cta-eyebrow-{{ section.id }}">{{ section.settings.cta_eyebrow }}</p>
+    <a href="{{ section.settings.cta_url | default: '#' }}" class="wfss-btn-{{ section.id }} wfss-btn-lg-{{ section.id }}">
+      {{- section.settings.cta_label -}}
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "WeFill™ Subscribe & Save",
+  "settings": [
+    {
+      "type": "header",
+      "content": "① Hero"
+    },
+    {
+      "type": "text",
+      "id": "hero_badge",
+      "label": "Badge text",
+      "default": "OWELL® — Quality & Reliability You Can Count On"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "H1 Heading",
+      "default": "WeFill<sup>™</sup> — Subscribe & Save"
+    },
+    {
+      "type": "text",
+      "id": "hero_lead",
+      "label": "Lead line",
+      "default": "Your Orders, Automated."
+    },
+    {
+      "type": "textarea",
+      "id": "hero_desc",
+      "label": "Description",
+      "default": "Activate WeFill™ — Subscribe & Save and save an additional 10% on every recurring order. Savings stack automatically on top of qualifying Business and volume pricing."
+    },
+    {
+      "type": "header",
+      "content": "② Problem"
+    },
+    {
+      "type": "text",
+      "id": "problem_heading",
+      "label": "Section heading",
+      "default": "Ordering Shouldn't Be a Manual Task."
+    },
+    {
+      "type": "textarea",
+      "id": "pain_points",
+      "label": "Pain points (separate with |)",
+      "info": "Example: Running low unexpectedly|Reordering every month",
+      "default": "Running low unexpectedly|Reordering every month|Managing fluctuating inventory|Missing built-in savings"
+    },
+    {
+      "type": "text",
+      "id": "friction_line",
+      "label": "Friction line",
+      "default": "Manual ordering creates friction. WeFill™ removes it."
+    },
+    {
+      "type": "text",
+      "id": "callout_label",
+      "label": "Callout card label (below 10 %)",
+      "default": "Additional savings on every recurring order — stacked automatically on top of Business and volume pricing."
+    },
+    {
+      "type": "header",
+      "content": "③ How It Works"
+    },
+    {
+      "type": "text",
+      "id": "how_heading",
+      "label": "Section heading",
+      "default": "How WeFill™ — Subscribe & Save Works"
+    },
+    {
+      "type": "text",
+      "id": "step_1_title",
+      "label": "Step 1 — Title",
+      "default": "Choose Your Product"
+    },
+    {
+      "type": "textarea",
+      "id": "step_1_desc",
+      "label": "Step 1 — Description",
+      "default": "Browse gloves and supplies. Add your item to the cart."
+    },
+    {
+      "type": "text",
+      "id": "step_2_title",
+      "label": "Step 2 — Title",
+      "default": "Select WeFill™ — Subscribe & Save"
+    },
+    {
+      "type": "textarea",
+      "id": "step_2_desc",
+      "label": "Step 2 — Description",
+      "default": "Toggle the WeFill™ option on the product page to activate your subscription and unlock the additional 10% savings."
+    },
+    {
+      "type": "text",
+      "id": "step_3_title",
+      "label": "Step 3 — Title",
+      "default": "Set Your Delivery Frequency"
+    },
+    {
+      "type": "textarea",
+      "id": "step_3_desc",
+      "label": "Step 3 — Description",
+      "default": "Choose how often you need your supplies. Orders ship on your schedule — no manual reordering required."
+    },
+    {
+      "type": "textarea",
+      "id": "manage_note",
+      "label": "Management note",
+      "default": "Orders are processed and shipped on YOUR schedule. Cancel, update, or pause anytime from within your account dashboard."
+    },
+    {
+      "type": "header",
+      "content": "④ Benefits"
+    },
+    {
+      "type": "text",
+      "id": "benefits_heading",
+      "label": "Section heading",
+      "default": "Built for Professionals Who Value Consistency."
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_items",
+      "label": "Benefit items (separate with |)",
+      "info": "Example: 10 % Additional Savings|Same-Day Shipping",
+      "default": "10 % Additional Savings|Business Pricing Integration|Volume Discount Compatible|Same-Day Shipping|Cancel, Update, or Pause Anytime|Consistent Order Fulfillment"
+    },
+    {
+      "type": "text",
+      "id": "closing_line",
+      "label": "Closing line",
+      "default": "No surprises. No disruptions. No manual reminders."
+    },
+    {
+      "type": "header",
+      "content": "⑤ CTA Strip"
+    },
+    {
+      "type": "text",
+      "id": "cta_eyebrow",
+      "label": "Eyebrow text (above button)",
+      "default": "Start saving on every order — automatically."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Start WeFill™ Subscription"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent blue",
+      "default": "#026eb4"
+    },
+    {
+      "type": "color",
+      "id": "green_accent",
+      "label": "Hover green (button hover)",
+      "default": "#56c2b3"
+    },
+    {
+      "type": "color",
+      "id": "hero_bg",
+      "label": "Hero background",
+      "default": "#026eb4"
+    },
+    {
+      "type": "color",
+      "id": "problem_bg",
+      "label": "Problem section background",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "how_bg",
+      "label": "How-it-works background",
+      "default": "#f0f7fd"
+    },
+    {
+      "type": "color",
+      "id": "benefits_bg",
+      "label": "Benefits background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "cta_bg",
+      "label": "CTA section background",
+      "default": "#026eb4"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "WeFill™ Subscribe & Save"
+    }
+  ]
+}
+{% endschema %}

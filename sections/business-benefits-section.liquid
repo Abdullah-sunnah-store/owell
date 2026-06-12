@@ -64,6 +64,12 @@
       "label": "Benefit 3 - Link URL"
     },
     {
+      "type": "url",
+      "id": "benefit_3_shop_link",
+      "label": "Benefit 3 - Shop All Link URL",
+      "info": "URL for the 'Shop All' button shown on the back of the card"
+    },
+    {
       "type": "text",
       "id": "benefit_4_title",
       "label": "Benefit 4 - Title",
@@ -79,6 +85,12 @@
       "type": "url",
       "id": "benefit_4_link",
       "label": "Benefit 4 - Link URL"
+    },
+    {
+      "type": "url",
+      "id": "benefit_4_signup_link",
+      "label": "Benefit 4 - Sign Up Link URL",
+      "info": "URL for the 'Sign Up' button shown on the back of the card"
     },
     {
       "type": "header",
@@ -150,9 +162,9 @@
           "id": "button_style",
           "label": "Button Style",
           "options": [
-            { "value": "solid", "label": "Solid" },
-            { "value": "outline", "label": "Outline" },
-            { "value": "rounded", "label": "Rounded Solid" },
+            { "value": "solid",           "label": "Solid" },
+            { "value": "outline",         "label": "Outline" },
+            { "value": "rounded",         "label": "Rounded Solid" },
             { "value": "rounded-outline", "label": "Rounded Outline" }
           ],
           "default": "rounded"
@@ -174,8 +186,8 @@
           "id": "button_hover_effect",
           "label": "Button Hover Effect",
           "options": [
-            { "value": "custom", "label": "Custom Color" },
-            { "value": "darken", "label": "Auto Darken (10%)" },
+            { "value": "custom",  "label": "Custom Color" },
+            { "value": "darken",  "label": "Auto Darken (10%)" },
             { "value": "lighten", "label": "Auto Lighten (10%)" }
           ],
           "default": "darken",
@@ -281,6 +293,9 @@
 {% endschema %}
 
 {% style %}
+  /* ─────────────────────────────────────────
+     Section wrapper
+  ───────────────────────────────────────── */
   .business-benefits-section {
     padding: 4rem 0 1rem;
     background: #ffffff;
@@ -294,6 +309,7 @@
 
   .business-benefits-header {
     text-align: center;
+    margin-bottom: 2rem;
   }
 
   .business-benefits-title {
@@ -312,6 +328,9 @@
     font-weight: 500;
   }
 
+  /* ─────────────────────────────────────────
+     Grid
+  ───────────────────────────────────────── */
   .benefits-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -320,34 +339,73 @@
     border: 1px solid #e0e0e0;
   }
 
-  .benefit-tile {
+  /* ─────────────────────────────────────────
+     Flip-card outer wrapper
+  ───────────────────────────────────────── */
+  .benefit-flip-wrapper {
+    perspective: 1200px;
+    min-height: 200px;
     background: #ffffff;
-    padding: 2rem 1.5rem;
+  }
+
+  .benefit-flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  }
+
+  .benefit-flip-wrapper:hover .benefit-flip-inner {
+    transform: rotateY(180deg);
+  }
+
+  .benefit-flip-wrapper.is-flipped .benefit-flip-inner {
+    transform: rotateY(180deg);
+  }
+
+  /* ─────────────────────────────────────────
+     Front & Back — shared
+  ───────────────────────────────────────── */
+  .benefit-flip-front,
+  .benefit-flip-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     display: flex;
     flex-direction: column;
-    transition: background-color 0.2s ease;
-    text-decoration: none;
-    color: inherit;
-    min-height: 180px;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    box-sizing: border-box;
   }
 
-  .benefit-tile:hover {
-    background: #f8f8f8;
-  }
-
-  .benefit-icon {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 1);
+  .benefit-flip-front {
+    background: #ffffff;
     text-align: center;
-    border: 1px solid #56c2b3;
-    border-radius: 50%;
-    width: 15%;
-    background: rgba(0, 91, 211, 1);
-    padding: 5px;
-    margin: 0 auto 1rem;
   }
 
+  .benefit-flip-back {
+    transform: rotateY(180deg);
+    background: #005bd3;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+    overflow-y: auto;
+    padding: 1.5rem 1.5rem 1.25rem;
+    scrollbar-width: thin;
+    scrollbar-color: #026eb4;
+  }
+
+  .benefit-flip-back::-webkit-scrollbar       { width: 4px; }
+  .benefit-flip-back::-webkit-scrollbar-track  { background: transparent; }
+  .benefit-flip-back::-webkit-scrollbar-thumb  { background: #026eb4; border-radius: 4px; }
+
+  /* ─────────────────────────────────────────
+     Shared tile typography
+  ───────────────────────────────────────── */
   .benefit-title {
     font-size: 18px;
     font-weight: 600;
@@ -358,14 +416,113 @@
   }
 
   .benefit-description {
-    font-size: 14px;
-    color: #666666;
+    font-size: 16px;
+    color: #1c1c1c;
     line-height: 1.5;
     margin: 0;
     text-align: center;
   }
 
-  /* CTA Section Styles */
+  /* ─────────────────────────────────────────
+     Back-face content
+  ───────────────────────────────────────── */
+  .back-heading {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 0.6rem 0;
+  }
+
+  .back-subheading {
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0.75rem 0 0.35rem;
+  }
+
+  .back-body {
+    font-size: 14px;
+    color: #ffffff;
+    line-height: 1.6;
+    margin: 0 0 0.4rem;
+  }
+
+  .back-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .back-list li {
+    font-size: 12.5px;
+    color: #ffffff;
+    line-height: 1.55;
+    padding: 0.2rem 0 0.2rem 1.1rem;
+    position: relative;
+  }
+
+  .back-list li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    font-size: 8px;
+    color: #ffffff;
+  }
+
+  /* Shared action button style (tile 3 & 4 back) */
+  .back-shop-btn {
+    display: block;
+    margin-top: 1rem;
+    padding: 0.55rem 1.25rem;
+    background: #ffffff00;
+    color: #eceeef !important;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 6px;
+    letter-spacing: 0.03em;
+    text-align: center;
+    transition: background 0.2s ease, color 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #fff;
+  }
+
+  .back-shop-btn:hover {
+    background: #56c2b3;
+    color: #ffffff !important;
+  }
+
+  /* Mobile close hint */
+  .back-close-hint {
+    display: none;
+    margin-top: 0.85rem;
+    font-size: 12px;
+    font-weight: 600;
+    color: #56c2b3;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .back-close-hint svg {
+    width: 13px;
+    height: 13px;
+    stroke: #56c2b3;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  /* ─────────────────────────────────────────
+     CTA Buttons
+  ───────────────────────────────────────── */
   .benefits-cta-section-{{ section.id }} {
     margin-top: {{ section.settings.cta_spacing_top }}px;
     display: flex;
@@ -407,12 +564,22 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
+  /* ─────────────────────────────────────────
+     Responsive — Tablet (≤1024px)
+  ───────────────────────────────────────── */
   @media (max-width: 1024px) {
     .benefits-grid {
       grid-template-columns: repeat(2, 1fr);
     }
+
+    .benefit-description {
+      font-size: 15px;
+    }
   }
 
+  /* ─────────────────────────────────────────
+     Responsive — Mobile (≤640px)
+  ───────────────────────────────────────── */
   @media (max-width: 640px) {
     .business-benefits-section {
       padding: 3rem 0 0;
@@ -422,9 +589,40 @@
       grid-template-columns: 1fr;
     }
 
-    .benefit-tile {
-      min-height: 140px;
+    .benefit-flip-wrapper {
+      perspective: none;
+      min-height: auto;
+    }
+
+    .benefit-flip-inner {
+      transform-style: flat;
+      transform: none !important;
+      transition: none;
+      min-height: auto;
+    }
+
+    .benefit-flip-front,
+    .benefit-flip-back {
+      position: relative;
+      inset: auto;
+      backface-visibility: visible;
+      -webkit-backface-visibility: visible;
+      transform: none !important;
+      min-height: auto;
       padding: 1.5rem 1.25rem;
+    }
+
+    .benefit-flip-back {
+      display: none;
+      overflow-y: visible;
+    }
+
+    .benefit-flip-wrapper.is-flipped .benefit-flip-back {
+      display: flex;
+    }
+
+    .back-close-hint {
+      display: inline-flex;
     }
 
     .benefits-cta-section-{{ section.id }} {
@@ -442,6 +640,7 @@
 
 <section class="business-benefits-section">
   <div class="business-benefits-container">
+
     {% if section.settings.section_title != blank %}
       <div class="business-benefits-header">
         <p class="business-benefits-title">WHAT YOU GET</p>
@@ -450,76 +649,121 @@
     {% endif %}
 
     <div class="benefits-grid">
+
+      {%- comment -%} ── TILE 1: Better Pricing ── {%- endcomment -%}
       {% if section.settings.benefit_1_title != blank %}
-        {% if section.settings.benefit_1_link != blank %}
-          <a href="{{ section.settings.benefit_1_link }}" class="benefit-tile">
-        {% else %}
-          <div class="benefit-tile">
-        {% endif %}
-            
-            <h3 class="benefit-title">{{ section.settings.benefit_1_title }}</h3>
-            <p class="benefit-description">{{ section.settings.benefit_1_description }}</p>
-        {% if section.settings.benefit_1_link != blank %}
-          </a>
-        {% else %}
+        <div class="benefit-flip-wrapper js-flip-card">
+          <div class="benefit-flip-inner">
+            <div class="benefit-flip-front">
+              <h3 class="benefit-title">{{ section.settings.benefit_1_title }}</h3>
+              <p class="benefit-description">{{ section.settings.benefit_1_description }}</p>
+            </div>
+            <div class="benefit-flip-back">
+              <p class="back-heading">Bulk &amp; Business Pricing</p>
+              <p class="back-body">Business buyers receive built-in savings designed for medical offices, dental practices, laboratories, institutions, and professional supply purchasing — with up to 30% off listed pricing when combined.</p>
+              <p class="back-subheading">Savings Breakdown</p>
+              <ul class="back-list">
+                <li>Qualified business accounts save 15% off listed pricing</li>
+                <li>Save 5% when purchasing 4 or more units</li>
+                <li>Save an additional 10% with WeFill™ automatic recurring supply</li>
+                <li>Pallet pricing available for high-volume procurement</li>
+                <li>Reliable U.S.-based inventory for uninterrupted supply</li>
+              </ul>
+              <span class="back-close-hint js-flip-close">
+                <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Back
+              </span>
+            </div>
           </div>
-        {% endif %}
+        </div>
       {% endif %}
 
+      {%- comment -%} ── TILE 2: Free Same-Day Shipping ── {%- endcomment -%}
       {% if section.settings.benefit_2_title != blank %}
-        {% if section.settings.benefit_2_link != blank %}
-          <a href="{{ section.settings.benefit_2_link }}" class="benefit-tile">
-        {% else %}
-          <div class="benefit-tile">
-        {% endif %}
-            
-            <h3 class="benefit-title">{{ section.settings.benefit_2_title }}</h3>
-            <p class="benefit-description">{{ section.settings.benefit_2_description }}</p>
-        {% if section.settings.benefit_2_link != blank %}
-          </a>
-        {% else %}
+        <div class="benefit-flip-wrapper js-flip-card">
+          <div class="benefit-flip-inner">
+            <div class="benefit-flip-front">
+              <h3 class="benefit-title">{{ section.settings.benefit_2_title }}</h3>
+              <p class="benefit-description">{{ section.settings.benefit_2_description }}</p>
+            </div>
+            <div class="benefit-flip-back">
+              <p class="back-heading">Order Processing &amp; Shipment</p>
+              <p class="back-body">Orders are shipped the same business day when placed before the daily cutoff time.</p>
+              <p class="back-subheading">Cutoff Times</p>
+              <ul class="back-list">
+                <li>Monday – Thursday: 3:00 PM ET</li>
+                <li>Friday: 11:30 AM ET</li>
+              </ul>
+              <p class="back-body" style="margin-top:0.65rem;">Orders placed after the daily cutoff ship the next business day. OWELL® does not ship on Saturdays, Sundays, or legal holidays.</p>
+              <span class="back-close-hint js-flip-close">
+                <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Back
+              </span>
+            </div>
           </div>
-        {% endif %}
+        </div>
       {% endif %}
 
+      {%- comment -%} ── TILE 3: Free Product Samples ── {%- endcomment -%}
       {% if section.settings.benefit_3_title != blank %}
-        {% if section.settings.benefit_3_link != blank %}
-          <a href="{{ section.settings.benefit_3_link }}" class="benefit-tile">
-        {% else %}
-          <div class="benefit-tile">
-        {% endif %}
-            
-            <h3 class="benefit-title">{{ section.settings.benefit_3_title }}</h3>
-            <p class="benefit-description">{{ section.settings.benefit_3_description }}</p>
-        {% if section.settings.benefit_3_link != blank %}
-          </a>
-        {% else %}
+        <div class="benefit-flip-wrapper js-flip-card">
+          <div class="benefit-flip-inner">
+            <div class="benefit-flip-front">
+              <h3 class="benefit-title">{{ section.settings.benefit_3_title }}</h3>
+              <p class="benefit-description">{{ section.settings.benefit_3_description }}</p>
+            </div>
+            <div class="benefit-flip-back">
+              <p class="back-heading">Free Product Samples</p>
+              <p class="back-body">Explore our full product range and request samples before committing to bulk orders. Try any glove style — at no cost to your business.</p>
+              <a
+                href="{{ section.settings.benefit_3_shop_link | default: '/collections/all' }}"
+                class="back-shop-btn"
+              >
+                Request a Free Sample
+              </a>
+              <span class="back-close-hint js-flip-close">
+                <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Back
+              </span>
+            </div>
           </div>
-        {% endif %}
+        </div>
       {% endif %}
 
+      {%- comment -%} ── TILE 4: Priority Access (flip card + Sign Up) ── {%- endcomment -%}
       {% if section.settings.benefit_4_title != blank %}
-        {% if section.settings.benefit_4_link != blank %}
-          <a href="{{ section.settings.benefit_4_link }}" class="benefit-tile">
-        {% else %}
-          <div class="benefit-tile">
-        {% endif %}
-            
-            <h3 class="benefit-title">{{ section.settings.benefit_4_title }}</h3>
-            <p class="benefit-description">{{ section.settings.benefit_4_description }}</p>
-        {% if section.settings.benefit_4_link != blank %}
-          </a>
-        {% else %}
+        <div class="benefit-flip-wrapper js-flip-card">
+          <div class="benefit-flip-inner">
+            <div class="benefit-flip-front">
+              <h3 class="benefit-title">{{ section.settings.benefit_4_title }}</h3>
+              <p class="benefit-description">{{ section.settings.benefit_4_description }}</p>
+            </div>
+            <div class="benefit-flip-back">
+              <p class="back-heading">Priority Access to New Products</p>
+              <p class="back-body">Business account holders get first access to new SKUs, limited releases, and product updates — before they're available to the general public.</p>
+              <button
+                type="button"
+                class="back-shop-btn"
+                onclick="document.dispatchEvent(new CustomEvent('owell:open-popup'))"
+              >
+                Sign Up for Business Updates
+              </button>
+              <span class="back-close-hint js-flip-close">
+                <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Back
+              </span>
+            </div>
           </div>
-        {% endif %}
+        </div>
       {% endif %}
+
     </div>
 
     {% if section.settings.show_cta_section and section.blocks.size > 0 %}
       <div class="benefits-cta-section-{{ section.id }}">
         {% for block in section.blocks %}
           {% if block.type == 'cta_button' and block.settings.button_text != blank %}
-            <a 
+            <a
               href="{{ block.settings.button_link | default: '#' }}"
               class="benefits-cta-button-{{ section.id }} cta-style-{{ block.settings.button_style }}"
               {{ block.shopify_attributes }}
@@ -532,7 +776,7 @@
             <style>
               {%- liquid
                 assign bg_color = block.settings.button_bg_color
-                
+
                 if block.settings.button_hover_effect == 'darken'
                   assign r = bg_color | slice: 1, 2 | hex_to_decimal
                   assign g = bg_color | slice: 3, 2 | hex_to_decimal
@@ -593,5 +837,33 @@
         {% endfor %}
       </div>
     {% endif %}
+
   </div>
 </section>
+
+<script>
+  (function () {
+    function isMobile() {
+      return window.innerWidth <= 640;
+    }
+
+    document.querySelectorAll('.js-flip-card').forEach(function (wrapper) {
+      var front    = wrapper.querySelector('.benefit-flip-front');
+      var closeBtn = wrapper.querySelector('.js-flip-close');
+
+      if (front) {
+        front.addEventListener('click', function () {
+          if (!isMobile()) return;
+          wrapper.classList.add('is-flipped');
+        });
+      }
+
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          wrapper.classList.remove('is-flipped');
+        });
+      }
+    });
+  })();
+</script>

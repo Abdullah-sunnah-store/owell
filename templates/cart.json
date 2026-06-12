@@ -1,1 +1,61 @@
-{"sections":{"main-cart":{"type":"main-cart","settings":{"use_outline_button":false,"color_scheme":""}},"featured-collection":{"type":"featured-collection","blocks":{"product_collection":{"type":"product_collection","settings":{"tab_heading":"Collection","products":[]}}},"block_order":["product_collection"],"disabled":true,"settings":{"max_product_show":4,"layout_style":"carousel","columns_desktop":"4","columns_mobile":"1","subheading":"","heading":"You may also like","content":"","use_outline_button":false,"show_view_all_button":true,"view_all_link_style":"icon","view_all_link_position":"start","view_all_link_text":"View all","link_url":"","link_target":"_blank","padding_top":52,"padding_bottom":52,"border_size":"hide","border_position":"both","color_scheme":"scheme-1"}}},"order":["main-cart","featured-collection"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main-cart": {
+      "type": "main-cart",
+      "settings": {
+        "use_outline_button": false,
+        "color_scheme": ""
+      }
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "blocks": {
+        "product_collection": {
+          "type": "product_collection",
+          "settings": {
+            "tab_heading": "Collection",
+            "products": []
+          }
+        }
+      },
+      "block_order": [
+        "product_collection"
+      ],
+      "disabled": true,
+      "settings": {
+        "max_product_show": 4,
+        "layout_style": "carousel",
+        "columns_desktop": "4",
+        "columns_mobile": "1",
+        "subheading": "",
+        "heading": "You may also like",
+        "content": "",
+        "use_outline_button": false,
+        "show_view_all_button": true,
+        "view_all_link_style": "icon",
+        "view_all_link_position": "start",
+        "view_all_link_text": "View all",
+        "link_url": "",
+        "link_target": "_blank",
+        "padding_top": 52,
+        "padding_bottom": 52,
+        "border_size": "hide",
+        "border_position": "both",
+        "color_scheme": "scheme-1"
+      }
+    }
+  },
+  "order": [
+    "main-cart",
+    "featured-collection"
+  ]
+}

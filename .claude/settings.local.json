@@ -1,10 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git init:*)",
-      "Bash(git remote add:*)",
-      "Bash(git branch:*)",
-      "Bash(git add:*)"
+      "PowerShell(git ls-remote *)",
+      "PowerShell(Get-ChildItem *)",
+      "PowerShell(git *)"
     ]
   }
 }

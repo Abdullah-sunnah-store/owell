@@ -1,0 +1,70 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": 600,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "color_scheme": ""
+      }
+    },
+    "wefill_subscriptions_RLn3Jb": {
+      "type": "wefill-subscriptions",
+      "name": "WeFill™ Landing Page",
+      "settings": {
+        "hero_badge": "OWELL® — Subscribe & Save Program",
+        "hero_heading": "WeFill™ — Your Supply, Automated.",
+        "hero_subheadline": "Reliable replenishment. Built-in savings. Full control.",
+        "hero_support": "Never run out. Never reorder manually. Never overpay.",
+        "hero_cta": "Start Shopping with WeFill™",
+        "how_eyebrow": "Simple Setup",
+        "how_heading": "How to Get Started",
+        "step_1_desc": "Start shopping as usual.",
+        "step_2_desc": "On any eligible product page, select the WeFill™ option.",
+        "step_3_desc": "Choose your delivery frequency (2, 4, 6, or 8 weeks).",
+        "step_4_desc": "Complete your order.",
+        "how_note": "Subscription activates automatically at checkout.",
+        "savings_eyebrow": "Subscriber Savings",
+        "savings_heading": "10% Off — On Top of Your Tier Pricing.",
+        "savings_desc": "Subscribers receive an additional 10% discount applied to their current tier pricing on every recurring shipment. Savings are automatic.",
+        "savings_pills": "No Codes|No Requalification|No Renegotiation",
+        "savings_callout_label": "Additional savings on every recurring order — applied automatically on top of your tier pricing.",
+        "delivery_eyebrow": "Delivery Frequency",
+        "delivery_heading": "Flexible Delivery, On Your Schedule.",
+        "delivery_sub": "Choose delivery every 2, 4, 6, or 8 weeks.",
+        "delivery_note": "Frequency can be adjusted anytime in the My Account section.",
+        "terms_heading": "What You Should Know",
+        "terms_items": "Applies to eligible products only.|Recurring shipments continue until modified or canceled.|Subscription pricing reflects 10% additional savings applied to your current tier pricing on each recurring shipment.|Cancel, update, or pause anytime from your account dashboard.",
+        "cta_eyebrow": "WeFill™ — Subscribe & Save",
+        "cta_heading": "Your supplies, handled.",
+        "cta_label": "Start Shopping with WeFill™",
+        "cta_url": "/collections/all",
+        "accent_color": "#026eb4",
+        "green_accent": "#56c2b3",
+        "hero_bg": "#026eb4",
+        "how_bg": "#f0f7fd",
+        "savings_bg": "#f8f9fa",
+        "delivery_bg": "#ffffff",
+        "terms_bg": "#f8f9fa",
+        "cta_bg": "#026eb4",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "main",
+    "wefill_subscriptions_RLn3Jb"
+  ]
+}

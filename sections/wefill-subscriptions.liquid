@@ -1,0 +1,813 @@
+{%- style -%}
+
+  /* ================================================
+     WeFill™ Landing Page — {{ section.id }}
+  ================================================ */
+
+  .wf-wrap-{{ section.id }} {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── Shared heading ── */
+  .wf-h2-{{ section.id }} {
+    font-size: clamp(22px, 3.2vw, 34px);
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 16px;
+    line-height: 1.2;
+  }
+
+  /* ── Section eyebrow ── */
+  .wf-eyebrow-{{ section.id }} {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+    margin: 0 0 14px;
+  }
+
+  /* ── CTA Button (shared) ── */
+  .wf-btn-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: #fff;
+    color: {{ section.settings.accent_color }};
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    padding: 16px 38px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 2px solid #fff;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    line-height: 1;
+  }
+  .wf-btn-{{ section.id }}:hover {
+    background: {{ section.settings.green_accent }};
+    border-color: {{ section.settings.green_accent }};
+    color: #fff;
+  }
+  .wf-btn-lg-{{ section.id }} {
+    font-size: 16px;
+    padding: 18px 48px;
+  }
+
+  /* ──────────────────────────────────────────────
+     ① HERO
+  ────────────────────────────────────────────── */
+  .wf-hero-{{ section.id }} {
+    background: {{ section.settings.hero_bg }};
+    padding: {{ section.settings.padding_top }}px 24px 88px;
+    text-align: center;
+    color: #fff;
+  }
+  .wf-hero-badge-{{ section.id }} {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.82);
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 20px;
+    padding: 5px 18px;
+    margin-bottom: 28px;
+  }
+  .wf-hero-h1-{{ section.id }} {
+    font-size: clamp(32px, 5.5vw, 36px);
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 20px;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .wf-hero-sub-{{ section.id }} {
+    font-size: clamp(17px, 2.4vw, 22px);
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    margin: 0 0 14px;
+  }
+  .wf-hero-support-{{ section.id }} {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    max-width: 480px;
+    margin: 0 auto 44px;
+    line-height: 1.75;
+    letter-spacing: 0.2px;
+  }
+  .wf-hero-{{ section.id }} sup {
+    font-size: 0.5em;
+    top: -0.65em;
+    position: relative;
+    vertical-align: baseline;
+    line-height: 0;
+  }
+
+  /* ──────────────────────────────────────────────
+     ② HOW TO GET STARTED
+  ────────────────────────────────────────────── */
+  .wf-how-{{ section.id }} {
+    background: {{ section.settings.how_bg }};
+    padding: 84px 24px;
+  }
+  .wf-how-header-{{ section.id }} {
+    text-align: center;
+    margin-bottom: 52px;
+  }
+  .wf-steps-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 32px;
+  }
+  .wf-step-{{ section.id }} {
+    background: #fff;
+    border: 1.5px solid #e3eaf1;
+    border-radius: 14px;
+    padding: 28px 20px 26px;
+    text-align: center;
+  }
+  .wf-step-num-{{ section.id }} {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: {{ section.settings.accent_color }};
+    color: #fff;
+    font-size: 18px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+  }
+  .wf-step-body-{{ section.id }} {
+    font-size: 14px;
+    color: #444;
+    margin: 0;
+    line-height: 1.65;
+  }
+  .wf-how-note-{{ section.id }} {
+    background: {{ section.settings.accent_color }}0e;
+    border: 1.5px solid {{ section.settings.accent_color }}28;
+    border-radius: 10px;
+    padding: 18px 28px;
+    text-align: center;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.65;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .wf-how-note-{{ section.id }} strong {
+    color: {{ section.settings.accent_color }};
+  }
+
+  /* ──────────────────────────────────────────────
+     ③ SUBSCRIBER SAVINGS
+  ────────────────────────────────────────────── */
+  .wf-savings-{{ section.id }} {
+    background: {{ section.settings.savings_bg }};
+    padding: 84px 24px;
+  }
+  .wf-savings-inner-{{ section.id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .wf-savings-desc-{{ section.id }} {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.72;
+    margin: 0 0 28px;
+  }
+  .wf-savings-pills-{{ section.id }} {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .wf-pill-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    color: {{ section.settings.accent_color }};
+    background: {{ section.settings.accent_color }}12;
+    border: 1.5px solid {{ section.settings.accent_color }}30;
+    border-radius: 20px;
+    padding: 6px 14px;
+  }
+  .wf-callout-{{ section.id }} {
+    background: {{ section.settings.accent_color }};
+    border-radius: 18px;
+    padding: 48px 36px;
+    color: #fff;
+    text-align: center;
+  }
+  .wf-callout-pct-{{ section.id }} {
+    font-size: 84px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -2px;
+    margin-bottom: 10px;
+  }
+  .wf-callout-label-{{ section.id }} {
+    font-size: 15px;
+    opacity: 0.84;
+    line-height: 1.6;
+    max-width: 240px;
+    margin: 0 auto;
+  }
+
+  /* ──────────────────────────────────────────────
+     ④ DELIVERY OPTIONS
+  ────────────────────────────────────────────── */
+  .wf-delivery-{{ section.id }} {
+    background: {{ section.settings.delivery_bg }};
+    padding: 84px 24px;
+  }
+  .wf-delivery-header-{{ section.id }} {
+    text-align: center;
+    margin-bottom: 52px;
+  }
+  .wf-delivery-sub-{{ section.id }} {
+    font-size: 16px;
+    color: #666;
+    margin: 8px 0 0;
+  }
+  .wf-freq-grid-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 800px;
+    margin: 0 auto 32px;
+  }
+  .wf-freq-{{ section.id }} {
+    background: #fff;
+    border: 2px solid #e3eaf1;
+    border-radius: 14px;
+    padding: 30px 16px;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+  .wf-freq-{{ section.id }}:hover {
+    border-color: {{ section.settings.accent_color }}66;
+  }
+  .wf-freq-num-{{ section.id }} {
+    font-size: 38px;
+    font-weight: 900;
+    color: {{ section.settings.accent_color }};
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .wf-freq-unit-{{ section.id }} {
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  .wf-delivery-note-{{ section.id }} {
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+    line-height: 1.65;
+  }
+  .wf-delivery-note-{{ section.id }} strong {
+    color: {{ section.settings.accent_color }};
+    font-weight: 600;
+  }
+
+  /* ──────────────────────────────────────────────
+     ⑤ PROGRAM TERMS
+  ────────────────────────────────────────────── */
+  .wf-terms-{{ section.id }} {
+    background: {{ section.settings.terms_bg }};
+    padding: 72px 24px;
+  }
+  .wf-terms-inner-{{ section.id }} {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .wf-terms-badge-{{ section.id }} {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #888;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 4px 14px;
+    margin-bottom: 20px;
+  }
+  .wf-terms-h2-{{ section.id }} {
+    font-size: clamp(20px, 2.6vw, 26px);
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 24px;
+    line-height: 1.25;
+  }
+  .wf-terms-list-{{ section.id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .wf-terms-list-{{ section.id }} li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14.5px;
+    color: #555;
+    line-height: 1.65;
+  }
+  .wf-terms-dot-{{ section.id }} {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: {{ section.settings.accent_color }};
+    flex-shrink: 0;
+    margin-top: 8px;
+  }
+
+  /* ──────────────────────────────────────────────
+     ⑥ CTA FOOTER STRIP
+  ────────────────────────────────────────────── */
+  .wf-cta-section-{{ section.id }} {
+    background: {{ section.settings.cta_bg }};
+    padding: 80px 24px {{ section.settings.padding_bottom }}px;
+    text-align: center;
+  }
+  .wf-cta-eyebrow-{{ section.id }} {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin: 0 0 20px;
+  }
+  .wf-cta-h2-{{ section.id }} {
+    font-size: clamp(22px, 3.2vw, 32px);
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 32px;
+    line-height: 1.2;
+  }
+
+  /* ──────────────────────────────────────────────
+     RESPONSIVE
+  ────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .wf-steps-{{ section.id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .wf-freq-grid-{{ section.id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 768px) {
+    .wf-savings-inner-{{ section.id }} {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .wf-callout-pct-{{ section.id }} {
+      font-size: 64px;
+    }
+  }
+  @media (max-width: 500px) {
+    .wf-steps-{{ section.id }} {
+      grid-template-columns: 1fr;
+    }
+    .wf-btn-{{ section.id }},
+    .wf-btn-lg-{{ section.id }} {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+{%- endstyle -%}
+
+{%- comment -%} ① HERO {%- endcomment -%}
+<div class="wf-hero-{{ section.id }}">
+  <div class="wf-wrap-{{ section.id }}">
+    <div class="wf-hero-badge-{{ section.id }}">{{ section.settings.hero_badge | replace: '®', '<sup>®</sup>' | replace: '™', '<sup style="font-size:0.55em;top:-0.6em;position:relative;">™</sup>' }}</div>
+    <h1 class="wf-hero-h1-{{ section.id }}">{{ section.settings.hero_heading }}</h1>
+    <p class="wf-hero-sub-{{ section.id }}">{{ section.settings.hero_subheadline }}</p>
+    <p class="wf-hero-support-{{ section.id }}">{{ section.settings.hero_support }}</p>
+    <a href="{{ section.settings.cta_url | default: '#' }}" class="wf-btn-{{ section.id }} wf-btn-lg-{{ section.id }}">
+      {{- section.settings.hero_cta -}}
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+  </div>
+</div>
+
+{%- comment -%} ② HOW TO GET STARTED {%- endcomment -%}
+<div class="wf-how-{{ section.id }}">
+  <div class="wf-wrap-{{ section.id }}">
+    <div class="wf-how-header-{{ section.id }}">
+      {%- if section.settings.how_eyebrow != blank -%}
+        <p class="wf-eyebrow-{{ section.id }}">{{ section.settings.how_eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="wf-h2-{{ section.id }}">{{ section.settings.how_heading }}</h2>
+    </div>
+
+    <div class="wf-steps-{{ section.id }}">
+      {%- for i in (1..4) -%}
+        {%- assign d_key = 'step_' | append: i | append: '_desc' -%}
+        {%- assign step_text = section.settings[d_key] -%}
+        {%- if step_text != blank -%}
+          <div class="wf-step-{{ section.id }}">
+            <div class="wf-step-num-{{ section.id }}">{{ i }}</div>
+            <p class="wf-step-body-{{ section.id }}">{{ step_text }}</p>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.how_note != blank -%}
+      <div class="wf-how-note-{{ section.id }}">
+        <strong>Note:</strong> {{ section.settings.how_note }}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- comment -%} ③ SUBSCRIBER SAVINGS {%- endcomment -%}
+<div class="wf-savings-{{ section.id }}">
+  <div class="wf-wrap-{{ section.id }}">
+    <div class="wf-savings-inner-{{ section.id }}">
+
+      <div>
+        {%- if section.settings.savings_eyebrow != blank -%}
+          <p class="wf-eyebrow-{{ section.id }}">{{ section.settings.savings_eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="wf-h2-{{ section.id }}">{{ section.settings.savings_heading }}</h2>
+        <p class="wf-savings-desc-{{ section.id }}">{{ section.settings.savings_desc }}</p>
+        <div class="wf-savings-pills-{{ section.id }}">
+          {%- assign pills = section.settings.savings_pills | split: '|' -%}
+          {%- for pill in pills -%}
+            {%- if pill != blank -%}
+              <span class="wf-pill-{{ section.id }}">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                {{ pill | strip }}
+              </span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <div class="wf-callout-{{ section.id }}" aria-hidden="true">
+        <div class="wf-callout-pct-{{ section.id }}">10 %</div>
+        <p class="wf-callout-label-{{ section.id }}">{{ section.settings.savings_callout_label }}</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{%- comment -%} ④ DELIVERY OPTIONS {%- endcomment -%}
+<div class="wf-delivery-{{ section.id }}">
+  <div class="wf-wrap-{{ section.id }}">
+    <div class="wf-delivery-header-{{ section.id }}">
+      {%- if section.settings.delivery_eyebrow != blank -%}
+        <p class="wf-eyebrow-{{ section.id }}">{{ section.settings.delivery_eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="wf-h2-{{ section.id }}">{{ section.settings.delivery_heading }}</h2>
+      {%- if section.settings.delivery_sub != blank -%}
+        <p class="wf-delivery-sub-{{ section.id }}">{{ section.settings.delivery_sub }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="wf-freq-grid-{{ section.id }}">
+      {%- assign freqs = '2|4|6|8' | split: '|' -%}
+      {%- for freq in freqs -%}
+        <div class="wf-freq-{{ section.id }}">
+          <div class="wf-freq-num-{{ section.id }}">{{ freq }}</div>
+          <div class="wf-freq-unit-{{ section.id }}">Weeks</div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.delivery_note != blank -%}
+      <p class="wf-delivery-note-{{ section.id }}">
+        <strong>Adjustable anytime.</strong> {{ section.settings.delivery_note }}
+      </p>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- comment -%} ⑤ PROGRAM TERMS {%- endcomment -%}
+<div class="wf-terms-{{ section.id }}">
+  <div class="wf-wrap-{{ section.id }}">
+    <div class="wf-terms-inner-{{ section.id }}">
+      <span class="wf-terms-badge-{{ section.id }}">Program Terms</span>
+      <h2 class="wf-terms-h2-{{ section.id }}">{{ section.settings.terms_heading }}</h2>
+      <ul class="wf-terms-list-{{ section.id }}">
+        {%- assign terms = section.settings.terms_items | split: '|' -%}
+        {%- for term in terms -%}
+          {%- if term != blank -%}
+            <li>
+              <span class="wf-terms-dot-{{ section.id }}" aria-hidden="true"></span>
+              {{ term | strip }}
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{%- comment -%} ⑥ CTA FOOTER STRIP {%- endcomment -%}
+<div class="wf-cta-section-{{ section.id }}">
+  <div class="wf-wrap-{{ section.id }}">
+    {%- if section.settings.cta_eyebrow != blank -%}
+      <p class="wf-cta-eyebrow-{{ section.id }}">{{ section.settings.cta_eyebrow }}</p>
+    {%- endif -%}
+    <h2 class="wf-cta-h2-{{ section.id }}">{{ section.settings.cta_heading }}</h2>
+    <a href="{{ section.settings.cta_url | default: '#' }}" class="wf-btn-{{ section.id }} wf-btn-lg-{{ section.id }}">
+      {{- section.settings.cta_label -}}
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "WeFill™ Landing Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "① Hero"
+    },
+    {
+      "type": "text",
+      "id": "hero_badge",
+      "label": "Badge text",
+      "default": "OWELL® — Subscribe & Save Program"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "H1 Heading",
+      "default": "WeFill™ — Your Supply, Automated."
+    },
+    {
+      "type": "text",
+      "id": "hero_subheadline",
+      "label": "Subheadline",
+      "default": "Reliable replenishment. Built-in savings. Full control."
+    },
+    {
+      "type": "text",
+      "id": "hero_support",
+      "label": "Supporting line",
+      "default": "Never run out. Never reorder manually. Never overpay."
+    },
+    {
+      "type": "text",
+      "id": "hero_cta",
+      "label": "Hero CTA button label",
+      "default": "Start Shopping with WeFill™"
+    },
+    {
+      "type": "header",
+      "content": "② How to Get Started"
+    },
+    {
+      "type": "text",
+      "id": "how_eyebrow",
+      "label": "Eyebrow label",
+      "default": "Simple Setup"
+    },
+    {
+      "type": "text",
+      "id": "how_heading",
+      "label": "Section heading",
+      "default": "How to Get Started"
+    },
+    {
+      "type": "textarea",
+      "id": "step_1_desc",
+      "label": "Step 1",
+      "default": "Start shopping as usual."
+    },
+    {
+      "type": "textarea",
+      "id": "step_2_desc",
+      "label": "Step 2",
+      "default": "On any eligible product page, select the WeFill™ option."
+    },
+    {
+      "type": "textarea",
+      "id": "step_3_desc",
+      "label": "Step 3",
+      "default": "Choose your delivery frequency (2, 4, 6, or 8 weeks)."
+    },
+    {
+      "type": "textarea",
+      "id": "step_4_desc",
+      "label": "Step 4",
+      "default": "Complete your order."
+    },
+    {
+      "type": "text",
+      "id": "how_note",
+      "label": "Note (below steps)",
+      "default": "Subscription activates automatically at checkout."
+    },
+    {
+      "type": "header",
+      "content": "③ Subscriber Savings"
+    },
+    {
+      "type": "text",
+      "id": "savings_eyebrow",
+      "label": "Eyebrow label",
+      "default": "Subscriber Savings"
+    },
+    {
+      "type": "text",
+      "id": "savings_heading",
+      "label": "Section heading",
+      "default": "10% Off — On Top of Your Tier Pricing."
+    },
+    {
+      "type": "textarea",
+      "id": "savings_desc",
+      "label": "Description",
+      "default": "Subscribers receive an additional 10% discount applied to their current tier pricing on every recurring shipment. Savings are automatic."
+    },
+    {
+      "type": "textarea",
+      "id": "savings_pills",
+      "label": "Callout pills (separate with |)",
+      "info": "Example: No Codes|No Requalification|No Renegotiation",
+      "default": "No Codes|No Requalification|No Renegotiation"
+    },
+    {
+      "type": "text",
+      "id": "savings_callout_label",
+      "label": "Callout card label (below 10 %)",
+      "default": "Additional savings on every recurring order — applied automatically on top of your tier pricing."
+    },
+    {
+      "type": "header",
+      "content": "④ Delivery Options"
+    },
+    {
+      "type": "text",
+      "id": "delivery_eyebrow",
+      "label": "Eyebrow label",
+      "default": "Delivery Frequency"
+    },
+    {
+      "type": "text",
+      "id": "delivery_heading",
+      "label": "Section heading",
+      "default": "Flexible Delivery, On Your Schedule."
+    },
+    {
+      "type": "text",
+      "id": "delivery_sub",
+      "label": "Subtext (below heading)",
+      "default": "Choose delivery every 2, 4, 6, or 8 weeks."
+    },
+    {
+      "type": "text",
+      "id": "delivery_note",
+      "label": "Note (below frequency cards)",
+      "default": "Frequency can be adjusted anytime in the My Account section."
+    },
+    {
+      "type": "header",
+      "content": "⑤ Program Terms"
+    },
+    {
+      "type": "text",
+      "id": "terms_heading",
+      "label": "Section heading",
+      "default": "What You Should Know"
+    },
+    {
+      "type": "textarea",
+      "id": "terms_items",
+      "label": "Terms (separate with |)",
+      "info": "Each item separated by |",
+      "default": "Applies to eligible products only.|Recurring shipments continue until modified or canceled.|Subscription pricing reflects 10% additional savings applied to your current tier pricing on each recurring shipment.|Cancel, update, or pause anytime from your account dashboard."
+    },
+    {
+      "type": "header",
+      "content": "⑥ CTA Footer Strip"
+    },
+    {
+      "type": "text",
+      "id": "cta_eyebrow",
+      "label": "Eyebrow label",
+      "default": "WeFill™ — Subscribe & Save"
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "Heading",
+      "default": "Your supplies, handled."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Start Shopping with WeFill™"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent blue",
+      "default": "#026eb4"
+    },
+    {
+      "type": "color",
+      "id": "green_accent",
+      "label": "Hover green (button hover)",
+      "default": "#56c2b3"
+    },
+    {
+      "type": "color",
+      "id": "hero_bg",
+      "label": "Hero background",
+      "default": "#026eb4"
+    },
+    {
+      "type": "color",
+      "id": "how_bg",
+      "label": "How-it-works background",
+      "default": "#f0f7fd"
+    },
+    {
+      "type": "color",
+      "id": "savings_bg",
+      "label": "Subscriber savings background",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "delivery_bg",
+      "label": "Delivery options background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "terms_bg",
+      "label": "Program terms background",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "cta_bg",
+      "label": "CTA section background",
+      "default": "#026eb4"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "WeFill™ Landing Page"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,64 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": 600,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "color_scheme": ""
+      }
+    },
+    "wefill_subscribe_save_HgYEHP": {
+      "type": "wefill-subscribe-save",
+      "name": "WeFill™ Subscribe & Save",
+      "settings": {
+        "hero_badge": "",
+        "hero_heading": "WeFill™ Auto-Replenishment",
+        "hero_lead": "Your Orders, Automated.",
+        "hero_desc": "Activate WeFill™ Auto-Replenishment and save an additional 10% on every recurring order. Savings stack automatically on top of qualifying Business and volume pricing.",
+        "problem_heading": "Ordering Shouldn't Be a Manual Task.",
+        "pain_points": "Running low unexpectedly|Reordering every month|Managing fluctuating inventory|Missing built-in savings",
+        "friction_line": "Manual ordering creates friction. WeFill™ removes it.",
+        "callout_label": "Additional savings on every recurring order — stacked automatically on top of Business and volume pricing.",
+        "how_heading": "How WeFill™ Auto-Replenishment Works",
+        "step_1_title": "Choose Your Product",
+        "step_1_desc": "Browse gloves and supplies. Add your item to the cart.",
+        "step_2_title": "Select WeFill™ Auto-Replenishment",
+        "step_2_desc": "Toggle the WeFill™ option on the product page to activate your subscription and unlock the additional 10% savings.",
+        "step_3_title": "Set Your Delivery Frequency",
+        "step_3_desc": "Choose how often you need your supplies. Orders ship on your schedule — no manual reordering required.",
+        "manage_note": "Orders are processed and shipped on YOUR schedule. Cancel, update, or pause anytime from within your account dashboard.",
+        "benefits_heading": "Built for Professionals Who Value Consistency.",
+        "benefit_items": "10 % Additional Savings|Business Pricing Integration|Volume Discount Compatible|Same-Day Shipping|Cancel, Update, or Pause Anytime|Consistent Order Fulfillment",
+        "closing_line": "No surprises. No disruptions. No manual reminders.",
+        "cta_eyebrow": "Start saving on every order — automatically.",
+        "cta_label": "Start Shopping with WeFill™",
+        "cta_url": "/collections/all",
+        "accent_color": "#026eb4",
+        "green_accent": "#56c2b3",
+        "hero_bg": "#026eb4",
+        "problem_bg": "#f8f9fa",
+        "how_bg": "#f0f7fd",
+        "benefits_bg": "#ffffff",
+        "cta_bg": "#026eb4",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "main",
+    "wefill_subscribe_save_HgYEHP"
+  ]
+}

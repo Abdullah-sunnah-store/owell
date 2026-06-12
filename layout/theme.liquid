@@ -1,5 +1,14 @@
 <!doctype html>
 <html class="no-js" lang="{{ request.locale.iso_code }}">
+  <script>!function(key) {
+if (window.reb2b) return;
+window.reb2b = {loaded: true};
+var s = document.createElement("script");
+s.async = true;
+s.src = "https://ddwl4m2hdecbv.cloudfront.net/b/" + key + "/" + key + ".js.gz";
+document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);
+}("9NMMZHRJXQNW");</script> 
+
   <head>
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L3V9G9FEH"></script>
@@ -371,5 +380,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 {% render 'search-modal-overlay' %}
+  {% section 'popup-signup' %}
   </body>
 </html>

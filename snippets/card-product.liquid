@@ -406,6 +406,12 @@
               has_no_varaint: has_no_varaint,
               hide_percentage_off: hide_percentage_off
             %}
+            {% comment %} {% if product.tags contains "Listing-page-quick-order" %}
+              <div class="b2b-business-price">
+                <span class="b2b-label">Business Price:</span>
+                <span class="b2b-price">{{ product.price | money }}</span>
+              </div>
+            {% endif %} {% endcomment %}
             {% for option in product.options_with_values %}
 {%- comment -%} Wholesale_Hub_Product_Visibility_For_Loop Start {%- endcomment -%}
 {%- capture hide_resource -%}{% render "orbit_wholesale_product_visibility", resource: option %}{%- endcapture -%}
@@ -601,3 +607,16 @@
     </div>
   </div>
 {%- endunless -%}
+
+{%- comment -%} B2B price unlock — runs once per page load {%- endcomment -%}
+<script>
+  (function () {
+    if (window.__owellB2BInit) return;
+    window.__owellB2BInit = true;
+    try {
+      if (localStorage.getItem('owell_b2b_access') === '1') {
+        document.body.classList.add('b2b-price-unlocked');
+      }
+    } catch (e) {}
+  })();
+</script>

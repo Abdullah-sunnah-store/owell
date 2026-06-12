@@ -1,0 +1,743 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main-product": {
+      "type": "main-product",
+      "blocks": {
+        "feature_icons_87P47e": {
+          "type": "feature_icons",
+          "settings": {
+            "block_bottom_spacing": 20
+          }
+        },
+        "vendor": {
+          "type": "vendor",
+          "disabled": true,
+          "settings": {
+            "block_bottom_spacing": 16
+          }
+        },
+        "amazon_reviews_stars_product_widget_block_fwDFfe": {
+          "type": "shopify://apps/amazon-reviews/blocks/stars-product-widget-block/88ab28f3-a438-4eb3-a83e-f1a9c62c5069",
+          "settings": {
+            "font": "default",
+            "themeId": "light",
+            "alignment": "start",
+            "layout": "stacked"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "block_bottom_spacing": 16
+          }
+        },
+        "rating": {
+          "type": "rating",
+          "disabled": true,
+          "settings": {
+            "show_if_no_reviews": false,
+            "block_bottom_spacing": 16
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_taxes_notice": false,
+            "block_bottom_spacing": 30
+          }
+        },
+        "variant-picker": {
+          "type": "variant_picker",
+          "settings": {
+            "varaint_selector_type": "pills",
+            "show_swatches": true,
+            "block_bottom_spacing": 5,
+            "guide_heading": "",
+            "guide_option": "",
+            "guide_content": ""
+          }
+        },
+        "quantity-selector": {
+          "type": "quantity_selector",
+          "settings": {
+            "block_bottom_spacing": 30
+          }
+        },
+        "bundle_selector_Mpq9KL": {
+          "type": "bundle_selector",
+          "settings": {
+            "show_bundle_selector": true,
+            "block_bottom_spacing": 20,
+            "bundle_1_title": "Buy 1",
+            "bundle_1_savings": "",
+            "bundle_2_title": "Buy 4 or more",
+            "bundle_2_quantity": 4,
+            "bundle_2_discount": 5,
+            "bundle_2_savings": "Save 5% on every case",
+            "bundle_2_label": "Save 5%",
+            "bundle_2_label_bg": "#026eb4",
+            "bundle_border_color": "#026eb4",
+            "selected_bundle_bg": "#c3e5fa",
+            "bundle_text_color": "#000000",
+            "bundle_border_width": 2,
+            "bundle_border_radius": 12
+          }
+        },
+        "subscribe_save_wefill": {
+          "type": "subscribe_save",
+          "disabled": true,
+          "settings": {
+            "title": "WeFill™ - Subscribe and Save",
+            "description": "Save 5% With Automatic Refills! Cancel anytime.",
+            "discount_percent": 5,
+            "accent_color": "#026eb4",
+            "discount_code": "SUBSCRIBE5",
+            "block_bottom_spacing": 16
+          }
+        },
+        "buy-buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": true,
+            "block_bottom_spacing": 5
+          }
+        },
+        "shop_shop_login_button_app_block_NgnWAU": {
+          "type": "shopify://apps/shop/blocks/shop-login-button-app-block/7cab7c4a-1dfc-4b7e-8e53-31f104f2fa4e",
+          "disabled": true,
+          "settings": {}
+        },
+        "joy_subscription_app_subscription_widget_AX9QEX": {
+          "type": "shopify://apps/joy-subscription-app/blocks/subscription-widget/6aa30d9c-ff0b-4f29-a82d-a633d8e04b9a",
+          "disabled": true,
+          "settings": {}
+        },
+        "accordion_z4wwWC": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Product Description",
+            "content": "{{ product.metafields.custom.product_description | metafield_tag }}",
+            "page": "",
+            "block_bottom_spacing": 0
+          }
+        },
+        "accordion_Uw9zAP": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Certifications & Compliance",
+            "content": "{{ product.metafields.custom.certifications_compliance | metafield_tag }}",
+            "page": "",
+            "block_bottom_spacing": 0
+          }
+        },
+        "accordion_KiKj4C": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Product Details",
+            "content": "{{ product.metafields.custom.product_details | metafield_tag }}",
+            "page": "",
+            "block_bottom_spacing": 0
+          }
+        },
+        "accordion_pjAzHj": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Specifications",
+            "content": "{{ product.metafields.custom.specifications | metafield_tag }}",
+            "page": "",
+            "block_bottom_spacing": 0
+          }
+        },
+        "accordion_PCcU8b": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Bulk & Business Pricing",
+            "content": "{{ product.metafields.custom.bulk_business_pricing | metafield_tag }}",
+            "page": "",
+            "block_bottom_spacing": 0
+          }
+        },
+        "accordion_yiGfzq": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Shipping & Delivery",
+            "content": "{{ product.metafields.custom.shipping_delivery | metafield_tag }}",
+            "page": "",
+            "block_bottom_spacing": 0
+          }
+        },
+        "accordion_3bT7FP": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Returns",
+            "content": "{{ product.metafields.custom.returns | metafield_tag }}",
+            "page": "",
+            "block_bottom_spacing": 0
+          }
+        },
+        "accordion_7UmbVT": {
+          "type": "accordion",
+          "settings": {
+            "heading": "FAQs",
+            "content": "{{ product.metafields.custom.faqs | metafield_tag }}",
+            "page": "",
+            "block_bottom_spacing": 30
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "block_bottom_spacing": 16
+          }
+        }
+      },
+      "block_order": [
+        "feature_icons_87P47e",
+        "vendor",
+        "amazon_reviews_stars_product_widget_block_fwDFfe",
+        "title",
+        "rating",
+        "price",
+        "variant-picker",
+        "quantity-selector",
+        "bundle_selector_Mpq9KL",
+        "subscribe_save_wefill",
+        "buy-buttons",
+        "shop_shop_login_button_app_block_NgnWAU",
+        "joy_subscription_app_subscription_widget_AX9QEX",
+        "accordion_z4wwWC",
+        "accordion_Uw9zAP",
+        "accordion_KiKj4C",
+        "accordion_pjAzHj",
+        "accordion_PCcU8b",
+        "accordion_yiGfzq",
+        "accordion_3bT7FP",
+        "accordion_7UmbVT",
+        "share"
+      ],
+      "settings": {
+        "hide_badges": false,
+        "display_options_layout": "thumbnail-bottom",
+        "desktop_media_position": "left",
+        "desktop_media_size": "small",
+        "image_aspect_ratio_desktop": "adapt",
+        "image_aspect_ratio_mobile": "landscape",
+        "media_autoplay": true,
+        "slider_hide_arrows": false,
+        "enable_media_zoom": true,
+        "enable_sticky_add_to_cart": true,
+        "sticky_add_to_cart_style": "button",
+        "show_only_for_mobile": false,
+        "padding_top": 52,
+        "padding_bottom": 52,
+        "border_size": "hide",
+        "border_position": "both",
+        "color_scheme": "scheme-1",
+        "show_business_cta_buttons": true,
+        "business_cta_button_1_text": "Open A Business Account",
+        "business_cta_button_1_url": "shopify://pages/apply-for-wholesale",
+        "business_cta_button_2_text": "Request a Quote",
+        "business_cta_button_2_url": "shopify://pages/request-a-quote",
+        "business_cta_primary_bg": "#026eb4",
+        "business_cta_primary_text": "#ffffff",
+        "business_cta_primary_hover": "#025a92",
+        "business_cta_secondary_text": "#ffffff",
+        "business_cta_secondary_border": "#56c2b3",
+        "business_cta_secondary_text_hover": "#ffffff"
+      }
+    },
+    "video_testimonials_fWtmWn": {
+      "type": "video-testimonials",
+      "blocks": {
+        "testimonial_4kz8gB": {
+          "type": "testimonial",
+          "settings": {
+            "title": "Testimonial 1",
+            "product": ""
+          }
+        },
+        "testimonial_Vh7dMx": {
+          "type": "testimonial",
+          "settings": {
+            "title": "Testimonial 2",
+            "product": ""
+          }
+        },
+        "testimonial_gNwxmY": {
+          "type": "testimonial",
+          "settings": {
+            "title": "Testimonial 3",
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_4kz8gB",
+        "testimonial_Vh7dMx",
+        "testimonial_gNwxmY"
+      ],
+      "disabled": true,
+      "name": "Video Testimonials",
+      "settings": {
+        "title": "What people are saying",
+        "subtitle": "",
+        "autoplay": false,
+        "duration": 5,
+        "background": "#f5f5f5",
+        "background_gradient": "",
+        "text_color": "#333333"
+      }
+    },
+    "1750875630ef7ed569": {
+      "type": "apps",
+      "blocks": {
+        "amazon_reviews_grid_widget_block_product_xEBBGi": {
+          "type": "shopify://apps/amazon-reviews/blocks/grid-widget-block.product/88ab28f3-a438-4eb3-a83e-f1a9c62c5069",
+          "settings": {
+            "font": "default",
+            "themeId": "light",
+            "showProductPicture": true,
+            "showDate": true,
+            "fixedReviewsHeight": false,
+            "textStyle": "plain",
+            "alignment": "left",
+            "infoPosition": "top",
+            "ratingStyle": "left"
+          }
+        }
+      },
+      "block_order": [
+        "amazon_reviews_grid_widget_block_product_xEBBGi"
+      ],
+      "settings": {
+        "section_width": true,
+        "padding_top": 52,
+        "padding_bottom": 52,
+        "color_scheme": ""
+      }
+    },
+    "image_text_sectionn_NQWQDL": {
+      "type": "image-text-sectionn",
+      "blocks": {
+        "cta_button_zx7Nam": {
+          "type": "cta_button",
+          "settings": {
+            "button_text": "SHOP Well",
+            "button_link": "shopify://products/owell-black-nitrile-gloves-food-medical-1000-per-case",
+            "button_style": "rounded",
+            "button_bg_color": "#6cc6c0",
+            "button_text_color": "#ffffff",
+            "button_hover_effect": "custom",
+            "button_hover_bg": "#5ab5af",
+            "button_hover_text": "#ffffff",
+            "button_font_size": 14,
+            "button_font_weight": "600",
+            "button_padding_v": 20,
+            "button_padding_h": 20,
+            "button_border_radius": 10
+          }
+        }
+      },
+      "block_order": [
+        "cta_button_zx7Nam"
+      ],
+      "disabled": true,
+      "name": "Image Text Section",
+      "settings": {
+        "layout": "image-right",
+        "image_width": 50,
+        "container_width": 1300,
+        "section_padding_top": 80,
+        "section_padding_bottom": 80,
+        "column_gap": 60,
+        "vertical_alignment": "center",
+        "background_color": "#ffffff",
+        "media_type": "image",
+        "image": "shopify://shop_images/OWELLBlackFoodPrepNitrileGloves_LifeStyle.5.png",
+        "video_url": "",
+        "media_border_radius": 12,
+        "media_shadow": true,
+        "play_button_color": "#ffffff",
+        "play_button_bg": "#00000099",
+        "media_timestamp": "",
+        "timestamp_color": "#ffffff",
+        "timestamp_bg_color": "#0000004d",
+        "label": "Everyday Made Better",
+        "label_color": "#10c69e",
+        "label_size": 16,
+        "label_weight": "500",
+        "label_line": false,
+        "label_line_color": "#87c643",
+        "label_line_width": 60,
+        "label_line_height": 3,
+        "heading": "Quality You Can Trust, Every Single Day",
+        "heading_size": 48,
+        "heading_size_mobile": 32,
+        "heading_weight": "700",
+        "heading_color": "#000000",
+        "heading_line_height": 1.2,
+        "accent_line": true,
+        "accent_line_color": "#3eb7ed",
+        "accent_line_width": 140,
+        "accent_line_height": 4,
+        "accent_line_spacing": 30,
+        "show_bullet_points": true,
+        "bullet_points": "",
+        "show_bullet_border": true,
+        "bullet_border_color": "#e5e5e5",
+        "bullet_border_width": 2,
+        "bullet_bg_color": "#ffffff",
+        "bullet_border_radius": 8,
+        "bullet_padding": 25,
+        "bullet_spacing": 25,
+        "bullet_color": "#87c643",
+        "bullet_text_color": "#333333",
+        "bullet_font_size": 16,
+        "description": "<p>From your first cup of coffee to your daily routine, OWELL® products are designed to fit seamlessly into your life. Reliable quality, thoughtful design, and consistency you can count on—because everyday essentials should never feel disposable.</p>",
+        "description_size": 16,
+        "description_color": "#666666",
+        "description_line_height": 1.6,
+        "description_spacing": 30,
+        "buttons_spacing": 30,
+        "buttons_gap": 15,
+        "buttons_alignment": "flex-start",
+        "mobile_layout": "image-top",
+        "mobile_gap": 40
+      }
+    },
+    "owell_comparison_section_pp_xCwVxA": {
+      "type": "owell-comparison-section-pp",
+      "blocks": {
+        "owell_feature_n3b696": {
+          "type": "owell_feature",
+          "settings": {
+            "icon_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <!-- Circle (head / O shape) -->\n  <circle cx=\"12\" cy=\"9\" r=\"5\"></circle>\n  <!-- Line beneath (underline / body base) -->\n  <line x1=\"7\" y1=\"17\" x2=\"17\" y2=\"17\"></line>\n</svg>",
+            "feature_text": "Brand-Direct Manufacturing",
+            "subfeature_text": "Direct control"
+          }
+        },
+        "owell_feature_yajgPt": {
+          "type": "owell_feature",
+          "settings": {
+            "icon_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <!-- Circle (head / O shape) -->\n  <circle cx=\"12\" cy=\"9\" r=\"5\"></circle>\n  <!-- Line beneath (underline / body base) -->\n  <line x1=\"7\" y1=\"17\" x2=\"17\" y2=\"17\"></line>\n</svg>",
+            "feature_text": "Consistent Quality",
+            "subfeature_text": "Defined standards"
+          }
+        },
+        "owell_feature_Yj4VJ9": {
+          "type": "owell_feature",
+          "settings": {
+            "icon_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <!-- Circle (head / O shape) -->\n  <circle cx=\"12\" cy=\"9\" r=\"5\"></circle>\n  <!-- Line beneath (underline / body base) -->\n  <line x1=\"7\" y1=\"17\" x2=\"17\" y2=\"17\"></line>\n</svg>",
+            "feature_text": "Free & Fast Shipping",
+            "subfeature_text": "Free + same-day fulfillment"
+          }
+        },
+        "owell_feature_RHnYAq": {
+          "type": "owell_feature",
+          "settings": {
+            "icon_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <!-- Circle (head / O shape) -->\n  <circle cx=\"12\" cy=\"9\" r=\"5\"></circle>\n  <!-- Line beneath (underline / body base) -->\n  <line x1=\"7\" y1=\"17\" x2=\"17\" y2=\"17\"></line>\n</svg>",
+            "feature_text": "Bulk Pricing",
+            "subfeature_text": "Clear volume discounts"
+          }
+        },
+        "owell_feature_JEVXBx": {
+          "type": "owell_feature",
+          "settings": {
+            "icon_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <!-- Circle (head / O shape) -->\n  <circle cx=\"12\" cy=\"9\" r=\"5\"></circle>\n  <!-- Line beneath (underline / body base) -->\n  <line x1=\"7\" y1=\"17\" x2=\"17\" y2=\"17\"></line>\n</svg>",
+            "feature_text": "Reliable Inventory",
+            "subfeature_text": "Stable stock"
+          }
+        },
+        "other_feature_aLxiCJ": {
+          "type": "other_feature",
+          "settings": {
+            "feature_text": "Third-party sourcing",
+            "subfeature_text": ""
+          }
+        },
+        "other_feature_nrqiNx": {
+          "type": "other_feature",
+          "settings": {
+            "feature_text": "Batch variability",
+            "subfeature_text": ""
+          }
+        },
+        "other_feature_iwgqpe": {
+          "type": "other_feature",
+          "settings": {
+            "feature_text": "Fees + delays",
+            "subfeature_text": ""
+          }
+        },
+        "other_feature_8CKNhH": {
+          "type": "other_feature",
+          "settings": {
+            "feature_text": "Limited savings",
+            "subfeature_text": ""
+          }
+        },
+        "other_feature_jwHCV6": {
+          "type": "other_feature",
+          "settings": {
+            "feature_text": "Frequent backorders",
+            "subfeature_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "owell_feature_n3b696",
+        "owell_feature_yajgPt",
+        "owell_feature_Yj4VJ9",
+        "owell_feature_RHnYAq",
+        "owell_feature_JEVXBx",
+        "other_feature_aLxiCJ",
+        "other_feature_nrqiNx",
+        "other_feature_iwgqpe",
+        "other_feature_8CKNhH",
+        "other_feature_jwHCV6"
+      ],
+      "name": "OWELL Comparison pp",
+      "settings": {
+        "main_title": "OWELL<sup>®</sup> vs. Other Brands",
+        "subtitle": "See why thousands of customers choose OWELL for superior quality and results",
+        "product_image": "shopify://shop_images/Artboard_1_copy_12.png",
+        "brand_name": "OWELL<sup>®</sup>",
+        "others_title": "Others",
+        "cta_text": "",
+        "cta_url": "",
+        "guarantee_text": ""
+      }
+    },
+    "image_text_sectionn_mEKhzK": {
+      "type": "image-text-sectionn",
+      "blocks": {
+        "cta_button_Kw6G9i": {
+          "type": "cta_button",
+          "disabled": true,
+          "settings": {
+            "button_text": "BUSINESS & INSTITUTIONS",
+            "button_link": "shopify://pages/owell-wholesale-bulk-purchasing",
+            "button_style": "rounded",
+            "button_bg_color": "#6cc6c0",
+            "button_text_color": "#ffffff",
+            "button_hover_effect": "custom",
+            "button_hover_bg": "#5ab5af",
+            "button_hover_text": "#ffffff",
+            "button_font_size": 14,
+            "button_font_weight": "600",
+            "button_padding_v": 20,
+            "button_padding_h": 20,
+            "button_border_radius": 10
+          }
+        }
+      },
+      "block_order": [
+        "cta_button_Kw6G9i"
+      ],
+      "name": "Image Text Section",
+      "settings": {
+        "layout": "image-left",
+        "image_width": 50,
+        "container_width": 1300,
+        "section_padding_top": 80,
+        "section_padding_bottom": 80,
+        "column_gap": 60,
+        "vertical_alignment": "center",
+        "background_color": "#ffffff",
+        "media_type": "video",
+        "image": "shopify://shop_images/ae13a4f9-592a-40ca-a95c-85941391666d.jpg",
+        "video_url": "",
+        "video_shopify": "shopify://files/videos/vecteezy_putting-on-blue-latex-gloves_15808150.mp4",
+        "media_border_radius": 12,
+        "media_shadow": true,
+        "play_button_color": "#ffffff",
+        "play_button_bg": "#00000099",
+        "media_timestamp": "",
+        "timestamp_color": "#ffffff",
+        "timestamp_bg_color": "#0000004d",
+        "label": "Built for High-Volume Professionals",
+        "label_color": "#10c69e",
+        "label_size": 16,
+        "label_weight": "500",
+        "label_line": false,
+        "label_line_color": "#87c643",
+        "label_line_width": 60,
+        "label_line_height": 3,
+        "heading": "Direct From Manufacturer, Honest & Transparent",
+        "heading_size": 48,
+        "heading_size_mobile": 32,
+        "heading_weight": "700",
+        "heading_color": "#000000",
+        "heading_line_height": 1.2,
+        "accent_line": true,
+        "accent_line_color": "#3eb7ed",
+        "accent_line_width": 140,
+        "accent_line_height": 4,
+        "accent_line_spacing": 30,
+        "show_bullet_points": true,
+        "bullet_points": "<p><strong>OWELL®</strong> Business Solutions are built for businesses that need consistent supply at scale. We deliver high-quality products with competitive bulk pricing, free and fast shipping, and reliable stock availability for <strong>medical, dental, lab, food service and janitorial operations</strong> — so you can focus on your work, not your inventory.</p>",
+        "show_bullet_border": true,
+        "bullet_border_color": "#026eb4",
+        "bullet_border_width": 2,
+        "bullet_bg_color": "#f4f4f4",
+        "bullet_border_radius": 8,
+        "bullet_padding": 25,
+        "bullet_spacing": 25,
+        "bullet_color": "#87c643",
+        "bullet_text_color": "#333333",
+        "bullet_font_size": 16,
+        "description": "",
+        "description_size": 16,
+        "description_color": "#666666",
+        "description_line_height": 1.6,
+        "description_spacing": 30,
+        "buttons_spacing": 30,
+        "buttons_gap": 15,
+        "buttons_alignment": "flex-start",
+        "mobile_layout": "text-top",
+        "mobile_gap": 40
+      }
+    },
+    "product-recommendation": {
+      "type": "product-recommendation",
+      "settings": {
+        "heading": "You may also like",
+        "products_to_show": 5,
+        "display_options": "grid",
+        "columns_desktop": "5",
+        "columns_mobile": "2",
+        "padding_top": 52,
+        "padding_bottom": 52,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "1629746450643786911": {
+      "type": "areviews-section",
+      "settings": {
+        "hide_areviews_title_rating": false,
+        "areviews_theme_font": "inherit",
+        "areviews_stars_colors": "#f3c621",
+        "areviews_write_reviews_botton_color": "#373737"
+      }
+    },
+    "owell_vs_other_brands_zepAcT": {
+      "type": "owell-vs-other-brands",
+      "disabled": true,
+      "name": "Owell Comparison",
+      "settings": {
+        "badge_text": "Why Choose OWELL",
+        "title": "OWELL® vs. Other Brands",
+        "subtitle": "Quality and reliability you can count on, backed by real guarantees",
+        "owell_title": "OWELL®",
+        "feature_1_title": "Premium Quality Materials",
+        "feature_1_desc": "Highest-grade materials with strict quality control and randomized testing protocols",
+        "feature_2_title": "Ethically Sourced & Certified",
+        "feature_2_desc": "Global certified facilities ensuring ethical manufacturing practices",
+        "feature_3_title": "100% Satisfaction Guarantee",
+        "feature_3_desc": "Unmatched lifetime guarantee on all products with full support",
+        "feature_4_title": "Free & Fast Shipping",
+        "feature_4_desc": "Shipping on time, every time with nationwide coverage",
+        "feature_5_title": "Clean & Pure Products",
+        "feature_5_desc": "Allergen-free, vegan, gluten-free options with no unnecessary additives",
+        "others_title": "Other Brands",
+        "other_feature_1_title": "Inconsistent Quality",
+        "other_feature_1_desc": "Variable product quality with minimal testing standards",
+        "other_feature_2_title": "Unclear Sourcing",
+        "other_feature_2_desc": "Limited transparency on manufacturing and sourcing practices",
+        "other_feature_3_title": "Limited Warranties",
+        "other_feature_3_desc": "Short-term or conditional warranties with many exclusions",
+        "other_feature_4_title": "Slow or Paid Shipping",
+        "other_feature_4_desc": "Additional shipping costs and longer delivery times",
+        "other_feature_5_title": "Fillers & Additives",
+        "other_feature_5_desc": "Products may contain unnecessary fillers and additives",
+        "cta_title": "Experience the OWELL Difference",
+        "cta_subtitle": "Join thousands of satisfied customers who trust OWELL for their needs",
+        "cta_button_text": "Shop Now",
+        "cta_link": "shopify://collections/all",
+        "guarantee_text": "100% Satisfaction Guarantee"
+      }
+    },
+    "faq_accordion_section_cus_WC8p6Y": {
+      "type": "faq-accordion-section-cus",
+      "blocks": {
+        "faq_item_gE964y": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What types of gloves do you offer?",
+            "answer": "<p>We offer a wide range of disposable gloves including nitrile, latex, and vinyl gloves in various thicknesses (3.5 mil to 7 mil). Our gloves are suitable for medical, food service, janitorial, and general use. We carry both powder-free and textured options for better grip and comfort.</p>"
+          }
+        },
+        "faq_item_aWWTQH": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you offer bulk or wholesale pricing?",
+            "answer": "<p>Yes! We specialize in bulk orders for businesses and institutions. Contact our team for custom quotes on large quantities. We offer competitive wholesale pricing and can accommodate orders of any size to meet your facility's needs.</p>"
+          }
+        },
+        "faq_item_9WzrhC": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How fast is shipping?",
+            "answer": "<p>We offer FREE and FAST nationwide shipping on all orders. Our promise is to ship on time, every time. Most orders are processed and shipped within 1-2 business days, with delivery typically within 3-5 business days depending on your location.</p>"
+          }
+        },
+        "faq_item_Cnt6ma": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Are your gloves food safe?",
+            "answer": "<p>Yes! Many of our gloves, including our black nitrile gloves, are food safe and meet FDA requirements for food handling. They're perfect for restaurants, cafes, food processing, and any food service application.</p>"
+          }
+        },
+        "faq_item_F3fNVx": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is your satisfaction guarantee?",
+            "answer": "<p>We stand behind our products with a 100% satisfaction guarantee. All our products undergo strict quality control protocols and randomized testing. If you're not completely satisfied with your purchase, contact us and we'll make it right.</p>"
+          }
+        },
+        "faq_item_WUEM86": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Are your products ethically sourced?",
+            "answer": "<p>Absolutely. We are committed to ethical sourcing practices. All our products are made from the highest-grade materials and come from suppliers who meet our strict ethical standards. Quality and integrity are at the core of everything we do.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_gE964y",
+        "faq_item_aWWTQH",
+        "faq_item_9WzrhC",
+        "faq_item_Cnt6ma",
+        "faq_item_F3fNVx",
+        "faq_item_WUEM86"
+      ],
+      "disabled": true,
+      "name": "FAQ Accordion",
+      "settings": {
+        "title": "Frequently Asked Questions"
+      }
+    }
+  },
+  "order": [
+    "main-product",
+    "video_testimonials_fWtmWn",
+    "1750875630ef7ed569",
+    "image_text_sectionn_NQWQDL",
+    "owell_comparison_section_pp_xCwVxA",
+    "image_text_sectionn_mEKhzK",
+    "product-recommendation",
+    "1629746450643786911",
+    "owell_vs_other_brands_zepAcT",
+    "faq_accordion_section_cus_WC8p6Y"
+  ]
+}

@@ -1,1 +1,283 @@
-{"sections":{"main":{"type":"main-page","disabled":true,"settings":{"content_width":600,"padding_top":28,"padding_bottom":28,"color_scheme":""}},"image_with_text_overlay":{"type":"image-with-text-overlay","blocks":{"heading":{"type":"heading","settings":{"heading":"Heading","style":"h2"}},"paragraph":{"type":"paragraph","settings":{"content":"<p>Briefly describe what this heading is about<\/p>"}}},"block_order":["heading","paragraph"],"disabled":true,"settings":{"full_width":true,"image_aspect_ratio":"sm","content_width":560,"text_aligment":"left","desktop_content_position":"center","mobile_text_aligment":"left","mobile_content_position":"top","padding_top":0,"padding_bottom":36,"border_size":"hide","border_position":"both","overlay_color":"#000000","overlay_opacity":0,"color_scheme":""}},"faq-accordion":{"type":"faq-accordion","blocks":{"category_1":{"type":"category","settings":{"heading":"Category 1"}},"question_1_1":{"type":"question","settings":{"heading":"Add a question the customer might ask","content":"<p>Write a clear and concise answer to guide your customers.<\/p>","page":""}},"question_1_2":{"type":"question","settings":{"heading":"Add a question the customer might ask","content":"<p>Write a clear and concise answer to guide your customers.<\/p>","page":""}},"question_1_3":{"type":"question","settings":{"heading":"Add a question the customer might ask","content":"<p>Write a clear and concise answer to guide your customers.<\/p>","page":""}},"category_2":{"type":"category","settings":{"heading":"Category 2"}},"question_2_1":{"type":"question","settings":{"heading":"Add a question the customer might ask","content":"<p>Write a clear and concise answer to guide your customers.<\/p>","page":""}},"question_2_2":{"type":"question","settings":{"heading":"Add a question the customer might ask","content":"<p>Write a clear and concise answer to guide your customers.<\/p>","page":""}},"question_2_3":{"type":"question","settings":{"heading":"Add a question the customer might ask","content":"<p>Write a clear and concise answer to guide your customers.<\/p>","page":""}},"category_3":{"type":"category","settings":{"heading":"Category 3"}},"question_3_1":{"type":"question","settings":{"heading":"Add a question the customer might ask","content":"<p>Write a clear and concise answer to guide your customers.<\/p>","page":""}},"question_3_2":{"type":"question","settings":{"heading":"Add a question the customer might ask","content":"<p>Write a clear and concise answer to guide your customers.<\/p>","page":""}},"question_3_3":{"type":"question","settings":{"heading":"Add a question the customer might ask","content":"<p>Write a clear and concise answer to guide your customers.<\/p>","page":""}}},"block_order":["category_1","question_1_1","question_1_2","question_1_3","category_2","question_2_1","question_2_2","question_2_3","category_3","question_3_1","question_3_2","question_3_3"],"disabled":true,"settings":{"heading":"FAQ","padding_top":36,"padding_bottom":80,"color_scheme":"scheme-1"}},"rich_text":{"type":"rich-text","blocks":{"heading":{"type":"heading","settings":{"heading":"Rich Text Heading","style":"h2"}},"text":{"type":"text","settings":{"content":"<p>Briefly describe what this heading is about.<\/p>"}},"button":{"type":"button","settings":{"button_text":"BUTTON LABEL","link":"","link_target":"_top","use_outline_button":false}}},"block_order":["heading","text","button"],"disabled":true,"settings":{"container_size":true,"content_width":500,"content_alignment":"center","padding_top":100,"padding_bottom":100,"border_size":"hide","border_position":"both","color_scheme":"scheme-3"}},"custom_liquid_MCY6hP":{"type":"custom-liquid","name":"Custom liquid","settings":{"section_width":true,"custom_liquid":"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>OWELL® Sample Request<\/title>\n<style>\n\/* ===== Sample Request Form Styling ===== *\/\n.sample-form-wrapper {\n  max-width: 800px;\n  margin: 0 auto 60px;\n  padding: 40px;\n  background: #ffffff;\n  border-radius: 12px;\n  box-shadow: 0 10px 30px rgba(0,0,0,0.06);\n}\n\n.sample-form-wrapper h2 {\n  font-size: 28px;\n  margin-bottom: 8px;\n  font-weight: 600;\n  color: #111;\n  text-align: center;\n}\n.sample-form-wrapper .form-subtitle {\n  font-size: 14px;\n  color: #666;\n  margin-bottom: 30px;\n  text-align: center;\n}\n\n.sample-form-wrapper label {\n  display: block;\n  margin-bottom: 6px;\n  font-weight: 500;\n  font-size: 14px;\n  color: #333;\n}\n.sample-form-wrapper label.optional {\n  color: #666;\n  font-weight: 400;\n}\n.sample-form-wrapper input,\n.sample-form-wrapper textarea,\n.sample-form-wrapper select {\n  width: 100%;\n  padding: 12px 14px;\n  margin-bottom: 20px;\n  border: 1px solid #ddd;\n  border-radius: 8px;\n  font-size: 14px;\n  transition: all 0.3s ease;\n  font-family: inherit;\n  box-sizing: border-box;\n}\n.sample-form-wrapper input:focus,\n.sample-form-wrapper textarea:focus,\n.sample-form-wrapper select:focus {\n  border-color: #4a8df6;\n  outline: none;\n  box-shadow: 0 0 0 3px rgba(74,141,246,0.1);\n}\n.sample-form-wrapper input.field-error,\n.sample-form-wrapper select.field-error {\n  border-color: #c62828;\n}\n\n\/* ===== Section Divider ===== *\/\n.form-section-title {\n  font-size: 13px;\n  font-weight: 600;\n  letter-spacing: 1px;\n  text-transform: uppercase;\n  color: #026eb4;\n  border-bottom: 1px solid #e0ecf9;\n  padding-bottom: 8px;\n  margin: 28px 0 20px;\n}\n\n\/* ===== Two-column row ===== *\/\n.form-row {\n  display: flex;\n  gap: 16px;\n}\n.form-row > div {\n  flex: 1;\n}\n@media (max-width: 600px) {\n  .form-row { flex-direction: column; gap: 0; }\n}\n\n\/* ===== Sample Items ===== *\/\n.sample-item {\n  display: flex;\n  align-items: flex-start;\n  gap: 14px;\n  background: #f9f9f9;\n  border: 1px solid #ddd;\n  border-radius: 8px;\n  padding: 14px 16px;\n  margin-bottom: 12px;\n}\n.sample-item-icon {\n  font-size: 22px;\n  flex-shrink: 0;\n  margin-top: 28px;\n}\n.sample-item-body {\n  flex: 1;\n  display: flex;\n  gap: 14px;\n  flex-wrap: wrap;\n}\n.sample-item-body > div {\n  flex: 1;\n  min-width: 120px;\n}\n.sample-item-body label { margin-bottom: 6px; }\n.sample-item-body input,\n.sample-item-body select { margin-bottom: 0; }\n\n\/* Size hint text *\/\n.size-hint {\n  font-size: 11px;\n  color: #999;\n  margin-top: 4px;\n  display: block;\n}\n\n.sample-item-remove {\n  background: none;\n  border: 1px solid #ddd;\n  border-radius: 6px;\n  width: 34px;\n  height: 34px;\n  font-size: 16px;\n  color: #999;\n  cursor: pointer;\n  flex-shrink: 0;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin-top: 28px;\n}\n.sample-item-remove:hover { border-color: #c62828; color: #c62828; background: #fff5f5; }\n.sample-item-remove:disabled { opacity: 0.3; cursor: not-allowed; }\n.sample-item-remove:disabled:hover { border-color: #ddd; color: #999; background: none; }\n\n.add-item-btn {\n  width: 100%;\n  padding: 12px;\n  background: none;\n  border: 1px dashed #4a8df6;\n  border-radius: 8px;\n  color: #4a8df6;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-family: inherit;\n  margin-bottom: 6px;\n}\n.add-item-btn:hover { background: #f0f7ff; }\n\n.sample-counter {\n  font-size: 12px;\n  color: #999;\n  text-align: right;\n  margin-bottom: 20px;\n}\n.sample-error {\n  font-size: 13px;\n  color: #c62828;\n  margin-bottom: 16px;\n  display: none;\n}\n\n\/* ===== Buttons ===== *\/\n.form-buttons {\n  display: flex;\n  gap: 15px;\n  margin-top: 10px;\n}\n.btn {\n  flex: 1;\n  padding: 14px;\n  border: none;\n  border-radius: 8px;\n  font-size: 15px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  font-family: inherit;\n}\n.btn-primary { background: #4a8df6; color: #fff; }\n.btn-primary:hover { background: #3a75d6; }\n\n\/* ===== Success ===== *\/\n.sample-success {\n  text-align: center;\n  display: none;\n}\n.sample-success.active {\n  display: block;\n  animation: fadeIn 0.4s ease;\n}\n@keyframes fadeIn {\n  from { opacity: 0; transform: translateY(10px); }\n  to { opacity: 1; transform: translateY(0); }\n}\n.success-icon {\n  width: 80px;\n  height: 80px;\n  background: #e6f4ea;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 40px;\n  margin: 0 auto 20px;\n}\n.sample-success h2 { color: #1e7e34; margin-bottom: 15px; }\n.sample-success p { color: #666; font-size: 16px; line-height: 1.6; margin-bottom: 30px; }\n.success-buttons {\n  display: flex;\n  gap: 15px;\n  margin-top: 30px;\n}\n.success-buttons a {\n  flex: 1;\n  padding: 14px 20px;\n  text-align: center;\n  text-decoration: none;\n  border-radius: 8px;\n  font-size: 15px;\n  font-weight: 600;\n  transition: all 0.3s ease;\n}\n.btn-shop { background: #4a8df6; color: #fff; }\n.btn-shop:hover {\n  background: #3a75d6;\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(74,141,246,0.3);\n}\n.btn-apply {\n  background: #fff;\n  color: #4a8df6;\n  border: 2px solid #4a8df6;\n}\n.btn-apply:hover {\n  background: #f0f7ff;\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(74,141,246,0.2);\n}\n\n@media (max-width: 768px) {\n  .sample-form-wrapper { padding: 30px 20px; }\n  .sample-item-body { flex-direction: column; gap: 0; }\n  .success-buttons { flex-direction: column; }\n  .form-buttons { flex-direction: column; }\n  .sample-item-icon { margin-top: 0; }\n  .sample-item-remove { margin-top: 0; }\n}\n<\/style>\n<\/head>\n<body>\n\n<div style=\"background:#026eb4;padding:48px 40px 44px;text-align:center;margin-bottom:40px;\">\n  <div style=\"display:inline-block;background:#fff;border:1px solid #fff;color:#026eb4;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:40px;margin-bottom:16px;\">Qualified Businesses Only<\/div>\n  <h1 style=\"font-size:clamp(24px,4vw,38px);font-weight:700;color:#fff;line-height:1.2;margin:0 0 12px;\">Request a Complimentary Sample Box<\/h1>\n  <p style=\"font-size:15px;color:rgba(255,255,255,0.65);max-width:460px;margin:0 auto;line-height:1.65;\">Designed for qualified businesses evaluating OWELL® for professional use.<\/p>\n<\/div>\n\n<div class=\"sample-form-wrapper\">\n\n  <form id=\"sampleForm\">\n    <h2>Sample Request<\/h2>\n    <p class=\"form-subtitle\">Fill out the form below and our team will ship your samples within 2–3 business days.<\/p>\n\n    <!-- Contact Info -->\n    <div class=\"form-section-title\">Contact Information<\/div>\n\n    <div class=\"form-row\">\n      <div>\n        <label>First Name *<\/label>\n        <input type=\"text\" name=\"first_name\" required placeholder=\"Jane\">\n      <\/div>\n      <div>\n        <label>Last Name *<\/label>\n        <input type=\"text\" name=\"last_name\" required placeholder=\"Smith\">\n      <\/div>\n    <\/div>\n\n    <label>Business Email Address *<\/label>\n    <input type=\"email\" name=\"email\" required placeholder=\"jane@yourcompany.com\">\n\n    <label>Business Name *<\/label>\n    <input type=\"text\" name=\"business_name\" required placeholder=\"Your Company Inc.\">\n\n    <label>Business Type *<\/label>\n    <select name=\"business_type\" required>\n      <option value=\"\">Select your business type<\/option>\n      <option value=\"Medical \/ Dental\">Medical \/ Dental<\/option>\n      <option value=\"Food Service \/ Hospitality\">Food Service \/ Hospitality<\/option>\n      <option value=\"Janitorial \/ Facility\">Janitorial \/ Facility<\/option>\n      <option value=\"Retail\">Retail<\/option>\n      <option value=\"Laboratory \/ Drug Testing\">Laboratory \/ Drug Testing<\/option>\n      <option value=\"Distributor\">Distributor<\/option>\n      <option value=\"Government\">Government<\/option>\n      <option value=\"Other\">Other<\/option>\n    <\/select>\n\n    <!-- Address & Order Info -->\n    <div class=\"form-section-title\">Address &amp; Order Details<\/div>\n\n    <label>Business Address *<\/label>\n    <input type=\"text\" name=\"business_address\" required placeholder=\"123 Main St, City, State, ZIP\">\n\n    <label>Shipping Address *<\/label>\n    <input type=\"text\" name=\"shipping_address\" required placeholder=\"Same as business address or enter shipping address\">\n\n    <div class=\"form-row\">\n      <div>\n        <label>Purchase Order Number <span style=\"font-weight:400;color:#999;\">(optional)<\/span><\/label>\n        <input type=\"text\" name=\"po_number\" placeholder=\"e.g. PO-2024-0001\">\n      <\/div>\n      <div>\n        <label>Expected Purchase Date <span style=\"font-weight:400;color:#999;\">(optional)<\/span><\/label>\n        <input type=\"date\" name=\"expected_purchase_date\">\n      <\/div>\n    <\/div>\n\n    <!-- Sample Items -->\n    <div class=\"form-section-title\">Sample Items Requested<\/div>\n\n    <div id=\"sampleItems\">\n      <div class=\"sample-item\" data-item=\"1\">\n        \n        <div class=\"sample-item-body\">\n          <div>\n            <label>Item # *<\/label>\n            <input type=\"text\" name=\"item_1\" placeholder=\"e.g. OW-GL-100\" required>\n          <\/div>\n          <div>\n            <label>Size *<\/label>\n            <input type=\"text\" name=\"size_1\" placeholder=\"e.g. M, L, XL, 10 gal…\" required>\n            <span class=\"size-hint\">e.g. S, M, L, XL, One Size<\/span>\n          <\/div>\n          <div>\n            <label>Quantity *<\/label>\n            <input type=\"text\" name=\"quantity_1\" placeholder=\"e.g. 1 box, 50 pcs\" required>\n          <\/div>\n        <\/div>\n        <button type=\"button\" class=\"sample-item-remove\" onclick=\"removeItem(this)\" disabled title=\"Remove\">✕<\/button>\n      <\/div>\n    <\/div>\n\n    <button type=\"button\" class=\"add-item-btn\" id=\"addItemBtn\" onclick=\"addItem()\">+ Add Another Sample<\/button>\n    <div class=\"sample-counter\">Items selected: <span id=\"itemCount\">1<\/span><\/div>\n    <div class=\"sample-error\" id=\"sampleError\">Please fill in all required sample fields.<\/div>\n\n    <div class=\"form-buttons\">\n      <button type=\"submit\" class=\"btn btn-primary\">Submit Sample Request<\/button>\n    <\/div>\n  <\/form>\n\n  <!-- Success Message -->\n  <div class=\"sample-success\" id=\"successMessage\">\n    <div class=\"success-icon\">✓<\/div>\n    <h2>Sample Request Received!<\/h2>\n    <p>\n      Our team will review your request and ship your samples within 2–3 business days.<br>\n      <strong>We'll follow up by email with your tracking details.<\/strong>\n    <\/p>\n    <div class=\"success-buttons\">\n      <a href=\"https:\/\/owell.com\/collections\/owell-disposable-gloves\" class=\"btn-shop\">Shop Gloves<\/a>\n      <a href=\"https:\/\/owell.com\/pages\/owell-wholesale-bulk-purchasing\" class=\"btn-apply\">Apply for Business Account<\/a>\n    <\/div>\n  <\/div>\n\n<\/div>\n\n<script>\nlet itemCount = 1;\n\nfunction updateUI() {\n  document.getElementById('itemCount').textContent = itemCount;\n  const items = document.querySelectorAll('.sample-item');\n  items.forEach(item => {\n    item.querySelector('.sample-item-remove').disabled = items.length === 1;\n  });\n}\n\nfunction addItem() {\n  itemCount++;\n  const container = document.getElementById('sampleItems');\n  const div = document.createElement('div');\n  div.className = 'sample-item';\n  div.dataset.item = itemCount;\n  div.innerHTML = `\n    <div class=\"sample-item-icon\">📦<\/div>\n    <div class=\"sample-item-body\">\n      <div>\n        <label>Item # *<\/label>\n        <input type=\"text\" name=\"item_${itemCount}\" placeholder=\"e.g. OW-GL-100\" required>\n      <\/div>\n      <div>\n        <label>Size *<\/label>\n        <input type=\"text\" name=\"size_${itemCount}\" placeholder=\"e.g. M, L, XL, 10 gal…\" required>\n        <span class=\"size-hint\">e.g. S, M, L, XL, One Size<\/span>\n      <\/div>\n      <div>\n        <label>Quantity *<\/label>\n        <input type=\"text\" name=\"quantity_${itemCount}\" placeholder=\"e.g. 1 box, 50 pcs\" required>\n      <\/div>\n    <\/div>\n    <button type=\"button\" class=\"sample-item-remove\" onclick=\"removeItem(this)\" title=\"Remove\">✕<\/button>\n  `;\n  container.appendChild(div);\n  div.querySelector('input').focus();\n  updateUI();\n}\n\nfunction removeItem(btn) {\n  const items = document.querySelectorAll('.sample-item');\n  if (items.length <= 1) return;\n  btn.closest('.sample-item').remove();\n  itemCount--;\n  updateUI();\n}\n\ndocument.getElementById('sampleForm').addEventListener('submit', function(e) {\n  e.preventDefault();\n  let allValid = true;\n\n  \/\/ Validate required fields\n  this.querySelectorAll('[required]').forEach(field => {\n    if (!field.value.trim()) {\n      allValid = false;\n      field.classList.add('field-error');\n    } else {\n      field.classList.remove('field-error');\n    }\n  });\n\n  \/\/ Validate email format\n  const emailField = this.querySelector('[name=\"email\"]');\n  if (emailField.value && !\/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$\/.test(emailField.value)) {\n    allValid = false;\n    emailField.classList.add('field-error');\n  }\n\n  const sampleError = document.getElementById('sampleError');\n  sampleError.style.display = allValid ? 'none' : 'block';\n\n  if (!allValid) {\n    const firstErr = this.querySelector('.field-error');\n    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });\n    return;\n  }\n\n  \/\/ Show success\n  document.getElementById('sampleForm').style.display = 'none';\n  document.getElementById('successMessage').classList.add('active');\n  document.querySelector('.sample-form-wrapper').scrollIntoView({ behavior: 'smooth' });\n});\n<\/script>\n\n<\/body>\n<\/html>","padding_top":0,"padding_bottom":52,"color_scheme":""}}},"order":["main","image_with_text_overlay","faq-accordion","rich_text","custom_liquid_MCY6hP"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": 600,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "color_scheme": ""
+      }
+    },
+    "image_with_text_overlay": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Heading",
+            "style": "h2"
+          }
+        },
+        "paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "content": "<p>Briefly describe what this heading is about</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "paragraph"
+      ],
+      "disabled": true,
+      "settings": {
+        "full_width": true,
+        "image_aspect_ratio": "sm",
+        "content_width": 560,
+        "text_aligment": "left",
+        "desktop_content_position": "center",
+        "mobile_text_aligment": "left",
+        "mobile_content_position": "top",
+        "padding_top": 0,
+        "padding_bottom": 36,
+        "border_size": "hide",
+        "border_position": "both",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0,
+        "color_scheme": ""
+      }
+    },
+    "faq-accordion": {
+      "type": "faq-accordion",
+      "blocks": {
+        "category_1": {
+          "type": "category",
+          "settings": {
+            "heading": "Category 1"
+          }
+        },
+        "question_1_1": {
+          "type": "question",
+          "settings": {
+            "heading": "Add a question the customer might ask",
+            "content": "<p>Write a clear and concise answer to guide your customers.</p>",
+            "page": ""
+          }
+        },
+        "question_1_2": {
+          "type": "question",
+          "settings": {
+            "heading": "Add a question the customer might ask",
+            "content": "<p>Write a clear and concise answer to guide your customers.</p>",
+            "page": ""
+          }
+        },
+        "question_1_3": {
+          "type": "question",
+          "settings": {
+            "heading": "Add a question the customer might ask",
+            "content": "<p>Write a clear and concise answer to guide your customers.</p>",
+            "page": ""
+          }
+        },
+        "category_2": {
+          "type": "category",
+          "settings": {
+            "heading": "Category 2"
+          }
+        },
+        "question_2_1": {
+          "type": "question",
+          "settings": {
+            "heading": "Add a question the customer might ask",
+            "content": "<p>Write a clear and concise answer to guide your customers.</p>",
+            "page": ""
+          }
+        },
+        "question_2_2": {
+          "type": "question",
+          "settings": {
+            "heading": "Add a question the customer might ask",
+            "content": "<p>Write a clear and concise answer to guide your customers.</p>",
+            "page": ""
+          }
+        },
+        "question_2_3": {
+          "type": "question",
+          "settings": {
+            "heading": "Add a question the customer might ask",
+            "content": "<p>Write a clear and concise answer to guide your customers.</p>",
+            "page": ""
+          }
+        },
+        "category_3": {
+          "type": "category",
+          "settings": {
+            "heading": "Category 3"
+          }
+        },
+        "question_3_1": {
+          "type": "question",
+          "settings": {
+            "heading": "Add a question the customer might ask",
+            "content": "<p>Write a clear and concise answer to guide your customers.</p>",
+            "page": ""
+          }
+        },
+        "question_3_2": {
+          "type": "question",
+          "settings": {
+            "heading": "Add a question the customer might ask",
+            "content": "<p>Write a clear and concise answer to guide your customers.</p>",
+            "page": ""
+          }
+        },
+        "question_3_3": {
+          "type": "question",
+          "settings": {
+            "heading": "Add a question the customer might ask",
+            "content": "<p>Write a clear and concise answer to guide your customers.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_1",
+        "question_1_1",
+        "question_1_2",
+        "question_1_3",
+        "category_2",
+        "question_2_1",
+        "question_2_2",
+        "question_2_3",
+        "category_3",
+        "question_3_1",
+        "question_3_2",
+        "question_3_3"
+      ],
+      "disabled": true,
+      "settings": {
+        "heading": "FAQ",
+        "padding_top": 36,
+        "padding_bottom": 80,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "rich_text": {
+      "type": "rich-text",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Rich Text Heading",
+            "style": "h2"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "content": "<p>Briefly describe what this heading is about.</p>"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "button_text": "BUTTON LABEL",
+            "link": "",
+            "link_target": "_top",
+            "use_outline_button": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "text",
+        "button"
+      ],
+      "disabled": true,
+      "settings": {
+        "container_size": true,
+        "content_width": 500,
+        "content_alignment": "center",
+        "padding_top": 100,
+        "padding_bottom": 100,
+        "border_size": "hide",
+        "border_position": "both",
+        "color_scheme": "scheme-3"
+      }
+    },
+    "custom_liquid_MCY6hP": {
+      "type": "custom-liquid",
+      "disabled": true,
+      "name": "Custom liquid",
+      "settings": {
+        "section_width": true,
+        "custom_liquid": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>OWELL® Sample Request</title>\n<style>\n/* ===== Sample Request Form Styling ===== */\n.sample-form-wrapper {\n  max-width: 800px;\n  margin: 0 auto 60px;\n  padding: 40px;\n  background: #ffffff;\n  border-radius: 12px;\n  box-shadow: 0 10px 30px rgba(0,0,0,0.06);\n}\n\n.sample-form-wrapper h2 {\n  font-size: 28px;\n  margin-bottom: 8px;\n  font-weight: 600;\n  color: #111;\n  text-align: center;\n}\n.sample-form-wrapper .form-subtitle {\n  font-size: 14px;\n  color: #666;\n  margin-bottom: 30px;\n  text-align: center;\n}\n\n.sample-form-wrapper label {\n  display: block;\n  margin-bottom: 6px;\n  font-weight: 500;\n  font-size: 14px;\n  color: #333;\n}\n.sample-form-wrapper label.optional {\n  color: #666;\n  font-weight: 400;\n}\n.sample-form-wrapper input,\n.sample-form-wrapper textarea,\n.sample-form-wrapper select {\n  width: 100%;\n  padding: 12px 14px;\n  margin-bottom: 20px;\n  border: 1px solid #ddd;\n  border-radius: 8px;\n  font-size: 14px;\n  transition: all 0.3s ease;\n  font-family: inherit;\n  box-sizing: border-box;\n}\n.sample-form-wrapper input:focus,\n.sample-form-wrapper textarea:focus,\n.sample-form-wrapper select:focus {\n  border-color: #4a8df6;\n  outline: none;\n  box-shadow: 0 0 0 3px rgba(74,141,246,0.1);\n}\n.sample-form-wrapper input.field-error,\n.sample-form-wrapper select.field-error {\n  border-color: #c62828;\n}\n\n/* ===== Section Divider ===== */\n.form-section-title {\n  font-size: 13px;\n  font-weight: 600;\n  letter-spacing: 1px;\n  text-transform: uppercase;\n  color: #026eb4;\n  border-bottom: 1px solid #e0ecf9;\n  padding-bottom: 8px;\n  margin: 28px 0 20px;\n}\n\n/* ===== Two-column row ===== */\n.form-row {\n  display: flex;\n  gap: 16px;\n}\n.form-row > div {\n  flex: 1;\n}\n@media (max-width: 600px) {\n  .form-row { flex-direction: column; gap: 0; }\n}\n\n/* ===== Sample Items ===== */\n.sample-item {\n  display: flex;\n  align-items: flex-start;\n  gap: 14px;\n  background: #f9f9f9;\n  border: 1px solid #ddd;\n  border-radius: 8px;\n  padding: 14px 16px;\n  margin-bottom: 12px;\n}\n.sample-item-icon {\n  font-size: 22px;\n  flex-shrink: 0;\n  margin-top: 28px;\n}\n.sample-item-body {\n  flex: 1;\n  display: flex;\n  gap: 14px;\n  flex-wrap: wrap;\n}\n.sample-item-body > div {\n  flex: 1;\n  min-width: 120px;\n}\n.sample-item-body label { margin-bottom: 6px; }\n.sample-item-body input,\n.sample-item-body select { margin-bottom: 0; }\n\n/* Size hint text */\n.size-hint {\n  font-size: 11px;\n  color: #999;\n  margin-top: 4px;\n  display: block;\n}\n\n.sample-item-remove {\n  background: none;\n  border: 1px solid #ddd;\n  border-radius: 6px;\n  width: 34px;\n  height: 34px;\n  font-size: 16px;\n  color: #999;\n  cursor: pointer;\n  flex-shrink: 0;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin-top: 28px;\n}\n.sample-item-remove:hover { border-color: #c62828; color: #c62828; background: #fff5f5; }\n.sample-item-remove:disabled { opacity: 0.3; cursor: not-allowed; }\n.sample-item-remove:disabled:hover { border-color: #ddd; color: #999; background: none; }\n\n.add-item-btn {\n  width: 100%;\n  padding: 12px;\n  background: none;\n  border: 1px dashed #4a8df6;\n  border-radius: 8px;\n  color: #4a8df6;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-family: inherit;\n  margin-bottom: 6px;\n}\n.add-item-btn:hover { background: #f0f7ff; }\n\n.sample-counter {\n  font-size: 12px;\n  color: #999;\n  text-align: right;\n  margin-bottom: 20px;\n}\n.sample-error {\n  font-size: 13px;\n  color: #c62828;\n  margin-bottom: 16px;\n  display: none;\n}\n\n/* ===== Buttons ===== */\n.form-buttons {\n  display: flex;\n  gap: 15px;\n  margin-top: 10px;\n}\n.btn {\n  flex: 1;\n  padding: 14px;\n  border: none;\n  border-radius: 8px;\n  font-size: 15px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  font-family: inherit;\n}\n.btn-primary { background: #4a8df6; color: #fff; }\n.btn-primary:hover { background: #3a75d6; }\n\n/* ===== Success ===== */\n.sample-success {\n  text-align: center;\n  display: none;\n}\n.sample-success.active {\n  display: block;\n  animation: fadeIn 0.4s ease;\n}\n@keyframes fadeIn {\n  from { opacity: 0; transform: translateY(10px); }\n  to { opacity: 1; transform: translateY(0); }\n}\n.success-icon {\n  width: 80px;\n  height: 80px;\n  background: #e6f4ea;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 40px;\n  margin: 0 auto 20px;\n}\n.sample-success h2 { color: #1e7e34; margin-bottom: 15px; }\n.sample-success p { color: #666; font-size: 16px; line-height: 1.6; margin-bottom: 30px; }\n.success-buttons {\n  display: flex;\n  gap: 15px;\n  margin-top: 30px;\n}\n.success-buttons a {\n  flex: 1;\n  padding: 14px 20px;\n  text-align: center;\n  text-decoration: none;\n  border-radius: 8px;\n  font-size: 15px;\n  font-weight: 600;\n  transition: all 0.3s ease;\n}\n.btn-shop { background: #4a8df6; color: #fff; }\n.btn-shop:hover {\n  background: #3a75d6;\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(74,141,246,0.3);\n}\n.btn-apply {\n  background: #fff;\n  color: #4a8df6;\n  border: 2px solid #4a8df6;\n}\n.btn-apply:hover {\n  background: #f0f7ff;\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(74,141,246,0.2);\n}\n\n@media (max-width: 768px) {\n  .sample-form-wrapper { padding: 30px 20px; }\n  .sample-item-body { flex-direction: column; gap: 0; }\n  .success-buttons { flex-direction: column; }\n  .form-buttons { flex-direction: column; }\n  .sample-item-icon { margin-top: 0; }\n  .sample-item-remove { margin-top: 0; }\n}\n</style>\n</head>\n<body>\n\n<div style=\"background:#026eb4;padding:48px 40px 44px;text-align:center;margin-bottom:40px;\">\n  <div style=\"display:inline-block;background:#fff;border:1px solid #fff;color:#026eb4;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:40px;margin-bottom:16px;\">Qualified Businesses Only</div>\n  <h1 style=\"font-size:clamp(24px,4vw,38px);font-weight:700;color:#fff;line-height:1.2;margin:0 0 12px;\">Request a Complimentary Sample Box</h1>\n  <p style=\"font-size:15px;color:rgba(255,255,255,0.65);max-width:460px;margin:0 auto;line-height:1.65;\">Designed for qualified businesses evaluating OWELL® for professional use.</p>\n</div>\n\n<div class=\"sample-form-wrapper\">\n\n  <form id=\"sampleForm\">\n    <h2>Sample Request</h2>\n    <p class=\"form-subtitle\">Fill out the form below and our team will ship your samples within 2–3 business days.</p>\n\n    <!-- Contact Info -->\n    <div class=\"form-section-title\">Contact Information</div>\n\n    <div class=\"form-row\">\n      <div>\n        <label>First Name *</label>\n        <input type=\"text\" name=\"first_name\" required placeholder=\"Jane\">\n      </div>\n      <div>\n        <label>Last Name *</label>\n        <input type=\"text\" name=\"last_name\" required placeholder=\"Smith\">\n      </div>\n    </div>\n\n    <label>Business Email Address *</label>\n    <input type=\"email\" name=\"email\" required placeholder=\"jane@yourcompany.com\">\n\n    <label>Business Name *</label>\n    <input type=\"text\" name=\"business_name\" required placeholder=\"Your Company Inc.\">\n\n    <label>Business Type *</label>\n    <select name=\"business_type\" required>\n      <option value=\"\">Select your business type</option>\n      <option value=\"Medical / Dental\">Medical / Dental</option>\n      <option value=\"Food Service / Hospitality\">Food Service / Hospitality</option>\n      <option value=\"Janitorial / Facility\">Janitorial / Facility</option>\n      <option value=\"Retail\">Retail</option>\n      <option value=\"Laboratory / Drug Testing\">Laboratory / Drug Testing</option>\n      <option value=\"Distributor\">Distributor</option>\n      <option value=\"Government\">Government</option>\n      <option value=\"Other\">Other</option>\n    </select>\n\n    <!-- Address & Order Info -->\n    <div class=\"form-section-title\">Address &amp; Order Details</div>\n\n    <label>Business Address *</label>\n    <input type=\"text\" name=\"business_address\" required placeholder=\"123 Main St, City, State, ZIP\">\n\n    <label>Shipping Address *</label>\n    <input type=\"text\" name=\"shipping_address\" required placeholder=\"Same as business address or enter shipping address\">\n\n    <div class=\"form-row\">\n      <div>\n        <label>Purchase Order Number *</label>\n        <input type=\"tel\" name=\"po_number\" required placeholder=\"e.g. (555) 000-0001\" inputmode=\"numeric\">\n      </div>\n      <div>\n        <label>Expected Purchase Date *</label>\n        <input type=\"date\" name=\"expected_purchase_date\" required>\n      </div>\n    </div>\n\n    <!-- Sample Items -->\n    <div class=\"form-section-title\">Sample Items Requested</div>\n\n    <div id=\"sampleItems\">\n      <div class=\"sample-item\" data-item=\"1\">\n       \n        <div class=\"sample-item-body\">\n          <div>\n            <label>Item # *</label>\n            <input type=\"text\" name=\"item_1\" placeholder=\"e.g. OW-GL-100\" required>\n          </div>\n          <div>\n            <label>Size *</label>\n            <input type=\"text\" name=\"size_1\" placeholder=\"e.g. M, L, XL, 10 gal…\" required>\n            <span class=\"size-hint\">e.g. S, M, L, XL, One Size</span>\n          </div>\n          <div>\n            <label>Quantity *</label>\n            <input type=\"text\" name=\"quantity_1\" placeholder=\"e.g. 1 box, 50 pcs\" required>\n          </div>\n        </div>\n        <button type=\"button\" class=\"sample-item-remove\" onclick=\"removeItem(this)\" disabled title=\"Remove\">✕</button>\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"add-item-btn\" id=\"addItemBtn\" onclick=\"addItem()\">+ Add Another Sample</button>\n    <div class=\"sample-counter\">Items selected: <span id=\"itemCount\">1</span></div>\n    <div class=\"sample-error\" id=\"sampleError\">Please fill in all required sample fields.</div>\n\n    <div class=\"form-buttons\">\n      <button type=\"submit\" class=\"btn btn-primary\">Submit Sample Request</button>\n    </div>\n  </form>\n\n  <!-- Success Message -->\n  <div class=\"sample-success\" id=\"successMessage\">\n    <div class=\"success-icon\">✓</div>\n    <h2>Sample Request Received!</h2>\n    <p>\n      Our team will review your request and ship your samples within 2–3 business days.<br>\n      <strong>We'll follow up by email with your tracking details.</strong>\n    </p>\n    <div class=\"success-buttons\">\n      <a href=\"https://owell.com/collections/owell-disposable-gloves\" class=\"btn-shop\">Shop Gloves</a>\n      <a href=\"https://owell.com/pages/owell-wholesale-bulk-purchasing\" class=\"btn-apply\">Apply for Business Account</a>\n    </div>\n  </div>\n\n</div>\n\n<script>\nlet itemCount = 1;\n\nfunction updateUI() {\n  document.getElementById('itemCount').textContent = itemCount;\n  const items = document.querySelectorAll('.sample-item');\n  items.forEach(item => {\n    item.querySelector('.sample-item-remove').disabled = items.length === 1;\n  });\n}\n\nfunction addItem() {\n  itemCount++;\n  const container = document.getElementById('sampleItems');\n  const div = document.createElement('div');\n  div.className = 'sample-item';\n  div.dataset.item = itemCount;\n  div.innerHTML = `\n    <div class=\"sample-item-icon\">📦</div>\n    <div class=\"sample-item-body\">\n      <div>\n        <label>Item # *</label>\n        <input type=\"text\" name=\"item_${itemCount}\" placeholder=\"e.g. OW-GL-100\" required>\n      </div>\n      <div>\n        <label>Size *</label>\n        <input type=\"text\" name=\"size_${itemCount}\" placeholder=\"e.g. M, L, XL, 10 gal…\" required>\n        <span class=\"size-hint\">e.g. S, M, L, XL, One Size</span>\n      </div>\n      <div>\n        <label>Quantity *</label>\n        <input type=\"text\" name=\"quantity_${itemCount}\" placeholder=\"e.g. 1 box, 50 pcs\" required>\n      </div>\n    </div>\n    <button type=\"button\" class=\"sample-item-remove\" onclick=\"removeItem(this)\" title=\"Remove\">✕</button>\n  `;\n  container.appendChild(div);\n  div.querySelector('input').focus();\n  updateUI();\n}\n\nfunction removeItem(btn) {\n  const items = document.querySelectorAll('.sample-item');\n  if (items.length <= 1) return;\n  btn.closest('.sample-item').remove();\n  itemCount--;\n  updateUI();\n}\n\n// Phone number formatting for PO Number field\ndocument.querySelector('[name=\"po_number\"]').addEventListener('input', function(e) {\n  let val = e.target.value.replace(/\\D/g, '');\n  if (val.length > 10) val = val.slice(0, 10);\n  if (val.length >= 7) {\n    val = '(' + val.slice(0,3) + ') ' + val.slice(3,6) + '-' + val.slice(6);\n  } else if (val.length >= 4) {\n    val = '(' + val.slice(0,3) + ') ' + val.slice(3);\n  } else if (val.length > 0) {\n    val = '(' + val;\n  }\n  e.target.value = val;\n});\n\ndocument.getElementById('sampleForm').addEventListener('submit', function(e) {\n  e.preventDefault();\n  let allValid = true;\n\n  // Validate required fields\n  this.querySelectorAll('[required]').forEach(field => {\n    if (!field.value.trim()) {\n      allValid = false;\n      field.classList.add('field-error');\n    } else {\n      field.classList.remove('field-error');\n    }\n  });\n\n  // Validate email format\n  const emailField = this.querySelector('[name=\"email\"]');\n  if (emailField.value && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(emailField.value)) {\n    allValid = false;\n    emailField.classList.add('field-error');\n  }\n\n  const sampleError = document.getElementById('sampleError');\n  sampleError.style.display = allValid ? 'none' : 'block';\n\n  if (!allValid) {\n    const firstErr = this.querySelector('.field-error');\n    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });\n    return;\n  }\n\n  // Show success\n  document.getElementById('sampleForm').style.display = 'none';\n  document.getElementById('successMessage').classList.add('active');\n  document.querySelector('.sample-form-wrapper').scrollIntoView({ behavior: 'smooth' });\n});\n</script>\n\n</body>\n</html>",
+        "padding_top": 0,
+        "padding_bottom": 52,
+        "color_scheme": ""
+      }
+    },
+    "sample_request_form_P8WNnH": {
+      "type": "sample-request-form",
+      "disabled": true,
+      "name": "Sample Request Form",
+      "settings": {
+        "hero_background": "#026eb4",
+        "badge_text": "Qualified Businesses Only",
+        "heading": "Request a Complimentary Sample Box",
+        "subheading": "Designed for qualified businesses evaluating OWELL for professional use.",
+        "form_title": "Sample Request",
+        "form_subtitle": "Fill out the form below and our team will ship your samples within 2-3 business days.",
+        "success_heading": "Sample Request Received!",
+        "success_message": "Our team will review your request and ship your samples within 2-3 business days. We'll follow up by email with your tracking details.",
+        "success_button_1_text": "Shop Gloves",
+        "success_button_1_link": "",
+        "success_button_2_text": "Apply for Business Account",
+        "success_button_2_link": "",
+        "padding_top": 0,
+        "padding_bottom": 60,
+        "color_scheme": ""
+      }
+    },
+    "sample_request_copy_g78UAR": {
+      "type": "sample-request-copy",
+      "name": "sample request copy",
+      "settings": {
+        "hero_bg_color": "#026eb4",
+        "badge_text": "Qualified Businesses Only",
+        "hero_title": "Request a Complimentary Sample Box",
+        "hero_subtitle": "Designed for qualified businesses evaluating OWELL® for professional use.",
+        "form_title": "Sample Request",
+        "form_subtitle": "Fill out the form below and our team will ship your samples within 2–3 business days.",
+        "submit_label": "Submit Sample Request",
+        "success_title": "Sample Request Received!",
+        "success_message": "Our team will review your request and ship your samples within 2–3 business days. We'll follow up by email with your tracking details.",
+        "success_btn1_label": "Shop Gloves",
+        "success_btn1_url": "",
+        "success_btn2_label": "Apply for Business Account",
+        "success_btn2_url": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay",
+    "faq-accordion",
+    "rich_text",
+    "custom_liquid_MCY6hP",
+    "sample_request_form_P8WNnH",
+    "sample_request_copy_g78UAR"
+  ]
+}

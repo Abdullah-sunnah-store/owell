@@ -1,1 +1,58 @@
-{"type":"aside","name":"Overlay group","sections":{"cart-drawer":{"type":"cart-drawer","settings":{"view_cart_link":false,"cart_recommendation_title":"Trending this month","recommendation_product_list":[]}},"search-drawer":{"type":"search-drawer","settings":{"prompt_animation":true,"prompt_mobile":false,"prompt_text_1":"products","prompt_text_2":"blogs","prompt_text_3":"pages","prompt_text_4":"","prompt_text_5":"","heading":"Trending now","collections":""}},"newsletter-popup":{"type":"newsletter-popup","settings":{"apparition_delay":2,"show_only_on_index":true,"show_only_for_visitors":false,"show_only_once":true,"title":"You don't wanna be missing out.","subtext":"Subscribe to get notified about product launches, special offers and company news","image_width":840}}},"order":["cart-drawer","search-drawer","newsletter-popup"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "aside",
+  "name": "Overlay group",
+  "sections": {
+    "cart-drawer": {
+      "type": "cart-drawer",
+      "settings": {
+        "view_cart_link": false,
+        "cart_recommendation_title": "Trending this month",
+        "recommendation_product_list": []
+      }
+    },
+    "search-drawer": {
+      "type": "search-drawer",
+      "settings": {
+        "prompt_animation": true,
+        "prompt_mobile": false,
+        "prompt_text_1": "products",
+        "prompt_text_2": "blogs",
+        "prompt_text_3": "pages",
+        "prompt_text_4": "",
+        "prompt_text_5": "",
+        "heading": "Trending now",
+        "collections": ""
+      }
+    },
+    "newsletter-popup": {
+      "type": "newsletter-popup",
+      "disabled": true,
+      "custom_css": [
+        ".shopify-policy__container {max-width: 1000px !important;}"
+      ],
+      "settings": {
+        "apparition_delay": 2,
+        "show_only_on_index": true,
+        "show_only_for_visitors": false,
+        "show_only_once": true,
+        "title": "You don't wanna be missing out.",
+        "subtext": "Subscribe to get notified about product launches, special offers and company news",
+        "image_width": 840
+      }
+    }
+  },
+  "order": [
+    "cart-drawer",
+    "search-drawer",
+    "newsletter-popup"
+  ]
+}

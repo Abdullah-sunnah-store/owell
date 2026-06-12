@@ -230,8 +230,6 @@
                               <a class="fnt-14 text-color fnt-body-weight-bold" href="{{ line_item.url }}">
                                 {{- line_item.product.title -}}
                               </a>
-
-                              {% comment %} <span class="fnt-16 clr-b ">{{ WCLineItem_FinalLinePrice | money }}</span> {% endcomment %}
                             </div>
                             <div class="cart__drawer__itemDetails">
                               {% comment %} Product Price and props  element {% endcomment %}
@@ -260,7 +258,7 @@
                                           <span>{{ property.first }}: </span>
                                           <span>
                                             {%- if property.last contains '/uploads/' -%}
-                                              <a
+                                              
                                                 aria-describedby="a11y-new-window-message"
                                                 class="link"
                                                 href="{{ property.last }}"
@@ -298,65 +296,33 @@
                                     </ul>
                                   </div>
                                 {% endif %}
-                                {% comment %} Uncomment below code to show line item price {% endcomment %}
-                                {% comment %}
-                                  <div class="product-price__wrapper cart__drawer__itemPrice">
-                                    {%- if WCLineItem_OriginalPrice != WCLineItem_FinalPrice -%}
-                                      <p class="cart__drawer__line-price fnt-16">
-                                        <del class="cart__drawer__old-price original-price">
-                                          {%- if settings.currency_code_enabled -%}
-                                            {{- WCLineItem_OriginalPrice | money_with_currency -}}
-                                          {%- else -%}
-                                            {{- WCLineItem_OriginalPrice | money -}}
-                                          {%- endif -%}
-                                        </del>
-                                        <strong class="cart__drawer__final-price price">
-                                          {%- if settings.currency_code_enabled -%}
-                                            {{- WCLineItem_FinalPrice | money_with_currency -}}
-                                          {%- else -%}
-                                            {{- WCLineItem_FinalPrice | money -}}
-                                          {%- endif -%}
-                                        </strong>
-                                      </p>
-                                    {%- else -%}
-                                      <p class="cart__drawer__price price">
-                                        {%- if settings.currency_code_enabled -%}
-                                          {{- WCLineItem_OriginalPrice | money_with_currency -}}
-                                        {%- else -%}
-                                          {{- WCLineItem_OriginalPrice | money -}}
-                                        {%- endif -%}
-                                      </p>
-                                    {%- endif -%}
-                                  </div>
-                                {% endcomment %}
+
                                 <div class="cart__drawer__prices product-price__wrapper ">
                                   <div class="{% if line_item.unit_price_measurement -%}add-bottom-spacing{%- endif -%}">
-                                    {%- if WCLineItem_OriginalLinePrice != WCLineItem_FinalLinePrice -%}
+                                    {%- if line_item.selling_plan_allocation != blank and line_item.selling_plan_allocation.compare_at_price > 0 -%}
+                                      {%- assign WCLineItem_TrueOriginalLinePrice = line_item.selling_plan_allocation.compare_at_price | times: line_item.quantity -%}
+                                    {%- else -%}
+                                      {%- assign WCLineItem_TrueOriginalLinePrice = WCLineItem_OriginalLinePrice -%}
+                                    {%- endif -%}
+                                    {%- if WCLineItem_TrueOriginalLinePrice != WCLineItem_FinalLinePrice -%}
                                       <p class="cart__drawer__discounted-prices fnt-14">
-                                        {% comment %}
-                                          <span class="visually-hidden">
-                                            {{ 'products.product.price.regular_price' | t }}
-                                          </span>
-                                        {% endcomment %}
                                         <del class="cart__drawer__old-price original-price text-color">
                                           {%- if settings.currency_code_enabled -%}
-                                            {{- WCLineItem_OriginalLinePrice | money_with_currency -}}
+                                            {{- WCLineItem_TrueOriginalLinePrice | money_with_currency -}}
                                           {%- else -%}
-                                            {{- WCLineItem_OriginalLinePrice | money -}}
+                                            {{- WCLineItem_TrueOriginalLinePrice | money -}}
                                           {%- endif -%}
                                         </del>
-
-                                        {% comment %}
-                                          <span class="visually-hidden">
-                                            {{ 'products.product.price.sale_price' | t }}
-                                          </span>
-                                        {% endcomment %}
                                         <span class="cart__drawer__final-price price text-label-bg-color">
                                           {%- if settings.currency_code_enabled -%}
                                             {{- WCLineItem_FinalLinePrice | money_with_currency -}}
                                           {%- else -%}
                                             {{- WCLineItem_FinalLinePrice | money -}}
                                           {%- endif -%}
+                                        </span>
+                                        {%- assign WCLineItem_SavePercent = WCLineItem_TrueOriginalLinePrice | minus: WCLineItem_FinalLinePrice | times: 100.0 | divided_by: WCLineItem_TrueOriginalLinePrice | ceil -%}
+                                        <span class="cart__drawer__save-percent fnt-12">
+                                          Save {{ WCLineItem_SavePercent }}%
                                         </span>
                                       </p>
                                     {%- else -%}
@@ -384,6 +350,7 @@
                                     </div>
                                   {%- endif -%}
                                 </div>
+
                                 <div class="d-flex align-item-center mt-12">
                                   <div class="cart__drawer__quantity product-quantity__selector-wrapper d-flex-shrink-0">
                                     <quantity-selector class="product-quantity__selector d-flex w-100">

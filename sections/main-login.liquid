@@ -1,199 +1,139 @@
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 | append: 'px' }};
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | append: 'px' }};
-  }
+{{ 'section-account-auth.css' | asset_url | stylesheet_tag }}
 
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top | append: 'px' }};
-      padding-bottom: {{ section.settings.padding_bottom | append: 'px' }};
-    }
-  }
-{%- endstyle -%}
+{%- comment -%} Capture recover form state before login form renders {%- endcomment -%}
+{%- form 'recover_customer_password' -%}
+  {%- assign recover_posted = form.posted_successfully? -%}
+  {%- assign recover_errors = form.errors -%}
+{%- endform -%}
 
-<section class="section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} section">
-  <section>
-    <div class="container">
-      {% render 'breadcrumb' %}
+<div class="owell-auth">
+  <div class="owell-auth__container">
+
+    {%- comment -%} ── RECOVER PASSWORD PANEL ── {%- endcomment -%}
+    <div class="owell-auth__panel" id="owell-recover-panel">
+
+      {%- form 'recover_customer_password' -%}
+        <h1 class="owell-auth__title">Reset Password</h1>
+        <p class="owell-auth__subtitle">Enter your email and we'll send you a reset link.</p>
+
+        {%- if recover_errors -%}
+          <div class="owell-auth__error">{{ recover_errors.messages.form }}</div>
+        {%- endif -%}
+        {%- if recover_posted -%}
+          <div class="owell-auth__success">{{ 'customer.recover_password.success' | t }}</div>
+        {%- endif -%}
+
+        <div class="owell-auth__field">
+          <label class="owell-auth__label" for="RecoverEmail">Email</label>
+          <input
+            class="owell-auth__input"
+            type="email"
+            name="email"
+            id="RecoverEmail"
+            autocomplete="email"
+            autocorrect="off"
+            autocapitalize="off"
+          >
+        </div>
+
+        <button type="submit" class="owell-auth__btn-primary">Send Reset Link</button>
+      {%- endform -%}
+
+      <div class="owell-auth__below-form">
+        <a href="#" id="owell-back-to-login">← Back to Log In</a>
+      </div>
     </div>
-  </section>
-  <section class="color-{{ section.settings.color_scheme }}" id="recover">
-    {%- form 'recover_customer_password' -%}
-      <div class="container">
-        <div class="account-form" role="region" aria-label="{{ 'customer.recover_password.heading' | t }}">
-          <h2 class="h2">
-            {{ 'customer.recover_password.heading' | t }}
-          </h2>
-          {%- if form.errors -%}
-            <section class="error-ms">
-              <div class="container">
-                <div class="d-v-center justify-content-center">
-                  {% render 'icon' with 'error' %}
-                  <span class="error-text" aria-label="Error Message">
-                    {{ form.errors.messages.form }}
-                  </span>
-                </div>
-              </div>
-            </section>
-          {%- endif -%}
-          <p class="text-color mb-24" aria-label="{{ 'customer.recover_password.subtext' | t }}">
-            {{ 'customer.recover_password.subtext' | t }}
-          </p>
-          {% assign recover_success = form.posted_successfully? %}
-          <div class="form-group mb-24">
-            <label for="RecoverEmail" aria-label="{{ 'customer.login_page.email' | t }}">
-              {{ 'customer.login_page.email' | t }}
-            </label>
+
+    {%- comment -%} ── LOGIN PANEL ── {%- endcomment -%}
+    <div class="owell-auth__panel is-active" id="owell-login-panel">
+
+      {%- form 'customer_login', novalidate: 'novalidate' -%}
+        <h1 class="owell-auth__title">Account Login</h1>
+        <p class="owell-auth__subtitle">Access your orders, subscriptions, and account details.</p>
+
+        {%- if recover_posted -%}
+          <div class="owell-auth__success">{{ 'customer.recover_password.success' | t }}</div>
+        {%- endif -%}
+        {%- if form.posted_successfully? -%}
+          <div class="owell-auth__success">{{ 'customer.reset_password.reset_message' | t }}</div>
+        {%- elsif form.errors -%}
+          <div class="owell-auth__error">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
+
+        <div class="owell-auth__field">
+          <label class="owell-auth__label" for="CustomerEmail">Email</label>
+          <input
+            class="owell-auth__input{% if form.errors contains 'form' %} has-error{% endif %}"
+            type="email"
+            name="customer[email]"
+            id="CustomerEmail"
+            autocomplete="email"
+            autocorrect="off"
+            autocapitalize="off"
+          >
+        </div>
+
+        {%- if form.password_needed -%}
+          <div class="owell-auth__field">
+            <label class="owell-auth__label" for="CustomerPassword">Password</label>
             <input
-              type="email"
-              value=""
-              name="email"
-              id="RecoverEmail"
-              autocorrect="off"
-              autocapitalize="off"
-              autocomplete="email"
-              {% if form.errors %}
-                aria-invalid="true"
-                aria-describedby="RecoverEmail-email-error"
-                autofocus
-              {% endif %}
+              class="owell-auth__input{% if form.errors contains 'form' %} has-error{% endif %}"
+              type="password"
+              name="customer[password]"
+              id="CustomerPassword"
+              autocomplete="current-password"
             >
           </div>
-          <button
-            class="btn btn--fill w-100 mb-16"
-            type="submit"
-            aria-label="{{ 'customer.login_page.button_label' | t }}"
-          >
-            {{ 'customer.login_page.button_label' | t }}
-          </button>
-          <h3 class="h3 fnt-heading forrm-sub-text" aria-label="{{ 'customer.login_page.remember_password' | t }}">
-            {{ 'customer.login_page.remember_password' | t }}
-          </h3>
-          <a class="account-link" href="#login" aria-label="{{ 'customer.login_page.go_to_login' | t }}">
-            {{ 'customer.login_page.go_to_login' | t }}
-          </a>
-        </div>
-      </div>
-    {%- endform -%}
-  </section>
+        {%- endif -%}
 
-  <section class="loginForm " id="login">
-    {%- form 'customer_login', novalidate: 'novalidate' -%}
-      <div class="container">
-        <div class="account-form" role="region" aria-label=" {{ 'customer.login_page.heading' | t }}">
-          <h1 class="h2">
-            {{ 'customer.login_page.heading' | t }}
-          </h1>
-          {% if section.settings.enable_sign_in_with_shop %}
-            <div class="sign-with-shop">
-              {{ shop | login_button }}
-            </div>
-            <span>Or</span>
-          {% endif %}
-          {%- if recover_success == true -%}
-            <section class="success-ms">
-              <div class="container">
-                <div class="d-v-center justify-content-center">
-                  {% render 'icon' with 'success' %}
-                  <span class="success-text" aria-label="{{ 'customer.recover_password.success' | t }}">
-                    {{ 'customer.recover_password.success' | t }}
-                  </span>
-                </div>
-              </div>
-            </section>
-          {%- endif -%}
-          {%- if form.posted_successfully? -%}
-            <section class="success-ms">
-              <div class="container">
-                <div class="d-v-center justify-content-center">
-                  {% render 'icon' with 'success' %}
-                  <span class="success-text" aria-label="{{ 'customer.reset_password.reset_message' | t }}">
-                    {{ 'customer.reset_password.reset_message' | t }}
-                  </span>
-                </div>
-              </div>
-            </section>
-          {%- elsif form.errors -%}
-            <section class="error-ms">
-              <div class="container">
-                <div class="d-v-center justify-content-center">
-                  {% render 'icon' with 'error' %}
-                  <span class="error-text" aria-label="Error Message">
-                    {{ form.errors | default_errors }}
-                  </span>
-                </div>
-              </div>
-            </section>
-          {%- endif -%}
-          <div class="form-group">
-            <label for="CustomerEmail" aria-label="{{ 'customer.login_page.email' | t }}">
-              {{ 'customer.login_page.email' | t }}
-            </label>
-            <input
-              type="email"
-              name="customer[email]"
-              id="CustomerEmail"
-              autocomplete="email"
-              autocorrect="off"
-              autocapitalize="off"
-              {% if form.errors contains 'form' %}
-                aria-invalid="true"
-              {% endif %}
-            >
-          </div>
-          {%- if form.password_needed -%}
-            <div class="form-group">
-              <label for="CustomerPassword" aria-label="{{ 'customer.login_page.password' | t }}">
-                {{ 'customer.login_page.password' | t }}
-              </label>
-              <input
-                type="password"
-                value=""
-                name="customer[password]"
-                id="CustomerPassword"
-                autocomplete="current-password"
-                {% if form.errors contains 'form' %}
-                  aria-invalid="true"
-                {% endif %}
-              >
-            </div>
-          {%- endif -%}
-          <button class="btn btn--fill w-100 mb-16 mt-24" type="submit" aria-label="{{ 'customer.log_in' | t }}">
-            {{ 'customer.log_in' | t }}
-          </button>
-
-          <a class="account-link " href="#recover" aria-label="{{ 'customer.login_page.forgot_password' | t }}">
-            {{ 'customer.login_page.forgot_password' | t }}
-          </a>
-          <h3 class="h3 fnt-heading forrm-sub-text" aria-label="{{ 'customer.login_page.dont_have_account' | t }}">
-            {{ 'customer.login_page.dont_have_account' | t }}
-          </h3>
-          <a
-            class="account-link "
-            href="{{ routes.account_register_url }}"
-            aria-label="{{ 'customer.login_page.create_account' | t }}"
-          >
-            {{ 'customer.login_page.create_account' | t }}
-          </a>
+        <div class="owell-auth__forgot">
+          <a href="#" id="owell-forgot-link">Forgot Password?</a>
         </div>
-      </div>
-    {%- endform -%}
-    {%- if shop.checkout.guest_login -%}
-      <div>
-        <hr>
-        <h2 aria-label="{{ 'customer.login_page.guest_title' | t }}">
-          {{ 'customer.login_page.guest_title' | t }}
-        </h2>
-        {%- form 'guest_login' -%}
-          <button class="btn btn--fill" aria-label="{{ 'customer.login_page.guest_continue' | t }}">
-            {{ 'customer.login_page.guest_continue' | t }}
-          </button>
-        {%- endform -%}
-      </div>
-    {%- endif -%}
-  </section>
-</section>
+
+        <button type="submit" class="owell-auth__btn-primary">Log In</button>
+
+        {% if section.settings.enable_sign_in_with_shop %}
+          <div style="margin-top:16px;">{{ shop | login_button }}</div>
+        {% endif %}
+
+      {%- endform -%}
+
+      <div class="owell-auth__divider"></div>
+
+      <p class="owell-auth__new-label">New to OWELL®?</p>
+      <a href="{{ routes.account_register_url }}" class="owell-auth__btn-outline">Create Account</a>
+
+      <a href="{{ section.settings.business_account_url | default: '/pages/wholesale' }}" class="owell-auth__business-link">
+        For structured pricing and volume purchasing: Open a Business Account →
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var loginPanel   = document.getElementById('owell-login-panel');
+  var recoverPanel = document.getElementById('owell-recover-panel');
+  var forgotLink   = document.getElementById('owell-forgot-link');
+  var backLink     = document.getElementById('owell-back-to-login');
+
+  function showRecover() {
+    loginPanel.classList.remove('is-active');
+    recoverPanel.classList.add('is-active');
+  }
+  function showLogin() {
+    recoverPanel.classList.remove('is-active');
+    loginPanel.classList.add('is-active');
+  }
+
+  if (forgotLink) forgotLink.addEventListener('click', function(e) { e.preventDefault(); showRecover(); });
+  if (backLink)   backLink.addEventListener('click',   function(e) { e.preventDefault(); showLogin(); });
+
+  // Support old anchor-based links (e.g. from password reset email)
+  if (window.location.hash === '#recover') showRecover();
+})();
+</script>
 
 {% schema %}
 {
@@ -206,34 +146,9 @@
       "default": false
     },
     {
-      "type": "header",
-      "content": "Appearance"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:settings_schema.global.section.padding.settings.padding_top.label",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:settings_schema.global.section.padding.settings.padding_bottom.label",
-      "default": 36
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "default": "scheme-1",
-      "label": "Color scheme"
+      "type": "url",
+      "id": "business_account_url",
+      "label": "Business Account page URL"
     }
   ],
   "enabled_on": {

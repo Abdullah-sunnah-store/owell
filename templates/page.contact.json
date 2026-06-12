@@ -1,1 +1,219 @@
-{"sections":{"main":{"type":"main-page","disabled":true,"settings":{"content_width":600,"padding_top":28,"padding_bottom":28,"color_scheme":""}},"image_with_text_overlay":{"type":"image-with-text-overlay","blocks":{"heading":{"type":"heading","settings":{"heading":"Contact OWELL®","style":"h2"}},"paragraph":{"type":"paragraph","settings":{"content":"<p>Our team is here to help with orders, samples, and business inquiries.<\/p>"}}},"block_order":["heading","paragraph"],"disabled":true,"settings":{"full_width":true,"image_aspect_ratio":"sm","image":"shopify:\/\/shop_images\/contact_us.png","mobile_image":"shopify:\/\/shop_images\/contact_mobile.png","content_width":540,"text_aligment":"left","desktop_content_position":"center","mobile_text_aligment":"left","mobile_content_position":"top","padding_top":0,"padding_bottom":0,"border_size":"hide","border_position":"both","overlay_color":"#000000","overlay_opacity":0,"color_scheme":"scheme-964d726f-6b0d-4b63-bb7c-3e64a3a98919"}},"trust_badges_section_v2_knTcWX":{"type":"trust-badges-section-v2","blocks":{"badge_6r7MWh":{"type":"badge","settings":{"title":"Sales & Business Accounts","text":"","link":"shopify:\/\/pages\/sales-business-accounts","link_text":"Learn more"}},"badge_AJrE6V":{"type":"badge","settings":{"title":"Samples & Product Questions","text":"","link":"shopify:\/\/pages\/samples-product-questions","link_text":"Learn more"}},"badge_fkJK7d":{"type":"badge","settings":{"title":"Orders & Shipping Support","text":"","link":"shopify:\/\/pages\/orders-shipping-support","link_text":"Learn more"}},"badge_QrjAX7":{"type":"badge","settings":{"title":"Returns & Refunds","text":"","link":"shopify:\/\/policies\/refund-policy","link_text":"Learn more"}},"badge_zPQjpr":{"type":"badge","settings":{"title":"Track My Order","text":"","link":"shopify:\/\/pages\/owell-contact-us","link_text":"Learn more"}},"badge_UMFPxD":{"type":"badge","settings":{"title":"WeFill - Subscribe & Save","text":"","link":"shopify:\/\/pages\/apply-for-wholesale","link_text":"Learn more"}}},"block_order":["badge_6r7MWh","badge_AJrE6V","badge_fkJK7d","badge_QrjAX7","badge_zPQjpr","badge_UMFPxD"],"name":"Trust Badges v2 ","settings":{"section_title":"HOW CAN WE HELP?","section_subtitle":"","padding_top":40,"padding_bottom":40,"padding_top_tablet":32,"padding_bottom_tablet":32,"padding_top_mobile":24,"padding_bottom_mobile":24}},"form":{"type":"contact-form","blocks":{"map":{"type":"map","disabled":true,"settings":{"lat":"12.9716","lng":"77.5946","address":"Enter your Address details","api_key":"","shop_name":true,"map_image":"shopify:\/\/shop_images\/flight_logo.png"}},"form":{"type":"form","settings":{}}},"block_order":["map","form"],"settings":{"heading":"Contact us","content":"<h6><strong>OWELL Health LLC<\/strong><\/h6><h6><strong>Freehold, NJ 07728<\/strong><\/h6><h6><a href=\"mailto:cs@owell.com\"><strong>cs@owell.com<\/strong><\/a><\/h6><h6><strong>212.227.9355 (WELL)<\/strong><\/h6>","padding_top":60,"padding_bottom":60,"color_scheme":"scheme-2454be0a-39e7-4408-b0a8-0660040d0030"}}},"order":["main","image_with_text_overlay","trust_badges_section_v2_knTcWX","form"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": 600,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "color_scheme": ""
+      }
+    },
+    "image_with_text_overlay": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Contact OWELL®",
+            "style": "h2"
+          }
+        },
+        "paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "content": "<p>Our team is here to help with orders, samples, and business inquiries.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "paragraph"
+      ],
+      "disabled": true,
+      "settings": {
+        "full_width": true,
+        "image_aspect_ratio": "sm",
+        "image": "shopify://shop_images/contact_us.png",
+        "mobile_image": "shopify://shop_images/contact_mobile.png",
+        "content_width": 540,
+        "text_aligment": "left",
+        "desktop_content_position": "center",
+        "mobile_text_aligment": "left",
+        "mobile_content_position": "top",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "border_size": "hide",
+        "border_position": "both",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0,
+        "color_scheme": "scheme-964d726f-6b0d-4b63-bb7c-3e64a3a98919"
+      }
+    },
+    "trust_badges_section_v2_knTcWX": {
+      "type": "trust-badges-section-v2",
+      "blocks": {
+        "badge_6r7MWh": {
+          "type": "badge",
+          "settings": {
+            "title": "Sales & Business Accounts",
+            "description": "",
+            "back_heading": "Looking to place a larger order or open a business account?",
+            "back_body": "Our business customers receive preferred pricing, volume discounts, and priority service. We’ll help\nyou find the right products based on your industry and usage.",
+            "back_subheading": "",
+            "back_list": "Business account setup |\nBulk & pallet pricing |\nCustom quotes |\nProduct recommendations",
+            "back_cta_text": "",
+            "back_cta_link": "",
+            "back_email": "sales@owell.com",
+            "back_phone": "1.212.227.9355"
+          }
+        },
+        "badge_AJrE6V": {
+          "type": "badge",
+          "settings": {
+            "title": "Samples & Product Questions",
+            "description": "",
+            "back_heading": "Want to try before you buy or need help selecting the right product?",
+            "back_body": "Qualified businesses can request product samples (up to 3 items) to evaluate quality, fit, and\nperformance before placing an order.",
+            "back_subheading": "",
+            "back_list": "Sample requests |\nProduct recommendations |\nCertifications & compliance |\nIndustry-specific guidance",
+            "back_cta_text": "",
+            "back_cta_link": "",
+            "back_email": "info@owell.com",
+            "back_phone": "1.212.227.9355"
+          }
+        },
+        "badge_fkJK7d": {
+          "type": "badge",
+          "settings": {
+            "title": "Orders & Shipping Support",
+            "description": "",
+            "back_heading": "Need help with an existing order?",
+            "back_body": "We process and ship orders quickly, with full tracking and reliable delivery.",
+            "back_subheading": "",
+            "back_list": "Order status updates |\nLost shipments |\nDamaged or defective items |\nShipping questions |\nDelivery timing |\nPayment verification",
+            "back_cta_text": "",
+            "back_cta_link": "",
+            "back_email": "cs@owell.com",
+            "back_phone": "1.212.227.9355"
+          }
+        },
+        "badge_zPQjpr": {
+          "type": "badge",
+          "settings": {
+            "title": "Track My Order",
+            "description": "",
+            "back_heading": "",
+            "back_body": "Once your order ships, you’ll receive a tracking number via email.\nUse your tracking number to follow your shipment from dispatch to delivery.",
+            "back_subheading": "",
+            "back_list": "Check your spam or junk folder |\nContact us and we’ll resend it promptly",
+            "back_cta_text": "",
+            "back_cta_link": "",
+            "back_email": "cs@owell.com",
+            "back_phone": "1.212.227.9355"
+          }
+        },
+        "badge_QrjAX7": {
+          "type": "badge",
+          "settings": {
+            "title": "Returns & Refunds",
+            "description": "",
+            "back_heading": "",
+            "back_body": "We stand behind the quality of every OWELL® product.\nIf something isn’t right, we’ll work with you to make it right — quickly and fairly.",
+            "back_subheading": "",
+            "back_list": "Return approvals |\nDamaged or defective items |\nRefund processing |\nReplacement orders",
+            "back_cta_text": "",
+            "back_cta_link": "",
+            "back_email": "cs@owell.com",
+            "back_phone": "1.212.227.9355"
+          }
+        },
+        "badge_UMFPxD": {
+          "type": "badge",
+          "settings": {
+            "title": "WeFill™ Auto-Replenishment",
+            "description": "",
+            "back_heading": "",
+            "back_body": "Never run out of essential supplies.\nOur WeFill™ Auto-Replenishment program allows you to schedule recurring deliveries while saving\non every order.",
+            "back_subheading": "",
+            "back_list": "Setting up auto-replenishment |\nUpdating delivery frequency |\nSkipping or pausing shipments |\nManaging your subscription",
+            "back_cta_text": "",
+            "back_cta_link": "",
+            "back_email": "info@owell.com",
+            "back_phone": "1.212.227.9355"
+          }
+        }
+      },
+      "block_order": [
+        "badge_6r7MWh",
+        "badge_AJrE6V",
+        "badge_fkJK7d",
+        "badge_zPQjpr",
+        "badge_QrjAX7",
+        "badge_UMFPxD"
+      ],
+      "name": "Trust Badges v2 ",
+      "settings": {
+        "eyebrow_text": "",
+        "section_title": "HOW CAN WE HELP?",
+        "section_subtitle": "",
+        "show_cta_section": true,
+        "cta_spacing_top": 50,
+        "cta_alignment": "center",
+        "cta_gap": 15,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "padding_top_mobile": 24,
+        "padding_bottom_mobile": 24
+      }
+    },
+    "form": {
+      "type": "contact-form",
+      "blocks": {
+        "map": {
+          "type": "map",
+          "disabled": true,
+          "settings": {
+            "lat": "12.9716",
+            "lng": "77.5946",
+            "address": "Enter your Address details",
+            "api_key": "",
+            "shop_name": true,
+            "map_image": "shopify://shop_images/flight_logo.png"
+          }
+        },
+        "form": {
+          "type": "form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "map",
+        "form"
+      ],
+      "settings": {
+        "heading": "Contact us",
+        "content": "<h6><strong>OWELL  LLC</strong></h6><h6><strong>Freehold, NJ 07728</strong></h6><h6><a href=\"mailto:info@owell.com\" title=\"mailto:info@owell.com\"><strong>info@owell.com</strong></a></h6><h6><strong>1.212.227.9355 (WELL)</strong></h6>",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "color_scheme": "scheme-c7db1bd2-d559-4d9f-b4ac-f568f49854c7"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay",
+    "trust_badges_section_v2_knTcWX",
+    "form"
+  ]
+}

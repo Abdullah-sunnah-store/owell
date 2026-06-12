@@ -1,0 +1,60 @@
+{%- comment -%}
+  product-feature-icons.liquid
+  2 full-width image rows from metafields custom.icon_1 and custom.icon_2.
+  No text labels. 1 column × 2 rows layout.
+{%- endcomment -%}
+
+{%- assign _img1 = product.metafields.custom.icon_1 -%}
+{%- assign _img2 = product.metafields.custom.icon_2 -%}
+
+{%- if _img1 != blank or _img2 != blank -%}
+
+<style>
+  .owell-feature-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(0,0,0,0.09);
+  }
+  .owell-feature-icon-row {
+    width: 100%;
+    display: block;
+  }
+  .owell-feature-icon-row img,
+  .owell-feature-icon-row .metafield-media-image,
+  .owell-feature-icon-row svg {
+    display: block;
+    width: 100%;
+    object-fit: contain;
+  }
+</style>
+
+<div class="owell-feature-icons">
+
+  {%- for i in (1..2) -%}
+    {%- assign _icon_key  = 'icon_' | append: i -%}
+    {%- assign _icon_meta = product.metafields.custom[_icon_key] -%}
+
+    {%- if _icon_meta != blank -%}
+      {%- assign _icon_rendered = _icon_meta | metafield_tag -%}
+
+      {%- unless _icon_rendered contains '<img' -%}
+        {%- assign _icon_file = _icon_meta.value | default: _icon_meta -%}
+        {%- if _icon_file.url != blank -%}
+          {%- capture _icon_rendered -%}<img src="{{ _icon_file.url }}" alt="" loading="lazy">{%- endcapture -%}
+        {%- elsif _icon_file.media_type == 'image' -%}
+          {%- capture _icon_rendered -%}<img src="{{ _icon_file | image_url: width: 1200 }}" alt="" loading="lazy">{%- endcapture -%}
+        {%- endif -%}
+      {%- endunless -%}
+
+      {%- if _icon_rendered != blank -%}
+        <div class="owell-feature-icon-row">{{ _icon_rendered }}</div>
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+</div>
+
+{%- endif -%}
